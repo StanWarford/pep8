@@ -3,8 +3,8 @@
 
 #include <QtGui/QMainWindow>
 
-#include "ui_pep8.h"
-#include "sourcecodewindow.h"
+// #include "ui_pep8.h"
+// #include "sourcecodewindow.h"
 
 namespace Ui
 {
