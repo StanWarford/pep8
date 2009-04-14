@@ -47,7 +47,7 @@
        </property>
        <widget class="QTabWidget" name="pepStackTraceTab">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pepCodeTab">
          <attribute name="title">
