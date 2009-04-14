@@ -9,7 +9,8 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += mainwindow.h
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    pep8.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     qtc-gdbmacros/gdbmacros.cpp
