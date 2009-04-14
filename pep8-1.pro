@@ -20,4 +20,5 @@ FORMS += mainwindow.ui \
     helpmenudialog.ui \
     cpuwindow.ui \
     assemblerlistingwindow.ui \
-    aboutpep8.ui
+    aboutpep8.ui \
+    assemblerlistingwindow.ui
