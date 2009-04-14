@@ -5,7 +5,8 @@ TARGET = pep8-1
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp
-HEADERS += mainwindow.h
+HEADERS += mainwindow.h \
+    sourcecodewindow.h
 FORMS += mainwindow.ui \
     terminalwindow.ui \
     stackdialog.ui \
