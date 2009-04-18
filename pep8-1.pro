@@ -13,3 +13,37 @@ FORMS += mainwindow.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     qtc-gdbmacros/gdbmacros.cpp
+OTHER_FILES += images/update.png \
+    images/undo.png \
+    images/ShowMemoryPane.png \
+    images/save.png \
+    images/RESET2edit.png \
+    images/RESET2.XPM \
+    images/redo.png \
+    images/query.png \
+    images/print.png \
+    images/paste.png \
+    images/open.png \
+    images/new.png \
+    images/MEMORY.XPM \
+    images/LOAD.XPM \
+    images/LOAD.png \
+    images/HideRightPane.png \
+    images/HideMemoryPane.png \
+    images/FILESAVE.XPM \
+    images/fileprint.xpm \
+    images/FILEOPEN.XPM \
+    images/EXPAND.XPM \
+    images/EXECUTE.XPM \
+    images/EXECUTE.png \
+    images/DefaultView.png \
+    images/cut.png \
+    images/copy.png \
+    images/config.png \
+    images/CodeOnly.xpm \
+    images/CodeMemory.xpm \
+    images/CodeCPUMemory.xpm \
+    images/CodeCPU.xpm \
+    images/CodeCPU.png \
+    images/assembler.xpm \
+    images/assembler.png
