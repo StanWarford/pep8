@@ -3,7 +3,7 @@
 
 #include <QtGui/QMainWindow>
 
-// #include "sourcecodewindow.h"
+#include "ui_sourcecodepane.h"
 
 namespace Ui
 {
