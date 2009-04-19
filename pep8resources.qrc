@@ -1,6 +1,6 @@
 <RCC>
   <qresource>
-    <file>images/load.png</file>
+    <file>images/load.xpm</file>
     <file>images/execute.png</file>
     <file>images/paste.png</file>
     <file>images/cut.png</file>

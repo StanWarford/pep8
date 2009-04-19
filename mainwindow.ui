@@ -491,7 +491,7 @@
   <action name="actionLoad">
    <property name="icon">
     <iconset resource="pep8resources.qrc">
-     <normaloff>:/images/load.png</normaloff>:/images/load.png</iconset>
+     <normaloff>:/images/load.xpm</normaloff>:/images/load.xpm</iconset>
    </property>
    <property name="text">
     <string>Load</string>
