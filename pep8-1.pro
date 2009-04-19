@@ -28,11 +28,6 @@ OTHER_FILES += images/update.png \
     images/MEMORY.XPM \
     images/LOAD.XPM \
     images/LOAD.png \
-    images/HideRightPane.png \
-    images/HideMemoryPane.png \
-    images/FILESAVE.XPM \
-    images/fileprint.xpm \
-    images/FILEOPEN.XPM \
     images/EXPAND.XPM \
     images/EXECUTE.XPM \
     images/EXECUTE.png \
@@ -47,3 +42,4 @@ OTHER_FILES += images/update.png \
     images/CodeCPU.png \
     images/assembler.xpm \
     images/assembler.png
+RESOURCES += pep8resources.qrc

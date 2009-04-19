@@ -330,8 +330,8 @@
   </widget>
   <action name="actionNew">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/new.png</normaloff>../../pep81/images/new.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New</string>
@@ -342,8 +342,8 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/open.png</normaloff>../../pep81/images/open.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Open...</string>
@@ -354,8 +354,8 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/save.png</normaloff>../../pep81/images/save.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -374,8 +374,8 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/print.png</normaloff>../../pep81/images/print.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Print...</string>
@@ -386,8 +386,8 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/undo.png</normaloff>../../pep81/images/undo.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Undo</string>
@@ -401,8 +401,8 @@
   </action>
   <action name="actionRedo">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/redo.png</normaloff>../../pep81/images/redo.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Redo</string>
@@ -413,8 +413,8 @@
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/cut.png</normaloff>../../pep81/images/cut.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Cut</string>
@@ -425,8 +425,8 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/copy.png</normaloff>../../pep81/images/copy.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -437,8 +437,8 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/paste.png</normaloff>../../pep81/images/paste.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -457,8 +457,8 @@
   </action>
   <action name="actionAssemble">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/assembler.png</normaloff>../../pep81/images/assembler.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/assemble.png</normaloff>:/images/assemble.png</iconset>
    </property>
    <property name="text">
     <string>Assemble</string>
@@ -469,8 +469,8 @@
   </action>
   <action name="actionLoad">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/LOAD.png</normaloff>../../pep81/images/LOAD.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/load.png</normaloff>:/images/load.png</iconset>
    </property>
    <property name="text">
     <string>Load</string>
@@ -481,8 +481,8 @@
   </action>
   <action name="actionExecute">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/EXECUTE.png</normaloff>../../pep81/images/EXECUTE.png</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/execute.png</normaloff>:/images/execute.png</iconset>
    </property>
    <property name="text">
     <string>Execute</string>
@@ -561,8 +561,8 @@
   </action>
   <action name="actionCode_Only">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/CodeOnly.xpm</normaloff>../../pep81/images/CodeOnly.xpm</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/CodeOnly.xpm</normaloff>:/images/CodeOnly.xpm</iconset>
    </property>
    <property name="text">
     <string>Code Only</string>
@@ -570,8 +570,8 @@
   </action>
   <action name="actionCode_CPU">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/CodeCPU.xpm</normaloff>../../pep81/images/CodeCPU.xpm</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/CodeCPU.xpm</normaloff>:/images/CodeCPU.xpm</iconset>
    </property>
    <property name="text">
     <string>Code/CPU</string>
@@ -579,8 +579,8 @@
   </action>
   <action name="actionCode_CPU_Memory">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/CodeCPUMemory.xpm</normaloff>../../pep81/images/CodeCPUMemory.xpm</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/CodeCPUMemory.xpm</normaloff>:/images/CodeCPUMemory.xpm</iconset>
    </property>
    <property name="text">
     <string>Code/CPU/Memory</string>
@@ -588,8 +588,8 @@
   </action>
   <action name="actionCode_Memory">
    <property name="icon">
-    <iconset>
-     <normaloff>../../pep81/images/CodeMemory.xpm</normaloff>../../pep81/images/CodeMemory.xpm</iconset>
+    <iconset resource="pep8resources.qrc">
+     <normaloff>:/images/CodeMemory.xpm</normaloff>:/images/CodeMemory.xpm</iconset>
    </property>
    <property name="text">
     <string>Code/Memory</string>
@@ -616,6 +616,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="pep8resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

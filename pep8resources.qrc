@@ -1,0 +1,21 @@
+<RCC>
+  <qresource>
+    <file>images/load.png</file>
+    <file>images/execute.png</file>
+    <file>images/paste.png</file>
+    <file>images/cut.png</file>
+    <file>images/undo.png</file>
+    <file>images/redo.png</file>
+    <file>images/print.png</file>
+    <file>images/save.png</file>
+    <file>images/open.png</file>
+    <file>images/assemble.png</file>
+    <file>images/CodeCPUMemory.xpm</file>
+    <file>images/CodeCPU.xpm</file>
+    <file>images/CodeMemory.xpm</file>
+    <file>images/CodeOnly.xpm</file>
+    <file>images/copy.png</file>
+    <file>images/execute.xpm</file>
+    <file>images/new.png</file>
+  </qresource>
+</RCC>
