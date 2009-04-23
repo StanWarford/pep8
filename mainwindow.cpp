@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
+    // sourceCodePane = new SourceCodePane(ui->codeSplitter);
 }
 
 MainWindow::~MainWindow()
