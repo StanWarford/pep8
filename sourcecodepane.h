@@ -14,9 +14,6 @@ public:
     explicit SourceCodePane(QWidget *parent = 0);
     virtual ~SourceCodePane();
 
-protected:
-    virtual void changeEvent(QEvent *e);
-
 private:
     Ui::SourceCodePane *m_ui;
 };

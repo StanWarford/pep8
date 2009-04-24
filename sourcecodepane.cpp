@@ -12,14 +12,3 @@ SourceCodePane::~SourceCodePane()
 {
     delete m_ui;
 }
-
-void SourceCodePane::changeEvent(QEvent *e)
-{
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        m_ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>sourceCodePaneQWidget</class>
- <widget class="QWidget" name="sourceCodePaneQWidget">
+ <class>SourceCodePane</class>
+ <widget class="QWidget" name="SourceCodePane">
   <property name="geometry">
    <rect>
     <x>0</x>

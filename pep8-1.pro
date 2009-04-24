@@ -8,11 +8,38 @@ DEPENDPATH += . \
 INCLUDEPATH += .
 
 # Input
-HEADERS += mainwindow.h
-FORMS += mainwindow.ui
+HEADERS += mainwindow.h \
+    sourcecodepane.h \
+    objectcodepane.h \
+    cpupane.h \
+    assemblerlistingpane.h \
+    memorytracepane.h \
+    memorydumppane.h \
+    inputpane.h \
+    outputpane.h \
+    terminalpane.h
+FORMS += mainwindow.ui \
+    sourcecodepane.ui \
+    objectcodepane.ui \
+    cpupane.ui \
+    assemblerlistingpane.ui \
+    memorytracepane.ui \
+    memorydumppane.ui \
+    inputpane.ui \
+    outputpane.ui \
+    terminalpane.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
-    qtc-gdbmacros/gdbmacros.cpp
+    qtc-gdbmacros/gdbmacros.cpp \
+    sourcecodepane.cpp \
+    objectcodepane.cpp \
+    cpupane.cpp \
+    assemblerlistingpane.cpp \
+    memorytracepane.cpp \
+    memorydumppane.cpp \
+    inputpane.cpp \
+    outputpane.cpp \
+    terminalpane.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \
