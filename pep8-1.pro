@@ -17,7 +17,8 @@ HEADERS += mainwindow.h \
     memorydumppane.h \
     inputpane.h \
     outputpane.h \
-    terminalpane.h
+    terminalpane.h \
+    redefinemnemonicsdialog.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -27,7 +28,8 @@ FORMS += mainwindow.ui \
     memorydumppane.ui \
     inputpane.ui \
     outputpane.ui \
-    terminalpane.ui
+    terminalpane.ui \
+    redefinemnemonicsdialog.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     qtc-gdbmacros/gdbmacros.cpp \
@@ -39,7 +41,8 @@ SOURCES += main.cpp \
     memorydumppane.cpp \
     inputpane.cpp \
     outputpane.cpp \
-    terminalpane.cpp
+    terminalpane.cpp \
+    redefinemnemonicsdialog.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \
