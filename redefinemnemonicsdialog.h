@@ -2,6 +2,7 @@
 #define REDEFINEMNEMONICSDIALOG_H
 
 #include <QtGui/QDialog>
+#include "pep.h"
 
 namespace Ui {
     class RedefineMnemonicsDialog;
@@ -16,6 +17,9 @@ public:
 
 private:
     Ui::RedefineMnemonicsDialog *m_ui;
+
+private:
+    void restoreDefaults();
 };
 
 #endif // REDEFINEMNEMONICSDIALOG_H

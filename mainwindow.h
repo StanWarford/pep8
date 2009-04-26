@@ -18,6 +18,9 @@
 // Right
 #include "memorydumppane.h"
 
+// Dialog boxes
+#include "redefinemnemonicsdialog.h"
+
 namespace Ui
 {
     class MainWindowClass;
@@ -47,6 +50,9 @@ private:
 
     // Right
     MemoryDumpPane *memoryDumpPane;
+
+    // Dialog boxes
+    RedefineMnemonicsDialog *redefineMnemonicsDialog;
 };
 
 #endif // MAINWINDOW_H

@@ -18,7 +18,8 @@ HEADERS += mainwindow.h \
     inputpane.h \
     outputpane.h \
     terminalpane.h \
-    redefinemnemonicsdialog.h
+    redefinemnemonicsdialog.h \
+    pep.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \

@@ -26,12 +26,13 @@ MainWindow::MainWindow(QWidget *parent)
     terminalPane = new TerminalPane(ui->terminalSplitter);
     delete ui->TerminalWidgetPane;
 
-
     // Right
     memoryDumpPane = new MemoryDumpPane(ui->horizontalSplitter);
     delete ui->MemoryDumpWidgetPane;
 
-
+    // Dialog boxes
+    redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
+    redefineMnemonicsDialog->show();
 }
 
 MainWindow::~MainWindow()
