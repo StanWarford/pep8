@@ -57,7 +57,6 @@ OTHER_FILES += images/update.png \
     images/open.png \
     images/new.png \
     images/MEMORY.XPM \
-    images/LOAD.XPM \
     images/LOAD.png \
     images/EXPAND.XPM \
     images/EXECUTE.XPM \
