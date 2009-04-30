@@ -3,19 +3,19 @@
 
 #include <QtGui/QMainWindow>
 
-// Left
+// Left pane
 #include "sourcecodepane.h"
 #include "objectcodepane.h"
 #include "assemblerlistingpane.h"
 #include "memorytracepane.h"
 
-// Middle
+// Middle pane
 #include "cpupane.h"
 #include "inputpane.h"
 #include "outputpane.h"
 #include "terminalpane.h"
 
-// Right
+// Right pane
 #include "memorydumppane.h"
 
 // Dialog boxes
@@ -37,19 +37,19 @@ public:
 private:
     Ui::MainWindowClass *ui;
 
-    // Left
+    // Left pane
     SourceCodePane *sourceCodePane;
     ObjectCodePane *objectCodePane;
     AssemblerListingPane *assemblerListingPane;
     MemoryTracePane *memoryTracePane;
 
-    // Middle
+    // Middle pane
     CpuPane *cpuPane;
     InputPane *inputPane;
     OutputPane *outputPane;
     TerminalPane *terminalPane;
 
-    // Right
+    // Right pane
     MemoryDumpPane *memoryDumpPane;
 
     // Dialog boxes

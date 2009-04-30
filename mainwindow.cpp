@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
-    // Left side setup
+    // Left pane setup
     sourceCodePane = new SourceCodePane(ui->codeSplitter);
     delete ui->SourceCodeWidgetPane;
     objectCodePane = new ObjectCodePane(ui->codeSplitter);
@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     memoryTracePane = new MemoryTracePane(ui->traceSplitter);
     delete ui->MemoryTraceWidgetPane;
 
-    // Middle setup
+    // Middle pane setup
     cpuPane = new CpuPane(ui->middleSplitter);
     ui->middleSplitter->insertWidget(0, cpuPane); //moves cpu widget to index 0 (above I/O tabs)
     delete ui->CpuWidgetPane;
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     terminalPane = new TerminalPane(ui->terminalSplitter);
     delete ui->TerminalWidgetPane;
 
-    // Right setup
+    // Right pane setup
     memoryDumpPane = new MemoryDumpPane(ui->horizontalSplitter);
     delete ui->MemoryDumpWidgetPane;
 
