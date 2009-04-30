@@ -3,8 +3,7 @@
 # #####################################################################
 TEMPLATE = app
 TARGET = 
-DEPENDPATH += . \
-    qtc-gdbmacros
+DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
@@ -41,7 +40,6 @@ FORMS += mainwindow.ui \
     byteconverterbin.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
-    qtc-gdbmacros/gdbmacros.cpp \
     sourcecodepane.cpp \
     objectcodepane.cpp \
     cpupane.cpp \
