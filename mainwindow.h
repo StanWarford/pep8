@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include "byteconverterdec.h"
+#include "byteconverterhex.h"
+#include "byteconverterbin.h"
+#include "byteconverterchar.h"
 
 // Left pane
 #include "sourcecodepane.h"
@@ -55,6 +59,12 @@ private:
     // Dialog boxes
     RedefineMnemonicsDialog *redefineMnemonicsDialog;
 
+    // Byte converter
+    ByteConverterDec *byteConverterDec;
+    ByteConverterHex *byteConverterHex;
+    ByteConverterBin *byteConverterBin;
+    ByteConverterChar *byteConverterChar;
+
 private slots:
     // File
     void on_actionFile_New_triggered();
@@ -105,7 +115,13 @@ private slots:
     void on_actionAbout_Pep8_triggered();
     void on_actionAbout_Qt_triggered();
 
-/*
+    // Byte converter
+    void slotByteConverterDecEdited(const QString &);
+    void slotByteConverterHexEdited(const QString &);
+    void slotByteConverterBinEdited(const QString &);
+    void slotByteConverterCharEdited(const QString &);
+
+    /*
     These belong in the other panes
     // Trace
     void on_pepCpuSingleStepPushButton_clicked();

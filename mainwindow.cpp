@@ -33,6 +33,24 @@ MainWindow::MainWindow(QWidget *parent)
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
     redefineMnemonicsDialog->hide();
+
+    // Byte converter setup
+    byteConverterDec = new ByteConverterDec();
+    ui->byteConverterToolBar->addWidget(byteConverterDec);
+    byteConverterHex = new ByteConverterHex();
+    ui->byteConverterToolBar->addWidget(byteConverterHex);
+    byteConverterBin = new ByteConverterBin();
+    ui->byteConverterToolBar->addWidget(byteConverterBin);
+    byteConverterChar = new ByteConverterChar();
+    ui->byteConverterToolBar->addWidget(byteConverterChar);
+    QObject::connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this,
+                     SLOT(slotByteConverterDecEdited(const QString &)));
+    QObject::connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this,
+                     SLOT(slotByteConverterHexEdited(const QString &)));
+    QObject::connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this,
+                     SLOT(slotByteConverterBinEdited(const QString &)));
+    QObject::connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
+                     SLOT(slotByteConverterCharEdited(const QString &)));
 }
 
 MainWindow::~MainWindow()
@@ -234,3 +252,58 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 }
 
+void MainWindow::slotByteConverterDecEdited(const QString &str) {
+    if (str.length() > 0) {
+        bool ok;
+        int data = str.toInt(&ok, 10);
+        byteConverterHex->setValue(data);
+        byteConverterBin->setValue(data);
+        byteConverterChar->setValue(data);
+    }
+}
+
+void MainWindow::slotByteConverterHexEdited(const QString &str) {
+    if (str.length() >= 2) {
+        if (str.startsWith("0x")) {
+            QString hexPart = str;
+            hexPart.remove(0, 2);
+            if (hexPart.length() > 0) {
+                bool ok;
+                int data = hexPart.toInt(&ok, 16);
+                byteConverterDec->setValue(data);
+                byteConverterBin->setValue(data);
+                byteConverterChar->setValue(data);
+            }
+            else {
+                // Exactly "0x" remains, so do nothing
+            }
+        }
+        else {
+            // Prefix "0x" was mangled
+            byteConverterHex->setValue(-1);
+        }
+    }
+    else {
+        // Prefix "0x" was shortened
+        byteConverterHex->setValue(-1);
+    }
+}
+
+void MainWindow::slotByteConverterBinEdited(const QString &str) {
+    if (str.length() > 0) {
+        bool ok;
+        int data = str.toInt(&ok, 2);
+        byteConverterDec->setValue(data);
+        byteConverterHex->setValue(data);
+        byteConverterChar->setValue(data);
+    }
+}
+
+void MainWindow::slotByteConverterCharEdited(const QString &str) {
+    if (str.length() > 0) {
+        int data = (int)str[0].toAscii();
+        byteConverterDec->setValue(data);
+        byteConverterHex->setValue(data);
+        byteConverterBin->setValue(data);
+    }
+}

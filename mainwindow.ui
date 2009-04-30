@@ -252,7 +252,7 @@
    <addaction name="actionView_Code_CPU_Memory"/>
    <addaction name="actionView_Code_Memory"/>
   </widget>
-  <widget class="QToolBar" name="converterToolBar">
+  <widget class="QToolBar" name="byteConverterToolBar">
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>

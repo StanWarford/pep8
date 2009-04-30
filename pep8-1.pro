@@ -19,7 +19,11 @@ HEADERS += mainwindow.h \
     outputpane.h \
     terminalpane.h \
     redefinemnemonicsdialog.h \
-    pep.h
+    pep.h \
+    byteconverterhex.h \
+    byteconverterdec.h \
+    byteconverterchar.h \
+    byteconverterbin.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -30,7 +34,11 @@ FORMS += mainwindow.ui \
     inputpane.ui \
     outputpane.ui \
     terminalpane.ui \
-    redefinemnemonicsdialog.ui
+    redefinemnemonicsdialog.ui \
+    byteconverterhex.ui \
+    byteconverterdec.ui \
+    byteconverterchar.ui \
+    byteconverterbin.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     qtc-gdbmacros/gdbmacros.cpp \
@@ -43,7 +51,11 @@ SOURCES += main.cpp \
     inputpane.cpp \
     outputpane.cpp \
     terminalpane.cpp \
-    redefinemnemonicsdialog.cpp
+    redefinemnemonicsdialog.cpp \
+    byteconverterhex.cpp \
+    byteconverterdec.cpp \
+    byteconverterchar.cpp \
+    byteconverterbin.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \
