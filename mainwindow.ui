@@ -54,6 +54,9 @@
           <string>Code</string>
          </attribute>
          <layout class="QVBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QSplitter" name="codeSplitter">
             <property name="orientation">
@@ -73,6 +76,9 @@
           <string>Trace</string>
          </attribute>
          <layout class="QVBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QSplitter" name="traceSplitter">
             <property name="sizePolicy">
@@ -118,13 +124,16 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pepBatchTab">
          <attribute name="title">
           <string>Batch I/O</string>
          </attribute>
          <layout class="QVBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QSplitter" name="batchSplitter">
             <property name="orientation">
@@ -154,6 +163,9 @@
           <string>Terminal I/O</string>
          </attribute>
          <layout class="QVBoxLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QSplitter" name="terminalSplitter">
             <property name="orientation">
