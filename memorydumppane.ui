@@ -14,11 +14,8 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
+   <property name="margin">
+    <number>1</number>
    </property>
    <item>
     <widget class="QLabel" name="pepMemoryDumpLabel">
@@ -36,6 +33,9 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -98,8 +98,6 @@
     </layout>
    </item>
   </layout>
-  <zorder></zorder>
-  <zorder></zorder>
  </widget>
  <resources/>
  <connections/>
