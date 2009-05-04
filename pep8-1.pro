@@ -22,7 +22,8 @@ HEADERS += mainwindow.h \
     byteconverterhex.h \
     byteconverterdec.h \
     byteconverterchar.h \
-    byteconverterbin.h
+    byteconverterbin.h \
+    pep.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -53,7 +54,8 @@ SOURCES += main.cpp \
     byteconverterhex.cpp \
     byteconverterdec.cpp \
     byteconverterchar.cpp \
-    byteconverterbin.cpp
+    byteconverterbin.cpp \
+    pep.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \

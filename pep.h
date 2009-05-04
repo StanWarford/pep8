@@ -1,48 +1,55 @@
 #ifndef PEP_H
 #define PEP_H
 
-namespace Pep
+#include <QString>
+
+class Pep
 {
-    const QString defaultUnaryMnemonic0 = "NOP0";
-    const QString defaultUnaryMnemonic1 = "NOP1";
-    const QString defaultUnaryMnemonic2 = "NOP2";
-    const QString defaultUnaryMnemonic3 = "NOP3";
-    const QString defaultNonUnaryMnemonic0 = "NOP";
-    const bool defaultMnemon0i = true;
-    const bool defaultMnemon0d = false;
-    const bool defaultMnemon0n = false;
-    const bool defaultMnemon0s = false;
-    const bool defaultMnemon0sf = false;
-    const bool defaultMnemon0x = false;
-    const bool defaultMnemon0sx = false;
-    const bool defaultMnemon0sxf = false;
-    const QString defaultNonUnaryMnemonic1 = "DECI";
-    const bool defaultMnemon1i = false;
-    const bool defaultMnemon1d = true;
-    const bool defaultMnemon1n = true;
-    const bool defaultMnemon1s = true;
-    const bool defaultMnemon1sf = true;
-    const bool defaultMnemon1x = true;
-    const bool defaultMnemon1sx = true;
-    const bool defaultMnemon1sxf = true;
-    const QString defaultNonUnaryMnemonic2 = "DECO";
-    const bool defaultMnemon2i = true;
-    const bool defaultMnemon2d = true;
-    const bool defaultMnemon2n = true;
-    const bool defaultMnemon2s = true;
-    const bool defaultMnemon2sf = true;
-    const bool defaultMnemon2x = true;
-    const bool defaultMnemon2sx = true;
-    const bool defaultMnemon2sxf = true;
-    const QString defaultNonUnaryMnemonic3 = "STRO";
-    const bool defaultMnemon3i = false;
-    const bool defaultMnemon3d = true;
-    const bool defaultMnemon3n = true;
-    const bool defaultMnemon3s = false;
-    const bool defaultMnemon3sf = true;
-    const bool defaultMnemon3x = false;
-    const bool defaultMnemon3sx = false;
-    const bool defaultMnemon3sxf = false;
-}
+public:
+    Pep();
+
+    //
+    // Default redefine mnemonics
+    static const QString defaultUnaryMnemonic0;
+    static const QString defaultUnaryMnemonic1;
+    static const QString defaultUnaryMnemonic2;
+    static const QString defaultUnaryMnemonic3;
+    static const QString defaultNonUnaryMnemonic0;
+    static const bool defaultMnemon0i;
+    static const bool defaultMnemon0d;
+    static const bool defaultMnemon0n;
+    static const bool defaultMnemon0s;
+    static const bool defaultMnemon0sf;
+    static const bool defaultMnemon0x;
+    static const bool defaultMnemon0sx;
+    static const bool defaultMnemon0sxf;
+    static const QString defaultNonUnaryMnemonic1;
+    static const bool defaultMnemon1i;
+    static const bool defaultMnemon1d;
+    static const bool defaultMnemon1n;
+    static const bool defaultMnemon1s;
+    static const bool defaultMnemon1sf;
+    static const bool defaultMnemon1x;
+    static const bool defaultMnemon1sx;
+    static const bool defaultMnemon1sxf;
+    static const QString defaultNonUnaryMnemonic2;
+    static const bool defaultMnemon2i;
+    static const bool defaultMnemon2d;
+    static const bool defaultMnemon2n;
+    static const bool defaultMnemon2s;
+    static const bool defaultMnemon2sf;
+    static const bool defaultMnemon2x;
+    static const bool defaultMnemon2sx;
+    static const bool defaultMnemon2sxf;
+    static const QString defaultNonUnaryMnemonic3;
+    static const bool defaultMnemon3i;
+    static const bool defaultMnemon3d;
+    static const bool defaultMnemon3n;
+    static const bool defaultMnemon3s;
+    static const bool defaultMnemon3sf;
+    static const bool defaultMnemon3x;
+    static const bool defaultMnemon3sx;
+    static const bool defaultMnemon3sxf;
+};
 
 #endif // PEP_H
