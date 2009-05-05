@@ -1,5 +1,10 @@
 #include "pep.h"
 
+    QMap<Pep::MnemonicOpCode, QString> Pep::mnemonicTable;
+    void Pep::initMnemonicTable() {
+        mnemonicTable.insert(ADDA, "ADDA");
+    }
+
     const QString Pep::defaultUnaryMnemonic0 = "NOP0";
     const QString Pep::defaultUnaryMnemonic1 = "NOP1";
     const QString Pep::defaultUnaryMnemonic2 = "NOP2";
@@ -41,7 +46,7 @@
     const bool Pep::defaultMnemon3sx = false;
     const bool Pep::defaultMnemon3sxf = false;
 
-Pep::Pep()
-{
-
-}
+//Pep::Pep()
+//{
+//
+//}

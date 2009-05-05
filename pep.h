@@ -2,13 +2,31 @@
 #define PEP_H
 
 #include <QString>
+#include <QMap>
 
 class Pep
 {
-public:
-    Pep();
+//public:
+//    Pep();
 
-    //
+public:
+    enum MnemonicOpCode
+    {
+        ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
+        BR, BRC, BREQ, BRGE, BRGT, BRLE, BRLT, BRNE, BRV,
+        CALL, CHARI, CHARO, CPA, CPX,
+        DECI, DECO,
+        LDA, LDBYTEA, LDBYTEX, LDX,
+        MOVSPA, MOVFLGA,
+        NEGA, NEGX, NOP, NOP0, NOP1, NOP2, NOP3, NOTA, NOTX,
+        ORA, ORX,
+        RETTR, RET0, RET1, RET2, RET3, RET4, RET5, RET6, RET7, ROLA, ROLX, RORA, RORX,
+        STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
+    };
+
+    static QMap<MnemonicOpCode, QString> mnemonicTable;
+    static void initMnemonicTable();
+
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;
     static const QString defaultUnaryMnemonic1;
