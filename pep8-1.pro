@@ -85,3 +85,4 @@ OTHER_FILES += images/update.png \
     images/assembler.xpm \
     images/assembler.png
 RESOURCES += pep8resources.qrc
+QT += webkit

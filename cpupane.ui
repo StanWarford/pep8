@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
-    <height>515</height>
+    <width>651</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,6 +187,9 @@
        </item>
        <item>
         <layout class="QGridLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
          <item row="4" column="2">
           <widget class="QLabel" name="label_28">
            <property name="font">
@@ -1778,6 +1781,9 @@
      </item>
      <item>
       <layout class="QHBoxLayout">
+       <property name="spacing">
+        <number>-1</number>
+       </property>
        <item>
         <spacer>
          <property name="orientation">
