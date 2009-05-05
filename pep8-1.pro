@@ -6,6 +6,9 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 
+# Help system support for html files
+QT += webkit
+
 # Input
 HEADERS += mainwindow.h \
     sourcecodepane.h \
@@ -23,7 +26,8 @@ HEADERS += mainwindow.h \
     byteconverterdec.h \
     byteconverterchar.h \
     byteconverterbin.h \
-    pep.h
+    pep.h \
+    helpdialog.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -38,7 +42,8 @@ FORMS += mainwindow.ui \
     byteconverterhex.ui \
     byteconverterdec.ui \
     byteconverterchar.ui \
-    byteconverterbin.ui
+    byteconverterbin.ui \
+    helpdialog.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     sourcecodepane.cpp \
@@ -55,7 +60,8 @@ SOURCES += main.cpp \
     byteconverterdec.cpp \
     byteconverterchar.cpp \
     byteconverterbin.cpp \
-    pep.cpp
+    pep.cpp \
+    helpdialog.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \
@@ -84,5 +90,5 @@ OTHER_FILES += images/update.png \
     images/CodeCPU.png \
     images/assembler.xpm \
     images/assembler.png
-RESOURCES += pep8resources.qrc
-QT += webkit
+RESOURCES += pep8resources.qrc \
+    helpresources.qrc

@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
     redefineMnemonicsDialog->hide();
 
+    helpDialog = new HelpDialog(this);
+    helpDialog->hide();
+
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
     ui->byteConverterToolBar->addWidget(byteConverterDec);
@@ -225,7 +228,7 @@ void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 
 void MainWindow::on_actionHelp_Instruction_Set_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Dot_Commands_triggered()

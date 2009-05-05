@@ -24,6 +24,7 @@
 
 // Dialog boxes
 #include "redefinemnemonicsdialog.h"
+#include "helpdialog.h"
 
 namespace Ui
 {
@@ -58,6 +59,7 @@ private:
 
     // Dialog boxes
     RedefineMnemonicsDialog *redefineMnemonicsDialog;
+    HelpDialog *helpDialog;
 
     // Byte converter
     ByteConverterDec *byteConverterDec;
