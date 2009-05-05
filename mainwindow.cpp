@@ -1,6 +1,7 @@
 #include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "pep.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -55,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
                      SLOT(slotByteConverterBinEdited(const QString &)));
     QObject::connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterCharEdited(const QString &)));
+
+    // Pep maps setup
+    Pep::initEnumMnemonMaps();
 }
 
 MainWindow::~MainWindow()

@@ -10,7 +10,7 @@ class Pep
 //    Pep();
 
 public:
-    enum MnemonicOpCode
+    enum EMnemonic
     {
         ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
         BR, BRC, BREQ, BRGE, BRGT, BRLE, BRLT, BRNE, BRV,
@@ -24,8 +24,9 @@ public:
         STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
     };
 
-    static QMap<MnemonicOpCode, QString> mnemonicTable;
-    static void initMnemonicTable();
+    static QMap<EMnemonic, QString> enumToMnemonMap;
+    static QMap<QString, EMnemonic> mnemonToEnumMap;
+    static void initEnumMnemonMaps();
 
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;
