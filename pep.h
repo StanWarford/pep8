@@ -3,31 +3,11 @@
 
 #include <QString>
 #include <QMap>
+#include <QSet>
 
 class Pep
 {
-//public:
-//    Pep();
-
 public:
-    enum EMnemonic
-    {
-        ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
-        BR, BRC, BREQ, BRGE, BRGT, BRLE, BRLT, BRNE, BRV,
-        CALL, CHARI, CHARO, CPA, CPX,
-        DECI, DECO,
-        LDA, LDBYTEA, LDBYTEX, LDX,
-        MOVSPA, MOVFLGA,
-        NEGA, NEGX, NOP, NOP0, NOP1, NOP2, NOP3, NOTA, NOTX,
-        ORA, ORX,
-        RETTR, RET0, RET1, RET2, RET3, RET4, RET5, RET6, RET7, ROLA, ROLX, RORA, RORX,
-        STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
-    };
-
-    static QMap<EMnemonic, QString> enumToMnemonMap;
-    static QMap<QString, EMnemonic> mnemonToEnumMap;
-    static void initEnumMnemonMaps();
-
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;
     static const QString defaultUnaryMnemonic1;
@@ -69,6 +49,48 @@ public:
     static const bool defaultMnemon3x;
     static const bool defaultMnemon3sx;
     static const bool defaultMnemon3sxf;
+
+    // Constants used to define valid addressing modes for instructions
+    static const int I;
+    static const int D;
+    static const int N;
+    static const int S;
+    static const int SF;
+    static const int X;
+    static const int SX;
+    static const int SXF;
+    static const int ALL;
+
+    enum EMnemonic
+    {
+        ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
+        BR, BRC, BREQ, BRGE, BRGT, BRLE, BRLT, BRNE, BRV,
+        CALL, CHARI, CHARO, CPA, CPX,
+        DECI, DECO,
+        LDA, LDBYTEA, LDBYTEX, LDX,
+        MOVSPA, MOVFLGA,
+        NEGA, NEGX, NOP, NOP0, NOP1, NOP2, NOP3, NOTA, NOTX,
+        ORA, ORX,
+        RETTR, RET0, RET1, RET2, RET3, RET4, RET5, RET6, RET7, ROLA, ROLX, RORA, RORX,
+        STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
+    };
+
+    static QMap<EMnemonic, QString> enumToMnemonMap;
+    static QMap<QString, EMnemonic> mnemonToEnumMap;
+    static void initEnumMnemonMaps();
+
+    static QMap<EMnemonic, int> opCodeMap;
+    static QMap<EMnemonic, bool> isUnaryMap;
+    static QMap<EMnemonic, bool> addrModeRequiredMap;
+    static QMap<EMnemonic, bool> isTrapMap;
+    static void initMnemonicMaps();
+
+    static QMap<EMnemonic, int> addrModesMap;
+    static void initAddrModesMap();
+
+    static QMap<QString, int> symbolTable;
+    static void initSymbolTable();
+
 };
 
 #endif // PEP_H

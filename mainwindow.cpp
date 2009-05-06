@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Pep maps setup
     Pep::initEnumMnemonMaps();
+    Pep::initAddrModesMap();
+    Pep::initMnemonicMaps();
 }
 
 MainWindow::~MainWindow()
