@@ -67,11 +67,26 @@
         <bool>false</bool>
        </property>
        <property name="rowCount">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="columnCount">
-        <number>0</number>
+        <number>2</number>
        </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <row/>
+       <column/>
+       <column/>
       </widget>
      </item>
     </layout>

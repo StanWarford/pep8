@@ -1,9 +1,11 @@
 #ifndef PEP_H
 #define PEP_H
 
-#include <QString>
 #include <QMap>
 #include <QSet>
+#include <QString>
+#include <QStringList>
+#include <QVector>
 
 class Pep
 {
@@ -61,6 +63,7 @@ public:
     static const int SXF;
     static const int ALL;
 
+    // Instruction mnemonics
     enum EMnemonic
     {
         ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
@@ -75,22 +78,46 @@ public:
         STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
     };
 
+    // Maps between mnemonic enums and strings
     static QMap<EMnemonic, QString> enumToMnemonMap;
     static QMap<QString, EMnemonic> mnemonToEnumMap;
     static void initEnumMnemonMaps();
 
+    // Maps to characterize each instruction
     static QMap<EMnemonic, int> opCodeMap;
     static QMap<EMnemonic, bool> isUnaryMap;
     static QMap<EMnemonic, bool> addrModeRequiredMap;
     static QMap<EMnemonic, bool> isTrapMap;
     static void initMnemonicMaps();
 
+    // Map to specify legal addressing modes for each instruction
     static QMap<EMnemonic, int> addrModesMap;
     static void initAddrModesMap();
 
+    // The symbol table
     static QMap<QString, int> symbolTable;
-    static void initSymbolTable();
 
+    // Tables for the assembler listing
+    static QStringList assemblerListingList;
+    static QList<bool> hasCheckBox;
+
+    // Map from instruction memory address to assembler listing line
+    static QMap<int, int> memAddrssToAssemblerListing;
+
+    // Decoder tables
+    static QVector<EMnemonic> decodeMnemonic;
+    static QVector<int> decodeAddrMode;
+    static void initDecoderTables();
+
+    // The machine
+    static QVector<int> Mem;
+    static int nBit, zBit, vBit, cBit;
+    static int accumulator;
+    static int indexRegister;
+    static int stackPointer;
+    static int programCounter;
+    static int instructionRegister;
+    static int operandSpecifier;
 };
 
 #endif // PEP_H

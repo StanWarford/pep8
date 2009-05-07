@@ -1,5 +1,6 @@
 #include "pep.h"
 
+// Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";
 const QString Pep::defaultUnaryMnemonic1 = "NOP1";
 const QString Pep::defaultUnaryMnemonic2 = "NOP2";
@@ -41,6 +42,7 @@ const bool Pep::defaultMnemon3x = false;
 const bool Pep::defaultMnemon3sx = false;
 const bool Pep::defaultMnemon3sxf = false;
 
+// Constants used to define valid addressing modes for instructions
 const int Pep::I = 1;
 const int Pep::D = 2;
 const int Pep::N = 4;
@@ -51,6 +53,7 @@ const int Pep::SX = 64;
 const int Pep::SXF = 128;
 const int Pep::ALL = 255;
 
+// Maps between mnemonic enums and strings
 QMap<Pep::EMnemonic, QString> Pep::enumToMnemonMap;
 QMap<QString, Pep::EMnemonic> Pep::mnemonToEnumMap;
 void Pep::initEnumMnemonMaps()
@@ -121,6 +124,7 @@ void Pep::initEnumMnemonMaps()
     enumToMnemonMap.insert(SUBX, "SUBX"); mnemonToEnumMap.insert("SUBX", SUBX);
 }
 
+// Maps to characterize each instruction
 QMap<Pep::EMnemonic, int> Pep::opCodeMap;
 QMap<Pep::EMnemonic, bool> Pep::isUnaryMap;
 QMap<Pep::EMnemonic, bool> Pep::addrModeRequiredMap;
@@ -142,6 +146,7 @@ void Pep::initMnemonicMaps()
 //        RETTR, RET0, RET1, RET2, RET3, RET4, RET5, RET6, RET7, ROLA, ROLX, RORA, RORX,
 //        STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
 
+// Map to specify legal addressing modes for each instruction
 QMap<Pep::EMnemonic, int > Pep::addrModesMap;
 void Pep::initAddrModesMap()
 {
@@ -222,8 +227,58 @@ void Pep::initAddrModesMap()
     addrModesMap.insert(STRO, addrMode);
 }
 
+// The symbol table
 QMap<QString, int> Pep::symbolTable;
-void Pep::initSymbolTable()
+
+// Tables for the assembler listing
+// These tables are built by the assembler and used by the assembler listing pane to construct
+// the QTableWidget in the assembler listing pane.
+QStringList Pep::assemblerListingList;
+QList<bool> Pep::hasCheckBox;
+
+// Map from instruction memory address to assembler listing line
+QMap<int, int> Pep::memAddrssToAssemblerListing;
+
+// Decoder tables
+QVector<Pep::EMnemonic> Pep::decodeMnemonic(256);
+QVector<int> Pep::decodeAddrMode(256);
+void Pep::initDecoderTables()
 {
-    symbolTable.clear();
+    decodeMnemonic[0] = STOP; decodeAddrMode[0] = 0;
+    decodeMnemonic[1] = RETTR; decodeAddrMode[1] = 0;
+    decodeMnemonic[2] = MOVSPA; decodeAddrMode[2] = 0;
+    decodeMnemonic[3] = MOVFLGA; decodeAddrMode[3] = 0;
+    decodeMnemonic[4] = BR; decodeAddrMode[4] = I;
+    decodeMnemonic[5] = BR; decodeAddrMode[5] = X;
+
+    // etc.
+    // Note that the trap instructions are all unary at the machine level
+
+    decodeMnemonic[240] = STBYTEA; decodeAddrMode[240] = I;
+    decodeMnemonic[241] = STBYTEA; decodeAddrMode[241] = D;
+    decodeMnemonic[242] = STBYTEA; decodeAddrMode[242] = N;
+    decodeMnemonic[243] = STBYTEA; decodeAddrMode[243] = S;
+    decodeMnemonic[244] = STBYTEA; decodeAddrMode[244] = SF;
+    decodeMnemonic[245] = STBYTEA; decodeAddrMode[245] = X;
+    decodeMnemonic[246] = STBYTEA; decodeAddrMode[246] = SX;
+    decodeMnemonic[247] = STBYTEA; decodeAddrMode[247] = SXF;
+
+    decodeMnemonic[248] = STBYTEX; decodeAddrMode[248] = I;
+    decodeMnemonic[249] = STBYTEX; decodeAddrMode[249] = D;
+    decodeMnemonic[250] = STBYTEX; decodeAddrMode[250] = N;
+    decodeMnemonic[251] = STBYTEX; decodeAddrMode[251] = S;
+    decodeMnemonic[252] = STBYTEX; decodeAddrMode[252] = SF;
+    decodeMnemonic[253] = STBYTEX; decodeAddrMode[253] = X;
+    decodeMnemonic[254] = STBYTEX; decodeAddrMode[254] = SX;
+    decodeMnemonic[255] = STBYTEX; decodeAddrMode[255] = SXF;
 }
+
+// The machine
+QVector<int> Pep::Mem(65536);
+int Pep::nBit, Pep::zBit, Pep::vBit, Pep::cBit;
+int Pep::accumulator;
+int Pep::indexRegister;
+int Pep::stackPointer;
+int Pep::programCounter;
+int Pep::instructionRegister;
+int Pep::operandSpecifier;
