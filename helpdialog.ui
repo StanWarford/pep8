@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>653</width>
-    <height>527</height>
+    <width>967</width>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,13 +19,108 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QTreeView" name="helpTreeView">
+     <widget class="QTreeWidget" name="helpTreeWidget">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Sunken</enum>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="indentation">
+       <number>15</number>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <property name="headerHidden">
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text">
+        <string>Help Topics</string>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>Writing Programs</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Machine Language</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Assembly Language</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Debugging Programs</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Break Points</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Symbolic Trace</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Byte Converter</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Writing Interrupt Handlers</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Pep/8 Reference</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Instruction Set</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dot Commands</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Addressing Modes</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Examples</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Pep/8 Operating System</string>
+       </property>
+      </item>
      </widget>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">

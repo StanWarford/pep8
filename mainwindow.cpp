@@ -209,32 +209,32 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 // Help MainWindow triggers
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Machine_Language_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Break_Points_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Symbolic_Trace_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Byte_Converter_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionHelp_Instruction_Set_triggered()
@@ -244,27 +244,29 @@ void MainWindow::on_actionHelp_Instruction_Set_triggered()
 
 void MainWindow::on_actionHelp_Dot_Commands_triggered()
 {
+    helpDialog->show();
 
 }
 
 void MainWindow::on_actionHelp_Addressing_Modes_triggered()
 {
+    helpDialog->show();
 
 }
 
 void MainWindow::on_actionHelp_Examples_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionAbout_Pep8_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-
+    helpDialog->show();
 }
 
 void MainWindow::slotByteConverterDecEdited(const QString &str) {
