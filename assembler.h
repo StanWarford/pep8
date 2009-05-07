@@ -5,6 +5,7 @@
 
 class Assembler : public QObject
 {
+    // Q_OBJECT
 public:
     Assembler();
 };

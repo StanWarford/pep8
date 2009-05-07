@@ -26,6 +26,10 @@
 #include "redefinemnemonicsdialog.h"
 #include "helpdialog.h"
 
+// Assembler and simulator
+#include "assembler.h"
+#include "simulator.h"
+
 namespace Ui
 {
     class MainWindowClass;
@@ -66,6 +70,10 @@ private:
     ByteConverterHex *byteConverterHex;
     ByteConverterBin *byteConverterBin;
     ByteConverterChar *byteConverterChar;
+
+    // Assembler and simulator
+    Assembler *assembler;
+    Simulator *simulator;
 
 private slots:
     // File

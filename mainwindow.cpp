@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
+
     // Left pane setup
     sourceCodePane = new SourceCodePane(ui->codeSplitter);
     delete ui->SourceCodeWidgetPane;
@@ -57,10 +58,14 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterCharEdited(const QString &)));
 
-    // Pep maps setup
+    // Pep tables setup
     Pep::initEnumMnemonMaps();
     Pep::initAddrModesMap();
     Pep::initMnemonicMaps();
+    Pep::initDecoderTables();
+
+    // Assembler and simulator
+
 }
 
 MainWindow::~MainWindow()
