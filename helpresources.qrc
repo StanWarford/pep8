@@ -51,5 +51,10 @@
         <file>help/fig0645.pep.txt</file>
         <file>help/fig0647.cpp.txt</file>
         <file>help/fig0647.pep.txt</file>
+        <file>help/writingprograms.html</file>
+        <file>help/machinelanguage.html</file>
+        <file>help/assemblylanguage.html</file>
+        <file>help/images/traceprogram.png</file>
+        <file>help/debuggingprograms.html</file>
     </qresource>
 </RCC>

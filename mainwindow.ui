@@ -726,6 +726,9 @@
    <property name="text">
     <string>Examples</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
   </action>
   <action name="actionBuild_Load">
    <property name="icon">

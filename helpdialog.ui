@@ -154,6 +154,141 @@
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
+       <item>
+        <property name="text">
+         <string>Figure 5.18</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.21</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.26</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.01</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.04</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.06</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.08</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.14</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.16</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.18</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.21</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.23</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.25</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.27</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.29</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.34</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.38</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.40</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.41</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.43</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.45</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 6.47</string>
+        </property>
+       </item>
       </item>
       <item>
        <property name="text">
@@ -171,7 +306,7 @@
       <widget class="QWebView" name="leftHelpWebView">
        <property name="font">
         <font>
-         <family>Lucida Grande</family>
+         <family>Courier</family>
         </font>
        </property>
        <property name="url">
