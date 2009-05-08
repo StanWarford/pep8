@@ -55,14 +55,23 @@
        <property name="text">
         <string>Writing Programs</string>
        </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
+       </property>
        <item>
         <property name="text">
          <string>Machine Language</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Assembly Language</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
       </item>
@@ -70,19 +79,31 @@
        <property name="text">
         <string>Debugging Programs</string>
        </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
+       </property>
        <item>
         <property name="text">
          <string>Break Points</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Symbolic Trace</string>
         </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
+        </property>
        </item>
        <item>
         <property name="text">
          <string>Byte Converter</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
       </item>
@@ -90,24 +111,39 @@
        <property name="text">
         <string>Writing Interrupt Handlers</string>
        </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
+       </property>
       </item>
       <item>
        <property name="text">
         <string>Pep/8 Reference</string>
        </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
+       </property>
        <item>
         <property name="text">
          <string>Instruction Set</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Dot Commands</string>
         </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
+        </property>
        </item>
        <item>
         <property name="text">
          <string>Addressing Modes</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
       </item>
@@ -115,10 +151,16 @@
        <property name="text">
         <string>Examples</string>
        </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
+       </property>
       </item>
       <item>
        <property name="text">
         <string>Pep/8 Operating System</string>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
       </item>
      </widget>
@@ -127,6 +169,11 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QWebView" name="leftHelpWebView">
+       <property name="font">
+        <font>
+         <family>Lucida Grande</family>
+        </font>
+       </property>
        <property name="url">
         <url>
          <string>about:blank</string>
@@ -136,7 +183,7 @@
       <widget class="QWebView" name="rightHelpWebView">
        <property name="url">
         <url>
-         <string>about:blank</string>
+         <string>qrc::/help/fig0621.cpp.txt</string>
         </url>
        </property>
       </widget>

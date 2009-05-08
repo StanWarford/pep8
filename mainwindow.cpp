@@ -245,13 +245,11 @@ void MainWindow::on_actionHelp_Instruction_Set_triggered()
 void MainWindow::on_actionHelp_Dot_Commands_triggered()
 {
     helpDialog->show();
-
 }
 
 void MainWindow::on_actionHelp_Addressing_Modes_triggered()
 {
     helpDialog->show();
-
 }
 
 void MainWindow::on_actionHelp_Examples_triggered()

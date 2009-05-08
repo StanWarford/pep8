@@ -3,6 +3,8 @@
 
 #include <QtGui/QDialog>
 
+#include <QTreeWidgetItem>
+
 namespace Ui {
     class HelpDialog;
 }
@@ -16,6 +18,11 @@ public:
 
 private:
     Ui::HelpDialog *m_ui;
+
+private slots:
+// void QTreeWidget::itemClicked ( QTreeWidgetItem * item, int column )   [signal]
+   void on_itemClicked(QTreeWidgetItem *, int);
+
 };
 
 #endif // HELPDIALOG_H
