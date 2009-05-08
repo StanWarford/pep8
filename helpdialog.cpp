@@ -37,14 +37,10 @@ enum Row {
     eADDRMODE = 2,
 };
 
-void HelpDialog::on_itemClicked(QTreeWidgetItem *, int) {
+void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
 //    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
 //    qDebug() << "Parent row: " << m_ui->helpTreeWidget->currentIndex().parent().row();
 //    qDebug() << "Row: " << m_ui->helpTreeWidget->currentIndex().row();
-
-//    m_ui->rightHelpWebView->hide();
-//    m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.pep.txt"));
-//    m_ui->leftHelpWebView->show();
 
     // Is this a subcategory?
     bool subCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
@@ -71,41 +67,42 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem *, int) {
             m_ui->leftHelpWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eBREAK) {             // Debugging Programs > Break Points
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eSYMTRACE) {          // Debugging Programs > Symbolic Trace
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eBYTECONVERTER) {     // Debugging Programs > Byte Converter
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         }
     } else if (!subCat && row == eINTERRUPT) {  // Writing Interrupt Handlers
         m_ui->rightHelpWebView->hide();
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
         m_ui->leftHelpWebView->show();
     } else if ((!subCat && row == eREFERENCE) || parent == eREFERENCE) {
         m_ui->rightHelpWebView->hide();
         if (!subCat) {                          // Pep/8 Reference
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eINSTRUCTION) {       // Pep/8 Reference > Instruction Set
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eDOTCMD) {            // Pep/8 Reference > Dot Commands
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         }
     } else if (!subCat && row == eEXAMPLES) {   // Examples. Need to expand this a lot.
-        m_ui->rightHelpWebView->show();
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+        m_ui->rightHelpWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
         m_ui->leftHelpWebView->show();
+        m_ui->rightHelpWebView->show();
     } else if (!subCat && row == eOS) {         // Pep/8 Operating System
         m_ui->rightHelpWebView->hide();
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/fig0518.cpp.txt"));
+        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
         m_ui->leftHelpWebView->show();
     }
 }
