@@ -26,10 +26,6 @@
 #include "redefinemnemonicsdialog.h"
 #include "helpdialog.h"
 
-// Assembler and simulator
-#include "assembler.h"
-#include "simulator.h"
-
 namespace Ui
 {
     class MainWindowClass;

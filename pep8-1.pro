@@ -27,9 +27,7 @@ HEADERS += mainwindow.h \
     byteconverterchar.h \
     byteconverterbin.h \
     pep.h \
-    helpdialog.h \
-    assembler.h \
-    simulator.h
+    helpdialog.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -63,9 +61,7 @@ SOURCES += main.cpp \
     byteconverterchar.cpp \
     byteconverterbin.cpp \
     pep.cpp \
-    helpdialog.cpp \
-    assembler.cpp \
-    simulator.cpp
+    helpdialog.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \
