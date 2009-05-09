@@ -65,7 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initDecoderTables();
 
     // Assembler and simulator
-
+    assembler = new Assembler();
+    simulator = new Simulator();
 }
 
 MainWindow::~MainWindow()

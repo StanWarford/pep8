@@ -5,9 +5,10 @@
 
 class Assembler : public QObject
 {
-    // Q_OBJECT
+    Q_OBJECT
 public:
     Assembler();
+    ~Assembler ();
 };
 
 #endif // ASSEMBLER_H
