@@ -63,10 +63,6 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initAddrModesMap();
     Pep::initMnemonicMaps();
     Pep::initDecoderTables();
-
-    // Assembler and simulator
-    assembler = new Assembler();
-    simulator = new Simulator();
 }
 
 MainWindow::~MainWindow()

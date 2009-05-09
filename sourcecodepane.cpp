@@ -12,3 +12,8 @@ SourceCodePane::~SourceCodePane()
 {
     delete m_ui;
 }
+
+QString SourceCodePane::getSourceCode()
+{
+    return m_ui->pepSourceCodeTextEdit->toPlainText();
+}

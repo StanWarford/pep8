@@ -71,10 +71,6 @@ private:
     ByteConverterBin *byteConverterBin;
     ByteConverterChar *byteConverterChar;
 
-    // Assembler and simulator
-    Assembler *assembler;
-    Simulator *simulator;
-
 private slots:
     // File
     void on_actionFile_New_triggered();

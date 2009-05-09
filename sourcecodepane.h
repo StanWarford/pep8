@@ -2,6 +2,7 @@
 #define SOURCECODEPANE_H
 
 #include <QtGui/QWidget>
+#include <QString>
 
 namespace Ui {
     class SourceCodePane;
@@ -13,6 +14,7 @@ class SourceCodePane : public QWidget {
 public:
     explicit SourceCodePane(QWidget *parent = 0);
     virtual ~SourceCodePane();
+    QString getSourceCode();
 
 private:
     Ui::SourceCodePane *m_ui;
