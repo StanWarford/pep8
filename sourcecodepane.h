@@ -3,6 +3,7 @@
 
 #include <QtGui/QWidget>
 #include <QString>
+#include <QList>
 
 namespace Ui {
     class SourceCodePane;
@@ -14,10 +15,17 @@ class SourceCodePane : public QWidget {
 public:
     explicit SourceCodePane(QWidget *parent = 0);
     virtual ~SourceCodePane();
-    QString getSourceCode();
+    void assemble();
+    QList<int> getObjectCode();
+    QStringList getAssemblerListingList();
+    QList<bool> getHasCheckBox();
 
 private:
     Ui::SourceCodePane *m_ui;
+    QList<int> objectCode;
+    QStringList assemblerListingList;
+    QList<bool> hasCheckBox;
+
 };
 
 #endif // SOURCECODEPANE_H

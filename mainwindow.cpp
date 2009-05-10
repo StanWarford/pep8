@@ -130,7 +130,9 @@ void MainWindow::on_actionEdit_Font_triggered()
 // Build MainWindow triggers
 void MainWindow::on_actionBuild_Assemble_triggered()
 {
-
+    sourceCodePane->assemble();
+    objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
+    assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
 }
 
 void MainWindow::on_actionBuild_Load_triggered()
@@ -274,7 +276,8 @@ void MainWindow::slotByteConverterDecEdited(const QString &str) {
     }
 }
 
-void MainWindow::slotByteConverterHexEdited(const QString &str) {
+void MainWindow::slotByteConverterHexEdited(const QString &str)
+{
     if (str.length() >= 2) {
         if (str.startsWith("0x")) {
             QString hexPart = str;
@@ -301,7 +304,8 @@ void MainWindow::slotByteConverterHexEdited(const QString &str) {
     }
 }
 
-void MainWindow::slotByteConverterBinEdited(const QString &str) {
+void MainWindow::slotByteConverterBinEdited(const QString &str)
+{
     if (str.length() > 0) {
         bool ok;
         int data = str.toInt(&ok, 2);
@@ -311,7 +315,8 @@ void MainWindow::slotByteConverterBinEdited(const QString &str) {
     }
 }
 
-void MainWindow::slotByteConverterCharEdited(const QString &str) {
+void MainWindow::slotByteConverterCharEdited(const QString &str)
+{
     if (str.length() > 0) {
         int data = (int)str[0].toAscii();
         byteConverterDec->setValue(data);

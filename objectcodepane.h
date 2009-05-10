@@ -13,6 +13,7 @@ class ObjectCodePane : public QWidget {
 public:
     explicit ObjectCodePane(QWidget *parent = 0);
     virtual ~ObjectCodePane();
+    void setObjectCode(QList<int> objectCode);
 
 private:
     Ui::ObjectCodePane *m_ui;

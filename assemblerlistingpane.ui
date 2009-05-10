@@ -23,7 +23,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="_label">
+      <widget class="QLabel" name="assemblerListingLabel">
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -42,7 +42,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableWidget" name="_table">
+      <widget class="QTableWidget" name="assemblerListingTable">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -76,12 +76,6 @@
         <bool>false</bool>
        </attribute>
        <attribute name="verticalHeaderVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderVisible">
         <bool>false</bool>
        </attribute>
        <row/>

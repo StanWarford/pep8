@@ -97,10 +97,6 @@ public:
     // The symbol table
     static QMap<QString, int> symbolTable;
 
-    // Tables for the assembler listing
-    static QStringList assemblerListingList;
-    static QList<bool> hasCheckBox;
-
     // Map from instruction memory address to assembler listing line
     static QMap<int, int> memAddrssToAssemblerListing;
 

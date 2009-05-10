@@ -1,5 +1,6 @@
 #include "objectcodepane.h"
 #include "ui_objectcodepane.h"
+#include <QDebug>
 
 ObjectCodePane::ObjectCodePane(QWidget *parent) :
     QWidget(parent),
@@ -11,4 +12,16 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
 ObjectCodePane::~ObjectCodePane()
 {
     delete m_ui;
+}
+
+void ObjectCodePane::setObjectCode(QList<int> objectCode)
+{
+    QString objectCodeString = "";
+    for (int i = 0; i < objectCode.length(); i++) {
+        objectCodeString.append(QString("%1").arg(objectCode[i], 2, 16, QLatin1Char('0')).toUpper());
+        objectCodeString.append((i % 16) == 15 ? '\n' : ' ');
+    }
+    objectCodeString.append("zz");
+    m_ui->pepObjectCodeTextEdit->clear();
+    m_ui->pepObjectCodeTextEdit->setText(objectCodeString);
 }

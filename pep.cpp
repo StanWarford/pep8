@@ -230,12 +230,6 @@ void Pep::initAddrModesMap()
 // The symbol table
 QMap<QString, int> Pep::symbolTable;
 
-// Tables for the assembler listing
-// These tables are built by the assembler and used by the assembler listing pane to construct
-// the QTableWidget in the assembler listing pane.
-QStringList Pep::assemblerListingList;
-QList<bool> Pep::hasCheckBox;
-
 // Map from instruction memory address to assembler listing line
 QMap<int, int> Pep::memAddrssToAssemblerListing;
 
