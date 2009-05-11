@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AssemblerListingPane</class>
- <widget class="QWidget" name="AssemblerListingPane">
+ <class>ListingTracePane</class>
+ <widget class="QWidget" name="ListingTracePane">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>344</width>
-    <height>354</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="assemblerListingLabel">
+      <widget class="QLabel" name="listingTraceLabel">
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>
@@ -34,7 +34,7 @@
         <number>2</number>
        </property>
        <property name="text">
-        <string>Assembler Listing</string>
+        <string>Listing Trace</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -42,7 +42,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="assemblerListingTextEdit"/>
+      <widget class="QTableWidget" name="listingTraceTableWidget">
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <property name="rowCount">
+        <number>0</number>
+       </property>
+       <property name="columnCount">
+        <number>2</number>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <column/>
+       <column/>
+      </widget>
      </item>
     </layout>
    </item>

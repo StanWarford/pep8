@@ -18,12 +18,14 @@ public:
     void assemble();
     QList<int> getObjectCode();
     QStringList getAssemblerListingList();
+    QStringList getListingTraceList();
     QList<bool> getHasCheckBox();
 
 private:
     Ui::SourceCodePane *m_ui;
     QList<int> objectCode;
     QStringList assemblerListingList;
+    QStringList listingTraceList;
     QList<bool> hasCheckBox;
 
 };

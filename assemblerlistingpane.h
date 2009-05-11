@@ -13,7 +13,7 @@ class AssemblerListingPane : public QWidget {
 public:
     explicit AssemblerListingPane(QWidget *parent = 0);
     virtual ~AssemblerListingPane();
-    void setAssemblerListing(QStringList assemblerListingList, QList<bool> hasCheckBox);
+    void setAssemblerListing(QStringList assemblerListingList);
 
 private:
     Ui::AssemblerListingPane *m_ui;

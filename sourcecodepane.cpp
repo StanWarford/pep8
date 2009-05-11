@@ -39,4 +39,5 @@ void SourceCodePane::assemble()
 
 QList<int> SourceCodePane::getObjectCode() { return objectCode; }
 QStringList SourceCodePane::getAssemblerListingList() { return assemblerListingList; }
+QStringList SourceCodePane::getListingTraceList() { return listingTraceList; }
 QList<bool> SourceCodePane::getHasCheckBox() { return hasCheckBox; }

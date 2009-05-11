@@ -13,8 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     delete ui->SourceCodeWidgetPane;
     objectCodePane = new ObjectCodePane(ui->codeSplitter);
     delete ui->ObjectCodeWidgetPane;
-    assemblerListingPane = new AssemblerListingPane(ui->leftSplitter);
+    assemblerListingPane = new AssemblerListingPane(ui->codeSplitter);
     delete ui->AssemblerListingWidgetPane;
+    listingTracePane = new ListingTracePane(ui->traceSplitter);
+    delete ui->ListingTraceWidgetPane;
     memoryTracePane = new MemoryTracePane(ui->traceSplitter);
     delete ui->MemoryTraceWidgetPane;
 
@@ -132,7 +134,9 @@ void MainWindow::on_actionBuild_Assemble_triggered()
 {
     sourceCodePane->assemble();
     objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-    assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+    assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+    listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+
 }
 
 void MainWindow::on_actionBuild_Load_triggered()

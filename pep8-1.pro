@@ -27,7 +27,8 @@ HEADERS += mainwindow.h \
     byteconverterchar.h \
     byteconverterbin.h \
     pep.h \
-    helpdialog.h
+    helpdialog.h \
+    listingtracepane.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -43,7 +44,8 @@ FORMS += mainwindow.ui \
     byteconverterdec.ui \
     byteconverterchar.ui \
     byteconverterbin.ui \
-    helpdialog.ui
+    helpdialog.ui \
+    listingtracepane.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     sourcecodepane.cpp \
@@ -61,7 +63,8 @@ SOURCES += main.cpp \
     byteconverterchar.cpp \
     byteconverterbin.cpp \
     pep.cpp \
-    helpdialog.cpp
+    helpdialog.cpp \
+    listingtracepane.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \

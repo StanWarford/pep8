@@ -11,6 +11,7 @@
 #include "sourcecodepane.h"
 #include "objectcodepane.h"
 #include "assemblerlistingpane.h"
+#include "listingtracepane.h"
 #include "memorytracepane.h"
 
 // Middle pane
@@ -46,6 +47,7 @@ private:
     SourceCodePane *sourceCodePane;
     ObjectCodePane *objectCodePane;
     AssemblerListingPane *assemblerListingPane;
+    ListingTracePane *listingTracePane;
     MemoryTracePane *memoryTracePane;
 
     // Middle pane
