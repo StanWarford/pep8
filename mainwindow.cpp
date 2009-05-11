@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     delete ui->ListingTraceWidgetPane;
     memoryTracePane = new MemoryTracePane(ui->traceSplitter);
     delete ui->MemoryTraceWidgetPane;
+    ui->pepCodeTraceTab->setCurrentIndex(0);
 
     // Middle pane setup
     cpuPane = new CpuPane(ui->middleSplitter);
@@ -30,10 +31,16 @@ MainWindow::MainWindow(QWidget *parent)
     delete ui->OutputWidgetPane;
     terminalPane = new TerminalPane(ui->terminalSplitter);
     delete ui->TerminalWidgetPane;
+    ui->pepInputOutputTab->setCurrentIndex(0);
 
     // Right pane setup
     memoryDumpPane = new MemoryDumpPane(ui->horizontalSplitter);
     delete ui->MemoryDumpWidgetPane;
+
+    // Adjust initial configuration
+    ui->horizontalSplitter->widget(2)->hide();
+    ui->horizontalSplitter->widget(0)->resize(QSize(500,1));
+    ui->middleSplitter->widget(1)->resize(QSize(1, 400));
 
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
@@ -168,22 +175,31 @@ void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
 // View MainWindow triggers
 void MainWindow::on_actionView_Code_Only_triggered()
 {
-
+    ui->horizontalSplitter->widget(0)->show();
+    ui->horizontalSplitter->widget(1)->hide();
+    ui->horizontalSplitter->widget(2)->hide();
 }
 
 void MainWindow::on_actionView_Code_CPU_triggered()
 {
+    ui->horizontalSplitter->widget(0)->show();
+    ui->horizontalSplitter->widget(1)->show();
+    ui->horizontalSplitter->widget(2)->hide();
 
 }
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
-
+    ui->horizontalSplitter->widget(0)->show();
+    ui->horizontalSplitter->widget(1)->show();
+    ui->horizontalSplitter->widget(2)->show();
 }
 
 void MainWindow::on_actionView_Code_Memory_triggered()
 {
-
+    ui->horizontalSplitter->widget(0)->show();
+    ui->horizontalSplitter->widget(1)->hide();
+    ui->horizontalSplitter->widget(2)->show();
 }
 
 
