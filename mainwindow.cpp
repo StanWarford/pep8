@@ -89,21 +89,50 @@ void MainWindow::on_actionFile_Open_triggered()
 
 }
 
-void MainWindow::on_actionFile_Save_triggered()
+void MainWindow::on_actionFile_Save_Source_triggered()
 {
 
 }
 
-void MainWindow::on_actionFile_Save_As_triggered()
+void MainWindow::on_actionFile_Save_Object_triggered()
 {
 
 }
 
-void MainWindow::on_actionFile_Print_triggered()
+void MainWindow::on_actionFile_Save_Listing_triggered()
 {
 
 }
 
+void MainWindow::on_actionFile_Save_Source_As_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Save_Object_As_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Save_Listing_As_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Print_Source_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Print_Object_triggered()
+{
+
+}
+
+void MainWindow::on_actionFile_Print_Listing_triggered()
+{
+
+}
 
 // Edit MainWindow triggers
 void MainWindow::on_actionEdit_Undo_triggered()

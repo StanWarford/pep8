@@ -203,8 +203,8 @@
    </attribute>
    <addaction name="actionFile_New"/>
    <addaction name="actionFile_Open"/>
-   <addaction name="actionFile_Save"/>
-   <addaction name="actionFile_Print"/>
+   <addaction name="actionFile_Save_Source"/>
+   <addaction name="actionFile_Print_Source"/>
   </widget>
   <widget class="QToolBar" name="editToolBar">
    <property name="orientation">
@@ -290,11 +290,18 @@
     </property>
     <addaction name="actionFile_New"/>
     <addaction name="actionFile_Open"/>
-    <addaction name="actionFile_Save"/>
-    <addaction name="actionFile_Save_As"/>
     <addaction name="separator"/>
-    <addaction name="actionFile_Print"/>
+    <addaction name="actionFile_Save_Source"/>
+    <addaction name="actionFile_Save_Object"/>
+    <addaction name="actionFile_Save_Listing"/>
     <addaction name="separator"/>
+    <addaction name="actionFile_Save_Source_As"/>
+    <addaction name="actionFile_Save_Object_As"/>
+    <addaction name="actionFile_Save_Listing_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionFile_Print_Source"/>
+    <addaction name="actionFile_Print_Object"/>
+    <addaction name="actionFile_Print_Listing"/>
    </widget>
    <widget class="QMenu" name="menuBuild">
     <property name="title">
@@ -403,13 +410,13 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionFile_Save">
+  <action name="actionFile_Save_Source">
    <property name="icon">
     <iconset>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save</string>
+    <string>&amp;Save Source</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -418,21 +425,21 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionFile_Save_As">
+  <action name="actionFile_Save_Source_As">
    <property name="text">
-    <string>Save As...</string>
+    <string>Save Source As...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionFile_Print">
+  <action name="actionFile_Print_Source">
    <property name="icon">
     <iconset>
      <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Print...</string>
+    <string>&amp;Print Source...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -735,6 +742,36 @@
   <action name="actionPep_8_Operating_System">
    <property name="text">
     <string>Pep/8 Operating System</string>
+   </property>
+  </action>
+  <action name="actionFile_Save_Object">
+   <property name="text">
+    <string>Save Object</string>
+   </property>
+  </action>
+  <action name="actionFile_Save_Listing">
+   <property name="text">
+    <string>Save Listing</string>
+   </property>
+  </action>
+  <action name="actionFile_Save_Object_As">
+   <property name="text">
+    <string>Save Object As...</string>
+   </property>
+  </action>
+  <action name="actionFile_Save_Listing_As">
+   <property name="text">
+    <string>Save Listing As...</string>
+   </property>
+  </action>
+  <action name="actionFile_Print_Object">
+   <property name="text">
+    <string>&amp;Print Object...</string>
+   </property>
+  </action>
+  <action name="actionFile_Print_Listing">
+   <property name="text">
+    <string>&amp;Print Listing...</string>
    </property>
   </action>
  </widget>
