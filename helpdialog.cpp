@@ -35,6 +35,34 @@ enum Row {
     eINSTRUCTION = 0,
     eDOTCMD = 1,
     eADDRMODE = 2,
+
+    eFIG518 = 0,
+    eFIG521 = 1,
+    eFIG526 = 2,
+    eFIG601 = 3,
+    eFIG604 = 4,
+    eFIG606 = 5,
+    eFIG608 = 6,
+    eFIG610 = 7,
+    eFIG612 = 8,
+    eFIG614 = 9,
+    eFIG616 = 10,
+    eFIG618 = 11,
+    eFIG621 = 12,
+    eFIG623 = 13,
+    eFIG625 = 14,
+    eFIG627 = 15,
+    eFIG629 = 16,
+    eFIG632 = 17,
+    eFIG634 = 18,
+    eFIG636 = 19,
+    eFIG638 = 20,
+    eFIG640 = 21,
+    eFIG641 = 22,
+    eFIG643 = 23,
+    eFIG645 = 24,
+    eFIG647 = 25,
+
 };
 
 void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
@@ -95,29 +123,143 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
             m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         }
-    } else if (!subCat && row == eEXAMPLES) {   // Examples. Need to expand this a lot.
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
-        m_ui->rightHelpWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
-        m_ui->leftHelpWebView->show();
-        m_ui->rightHelpWebView->show();
+    } else if ((!subCat && row == eEXAMPLES) || parent == eEXAMPLES) {
+        if (!subCat) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->hide();
+        } else if (row == eFIG518) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0518.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0518.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG521) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0521.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0521.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG526) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0526.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0526.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG601) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0601.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->hide();
+        } else if (row == eFIG604) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0604.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0604.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG606) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0606.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0606.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG608) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0608.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0608.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG610) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0610.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0610.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG612) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0612.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0612.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG614) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0614.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0614.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG616) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0616.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->hide();
+        } else if (row == eFIG618) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0618.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0618.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG621) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0621.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0621.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG623) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0623.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0623.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG625) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0625.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0625.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG627) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0627.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0627.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG629) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0629.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0629.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG632) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0632.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0632.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG634) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0634.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0634.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG636) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0618.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0618.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG638) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0621.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0621.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG640) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0640.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0640.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG641) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0641.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0641.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG643) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0643.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0643.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG645) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0645.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0645.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        } else if (row == eFIG647) {
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0647.pep.html"));
+            m_ui->leftHelpWebView->show();
+            m_ui->rightHelpWebView->load(QUrl("qrc:/help/figures/fig0647.cpp.html"));
+            m_ui->rightHelpWebView->show();
+        }
     } else if (!subCat && row == eOS) {         // Pep/8 Operating System
         m_ui->rightHelpWebView->hide();
         m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
         m_ui->leftHelpWebView->show();
     }
 }
-
-//Writing Programs
-//	Assembly Language
-//	Machine Language
-//Debugging Programs
-//	Break Points
-//	Symbolic Trace
-//	Byte Converter
-//Writing Interrupt Handlers
-//Pep/8 Reference
-//	Instruction Set
-//	Dot Commands
-//	Addressing Modes
-//Examples
-//Pep/8 OS
