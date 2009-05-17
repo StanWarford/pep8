@@ -120,7 +120,7 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
             m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
             m_ui->leftHelpWebView->show();
         } else if (row == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("http://code.google.com/p/pep8-1/wiki/AddressingModes"));
             m_ui->leftHelpWebView->show();
         }
     } else if ((!subCat && row == eEXAMPLES) || parent == eEXAMPLES) {

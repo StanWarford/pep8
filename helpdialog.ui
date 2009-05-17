@@ -20,6 +20,12 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QTreeWidget" name="helpTreeWidget">
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <pointsize>12</pointsize>
@@ -304,10 +310,23 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QWebView" name="leftHelpWebView">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="font">
         <font>
-         <family>Courier</family>
+         <family>Lucida Grande</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
        </property>
        <property name="url">
         <url>
@@ -316,6 +335,9 @@
        </property>
       </widget>
       <widget class="QWebView" name="rightHelpWebView">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="url">
         <url>
          <string>qrc::/help/fig0621.cpp.txt</string>
