@@ -1,7 +1,7 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 
-#include <QDebug>
+//#include <QDebug>
 
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),
@@ -10,8 +10,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     m_ui->setupUi(this);
 
     QObject::connect(m_ui->helpTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(on_itemClicked(QTreeWidgetItem*,int)));
-
-//    QObject::connect(m_ui->helpTreeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(on_itemClicked(QTreeWidgetItem*,int)));
+    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
 HelpDialog::~HelpDialog()
@@ -67,8 +66,12 @@ enum Row {
 
 };
 
+void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
+    this->on_itemClicked(item,0);
+}
+
 void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
-    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
+//    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
 //    qDebug() << "Parent row: " << m_ui->helpTreeWidget->currentIndex().parent().row();
 //    qDebug() << "Row: " << m_ui->helpTreeWidget->currentIndex().row();
 
