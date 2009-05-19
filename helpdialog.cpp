@@ -1,7 +1,7 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 
-//#include <QDebug>
+#include <QDebug>
 
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),
@@ -10,7 +10,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     m_ui->setupUi(this);
 
     QObject::connect(m_ui->helpTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(on_itemClicked(QTreeWidgetItem*,int)));
-    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+//    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
 HelpDialog::~HelpDialog()
@@ -66,9 +66,11 @@ enum Row {
 
 };
 
-void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
-    this->on_itemClicked(item,0);
-}
+
+
+//void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
+//    this->on_itemClicked(item,0);
+//}
 
 void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
 //    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
@@ -229,4 +231,41 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
         m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
     }
     m_ui->leftHelpWebView->show();
+}
+
+void HelpDialog::on_menuWritingPrograms_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+    m_ui->leftHelpWebView->show();
+}
+
+void HelpDialog::on_menuMachineLanguage_clicked(){
+
+}
+void HelpDialog::on_menuAssemblyLanguage_clicked(){
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
+    m_ui->leftHelpWebView->show();
+}
+void HelpDialog::on_menuDebuggingPrograms_clicked(){
+}
+void HelpDialog::on_menuBreakPoints_clicked(){
+}
+void HelpDialog::on_menuSymbolicTrace_clicked(){
+}
+void HelpDialog::on_menuByteConverter_clicked(){
+}
+void HelpDialog::on_menuInterruptHandlers_clicked(){
+}
+void HelpDialog::on_menuReference_clicked(){
+}
+void HelpDialog::on_menuInstructionSet_clicked(){
+}
+void HelpDialog::on_menuDotCommands_clicked(){
+}
+void HelpDialog::on_menuAddressingModes_clicked(){
+}
+void HelpDialog::on_examples_clicked(){
+}
+void HelpDialog::on_operatingSystem_clicked(){
 }

@@ -258,6 +258,7 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuAssemblyLanguage_clicked();
 }
 
 void MainWindow::on_actionHelp_Machine_Language_triggered()
