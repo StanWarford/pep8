@@ -68,9 +68,9 @@ enum Row {
 
 
 
-//void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
-//    this->on_itemClicked(item,0);
-//}
+void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
+    this->on_itemClicked(item,0);
+}
 
 void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
 //    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
@@ -98,30 +98,30 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
         if (!subCat) {                          // Debugging Programs
             m_ui->leftHelpWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
         } else if (row == eBREAK) {             // Debugging Programs > Break Points
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/breakpoints.html"));
         } else if (row == eSYMTRACE) {          // Debugging Programs > Symbolic Trace
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/symbolictrace.html"));
         } else if (row == eBYTECONVERTER) {     // Debugging Programs > Byte Converter
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/byteconverter.html"));
         }
         m_ui->leftHelpWebView->show();
     } else if (!subCat && row == eINTERRUPT) {  // Writing Interrupt Handlers
         m_ui->rightHelpWebView->hide();
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+        m_ui->leftHelpWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
     } else if ((!subCat && row == eREFERENCE) || parent == eREFERENCE) {
         m_ui->rightHelpWebView->hide();
         if (!subCat) {                          // Pep/8 Reference
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/pep8reference.html"));
         } else if (row == eINSTRUCTION) {       // Pep/8 Reference > Instruction Set
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/instructionset.html"));
         } else if (row == eDOTCMD) {            // Pep/8 Reference > Dot Commands
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/dotcommands.html"));
         } else if (row == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
-            m_ui->leftHelpWebView->load(QUrl("http://code.google.com/p/pep8-1/wiki/AddressingModes"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/addressingmodes.html"));
         }
     } else if ((!subCat && row == eEXAMPLES) || parent == eEXAMPLES) {
         if (!subCat) {
-            m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+            m_ui->leftHelpWebView->load(QUrl("qrc:/help/examples.html"));
             m_ui->rightHelpWebView->hide();
         } else if (row == eFIG518) {
             m_ui->leftHelpWebView->load(QUrl("qrc:/help/figures/fig0518.pep.html"));
@@ -228,44 +228,79 @@ void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
         }
     } else if (!subCat && row == eOS) {         // Pep/8 Operating System
         m_ui->rightHelpWebView->hide();
-        m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
+        m_ui->leftHelpWebView->load(QUrl("qrc:/help/pep8os.html"));
     }
     m_ui->leftHelpWebView->show();
 }
 
-void HelpDialog::on_menuWritingPrograms_clicked() {
+void HelpDialog::on_menuItem_WritingPrograms_clicked() {
     m_ui->rightHelpWebView->hide();
     m_ui->leftHelpWebView->load(QUrl("qrc:/help/writingprograms.html"));
     m_ui->leftHelpWebView->show();
 }
 
-void HelpDialog::on_menuMachineLanguage_clicked(){
-
+void HelpDialog::on_menuItem_MachineLanguage_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/machinelanguage.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuAssemblyLanguage_clicked(){
+void HelpDialog::on_menuItem_AssemblyLanguage_clicked() {
     m_ui->rightHelpWebView->hide();
     m_ui->leftHelpWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
     m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuDebuggingPrograms_clicked(){
+void HelpDialog::on_menuItem_DebuggingPrograms_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuBreakPoints_clicked(){
+void HelpDialog::on_menuItem_BreakPoints_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/breakpoints.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuSymbolicTrace_clicked(){
+void HelpDialog::on_menuItem_SymbolicTrace_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/symbolictrace.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuByteConverter_clicked(){
+void HelpDialog::on_menuItem_ByteConverter_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/byteconverter.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuInterruptHandlers_clicked(){
+void HelpDialog::on_menuItem_InterruptHandlers_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuReference_clicked(){
+void HelpDialog::on_menuItem_Reference_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/pep8reference.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuInstructionSet_clicked(){
+void HelpDialog::on_menuItem_InstructionSet_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/instructionset.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuDotCommands_clicked(){
+void HelpDialog::on_menuItem_DotCommands_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/dotcommands.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_menuAddressingModes_clicked(){
+void HelpDialog::on_menuItem_AddressingModes_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/addressingmodes.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_examples_clicked(){
+void HelpDialog::on_menuItem_Examples_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/examples.html"));
+    m_ui->leftHelpWebView->show();
 }
-void HelpDialog::on_operatingSystem_clicked(){
+void HelpDialog::on_menuItem_OperatingSystem_clicked() {
+    m_ui->rightHelpWebView->hide();
+    m_ui->leftHelpWebView->load(QUrl("qrc:/help/pep8os.html"));
+    m_ui->leftHelpWebView->show();
 }

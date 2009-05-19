@@ -55,5 +55,15 @@
         <file>help/figures/fig0645.pep.html</file>
         <file>help/figures/fig0647.cpp.html</file>
         <file>help/figures/fig0647.pep.html</file>
+        <file>help/addressingmodes.html</file>
+        <file>help/breakpoints.html</file>
+        <file>help/byteconverter.html</file>
+        <file>help/dotcommands.html</file>
+        <file>help/examples.html</file>
+        <file>help/instructionset.html</file>
+        <file>help/interrupthandlers.html</file>
+        <file>help/pep8os.html</file>
+        <file>help/pep8reference.html</file>
+        <file>help/symbolictrace.html</file>
     </qresource>
 </RCC>

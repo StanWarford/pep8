@@ -255,66 +255,74 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 
 
 // Help MainWindow triggers
+
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuAssemblyLanguage_clicked();
+    helpDialog->on_menuItem_AssemblyLanguage_clicked();
 }
 
 void MainWindow::on_actionHelp_Machine_Language_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_MachineLanguage_clicked();
 }
 
 void MainWindow::on_actionHelp_Break_Points_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_BreakPoints_clicked();
 }
 
 void MainWindow::on_actionHelp_Symbolic_Trace_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_SymbolicTrace_clicked();
 }
 
 void MainWindow::on_actionHelp_Byte_Converter_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_ByteConverter_clicked();
 }
 
 void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_InterruptHandlers_clicked();
 }
 
 void MainWindow::on_actionHelp_Instruction_Set_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_InstructionSet_clicked();
 }
 
 void MainWindow::on_actionHelp_Dot_Commands_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_DotCommands_clicked();
 }
 
 void MainWindow::on_actionHelp_Addressing_Modes_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_AddressingModes_clicked();
 }
 
 void MainWindow::on_actionHelp_Examples_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_Examples_clicked();
 }
 
 void MainWindow::on_actionAbout_Pep8_triggered()
 {
     helpDialog->show();
+    helpDialog->on_menuItem_OperatingSystem_clicked();
 }
 
-void MainWindow::on_actionAbout_Qt_triggered()
-{
-    helpDialog->show();
-}
+void MainWindow::on_actionAbout_Qt_triggered() {}
 
 void MainWindow::slotByteConverterDecEdited(const QString &str) {
     if (str.length() > 0) {
