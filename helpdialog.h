@@ -21,7 +21,7 @@ private:
 
 private slots:
 // void QTreeWidget::itemClicked ( QTreeWidgetItem * item, int column )   [signal]
-   void on_itemClicked(QTreeWidgetItem *, int);
+   void on_itemClicked(QTreeWidgetItem*,int);
 
 };
 
