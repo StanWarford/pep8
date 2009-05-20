@@ -168,10 +168,11 @@ void MainWindow::on_actionEdit_Font_triggered()
 // Build MainWindow triggers
 void MainWindow::on_actionBuild_Assemble_triggered()
 {
-    sourceCodePane->assemble();
-    objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-    assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-    listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+    if (sourceCodePane->assemble()) {
+        objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
+        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+    }
 
 }
 
@@ -197,7 +198,7 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
 
 void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
 {
-
+    sourceCodePane->removeErrorMessages();
 }
 
 

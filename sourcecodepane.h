@@ -4,6 +4,7 @@
 #include <QtGui/QWidget>
 #include <QString>
 #include <QList>
+#include "asm.h"
 
 namespace Ui {
     class SourceCodePane;
@@ -15,11 +16,12 @@ class SourceCodePane : public QWidget {
 public:
     explicit SourceCodePane(QWidget *parent = 0);
     virtual ~SourceCodePane();
-    void assemble();
+    bool assemble();
     QList<int> getObjectCode();
     QStringList getAssemblerListingList();
     QStringList getListingTraceList();
     QList<bool> getHasCheckBox();
+    void removeErrorMessages();
 
 private:
     Ui::SourceCodePane *m_ui;
@@ -28,6 +30,8 @@ private:
     QStringList listingTraceList;
     QList<bool> hasCheckBox;
 
+private:
+    void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
 };
 
 #endif // SOURCECODEPANE_H
