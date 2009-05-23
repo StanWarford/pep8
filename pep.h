@@ -53,6 +53,7 @@ public:
     static const bool defaultMnemon3sxf;
 
     // Constants used to define valid addressing modes for instructions
+    static const int NONE;
     static const int I;
     static const int D;
     static const int N;

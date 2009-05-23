@@ -1,5 +1,5 @@
 #include "code.h"
 
-code::code()
+Code::Code()
 {
 }

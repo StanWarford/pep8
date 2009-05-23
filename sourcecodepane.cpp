@@ -1,7 +1,9 @@
+#include <QList>
 #include <QStringList>
 #include <QTextCursor>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
+#include "code.h"
 
 #include <QDebug>
 
@@ -20,44 +22,29 @@ SourceCodePane::~SourceCodePane()
 bool SourceCodePane::assemble()
 {
     QString sourceLine;
-    Asm::ELexicalToken token;
-    QString tokenString;
+    QString errorString;
+    QStringList sourceCodeList;
+    Code *code;
+    QList<Code *> codeList;
 
     removeErrorMessages();
+    Asm::listOfReferencedSymbols.clear();
     QString sourceCode = m_ui->pepSourceCodeTextEdit->toPlainText();
-    assemblerListingList = sourceCode.split('\n');
-    for (int i = 0; i < assemblerListingList.size(); i++) {
-        sourceLine = assemblerListingList[i];
-        do {
-            Asm::getToken(sourceLine, token, tokenString);
-            qDebug() << "Token == " << tokenString;
-            if (token == Asm::LT_ERROR) {
-                appendMessageInSourceCodePaneAt(i, tokenString, Qt::red);
-                return false;
-            }
-        } while (token != Asm::LT_EMPTY);
-        qDebug() << "---------------------------";
+    sourceCodeList = sourceCode.split('\n');
+    for (int i = 0; i < sourceCodeList.size(); i++) {
+        sourceLine = sourceCodeList[i];
+        if (!Asm::processSourceLine(sourceLine, code, errorString)) {
+            appendMessageInSourceCodePaneAt(i, errorString, Qt::red);
+            return false;
+        }
+        /*
+        if (!generateCode(tokenList, tokenStringList, code, errorString) {
+
+        }
+
+        */
     }
     return false; // For now, while developing assembler.
-
-    /*
-    // UI test, if first letter on a line is 'y', insert text box in listing
-    hasCheckBox.clear();
-    for (int i = 0; i < assemblerListingList.size(); i++) {
-        if (assemblerListingList[i].length() > 0 && assemblerListingList[i][0] == 'y') {
-            hasCheckBox.append(true);
-        }
-        else {
-            hasCheckBox.append(false);
-        }
-    }
-    // Just some random numbers for now
-    objectCode.clear();
-    for (int i = 0; i < 40; i++) {
-        objectCode << (10 * i) % 256;
-    }
-
-*/
 }
 
 QList<int> SourceCodePane::getObjectCode() { return objectCode; }

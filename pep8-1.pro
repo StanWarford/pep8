@@ -30,7 +30,8 @@ HEADERS += mainwindow.h \
     helpdialog.h \
     listingtracepane.h \
     asm.h \
-    code.h
+    code.h \
+    argument.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \

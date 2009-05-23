@@ -43,6 +43,7 @@ const bool Pep::defaultMnemon3sx = false;
 const bool Pep::defaultMnemon3sxf = false;
 
 // Constants used to define valid addressing modes for instructions
+const int Pep::NONE = 0;
 const int Pep::I = 1;
 const int Pep::D = 2;
 const int Pep::N = 4;
