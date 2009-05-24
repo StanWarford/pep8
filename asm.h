@@ -2,7 +2,8 @@
 #define ASM_H
 
 #include <QRegExp>
-#include "code.h"
+
+class Code; // Forward declaration for argument of processSourceLine.
 
 class Asm
 {

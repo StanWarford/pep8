@@ -1,5 +1,4 @@
+// File: code.cpp
+
 #include "code.h"
 
-Code::Code()
-{
-}

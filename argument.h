@@ -1,19 +1,21 @@
 #ifndef ARGUMENT_H
 #define ARGUMENT_H
 
+#include "asm.h"
+#include "pep.h"
+
 // Abstract Argument class
 class Argument
 {
     friend class Asm;
 public:
-    Argument();
-    virtual ~Argument();
+    virtual ~Argument() { }
     virtual int getArgumentValue() = 0;
     virtual QString getArgumentString() = 0;
 };
 
 // Concrete argument classes
-// All methods are defined in this code.h file.
+// All methods are defined in this argument.h file.
 class CharArgument: public Argument
 {
     friend class Asm;
@@ -21,7 +23,7 @@ private:
     QString charValue;
 public:
     CharArgument(QString cValue) { charValue = cValue; }
-    int getArgumentValue() { return /*Asm::charStringToInt(QString str) */ 0; }
+    int getArgumentValue() { return Asm::charStringToInt(charValue); }
     QString getArgumentString() { return charValue; }
 };
 

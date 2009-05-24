@@ -2,16 +2,15 @@
 #define CODE_H
 
 #include "pep.h"
-#include "asm.h"
-#include "argument.h"
+
+class Argument; // Forward declaration for attributes of code classes.
 
 // Abstract Code class
 class Code
 {
     friend class Asm;
 public:
-    Code();
-    virtual ~Code();
+    virtual ~Code() { }
 
 private:
     QString symbolDef;

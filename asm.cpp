@@ -1,5 +1,6 @@
 #include "asm.h"
-#include "pep.h"
+#include "argument.h"
+#include "code.h"
 
 #include <QDebug>
 
@@ -138,7 +139,26 @@ int Asm::stringToAddrMode(QString str)
 }
 
 int Asm::charStringToInt(QString str) {
-    return 0;
+    str.chop(1); // Remove the leftmost single quote.
+    str = str.left(str.length() - 1); // Remove the rightmost single quote.
+    if (str.length() == 4) {
+        str.chop(2); // Remove the leading "\x" or "\X"
+        bool ok;
+        return str.toInt(&ok, 16);
+    }
+    if (str.length() == 2) {
+        str.chop(1); // Remove the leading "\"
+        if (str[0] == 'b') return 8; // backspace
+        if (str[0] == 'f') return 12; // form feed
+        if (str[0] == 'n') return 10; // line feed (new line)
+        if (str[0] == 'r') return 13; // carriage return
+        if (str[0] == 't') return 9; // horizontal tab
+        if (str[0] == 'v') return 11; // vertical tab
+        if (str[0] == '\\') return 92; // back slash
+        return QChar(str[0]).toAscii(); // Should not occur.
+    }
+    // str.length() == 1, and the string contains a single character.
+    return QChar(str[0]).toAscii();
 }
 
 bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorString)
@@ -172,7 +192,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             return false;
         }
         switch (state) {
-        case Asm::PS_START:
+                    case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER){
                 if (Pep::mnemonToEnumMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString);
@@ -280,7 +300,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_SYMBOL_DEF:
+                    case Asm::PS_SYMBOL_DEF:
             if (token == Asm::LT_IDENTIFIER){
                 if (Pep::mnemonToEnumMap.contains(tokenString.toUpper())) {
                     localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString);
@@ -370,7 +390,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
 
 
 
-        case Asm::PS_INSTRUCTION:
+                    case Asm::PS_INSTRUCTION:
             if (token == Asm::LT_IDENTIFIER) {
                 if (tokenString.length() > 8) {
                     errorString = "ERROR: Symbol " + tokenString + " cannot have more than eight characters.";
@@ -409,7 +429,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_ADDRESSING_MODE:
+                    case Asm::PS_ADDRESSING_MODE:
             if (token == Asm::LT_ADDRESSING_MODE) {
                 int addrMode = Asm::stringToAddrMode(tokenString);
                 if (addrMode & Pep::addrModesMap.value(localEnumMnemonic) == 0) {
@@ -429,24 +449,24 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_DOT_ADDRSS:
+                    case Asm::PS_DOT_ADDRSS:
             break;
-        case Asm::PS_DOT_ASCII:
+                    case Asm::PS_DOT_ASCII:
             break;
-        case Asm::PS_DOT_BLOCK:
+                    case Asm::PS_DOT_BLOCK:
             break;
-        case Asm::PS_DOT_BURN:
+                    case Asm::PS_DOT_BURN:
             break;
-        case Asm::PS_DOT_BYTE:
+                    case Asm::PS_DOT_BYTE:
             break;
-        case Asm::PS_DOT_END:
+                    case Asm::PS_DOT_END:
             break;
-        case Asm::PS_DOT_EQUATE:
+                    case Asm::PS_DOT_EQUATE:
             break;
-        case Asm::PS_DOT_WORD:
+                    case Asm::PS_DOT_WORD:
             break;
 
-        case Asm::PS_CLOSE:
+                    case Asm::PS_CLOSE:
             if (token == Asm::LT_EMPTY) {
                 state = Asm::PS_FINISH;
             }
@@ -460,7 +480,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        case Asm::PS_COMMENT:
+                    case Asm::PS_COMMENT:
             if (token == Asm::LT_EMPTY) {
                 state = Asm::PS_FINISH;
             }
@@ -471,7 +491,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
             }
             break;
 
-        default:
+                    default:
             break;
         }
     }
