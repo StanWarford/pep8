@@ -24,15 +24,12 @@ private slots:
    void on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
 public slots:
-   void on_menuItem_WritingPrograms_clicked();
    void on_menuItem_MachineLanguage_clicked();
    void on_menuItem_AssemblyLanguage_clicked();
-   void on_menuItem_DebuggingPrograms_clicked();
    void on_menuItem_BreakPoints_clicked();
    void on_menuItem_SymbolicTrace_clicked();
    void on_menuItem_ByteConverter_clicked();
    void on_menuItem_InterruptHandlers_clicked();
-   void on_menuItem_Reference_clicked();
    void on_menuItem_InstructionSet_clicked();
    void on_menuItem_DotCommands_clicked();
    void on_menuItem_AddressingModes_clicked();
