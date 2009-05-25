@@ -53,14 +53,7 @@ private:
     QString stringValue;
 public:
     StringArgument(QString sValue) { stringValue = sValue; }
-    int getArgumentValue() {
-        if (stringValue.length() == 1) {
-            return stringValue[0].toAscii();
-        }
-        else {
-            return stringValue[1].toAscii() + 256 * stringValue[0].toAscii();
-        }
-    }
+    int getArgumentValue() { return Asm::stringArgumentToInt(stringValue); }
     QString getArgumentString() { return stringValue; }
 };
 

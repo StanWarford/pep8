@@ -25,6 +25,8 @@ bool SourceCodePane::assemble()
     QString errorString;
     QStringList sourceCodeList;
     Code *code;
+    int byteCount = 0;
+    bool dotEndDetected;
     QList<Code *> codeList;
 
     removeErrorMessages();
@@ -33,18 +35,23 @@ bool SourceCodePane::assemble()
     sourceCodeList = sourceCode.split('\n');
     for (int i = 0; i < sourceCodeList.size(); i++) {
         sourceLine = sourceCodeList[i];
-        if (!Asm::processSourceLine(sourceLine, code, errorString)) {
+        if (!Asm::processSourceLine(sourceLine, code, errorString, byteCount, dotEndDetected)) {
             appendMessageInSourceCodePaneAt(i, errorString, Qt::red);
             return false;
         }
-        /*
-        if (!generateCode(tokenList, tokenStringList, code, errorString) {
-
+        if (dotEndDetected) {
+            if (byteCount > 65535) {
+                errorString = ";ERROR: Program to long. Object code will not fit into memory.";
+                appendMessageInSourceCodePaneAt(i, errorString, Qt::red);
+                return false;
+            }
+            qDebug() << "byteCount == " << byteCount;
+            return true;
         }
-
-        */
     }
-    return false; // For now, while developing assembler.
+    errorString = ";ERROR: Missing .END sentinel.";
+    appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+    return false;
 }
 
 QList<int> SourceCodePane::getObjectCode() { return objectCode; }

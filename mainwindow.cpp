@@ -169,9 +169,13 @@ void MainWindow::on_actionEdit_Font_triggered()
 void MainWindow::on_actionBuild_Assemble_triggered()
 {
     if (sourceCodePane->assemble()) {
+        ui->statusbar->showMessage("Assembly succeeded", 4000);
         objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
         assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
         listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+    }
+    else {
+        ui->statusbar->showMessage("Assembly failed", 4000);
     }
 
 }
