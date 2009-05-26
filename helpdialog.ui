@@ -10,6 +10,12 @@
     <height>686</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>700</width>
+    <height>500</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Help</string>
   </property>
@@ -372,6 +378,12 @@
        </item>
        <item>
         <widget class="QWebView" name="helpExplWebView">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>60</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>

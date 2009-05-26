@@ -23,7 +23,7 @@ private slots:
    void on_itemClicked(QTreeWidgetItem*,int);
    void on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
-public slots:
+public:
    void on_menuItem_MachineLanguage_clicked();
    void on_menuItem_AssemblyLanguage_clicked();
    void on_menuItem_BreakPoints_clicked();
