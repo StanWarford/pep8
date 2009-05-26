@@ -221,6 +221,7 @@
    <addaction name="actionEdit_Cut"/>
    <addaction name="actionEdit_Copy"/>
    <addaction name="actionEdit_Paste"/>
+   <addaction name="actionHelp"/>
   </widget>
   <widget class="QToolBar" name="buildToolBar">
    <property name="orientation">
@@ -772,6 +773,16 @@
   <action name="actionFile_Print_Listing">
    <property name="text">
     <string>&amp;Print Listing...</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/help.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>

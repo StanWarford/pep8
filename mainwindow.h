@@ -112,6 +112,7 @@ private slots:
     void on_actionSystem_Set_Execution_Limits_triggered();
 
     // Help
+    void on_actionHelp_triggered();
     void on_actionHelp_Assembly_Language_triggered();
     void on_actionHelp_Machine_Language_triggered();
     void on_actionHelp_Break_Points_triggered();

@@ -16,5 +16,6 @@
         <file>images/assemble.png</file>
         <file>images/run.png</file>
         <file>images/debugger_start.png</file>
+        <file>images/help.png</file>
     </qresource>
 </RCC>
