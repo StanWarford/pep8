@@ -114,6 +114,8 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
 }
 
 QList<QString> Asm::listOfReferencedSymbols;
+QList<int> Asm::listOfReferencedSymbolLineNums;
+
 
 bool Asm::startsWithHexPrefix(QString str)
 {
@@ -207,7 +209,7 @@ int Asm::byteStringLength(QString str)
     return length;
 }
 
-bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorString, int &byteCount, bool &dotEndDetected)
+bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QString &errorString, int &byteCount, bool &dotEndDetected)
 {
     Asm::ELexicalToken token; // Passed to getToken.
     QString tokenString; // Passed to getToken.
@@ -228,8 +230,6 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
     CommentOnly *commentOnly;
     BlankLine *blankLine;
 
-    Pep::memAddrssToAssemblerListing.clear();
-    Pep::symbolTable.clear();
     dotEndDetected = false;
     Asm::ParseState state = Asm::PS_START;
     do {
@@ -445,6 +445,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
                 nonUnaryInstruction->argument = new SymbolRefArgument(tokenString);
                 Asm::listOfReferencedSymbols.append(tokenString);
+                Asm::listOfReferencedSymbolLineNums.append(lineNum);
                 state = Asm::PS_ADDRESSING_MODE;
             }
             else if (token == Asm::LT_STRING_CONSTANT) {
@@ -511,6 +512,7 @@ bool Asm::processSourceLine(QString sourceLine, Code *&code, QString &errorStrin
                 }
                 dotAddress->argument = new SymbolRefArgument(tokenString);
                 Asm::listOfReferencedSymbols.append(tokenString);
+                Asm::listOfReferencedSymbolLineNums.append(lineNum);
                 byteCount += 2;
                 state = Asm::PS_CLOSE;
             }

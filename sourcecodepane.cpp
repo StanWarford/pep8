@@ -25,33 +25,54 @@ bool SourceCodePane::assemble()
     QString errorString;
     QStringList sourceCodeList;
     Code *code;
-    int byteCount = 0;
-    bool dotEndDetected;
     QList<Code *> codeList;
+    int byteCount = 0;
+    int lineNum = 0;
+    bool dotEndDetected = false;
 
     removeErrorMessages();
     Asm::listOfReferencedSymbols.clear();
+    Pep::memAddrssToAssemblerListing.clear();
+    Pep::symbolTable.clear();
     QString sourceCode = m_ui->pepSourceCodeTextEdit->toPlainText();
     sourceCodeList = sourceCode.split('\n');
-    for (int i = 0; i < sourceCodeList.size(); i++) {
-        sourceLine = sourceCodeList[i];
-        if (!Asm::processSourceLine(sourceLine, code, errorString, byteCount, dotEndDetected)) {
-            appendMessageInSourceCodePaneAt(i, errorString, Qt::red);
+    while (lineNum < sourceCodeList.size() && !dotEndDetected) {
+        sourceLine = sourceCodeList[lineNum];
+        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, byteCount, dotEndDetected)) {
+            appendMessageInSourceCodePaneAt(lineNum, errorString, Qt::red);
             return false;
         }
-        if (dotEndDetected) {
-            if (byteCount > 65535) {
-                errorString = ";ERROR: Program to long. Object code will not fit into memory.";
-                appendMessageInSourceCodePaneAt(i, errorString, Qt::red);
-                return false;
-            }
-            qDebug() << "byteCount == " << byteCount;
-            return true;
+        lineNum++;
+    }
+    if (!dotEndDetected) {
+        errorString = ";ERROR: Missing .END sentinel.";
+        appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+        return false;
+    }
+    if (byteCount > 65535) {
+        errorString = ";ERROR: Object code size too large to fit into memory.";
+        appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+        return false;
+    }
+
+//    qDebug() << "====================";
+//    QMapIterator<QString, int> i(Pep::symbolTable);
+//    while (i.hasNext()) {
+//        i.next();
+//        qDebug() << i.key() << ": " << i.value();
+//    }
+//    qDebug() << "====================";
+
+    for (int i = 0; i < Asm::listOfReferencedSymbols.length(); i++) {
+        if (!Pep::symbolTable.contains(Asm::listOfReferencedSymbols[i])) {
+            errorString = ";ERROR: Symbol " + Asm::listOfReferencedSymbols[i] + " is used but not defined.";
+            appendMessageInSourceCodePaneAt(Asm::listOfReferencedSymbolLineNums[i], errorString, Qt::red);
+            return false;
         }
     }
-    errorString = ";ERROR: Missing .END sentinel.";
-    appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
-    return false;
+    qDebug() << "byteCount == " << byteCount;
+    return true;
+
 }
 
 QList<int> SourceCodePane::getObjectCode() { return objectCode; }
