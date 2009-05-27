@@ -356,7 +356,7 @@
            <bool>true</bool>
           </property>
           <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
+           <enum>Qt::DefaultContextMenu</enum>
           </property>
           <property name="url">
            <url>
@@ -366,11 +366,11 @@
          </widget>
          <widget class="QWebView" name="rightHelpWebView">
           <property name="contextMenuPolicy">
-           <enum>Qt::NoContextMenu</enum>
+           <enum>Qt::DefaultContextMenu</enum>
           </property>
           <property name="url">
            <url>
-            <string>qrc::/help/fig0621.cpp.txt</string>
+            <string>about:blank</string>
            </url>
           </property>
          </widget>
@@ -389,6 +389,9 @@
            <width>16777215</width>
            <height>70</height>
           </size>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::DefaultContextMenu</enum>
          </property>
          <property name="url">
           <url>

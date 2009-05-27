@@ -305,6 +305,8 @@ void HelpDialog::on_menuItem_Examples_clicked() {
 
 void HelpDialog::on_menuItem_OperatingSystem_clicked() {
     m_ui->rightHelpWebView->hide();
-    m_ui->leftHelpWebView->load(QUrl("qrc:/help/pep8os.html"));
+//    m_ui->leftHelpWebView->setHtml("<html><body><pre>This is a test</pre><br>This is not a test</body></html>", QUrl("qrc:/"));
+//    m_ui->leftHelpWebView->load(QUrl("/Users/chrisdimpfl/Projects/pep8-1/help/pep8os.html"));
+    m_ui->leftHelpWebView->setUrl(QUrl("qrc:/help/pep8os.html"));
     m_ui->leftHelpWebView->show();
 }

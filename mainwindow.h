@@ -123,6 +123,7 @@ private slots:
     void on_actionHelp_Dot_Commands_triggered();
     void on_actionHelp_Addressing_Modes_triggered();
     void on_actionHelp_Examples_triggered();
+    void on_actionPep_8_Operating_System_triggered();
     void on_actionAbout_Pep8_triggered();
     void on_actionAbout_Qt_triggered();
 

@@ -326,6 +326,12 @@ void MainWindow::on_actionHelp_Examples_triggered()
     helpDialog->on_menuItem_Examples_clicked();
 }
 
+void MainWindow::on_actionPep_8_Operating_System_triggered()
+{
+    helpDialog->show();
+    helpDialog->on_menuItem_OperatingSystem_clicked();
+}
+
 void MainWindow::on_actionAbout_Pep8_triggered()
 {
     helpDialog->show();
