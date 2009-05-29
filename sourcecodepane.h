@@ -43,6 +43,7 @@ public:
     // Post: hasCheckBox is returned.
 
     void removeErrorMessages();
+    void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
 
 private:
     Ui::SourceCodePane *m_ui;
@@ -52,8 +53,6 @@ private:
     QStringList listingTraceList;
     QList<bool> hasCheckBox;
 
-private:
-    void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
 };
 
 #endif // SOURCECODEPANE_H

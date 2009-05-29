@@ -14,6 +14,7 @@ public:
     virtual void appendObjectCode(QList<int> &objectCode) = 0;
 
 private:
+    int memAddress;
     QString symbolDef;
     QString comment;
 };

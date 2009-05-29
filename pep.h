@@ -110,6 +110,12 @@ public:
     static QVector<int> decodeAddrMode;
     static void initDecoderTables();
 
+    // .BURN and the ROM state
+    static int burnCount;
+    static int dotBurnArgument;
+    static int dotBurnByteCount;
+    static int romStartAddress;
+
     // The machine
     static QVector<int> Mem;
     static int nBit, zBit, vBit, cBit;

@@ -593,7 +593,11 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             if (token == Asm::LT_HEX_CONSTANT) {
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
-                dotBurn->argument = new HexArgument(tokenString.toInt(&ok, 16));
+                int value = tokenString.toInt(&ok, 16);
+                dotBurn->argument = new HexArgument(value);
+                Pep::burnCount++;
+                Pep::dotBurnByteCount = byteCount;
+                Pep::dotBurnArgument = value;
                 state = Asm::PS_CLOSE;
             }
             else {
@@ -787,5 +791,6 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
         }
     }
     while (state != Asm::PS_FINISH);
+    code->memAddress = byteCount;
     return true;
 }

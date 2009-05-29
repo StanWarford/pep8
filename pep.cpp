@@ -609,6 +609,12 @@ void Pep::initDecoderTables()
     decodeMnemonic[255] = STBYTEX; decodeAddrMode[255] = SXF;
 }
 
+// .BURN and the ROM state
+int Pep::burnCount;
+int Pep::dotBurnArgument;
+int Pep::dotBurnByteCount;
+int Pep::romStartAddress;
+
 // The machine
 QVector<int> Pep::Mem(65536);
 int Pep::nBit, Pep::zBit, Pep::vBit, Pep::cBit;

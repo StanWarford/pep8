@@ -38,6 +38,7 @@ bool SourceCodePane::assemble()
     }
     QString sourceCode = m_ui->pepSourceCodeTextEdit->toPlainText();
     sourceCodeList = sourceCode.split('\n');
+    Pep::burnCount = 0;
     while (lineNum < sourceCodeList.size() && !dotEndDetected) {
         sourceLine = sourceCodeList[lineNum];
         if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, byteCount, dotEndDetected)) {
@@ -64,7 +65,6 @@ bool SourceCodePane::assemble()
             return false;
         }
     }
-    qDebug() << "byteCount == " << byteCount;
     return true;
 }
 

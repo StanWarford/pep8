@@ -169,11 +169,17 @@ void MainWindow::on_actionEdit_Font_triggered()
 // Build MainWindow triggers
 void MainWindow::on_actionBuild_Assemble_triggered()
 {
+    Pep::burnCount = 0;
     if (sourceCodePane->assemble()) {
+        if (Pep::burnCount > 0) {
+            QString errorString = ";ERROR: .BURN not allowed in program unless installing OS.";
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            ui->statusbar->showMessage("Assembly failed", 4000);
+        }
         ui->statusbar->showMessage("Assembly succeeded", 4000);
         objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-//        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-//        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+        //        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+        //        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
     }
     else {
         ui->statusbar->showMessage("Assembly failed", 4000);
