@@ -43,17 +43,35 @@ public:
     // Pre: lineNum is the line number of the source code.
     // Post: If the source line is valid, true is returned, code is set to the source code for the line,
     // and byteCount is incremented by the number of bytes generated.
-    // Post: dotEndDetected is set to true is .END is processed. Otherwise it is set to false.
+    // Post: dotEndDetected is set to true if .END is processed. Otherwise it is set to false.
     // Post: If the source line is not valid, false is returned and errorString is set to the error message.
 
     static QList<QString> listOfReferencedSymbols;
     static QList<int> listOfReferencedSymbolLineNums;
 
     static bool startsWithHexPrefix(QString str);
+    // Post: Returns true if str starts with the characters 0x or 0X. Otherwise returns false.
+
     static int stringToAddrMode(QString str);
+    // Post: Returns the addressing mode integer defined in Pep from its string representation.
+
     static int charStringToInt(QString str);
-    static int stringArgumentToInt(QString str);
+    // Pre: str is enclosed in single quotes.
+    // Post: Returns the ASCII integer value of the character accounting for \ quoted characters.
+
+    static int string2ArgumentToInt(QString str);
+    // Pre: str is enclosed in double quotes and contains at most two possibly quoted characters.
+    // Post: Returns the two-byte ASCII integer value for the string.
+
+    static void unquotedStringToInt(QString &str, int &value);
+    // Pre: str is a character or string stripped of its single or double quotes.
+    // Post: The sequence of characters representing the first possibly \ quoted character
+    // is stripped from the beginning of str.
+    // Post: value is the ASCII integer value of the first possibly \ quoted character.
+
     static int byteStringLength(QString str);
+    // Pre: str is a double quoted string.
+    // Post: Returns the byte length of str accounting for possibly \ quoted characters.
 
 };
 

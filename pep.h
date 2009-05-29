@@ -64,6 +64,10 @@ public:
     static const int SXF;
     static const int ALL;
 
+    // Functions for computing instruction specifiers
+    static int aaaAddressField(int addressMode);
+    static int aAddressField(int addressMode);
+
     // Instruction mnemonics
     enum EMnemonic
     {

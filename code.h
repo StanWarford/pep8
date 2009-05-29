@@ -11,6 +11,7 @@ class Code
     friend class Asm;
 public:
     virtual ~Code() { }
+    virtual void appendObjectCode(QList<int> &objectCode) = 0;
 
 private:
     QString symbolDef;
@@ -23,6 +24,8 @@ class UnaryInstruction: public Code
     friend class Asm;
 private:
     Pep::EMnemonic mnemonic;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class NonUnaryInstruction: public Code
@@ -30,8 +33,10 @@ class NonUnaryInstruction: public Code
     friend class Asm;
 private:
     Pep::EMnemonic mnemonic;
-    Argument *argument;
     int addressingMode;
+    Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotAddress: public Code
@@ -39,6 +44,8 @@ class DotAddress: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotAscii: public Code
@@ -46,6 +53,8 @@ class DotAscii: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotBlock: public Code
@@ -53,6 +62,8 @@ class DotBlock: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotBurn: public Code
@@ -60,6 +71,8 @@ class DotBurn: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotByte: public Code
@@ -67,6 +80,8 @@ class DotByte: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotEnd: public Code
@@ -74,6 +89,8 @@ class DotEnd: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotEquate: public Code
@@ -81,6 +98,8 @@ class DotEquate: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class DotWord: public Code
@@ -88,16 +107,22 @@ class DotWord: public Code
     friend class Asm;
 private:
     Argument *argument;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class CommentOnly: public Code
 {
     friend class Asm;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 class BlankLine: public Code
 {
     friend class Asm;
+public:
+    void appendObjectCode(QList<int> &objectCode);
 };
 
 #endif // CODE_H

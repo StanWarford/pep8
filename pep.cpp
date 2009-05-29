@@ -54,6 +54,26 @@ const int Pep::SX = 64;
 const int Pep::SXF = 128;
 const int Pep::ALL = 255;
 
+int Pep::aaaAddressField(int addressMode)
+{
+    if (addressMode == Pep::I) return 0;
+    if (addressMode == Pep::D) return 1;
+    if (addressMode == Pep::N) return 2;
+    if (addressMode == Pep::S) return 3;
+    if (addressMode == Pep::SF) return 4;
+    if (addressMode == Pep::X) return 5;
+    if (addressMode == Pep::SX) return 6;
+    if (addressMode == Pep::SXF) return 7;
+    return -1; // Should not occur;
+}
+
+int Pep::aAddressField(int addressMode)
+{
+    if (addressMode == Pep::I) return 0;
+    if (addressMode == Pep::X) return 1;
+    return -1; // Should not occur;
+}
+
 // Maps between mnemonic enums and strings
 QMap<Pep::EMnemonic, QString> Pep::enumToMnemonMap;
 QMap<QString, Pep::EMnemonic> Pep::mnemonToEnumMap;

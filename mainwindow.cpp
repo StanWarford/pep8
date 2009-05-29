@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Middle pane setup
     cpuPane = new CpuPane(ui->middleSplitter);
-    ui->middleSplitter->insertWidget(0, cpuPane); //moves cpu widget to index 0 (above I/O tabs)
+    ui->middleSplitter->insertWidget(0, cpuPane); // Move cpu pane to index 0 (above I/O tabs).
     delete ui->CpuWidgetPane;
     inputPane = new InputPane(ui->batchSplitter);
     delete ui->InputWidgetPane;
@@ -39,8 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Adjust initial configuration
     ui->horizontalSplitter->widget(2)->hide();
-    ui->horizontalSplitter->widget(0)->resize(QSize(500,1));
-    ui->middleSplitter->widget(1)->resize(QSize(1, 400));
+    ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
+    ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
+    ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
 
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
@@ -171,8 +172,8 @@ void MainWindow::on_actionBuild_Assemble_triggered()
     if (sourceCodePane->assemble()) {
         ui->statusbar->showMessage("Assembly succeeded", 4000);
         objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+//        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+//        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
     }
     else {
         ui->statusbar->showMessage("Assembly failed", 4000);

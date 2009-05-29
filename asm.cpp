@@ -144,48 +144,69 @@ int Asm::charStringToInt(QString str)
 {
     str.remove(0, 1); // Remove the leftmost single quote.
     str.chop(1); // Remove the rightmost single quote.
-    if (str.length() == 4) {
-        str.remove(0, 2); // Remove the leading "\x" or "\X"
-        bool ok;
-        return str.toInt(&ok, 16);
-    }
-    if (str.length() == 2) {
-        str.remove(0, 1); // Remove the leading "\"
-        if (str[0] == 'b') return 8; // backspace
-        if (str[0] == 'f') return 12; // form feed
-        if (str[0] == 'n') return 10; // line feed (new line)
-        if (str[0] == 'r') return 13; // carriage return
-        if (str[0] == 't') return 9; // horizontal tab
-        if (str[0] == 'v') return 11; // vertical tab
-        return QChar(str[0]).toAscii();
-    }
-    // str.length() == 1, and the string contains a single character.
-    return QChar(str[0]).toAscii();
+    int value;
+    Asm::unquotedStringToInt(str, value);
+    return value;
 }
 
-int Asm::stringArgumentToInt(QString str)
-{
-    QString charString1, charString2;
+int Asm::string2ArgumentToInt(QString str) {
+    int valueA, valueB;
     str.remove(0, 1); // Remove the leftmost double quote.
     str.chop(1); // Remove the rightmost double quote.
+    Asm::unquotedStringToInt(str, valueA);
+    if (str.length() == 0) {
+        return valueA;
+    }
+    else {
+        Asm::unquotedStringToInt(str, valueB);
+        valueA = 256 * valueA + valueB;
+        if (valueA < 0) {
+            valueA += 65536; // Stored as two-byte unsigned.
+        }
+        return valueA;
+    }
+}
+
+void Asm::unquotedStringToInt(QString &str, int &value)
+{
+    QString s;
     if (str.startsWith("\\x") || str.startsWith("\\X")) {
-        charString1 = "\'" + str.left(4) + "\'";
-        str.remove(0, 4);
+        str.remove(0, 2); // Remove the leading \x or \X
+        s = str.left(2);
+        str.remove(0, 2); // Get the two-byte hex number
+        bool ok;
+        value = s.toInt(&ok, 16);
     }
     else if (str.startsWith("\\")) {
-        charString1 = "\'" + str.left(2) + "\'";
-        str.remove(0, 4);
+        str.remove(0, 1); // Remove the leading bash
+        s = str.left(1);
+        str.remove(0,1);
+        if (s == "b") { // backspace
+            value = 8;
+        }
+        else if (s == "f") { // form feed
+            value = 12;
+        }
+        else if (s == "n") { // line feed (new line)
+            value = 10;
+        }
+        else if (s == "r") { // carriage return
+            value = 13;
+        }
+        else if (s == "t") { // horizontal tab
+            value = 9;
+        }
+        else if (s == "v") { // vertical tab
+            value = 11;
+        }
+        else {
+            value = QChar(s[0]).toAscii();
+        }
     }
     else {
-        charString1 = "\'" + str.left(1) + "\'";
+        s = str.left(1);
         str.remove(0, 1);
-    }
-    if (str.length() == 0) {
-        return Asm::charStringToInt(charString1);
-    }
-    else {
-        charString2 = "\'" + str + "\'";
-        return 256 * Asm::charStringToInt(charString1) + Asm::charStringToInt(charString2);
+        value = QChar(s[0]).toAscii();
     }
 }
 
@@ -196,7 +217,7 @@ int Asm::byteStringLength(QString str)
     int length = 0;
     while (str.length() > 0) {
         if (str.startsWith("\\x") || str.startsWith("\\X")) {
-            str.remove(0, 4); // Remove the "\xFF"
+            str.remove(0, 4); // Remove the \xFF
         }
         else if (str.startsWith("\\")) {
             str.remove(0, 2); // Remove the quoted character
@@ -241,7 +262,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
         case Asm::PS_START:
             if (token == Asm::LT_IDENTIFIER){
                 if (Pep::mnemonToEnumMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString);
+                    localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString.toUpper());
                     if (Pep::isUnaryMap.value(localEnumMnemonic)) {
                         unaryInstruction = new UnaryInstruction;
                         unaryInstruction->symbolDef = "";
@@ -351,7 +372,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
         case Asm::PS_SYMBOL_DEF:
             if (token == Asm::LT_IDENTIFIER){
                 if (Pep::mnemonToEnumMap.contains(tokenString.toUpper())) {
-                    localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString);
+                    localEnumMnemonic = Pep::mnemonToEnumMap.value(tokenString.toUpper());
                     if (Pep::isUnaryMap.value(localEnumMnemonic)) {
                         unaryInstruction = new UnaryInstruction;
                         unaryInstruction->symbolDef = localSymbolDef;
@@ -466,6 +487,9 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-32768 <= value) && (value <= 65535)) {
+                    if (value < 0) {
+                        value += 65536; // Stored as two-byte unsigned.
+                    }
                     nonUnaryInstruction->argument = new DecArgument(value);
                     state = Asm::PS_ADDRESSING_MODE;
                 }
@@ -538,13 +562,16 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             if (token == Asm::LT_DEC_CONSTANT) {
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
-                if ((1 <= value) && (value <= 65535)) {
+                if ((0 <= value) && (value <= 65535)) {
+                    if (value < 0) {
+                        value += 65536; // value stored as two-byte unsigned.
+                    }
                     dotBlock->argument = new DecArgument(value);
                     byteCount += value;
                     state = Asm::PS_CLOSE;
                 }
                 else {
-                    errorString = ";ERROR: Decimal constant is out of range (1..65535).";
+                    errorString = ";ERROR: Decimal constant is out of range (0..65535).";
                     return false;
                 }
             }
@@ -585,6 +612,9 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-128 <= value) && (value <= 255)) {
+                    if (value < 0) {
+                        value += 256; // value stored as one-byte unsigned.
+                    }
                     dotByte->argument = new DecArgument(value);
                     byteCount += 1;
                     state = Asm::PS_CLOSE;
@@ -647,6 +677,9 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-32768 <= value) && (value <= 65535)) {
+                    if (value < 0) {
+                        value += 65536; // value stored as two-byte unsigned.
+                    }
                     dotEquate->argument = new DecArgument(value);
                     Pep::symbolTable.insert(dotEquate->symbolDef, value);
                     state = Asm::PS_CLOSE;
@@ -670,11 +703,11 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     return false;
                 }
                 dotEquate->argument = new StringArgument(tokenString);
-                Pep::symbolTable.insert(dotEquate->symbolDef, Asm::stringArgumentToInt(tokenString));
+                Pep::symbolTable.insert(dotEquate->symbolDef, Asm::string2ArgumentToInt(tokenString));
                 state = Asm::PS_CLOSE;
             }
             else {
-                errorString = ";ERROR: .EQUATE requires a, dec, hex, or string constant argument.";
+                errorString = ";ERROR: .EQUATE requires a dec, hex, or string constant argument.";
                 return false;
             }
             break;
@@ -689,6 +722,9 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-32768 <= value) && (value <= 65535)) {
+                    if (value < 0) {
+                        value += 65536; // value stored as two-byte unsigned.
+                    }
                     dotWord->argument = new DecArgument(value);
                     byteCount += 2;
                     state = Asm::PS_CLOSE;

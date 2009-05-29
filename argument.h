@@ -53,7 +53,7 @@ private:
     QString stringValue;
 public:
     StringArgument(QString sValue) { stringValue = sValue; }
-    int getArgumentValue() { return Asm::stringArgumentToInt(stringValue); }
+    int getArgumentValue() { return Asm::string2ArgumentToInt(stringValue); }
     QString getArgumentString() { return stringValue; }
 };
 
