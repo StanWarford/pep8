@@ -79,16 +79,23 @@ QList<int> SourceCodePane::getObjectCode()
 
 QStringList SourceCodePane::getAssemblerListingList()
 {
-    // Compute assemblerListingList
+    assemblerListingList.clear();
+    listingTraceList.clear();
+    hasCheckBox.clear();
+    // Prepend heading to assemblerListingList
+    for (int i = 0; i < codeList.length(); i++) {
+        codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox);
+    }
+    // Append trace table to assemblerListingList
     return assemblerListingList;
 
-//    qDebug() << "====================";
-//    QMapIterator<QString, int> i(Pep::symbolTable);
-//    while (i.hasNext()) {
-//        i.next();
-//        qDebug() << i.key() << ": " << i.value();
-//    }
-//    qDebug() << "====================";
+    //    qDebug() << "====================";
+    //    QMapIterator<QString, int> i(Pep::symbolTable);
+    //    while (i.hasNext()) {
+    //        i.next();
+    //        qDebug() << i.key() << ": " << i.value();
+    //    }
+    //    qDebug() << "====================";
 
 }
 

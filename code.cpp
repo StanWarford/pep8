@@ -3,6 +3,7 @@
 #include "code.h"
 #include "argument.h"
 
+// appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
 {
     objectCode.append(Pep::opCodeMap.value(mnemonic));
@@ -84,4 +85,68 @@ void CommentOnly::appendObjectCode(QList<int> &)
 void BlankLine::appendObjectCode(QList<int> &)
 {
     // Does not generate code.
+}
+
+void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotAddress::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotEnd::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+
+}
+
+void CommentOnly::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+    assemblerListingList.append(comment);
+    listingTraceList.append(comment);
+    hasCheckBox.append(false);
+}
+
+void BlankLine::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+{
+    assemblerListingList.append("");
+    listingTraceList.append("");
+    hasCheckBox.append(false);
 }

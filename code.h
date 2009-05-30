@@ -12,8 +12,9 @@ class Code
 public:
     virtual ~Code() { }
     virtual void appendObjectCode(QList<int> &objectCode) = 0;
+    virtual void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox) = 0;
 
-private:
+protected:
     int memAddress;
     QString symbolDef;
     QString comment;
@@ -27,6 +28,7 @@ private:
     Pep::EMnemonic mnemonic;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class NonUnaryInstruction: public Code
@@ -38,6 +40,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotAddress: public Code
@@ -47,6 +50,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotAscii: public Code
@@ -56,6 +60,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotBlock: public Code
@@ -65,6 +70,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotBurn: public Code
@@ -74,6 +80,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotByte: public Code
@@ -83,6 +90,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotEnd: public Code
@@ -92,6 +100,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotEquate: public Code
@@ -101,6 +110,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotWord: public Code
@@ -110,6 +120,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class CommentOnly: public Code
@@ -117,6 +128,7 @@ class CommentOnly: public Code
     friend class Asm;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class BlankLine: public Code
@@ -124,6 +136,7 @@ class BlankLine: public Code
     friend class Asm;
 public:
     void appendObjectCode(QList<int> &objectCode);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 #endif // CODE_H
