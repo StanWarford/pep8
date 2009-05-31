@@ -35,6 +35,10 @@ public:
    void on_menuItem_AddressingModes_clicked();
    void on_menuItem_Examples_clicked();
    void on_menuItem_OperatingSystem_clicked();
+   QString getLeftTextEditText();
+
+signals:
+   void clicked();
 };
 
 #endif // HELPDIALOG_H

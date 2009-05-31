@@ -43,7 +43,12 @@ public:
     // Post: hasCheckBox is returned.
 
     void removeErrorMessages();
+    //
     void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
+    //
+    void setSourceCodePaneText(QString string);
+    // Post: Sets text in source code pane to string.
+    // Called from help dialog by helpCopyToSourceButton clicked.
 
 private:
     Ui::SourceCodePane *m_ui;

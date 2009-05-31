@@ -5,56 +5,6 @@
         <file>help/assemblylanguage.html</file>
         <file>help/images/traceprogram.png</file>
         <file>help/debuggingprograms.html</file>
-        <file>help/figures/fig0518.cpp.html</file>
-        <file>help/figures/fig0518.pep.html</file>
-        <file>help/figures/fig0521.cpp.html</file>
-        <file>help/figures/fig0521.pep.html</file>
-        <file>help/figures/fig0526.cpp.html</file>
-        <file>help/figures/fig0526.pep.html</file>
-        <file>help/figures/fig0601.pep.html</file>
-        <file>help/figures/fig0604.cpp.html</file>
-        <file>help/figures/fig0604.pep.html</file>
-        <file>help/figures/fig0606.cpp.html</file>
-        <file>help/figures/fig0606.pep.html</file>
-        <file>help/figures/fig0608.cpp.html</file>
-        <file>help/figures/fig0608.pep.html</file>
-        <file>help/figures/fig0610.cpp.html</file>
-        <file>help/figures/fig0610.pep.html</file>
-        <file>help/figures/fig0612.cpp.html</file>
-        <file>help/figures/fig0612.pep.html</file>
-        <file>help/figures/fig0614.cpp.html</file>
-        <file>help/figures/fig0614.pep.html</file>
-        <file>help/figures/fig0616.pep.html</file>
-        <file>help/figures/fig0618.cpp.html</file>
-        <file>help/figures/fig0618.pep.html</file>
-        <file>help/figures/fig0621.cpp.html</file>
-        <file>help/figures/fig0621.pep.html</file>
-        <file>help/figures/fig0623.cpp.html</file>
-        <file>help/figures/fig0623.pep.html</file>
-        <file>help/figures/fig0625.cpp.html</file>
-        <file>help/figures/fig0625.pep.html</file>
-        <file>help/figures/fig0627.cpp.html</file>
-        <file>help/figures/fig0627.pep.html</file>
-        <file>help/figures/fig0629.cpp.html</file>
-        <file>help/figures/fig0629.pep.html</file>
-        <file>help/figures/fig0632.cpp.html</file>
-        <file>help/figures/fig0632.pep.html</file>
-        <file>help/figures/fig0634.cpp.html</file>
-        <file>help/figures/fig0634.pep.html</file>
-        <file>help/figures/fig0636.cpp.html</file>
-        <file>help/figures/fig0636.pep.html</file>
-        <file>help/figures/fig0638.cpp.html</file>
-        <file>help/figures/fig0638.pep.html</file>
-        <file>help/figures/fig0640.cpp.html</file>
-        <file>help/figures/fig0640.pep.html</file>
-        <file>help/figures/fig0641.cpp.html</file>
-        <file>help/figures/fig0641.pep.html</file>
-        <file>help/figures/fig0643.cpp.html</file>
-        <file>help/figures/fig0643.pep.html</file>
-        <file>help/figures/fig0645.cpp.html</file>
-        <file>help/figures/fig0645.pep.html</file>
-        <file>help/figures/fig0647.cpp.html</file>
-        <file>help/figures/fig0647.pep.html</file>
         <file>help/addressingmodes.html</file>
         <file>help/breakpoints.html</file>
         <file>help/byteconverter.html</file>
@@ -65,6 +15,56 @@
         <file>help/pep8os.html</file>
         <file>help/pep8reference.html</file>
         <file>help/symbolictrace.html</file>
-        <file>help/figures/pep8os.pep.html</file>
+        <file>help/figures/fig0518.cpp</file>
+        <file>help/figures/fig0518.pep</file>
+        <file>help/figures/fig0521.cpp</file>
+        <file>help/figures/fig0521.pep</file>
+        <file>help/figures/fig0526.cpp</file>
+        <file>help/figures/fig0526.pep</file>
+        <file>help/figures/fig0601.pep</file>
+        <file>help/figures/fig0604.cpp</file>
+        <file>help/figures/fig0604.pep</file>
+        <file>help/figures/fig0606.cpp</file>
+        <file>help/figures/fig0606.pep</file>
+        <file>help/figures/fig0608.cpp</file>
+        <file>help/figures/fig0608.pep</file>
+        <file>help/figures/fig0610.cpp</file>
+        <file>help/figures/fig0610.pep</file>
+        <file>help/figures/fig0612.cpp</file>
+        <file>help/figures/fig0612.pep</file>
+        <file>help/figures/fig0614.cpp</file>
+        <file>help/figures/fig0614.pep</file>
+        <file>help/figures/fig0616.pep</file>
+        <file>help/figures/fig0618.cpp</file>
+        <file>help/figures/fig0618.pep</file>
+        <file>help/figures/fig0621.cpp</file>
+        <file>help/figures/fig0621.pep</file>
+        <file>help/figures/fig0623.cpp</file>
+        <file>help/figures/fig0623.pep</file>
+        <file>help/figures/fig0625.cpp</file>
+        <file>help/figures/fig0625.pep</file>
+        <file>help/figures/fig0627.cpp</file>
+        <file>help/figures/fig0627.pep</file>
+        <file>help/figures/fig0629.cpp</file>
+        <file>help/figures/fig0629.pep</file>
+        <file>help/figures/fig0632.cpp</file>
+        <file>help/figures/fig0632.pep</file>
+        <file>help/figures/fig0634.cpp</file>
+        <file>help/figures/fig0634.pep</file>
+        <file>help/figures/fig0636.cpp</file>
+        <file>help/figures/fig0636.pep</file>
+        <file>help/figures/fig0638.cpp</file>
+        <file>help/figures/fig0638.pep</file>
+        <file>help/figures/fig0640.cpp</file>
+        <file>help/figures/fig0640.pep</file>
+        <file>help/figures/fig0641.cpp</file>
+        <file>help/figures/fig0641.pep</file>
+        <file>help/figures/fig0643.cpp</file>
+        <file>help/figures/fig0643.pep</file>
+        <file>help/figures/fig0645.cpp</file>
+        <file>help/figures/fig0645.pep</file>
+        <file>help/figures/fig0647.cpp</file>
+        <file>help/figures/fig0647.pep</file>
+        <file>help/figures/pep8os.pep</file>
     </qresource>
 </RCC>

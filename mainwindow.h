@@ -127,6 +127,8 @@ private slots:
     void on_actionAbout_Pep8_triggered();
     void on_actionAbout_Qt_triggered();
 
+    void on_helpCopyToSourceButton_clicked();
+
     // Byte converter
     void slotByteConverterDecEdited(const QString &);
     void slotByteConverterHexEdited(const QString &);
@@ -150,7 +152,6 @@ private slots:
     void slotSaveTraceTraps(int);
     void slotSaveTraceLoader(int);
 */
-
 
 };
 

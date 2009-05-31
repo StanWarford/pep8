@@ -17,5 +17,6 @@
         <file>images/run.png</file>
         <file>images/debugger_start.png</file>
         <file>images/help.png</file>
+        <file>pep8os.pep</file>
     </qresource>
 </RCC>

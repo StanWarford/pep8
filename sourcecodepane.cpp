@@ -110,20 +110,6 @@ QList<bool> SourceCodePane::getHasCheckBox()
     return hasCheckBox;
 }
 
-void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color)
-{
-    QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document());
-    cursor.setPosition(0);
-    for (int i = 0; i < lineNumber; i++) {
-        cursor.movePosition(QTextCursor::NextBlock);
-    }
-    cursor.movePosition(QTextCursor::EndOfLine);
-    m_ui->pepSourceCodeTextEdit->setTextCursor(cursor);
-    m_ui->pepSourceCodeTextEdit->setTextColor(color);
-    m_ui->pepSourceCodeTextEdit->textCursor().insertText(message);
-    m_ui->pepSourceCodeTextEdit->setTextColor(Qt::black);
-}
-
 void SourceCodePane::removeErrorMessages()
 {
     QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document()->find(";ERROR:"));
@@ -138,4 +124,22 @@ void SourceCodePane::removeErrorMessages()
         cursor.removeSelectedText();
         cursor = m_ui->pepSourceCodeTextEdit->document()->find(";WARNING:", cursor);
     }
+}
+
+void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color)
+{
+    QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < lineNumber; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+    cursor.movePosition(QTextCursor::EndOfLine);
+    m_ui->pepSourceCodeTextEdit->setTextCursor(cursor);
+    m_ui->pepSourceCodeTextEdit->setTextColor(color);
+    m_ui->pepSourceCodeTextEdit->textCursor().insertText(message);
+    m_ui->pepSourceCodeTextEdit->setTextColor(Qt::black);
+}
+
+void SourceCodePane::setSourceCodePaneText(QString string) {
+    m_ui->pepSourceCodeTextEdit->setText(string);
 }
