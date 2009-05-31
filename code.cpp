@@ -100,8 +100,8 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
                       .arg(memStr, -6, QLatin1Char(' '))
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
-                      .arg(mnemonStr, -9, QLatin1Char(' '))
-                      .arg(comment);
+                      .arg(mnemonStr, -8, QLatin1Char(' '))
+                      .arg("              " + comment);
     assemblerListingList.append(lineStr);
 //    protected:
 //    int memAddress;
@@ -125,13 +125,13 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     }
     QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
     QString oprndStr = argument->getArgumentString();
-    QString lineStr = QString("%1%2%3%4%5%6")
+    QString lineStr = QString("%1%2%3%4%5%6%7")
                       .arg(memStr, -6, QLatin1Char(' '))
                       .arg(codeStr, -2)
                       .arg(oprndNumStr, -5, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
-                      .arg(mnemonStr, -9, QLatin1Char(' '))
-                      .arg(oprndStr, -8)
+                      .arg(mnemonStr, -8, QLatin1Char(' '))
+                      .arg(oprndStr, -14)
                       .arg(comment);
     assemblerListingList.append(lineStr);
 }
@@ -178,8 +178,8 @@ void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &l
 
 void CommentOnly::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-    assemblerListingList.append("      " + comment);
-    listingTraceList.append("      " + comment);
+    assemblerListingList.append("             " + comment);
+    listingTraceList.append("             " + comment);
     hasCheckBox.append(false);
 }
 
