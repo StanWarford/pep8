@@ -52,6 +52,7 @@
          <bold>false</bold>
          <underline>false</underline>
          <strikeout>false</strikeout>
+         <kerning>false</kerning>
         </font>
        </property>
        <property name="lineWrapMode">

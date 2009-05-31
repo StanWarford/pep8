@@ -42,7 +42,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="assemblerListingTextEdit"/>
+      <widget class="QTextEdit" name="assemblerListingTextEdit">
+       <property name="font">
+        <font>
+         <family>Courier</family>
+         <kerning>false</kerning>
+        </font>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

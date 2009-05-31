@@ -89,12 +89,51 @@ void BlankLine::appendObjectCode(QList<int> &)
 
 void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
+    QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
+    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();
+    QString symbolStr = symbolDef;
+    if (symbolStr.length() > 0) {
+        symbolStr.append(":");
+    }
+    QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
+    QString lineStr = QString("%1%2%3%4%5")
+                      .arg(memStr, -6, QLatin1Char(' '))
+                      .arg(codeStr, -7, QLatin1Char(' '))
+                      .arg(symbolStr, -9, QLatin1Char(' '))
+                      .arg(mnemonStr, -9, QLatin1Char(' '))
+                      .arg(comment);
+    assemblerListingList.append(lineStr);
+//    protected:
+//    int memAddress;
+//    QString symbolDef;
+//    QString comment;
+//
+//    assemblerListingList.append(comment);
+//    listingTraceList.append(comment);
+//    hasCheckBox.append(false);
 
 }
 
 void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-
+    QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
+    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16).toUpper();
+    QString oprndNumStr = QString("%1").arg(argument->getArgumentValue(), 4, 16, QLatin1Char('0')).toUpper();
+    QString symbolStr = symbolDef;
+    if (symbolStr.length() > 0) {
+        symbolStr.append(":");
+    }
+    QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
+    QString oprndStr = argument->getArgumentString();
+    QString lineStr = QString("%1%2%3%4%5%6")
+                      .arg(memStr, -6, QLatin1Char(' '))
+                      .arg(codeStr, -2)
+                      .arg(oprndNumStr, -5, QLatin1Char(' '))
+                      .arg(symbolStr, -9, QLatin1Char(' '))
+                      .arg(mnemonStr, -9, QLatin1Char(' '))
+                      .arg(oprndStr, -8)
+                      .arg(comment);
+    assemblerListingList.append(lineStr);
 }
 
 void DotAddress::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
@@ -139,8 +178,8 @@ void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &l
 
 void CommentOnly::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-    assemblerListingList.append(comment);
-    listingTraceList.append(comment);
+    assemblerListingList.append("      " + comment);
+    listingTraceList.append("      " + comment);
     hasCheckBox.append(false);
 }
 
