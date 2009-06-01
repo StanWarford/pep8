@@ -74,6 +74,18 @@ int Pep::aAddressField(int addressMode)
     return -1; // Should not occur;
 }
 
+QString Pep::commaPrefixedMode(int addressMode) {
+    if (addressMode == Pep::I) return ",i";
+    if (addressMode == Pep::D) return ",d";
+    if (addressMode == Pep::N) return ",n";
+    if (addressMode == Pep::S) return ",s";
+    if (addressMode == Pep::SF) return ",sf";
+    if (addressMode == Pep::X) return ",x";
+    if (addressMode == Pep::SX) return ",sx";
+    if (addressMode == Pep::SXF) return ",sxf";
+    return ""; // Should not occur;
+}
+
 // Maps between mnemonic enums and strings
 QMap<Pep::EMnemonic, QString> Pep::enumToMnemonMap;
 QMap<QString, Pep::EMnemonic> Pep::mnemonToEnumMap;

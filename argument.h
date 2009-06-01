@@ -34,7 +34,10 @@ private:
 public:
     DecArgument(int dValue) { decValue = dValue; }
     int getArgumentValue() { return decValue; }
-    QString getArgumentString() { return QString("%1").arg(decValue); }
+    QString getArgumentString() {
+        int temp = decValue >= 32768 ? decValue - 65536 : decValue;
+        return QString("%1").arg(temp);
+    }
 };
 
 class HexArgument: public Argument

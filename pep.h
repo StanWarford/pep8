@@ -67,6 +67,7 @@ public:
     // Functions for computing instruction specifiers
     static int aaaAddressField(int addressMode);
     static int aAddressField(int addressMode);
+    static QString commaPrefixedMode(int addressMode);
 
     // Instruction mnemonics
     enum EMnemonic

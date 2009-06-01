@@ -117,7 +117,9 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
 void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
-    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16).toUpper();
+    int temp = Pep::opCodeMap.value(mnemonic);
+    temp += Pep::addrModeRequiredMap.value(mnemonic) ? Pep::aaaAddressField(addressingMode) : Pep::aAddressField(addressingMode);
+    QString codeStr = QString("%1").arg(temp, 2, 16, QLatin1Char('0')).toUpper();
     QString oprndNumStr = QString("%1").arg(argument->getArgumentValue(), 4, 16, QLatin1Char('0')).toUpper();
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
@@ -125,6 +127,9 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     }
     QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
     QString oprndStr = argument->getArgumentString();
+    if (Pep::addrModeRequiredMap.value(mnemonic)) {
+        oprndStr.append(Pep::commaPrefixedMode(addressingMode));
+    }
     QString lineStr = QString("%1%2%3%4%5%6%7")
                       .arg(memStr, -6, QLatin1Char(' '))
                       .arg(codeStr, -2)
@@ -138,7 +143,7 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
 
 void DotAddress::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-
+    QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
 }
 
 void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
