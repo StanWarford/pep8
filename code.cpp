@@ -24,11 +24,11 @@ void NonUnaryInstruction::appendObjectCode(QList<int> &objectCode)
     objectCode.append(operandSpecifier % 256);
 }
 
-void DotAddress::appendObjectCode(QList<int> &objectCode)
+void DotAddrss::appendObjectCode(QList<int> &objectCode)
 {
-    int operandSpecifier = Pep::symbolTable.value(argument->getArgumentString());
-    objectCode.append(operandSpecifier / 256);
-    objectCode.append(operandSpecifier % 256);
+    int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
+    objectCode.append(symbolValue / 256);
+    objectCode.append(symbolValue % 256);
 }
 
 void DotAscii::appendObjectCode(QList<int> &objectCode)
@@ -103,14 +103,14 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
                       .arg(mnemonStr, -8, QLatin1Char(' '))
                       .arg("              " + comment);
     assemblerListingList.append(lineStr);
-//    protected:
-//    int memAddress;
-//    QString symbolDef;
-//    QString comment;
-//
-//    assemblerListingList.append(comment);
-//    listingTraceList.append(comment);
-//    hasCheckBox.append(false);
+    //    protected:
+    //    int memAddress;
+    //    QString symbolDef;
+    //    QString comment;
+    //
+    //    assemblerListingList.append(comment);
+    //    listingTraceList.append(comment);
+    //    hasCheckBox.append(false);
 
 }
 
@@ -141,14 +141,62 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     assemblerListingList.append(lineStr);
 }
 
-void DotAddress::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
+void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
+    int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
+    QString codeStr = QString("%1").arg(symbolValue, 4, 16, QLatin1Char('0')).toUpper();
+    QString symbolStr = symbolDef;
+    if (symbolStr.length() > 0) {
+        symbolStr.append(":");
+    }
+    QString dotStr = ".ADDRSS";
+    QString oprndStr = argument->getArgumentString();
+    QString lineStr = QString("%1%2%3%4%5%6")
+                      .arg(memStr, -6, QLatin1Char(' '))
+                      .arg(codeStr, -7, QLatin1Char(' '))
+                      .arg(symbolStr, -9, QLatin1Char(' '))
+                      .arg(dotStr, -8, QLatin1Char(' '))
+                      .arg(oprndStr, -14)
+                      .arg(comment);
+    assemblerListingList.append(lineStr);
 }
 
 void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-
+    QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
+    QString str = argument->getArgumentString();
+    str.remove(0, 1); // Remove the leftmost double quote.
+    str.chop(1); // Remove the rightmost double quote.
+    int value;
+    QString codeStr = "";
+    while ((str.length() > 0) && (codeStr.length() < 6)) {
+        Asm::unquotedStringToInt(str, value);
+        codeStr.append(QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+    }
+    QString symbolStr = symbolDef;
+    if (symbolStr.length() > 0) {
+        symbolStr.append(":");
+    }
+    QString dotStr = ".ASCII";
+    QString oprndStr = argument->getArgumentString();
+    QString lineStr = QString("%1%2%3%4%5%6")
+                      .arg(memStr, -6, QLatin1Char(' '))
+                      .arg(codeStr, -7, QLatin1Char(' '))
+                      .arg(symbolStr, -9, QLatin1Char(' '))
+                      .arg(dotStr, -8, QLatin1Char(' '))
+                      .arg(oprndStr, -14)
+                      .arg(comment);
+    assemblerListingList.append(lineStr);
+    while (str.length() > 0) {
+        codeStr = "";
+        while ((str.length() > 0) && (codeStr.length() < 6)) {
+            Asm::unquotedStringToInt(str, value);
+            codeStr.append(QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+        }
+        lineStr = QString("      %1").arg(codeStr, -7, QLatin1Char(' '));
+        assemblerListingList.append(lineStr);
+    }
 }
 
 void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)

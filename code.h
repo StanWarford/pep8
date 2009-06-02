@@ -43,7 +43,7 @@ public:
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
-class DotAddress: public Code
+class DotAddrss: public Code
 {
     friend class Asm;
 private:

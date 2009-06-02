@@ -240,7 +240,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
     // The concrete code objects asssigned to code.
     UnaryInstruction *unaryInstruction;
     NonUnaryInstruction *nonUnaryInstruction;
-    DotAddress *dotAddress;
+    DotAddrss *dotAddrss;
     DotAscii *dotAscii;
     DotBlock *dotBlock;
     DotBurn *dotBurn;
@@ -268,6 +268,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                         unaryInstruction->symbolDef = "";
                         unaryInstruction->mnemonic = localEnumMnemonic;
                         code = unaryInstruction;
+                        code->memAddress = byteCount;
                         byteCount += 1; // One byte generated for unary instruction.
                         state = Asm::PS_CLOSE;
                     }
@@ -276,6 +277,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                         nonUnaryInstruction->symbolDef = "";
                         nonUnaryInstruction->mnemonic = localEnumMnemonic;
                         code = nonUnaryInstruction;
+                        code->memAddress = byteCount;
                         byteCount += 3; // Three bytes generated for unary instruction.
                         state = Asm::PS_INSTRUCTION;
                     }
@@ -289,39 +291,45 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 1); // Remove the period
                 tokenString = tokenString.toUpper();
                 if (tokenString == "ADDRSS") {
-                    dotAddress = new DotAddress;
-                    dotAddress->symbolDef = "";
-                    code = dotAddress;
+                    dotAddrss = new DotAddrss;
+                    dotAddrss->symbolDef = "";
+                    code = dotAddrss;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_ADDRSS;
                 }
                 else if (tokenString == "ASCII") {
                     dotAscii = new DotAscii;
                     dotAscii->symbolDef = "";
                     code = dotAscii;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_ASCII;
                 }
                 else if (tokenString == "BLOCK") {
                     dotBlock = new DotBlock;
                     dotBlock->symbolDef = "";
                     code = dotBlock;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BLOCK;
                 }
                 else if (tokenString == "BURN") {
                     dotBurn = new DotBurn;
                     dotBurn->symbolDef = "";
                     code = dotBurn;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BURN;
                 }
                 else if (tokenString == "BYTE") {
                     dotByte = new DotByte;
                     dotByte->symbolDef = "";
                     code = dotByte;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BYTE;
                 }
                 else if (tokenString == "END") {
                     dotEnd = new DotEnd;
                     dotEnd->symbolDef = "";
                     code = dotEnd;
+                    code->memAddress = byteCount;
                     dotEndDetected = true;
                     state = Asm::PS_DOT_END;
                 }
@@ -329,12 +337,14 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     dotEquate = new DotEquate;
                     dotEquate->symbolDef = "";
                     code = dotEquate;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_EQUATE;
                 }
                 else if (tokenString == "WORD") {
                     dotWord = new DotWord;
                     dotWord->symbolDef = "";
                     code = dotWord;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_WORD;
                 }
                 else {
@@ -356,11 +366,13 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 commentOnly = new CommentOnly;
                 commentOnly->comment = tokenString;
                 code = commentOnly;
+                code->memAddress = byteCount;
                 state = Asm::PS_COMMENT;
             }
             else if (token == Asm::LT_EMPTY) {
                 blankLine = new BlankLine;
                 code = blankLine;
+                code->memAddress = byteCount;
                 state = Asm::PS_FINISH;
             }
             else {
@@ -378,6 +390,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                         unaryInstruction->symbolDef = localSymbolDef;
                         unaryInstruction->mnemonic = localEnumMnemonic;
                         code = unaryInstruction;
+                        code->memAddress = byteCount;
                         byteCount += 1; // One byte generated for unary instruction.
                         state = Asm::PS_CLOSE;
                     }
@@ -386,6 +399,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                         nonUnaryInstruction->symbolDef = localSymbolDef;
                         nonUnaryInstruction->mnemonic = localEnumMnemonic;
                         code = nonUnaryInstruction;
+                        code->memAddress = byteCount;
                         byteCount += 3; // Three bytes generated for unary instruction.
                         state = Asm::PS_INSTRUCTION;
                     }
@@ -399,39 +413,45 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 1); // Remove the period
                 tokenString = tokenString.toUpper();
                 if (tokenString == "ADDRSS") {
-                    dotAddress = new DotAddress;
-                    dotAddress->symbolDef = localSymbolDef;
-                    code = dotAddress;
+                    dotAddrss = new DotAddrss;
+                    dotAddrss->symbolDef = localSymbolDef;
+                    code = dotAddrss;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_ADDRSS;
                 }
                 else if (tokenString == "ASCII") {
                     dotAscii = new DotAscii;
                     dotAscii->symbolDef = localSymbolDef;
                     code = dotAscii;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_ASCII;
                 }
                 else if (tokenString == "BLOCK") {
                     dotBlock = new DotBlock;
                     dotBlock->symbolDef = localSymbolDef;
                     code = dotBlock;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BLOCK;
                 }
                 else if (tokenString == "BURN") {
                     dotBurn = new DotBurn;
                     dotBurn->symbolDef = localSymbolDef;
                     code = dotBurn;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BURN;
                 }
                 else if (tokenString == "BYTE") {
                     dotByte = new DotByte;
                     dotByte->symbolDef = localSymbolDef;
                     code = dotByte;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_BYTE;
                 }
                 else if (tokenString == "END") {
                     dotEnd = new DotEnd;
                     dotEnd->symbolDef = localSymbolDef;
                     code = dotEnd;
+                    code->memAddress = byteCount;
                     dotEndDetected = true;
                     state = Asm::PS_DOT_END;
                 }
@@ -439,12 +459,14 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     dotEquate = new DotEquate;
                     dotEquate->symbolDef = localSymbolDef;
                     code = dotEquate;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_EQUATE;
                 }
                 else if (tokenString == "WORD") {
                     dotWord = new DotWord;
                     dotWord->symbolDef = localSymbolDef;
                     code = dotWord;
+                    code->memAddress = byteCount;
                     state = Asm::PS_DOT_WORD;
                 }
                 else {
@@ -534,7 +556,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     errorString = ";ERROR: Symbol " + tokenString + " cannot have more than eight characters.";
                     return false;
                 }
-                dotAddress->argument = new SymbolRefArgument(tokenString);
+                dotAddrss->argument = new SymbolRefArgument(tokenString);
                 Asm::listOfReferencedSymbols.append(tokenString);
                 Asm::listOfReferencedSymbolLineNums.append(lineNum);
                 byteCount += 2;
@@ -791,6 +813,5 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
         }
     }
     while (state != Asm::PS_FINISH);
-    code->memAddress = byteCount;
     return true;
 }
