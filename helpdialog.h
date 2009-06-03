@@ -38,8 +38,6 @@ public:
    void on_menuItem_Examples_clicked();
    void on_menuItem_OperatingSystem_clicked();
    QString getLeftTextEditText();
-   QString getHelpExplText();
-
 
 signals:
    void clicked();
