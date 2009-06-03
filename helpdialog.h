@@ -19,24 +19,23 @@ public:
 private:
     Ui::HelpDialog *m_ui;
 
-    void helpHierarchy();
+    void selectItem(QString string);
 
 private slots:
-   void on_itemClicked(QTreeWidgetItem*,int);
    void on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
 public:
-   void on_menuItem_MachineLanguage_clicked();
-   void on_menuItem_AssemblyLanguage_clicked();
-   void on_menuItem_BreakPoints_clicked();
-   void on_menuItem_SymbolicTrace_clicked();
-   void on_menuItem_ByteConverter_clicked();
-   void on_menuItem_InterruptHandlers_clicked();
-   void on_menuItem_InstructionSet_clicked();
-   void on_menuItem_DotCommands_clicked();
-   void on_menuItem_AddressingModes_clicked();
-   void on_menuItem_Examples_clicked();
-   void on_menuItem_OperatingSystem_clicked();
+   void machineLanguageClicked();
+   void assemblyLanguageClicked();
+   void breakPointsClicked();
+   void symbolicTraceClicked();
+   void byteConverterClicked();
+   void interruptHandlersClicked();
+   void instructionSetClicked();
+   void dotCommandsClicked();
+   void addressingModesClicked();
+   void examplesClicked();
+   void operatingSystemClicked();
    QString getLeftTextEditText();
 
 signals:

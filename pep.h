@@ -69,6 +69,9 @@ public:
     static int aAddressField(int addressMode);
     static QString commaPrefixedMode(int addressMode);
 
+    // Function to read text from a resource file
+    static QString resToString(QString fileName);
+
     // Instruction mnemonics
     enum EMnemonic
     {

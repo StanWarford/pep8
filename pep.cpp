@@ -1,3 +1,6 @@
+#include <QFile>
+#include <QTextStream>
+
 #include "pep.h"
 
 // Default redefine mnemonics
@@ -84,6 +87,19 @@ QString Pep::commaPrefixedMode(int addressMode) {
     if (addressMode == Pep::SX) return ",sx";
     if (addressMode == Pep::SXF) return ",sxf";
     return ""; // Should not occur;
+}
+
+// Function to read text from a resource file
+QString Pep::resToString(QString fileName) {
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&file);
+    QString inString = "";
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        inString.append(line + "\n");
+    }
+    return inString;
 }
 
 // Maps between mnemonic enums and strings

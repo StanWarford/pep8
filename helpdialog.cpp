@@ -1,13 +1,8 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
+#include "pep.h"
 
 #include <QDebug>
-#include <QFile>
-
-// For the help tree widget:
-bool helpSubCat = false;       // Is this a subcategory?
-int helpParentRow = 0;     // Parent row (if it has a parent, -1 else)
-int helpRow = 0;           // Row (if it has a parent, this is the child row)
 
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),
@@ -15,9 +10,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    // Connects itemClicked signal to the help tree widget
-    QObject::connect(m_ui->helpTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(on_itemClicked(QTreeWidgetItem*,int)));
-    // Forward signal to the on_currentItemChanged slot, which calls on_itemClicked (due to the differences in the parameter list);
+    // Forward signal to the on_currentItemChanged slot
     QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     // Forward the helpCopyToSourceButton_clicked() signal from this to the main window
     QObject::connect(m_ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
@@ -29,18 +22,6 @@ HelpDialog::HelpDialog(QWidget *parent) :
 HelpDialog::~HelpDialog()
 {
     delete m_ui;
-}
-
-QString resToString(QString fileName) {
-    QFile file(fileName);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream in(&file);
-    QString inString = "";
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        inString.append(line + "\n");
-    }
-    return inString;
 }
 
 enum Row {
@@ -91,280 +72,265 @@ enum Row {
 
 };
 
-void HelpDialog::on_currentItemChanged(QTreeWidgetItem* item,QTreeWidgetItem*) {
-    this->on_itemClicked(item,0);
+void HelpDialog::selectItem(QString string) {
+    QTreeWidgetItemIterator it(m_ui->helpTreeWidget);
+    while (*it) {
+        if ((*it)->text(0) == string) {
+            (*it)->setSelected(true);
+            m_ui->helpTreeWidget->setCurrentItem((*it));
+        } else {
+            (*it)->setSelected(false);
+        }
+        ++it;
+    }
+//    emit m_ui->helpTreeWidget->currentItemChanged((*it), (*it));
+    on_currentItemChanged((*it), (*it));
 }
 
-void HelpDialog::on_itemClicked(QTreeWidgetItem*,int) {
+void HelpDialog::on_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 //    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
 //    qDebug() << "Parent row: " << m_ui->helpTreeWidget->currentIndex().parent().row();
 //    qDebug() << "Row: " << m_ui->helpTreeWidget->currentIndex().row();
 
     // Is this a subcategory?
-    helpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
+    bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
     // Parent row (if it has a parent, -1 else)
-    helpParentRow = m_ui->helpTreeWidget->currentIndex().parent().row();
+    int parentRow = m_ui->helpTreeWidget->currentIndex().parent().row();
     // Row (if it has a parent, this is the child row)
-    helpRow = m_ui->helpTreeWidget->currentIndex().row();
+    int row = m_ui->helpTreeWidget->currentIndex().row();
 
-    this->helpHierarchy();
-}
+//    qDebug() << "Selected: " << m_ui->helpTreeWidget->currentIndex();
 
-void HelpDialog::helpHierarchy() {
-    if ((!helpSubCat && helpRow == eWRITING) || helpParentRow == eWRITING) {
+    if ((!isHelpSubCat && row == eWRITING) || parentRow == eWRITING) {
         m_ui->helpSplitter->widget(1)->hide();
-        if (!helpSubCat) {                          // Writing Programs
+        m_ui->helpTopWebView->show();
+        if (!isHelpSubCat) {                          // Writing Programs
             m_ui->helpTopWebView->load(QUrl("qrc:/help/writingprograms.html"));
-        } else if (helpRow == eMACHINE) {           // Writing Programs > Machine Language
+        } else if (row == eMACHINE) {           // Writing Programs > Machine Language
             m_ui->helpTopWebView->load(QUrl("qrc:/help/machinelanguage.html"));
-        } else if (helpRow == eASSEMBLY) {          // Writing Programs > Assembly Language
+        } else if (row == eASSEMBLY) {          // Writing Programs > Assembly Language
             m_ui->helpTopWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
         }
-        m_ui->helpTopWebView->show();
-    } else if ((!helpSubCat && helpRow == eDEBUGGING) || helpParentRow == eDEBUGGING) {
+    } else if ((!isHelpSubCat && row == eDEBUGGING) || parentRow == eDEBUGGING) {
         m_ui->helpSplitter->widget(1)->hide();
-        if (!helpSubCat) {                          // Debugging Programs
+        m_ui->helpTopWebView->show();
+        if (!isHelpSubCat) {                          // Debugging Programs
             m_ui->helpTopWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
-        } else if (helpRow == eBREAK) {             // Debugging Programs > Break Points
+        } else if (row == eBREAK) {             // Debugging Programs > Break Points
             m_ui->helpTopWebView->load(QUrl("qrc:/help/breakpoints.html"));
-        } else if (helpRow == eSYMTRACE) {          // Debugging Programs > Symbolic Trace
+        } else if (row == eSYMTRACE) {          // Debugging Programs > Symbolic Trace
             m_ui->helpTopWebView->load(QUrl("qrc:/help/symbolictrace.html"));
-        } else if (helpRow == eBYTECONVERTER) {     // Debugging Programs > Byte Converter
+        } else if (row == eBYTECONVERTER) {     // Debugging Programs > Byte Converter
             m_ui->helpTopWebView->load(QUrl("qrc:/help/byteconverter.html"));
         }
-        m_ui->helpTopWebView->show();
-    } else if (!helpSubCat && helpRow == eINTERRUPT) {  // Writing Interrupt Handlers
+    } else if (!isHelpSubCat && row == eINTERRUPT) {  // Writing Interrupt Handlers
         m_ui->helpSplitter->widget(1)->hide();
+        m_ui->helpTopWebView->show();
         m_ui->helpTopWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
-        m_ui->helpTopWebView->show();
-    } else if ((!helpSubCat && helpRow == eREFERENCE) || helpParentRow == eREFERENCE) {
+    } else if ((!isHelpSubCat && row == eREFERENCE) || parentRow == eREFERENCE) {
         m_ui->helpSplitter->widget(1)->hide();
-        if (!helpSubCat) {                          // Pep/8 Reference
+        m_ui->helpTopWebView->show();
+        if (!isHelpSubCat) {                          // Pep/8 Reference
             m_ui->helpTopWebView->load(QUrl("qrc:/help/pep8reference.html"));
-        } else if (helpRow == eINSTRUCTION) {       // Pep/8 Reference > Instruction Set
+        } else if (row == eINSTRUCTION) {       // Pep/8 Reference > Instruction Set
             m_ui->helpTopWebView->load(QUrl("qrc:/help/instructionset.html"));
-        } else if (helpRow == eDOTCMD) {            // Pep/8 Reference > Dot Commands
+        } else if (row == eDOTCMD) {            // Pep/8 Reference > Dot Commands
             m_ui->helpTopWebView->load(QUrl("qrc:/help/dotcommands.html"));
-        } else if (helpRow == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
+        } else if (row == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
             m_ui->helpTopWebView->load(QUrl("qrc:/help/addressingmodes.html"));
         }
-        m_ui->helpTopWebView->show();
-    } else if ((!helpSubCat && helpRow == eEXAMPLES) || helpParentRow == eEXAMPLES) {
-        if (!helpSubCat) {
+    } else if ((!isHelpSubCat && row == eEXAMPLES) || parentRow == eEXAMPLES) {
+        if (!isHelpSubCat) {
             m_ui->helpSplitter->widget(1)->hide();
+            m_ui->helpTopWebView->show();
             m_ui->helpTopWebView->load(QUrl("qrc:/help/examples.html"));
 //            m_ui->helpTopWebView->setHtml(
-            m_ui->helpTopWebView->show();
         } else {
             m_ui->helpSplitter->widget(0)->hide();
             m_ui->helpSplitter->widget(1)->show();
-            if (helpRow == eFIG518) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0518.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0518.cpp"));
+            if (row == eFIG518) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0518.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0518.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.18</b><code>  </code> The <code>cout</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG521) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0521.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0521.cpp"));
+            } else if (row == eFIG521) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0521.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0521.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.21</b><code>  </code> The assignment statement with global variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG526) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0526.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0526.cpp"));
+            } else if (row == eFIG526) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0526.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0526.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.26</b><code>  </code> C++ constants.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG601) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0601.pep"));
+            } else if (row == eFIG601) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0601.pep"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.1</b><code>  </code> Stack-relative addressing.");
                 m_ui->helpRightTextEdit->hide();
-            } else if (helpRow == eFIG604) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0604.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0604.cpp"));
+            } else if (row == eFIG604) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0604.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0604.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.4</b><code>  </code> Local variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG606) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0606.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0606.cpp"));
+            } else if (row == eFIG606) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0606.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0606.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.6</b><code>  </code> The <code>if</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG608) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0608.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0608.cpp"));
+            } else if (row == eFIG608) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0608.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0608.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.8</b><code>  </code> The <code>if</code>/<code>else</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG610) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0610.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0610.cpp"));
+            } else if (row == eFIG610) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0610.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0610.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.10</b><code>  </code> The <code>while</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG612) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0612.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0612.cpp"));
+            } else if (row == eFIG612) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0612.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0612.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.12</b><code>  </code> The <code>do</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG614) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0614.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0614.cpp"));
+            } else if (row == eFIG614) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0614.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0614.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.14</b><code>  </code> The <code>for</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG616) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0616.pep"));
+            } else if (row == eFIG616) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0616.pep"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.16</b><code>  </code> A mystery program.");
                 m_ui->helpRightTextEdit->hide();
-            } else if (helpRow == eFIG618) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0618.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0618.cpp"));
+            } else if (row == eFIG618) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0618.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0618.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.18</b><code>  </code> A procedure call with no parameters.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG621) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0621.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0621.cpp"));
+            } else if (row == eFIG621) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0621.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0621.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.21</b><code>  </code> Call-by-value parameters with global variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG623) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0623.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0623.cpp"));
+            } else if (row == eFIG623) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0623.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0623.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.23</b><code>  </code> Call-by-value parameters with local variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG625) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0625.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0625.cpp"));
+            } else if (row == eFIG625) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0625.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0625.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.25</b><code>  </code> A recursive nonvoid function.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG627) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0627.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0627.cpp"));
+            } else if (row == eFIG627) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0627.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0627.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.27</b><code>  </code> Call-by-reference parameters with global variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG629) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0629.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0629.cpp"));
+            } else if (row == eFIG629) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0629.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0629.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.29</b><code>  </code> Call-by-reference parameters with local variables.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG632) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0632.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0632.cpp"));
+            } else if (row == eFIG632) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0632.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0632.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.32</b><code>  </code> Translation of a boolean type.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG634) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0634.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0634.cpp"));
+            } else if (row == eFIG634) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0634.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0634.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.32</b><code>  </code> A global array.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG636) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0636.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0636.cpp"));
+            } else if (row == eFIG636) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0636.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0636.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.36</b><code>  </code> A local array.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG638) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0638.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0638.cpp"));
+            } else if (row == eFIG638) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0638.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0638.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.38</b><code>  </code> Passing a local array as a parameter.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG640) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0640.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0640.cpp"));
+            } else if (row == eFIG640) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0640.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0640.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.40</b><code>  </code> Translation of a <code>switch</code> statement.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG641) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0641.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0641.cpp"));
+            } else if (row == eFIG641) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0641.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0641.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.41</b><code>  </code> Translation of global pointers.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG643) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0643.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0643.cpp"));
+            } else if (row == eFIG643) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0643.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0643.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.43</b><code>  </code> Translation of local pointers.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG645) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0645.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0645.cpp"));
+            } else if (row == eFIG645) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0645.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0645.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.45</b><code>  </code> Translation of a structure.");
                 m_ui->helpRightTextEdit->show();
-            } else if (helpRow == eFIG647) {
-                m_ui->helpLeftTextEdit->setText(resToString(":/help/figures/fig0647.pep"));
-                m_ui->helpRightTextEdit->setText(resToString(":/help/figures/fig0647.cpp"));
+            } else if (row == eFIG647) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0647.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0647.cpp"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.47</b><code>  </code> Translation of a linked list.");
                 m_ui->helpRightTextEdit->show();
             }
         }
-    } else if (!helpSubCat && helpRow == eOS) {         // Pep/8 Operating System
-        m_ui->helpSplitter->widget(1)->hide();
-        m_ui->helpTopWebView->load(QUrl("qrc:/help/pep8os.html"));
-        m_ui->helpTopWebView->show();
+    } else if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
+        m_ui->helpSplitter->widget(0)->hide();
+        m_ui->helpSplitter->widget(1)->show();
+        m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/pep8os.pep"));
+        m_ui->helpRightTextEdit->hide();
+        m_ui->helpFigureLabel->setText("<b>Figures 8.2, 8.3, 8.6, 8.8, 8.10, 8.11</b><code>  </code> The Pep/8 operating system.");
     }
 }
 
 // Public functions called by main window help menu items:
 
-void HelpDialog::on_menuItem_MachineLanguage_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-//    m_ui->helpTopWebView->load(QUrl("qrc:/help/machinelanguage.html"));
-    m_ui->helpTopWebView->show();
-    helpSubCat = true;
-    helpParentRow = eWRITING;
-    helpRow = eMACHINE;
-    this->helpHierarchy();
+void HelpDialog::machineLanguageClicked() {
+    this->selectItem("Machine Language");
 }
 
-void HelpDialog::on_menuItem_AssemblyLanguage_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::assemblyLanguageClicked() {
+    this->selectItem("Assembly Language");
 }
 
-void HelpDialog::on_menuItem_BreakPoints_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/breakpoints.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::breakPointsClicked() {
+    this->selectItem("Break Points");
 }
 
-void HelpDialog::on_menuItem_SymbolicTrace_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/symbolictrace.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::symbolicTraceClicked() {
+    this->selectItem("Symbolic Trace");
 }
 
-void HelpDialog::on_menuItem_ByteConverter_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/byteconverter.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::byteConverterClicked() {
+    this->selectItem("Byte Converter");
 }
 
-void HelpDialog::on_menuItem_InterruptHandlers_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::interruptHandlersClicked() {
+    this->selectItem("Writing Interrupt Handlers");
 }
 
-void HelpDialog::on_menuItem_InstructionSet_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/instructionset.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::instructionSetClicked() {
+    this->selectItem("Instruction Set");
 }
 
-void HelpDialog::on_menuItem_DotCommands_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/dotcommands.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::dotCommandsClicked() {
+    this->selectItem("Dot Commands");
 }
 
-void HelpDialog::on_menuItem_AddressingModes_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/addressingmodes.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::addressingModesClicked() {
+    this->selectItem("Addressing Modes");
 }
 
-void HelpDialog::on_menuItem_Examples_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/examples.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::examplesClicked() {
+    this->selectItem("Examples");
 }
 
-void HelpDialog::on_menuItem_OperatingSystem_clicked() {
-    m_ui->helpSplitter->widget(1)->hide();
-    m_ui->helpTopWebView->load(QUrl("qrc:/help/pep8os.html"));
-    m_ui->helpTopWebView->show();
+void HelpDialog::operatingSystemClicked() {
+    this->selectItem("Pep/8 Operating System");
 }
 
 // Helper Functions
@@ -372,3 +338,4 @@ void HelpDialog::on_menuItem_OperatingSystem_clicked() {
 QString HelpDialog::getLeftTextEditText() {
     return m_ui->helpLeftTextEdit->toPlainText();
 }
+

@@ -271,73 +271,73 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 void MainWindow::on_actionHelp_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_AssemblyLanguage_clicked();
+    helpDialog->assemblyLanguageClicked();
 }
 
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_AssemblyLanguage_clicked();
+    helpDialog->assemblyLanguageClicked();
 }
 
 void MainWindow::on_actionHelp_Machine_Language_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_MachineLanguage_clicked();
+    helpDialog->machineLanguageClicked();
 }
 
 void MainWindow::on_actionHelp_Break_Points_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_BreakPoints_clicked();
+    helpDialog->breakPointsClicked();
 }
 
 void MainWindow::on_actionHelp_Symbolic_Trace_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_SymbolicTrace_clicked();
+    helpDialog->symbolicTraceClicked();
 }
 
 void MainWindow::on_actionHelp_Byte_Converter_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_ByteConverter_clicked();
+    helpDialog->byteConverterClicked();
 }
 
 void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_InterruptHandlers_clicked();
+    helpDialog->interruptHandlersClicked();
 }
 
 void MainWindow::on_actionHelp_Instruction_Set_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_InstructionSet_clicked();
+    helpDialog->instructionSetClicked();
 }
 
 void MainWindow::on_actionHelp_Dot_Commands_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_DotCommands_clicked();
+    helpDialog->dotCommandsClicked();
 }
 
 void MainWindow::on_actionHelp_Addressing_Modes_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_AddressingModes_clicked();
+    helpDialog->addressingModesClicked();
 }
 
 void MainWindow::on_actionHelp_Examples_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_Examples_clicked();
+    helpDialog->examplesClicked();
 }
 
 void MainWindow::on_actionPep_8_Operating_System_triggered()
 {
     helpDialog->show();
-    helpDialog->on_menuItem_OperatingSystem_clicked();
+    helpDialog->operatingSystemClicked();
 }
 
 void MainWindow::on_actionAbout_Pep8_triggered()
