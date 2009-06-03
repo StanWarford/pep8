@@ -24,7 +24,6 @@ HelpDialog::HelpDialog(QWidget *parent) :
 
     m_ui->helpSplitter->widget(1)->hide();
     m_ui->helpTreeWidget->expandAll();
-    m_ui->helpTreeWidget->selectAll();
 }
 
 HelpDialog::~HelpDialog()
