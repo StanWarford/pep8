@@ -19,6 +19,8 @@ public:
 private:
     Ui::HelpDialog *m_ui;
 
+    void helpHierarchy();
+
 private slots:
    void on_itemClicked(QTreeWidgetItem*,int);
    void on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
@@ -36,6 +38,8 @@ public:
    void on_menuItem_Examples_clicked();
    void on_menuItem_OperatingSystem_clicked();
    QString getLeftTextEditText();
+   QString getHelpExplText();
+
 
 signals:
    void clicked();

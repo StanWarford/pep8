@@ -51,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(helpDialog, SIGNAL(clicked()), this, SLOT(on_helpCopyToSourceButton_clicked()));
     helpDialog->hide();
 
-
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
     ui->byteConverterToolBar->addWidget(byteConverterDec);
