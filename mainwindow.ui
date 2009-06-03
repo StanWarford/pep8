@@ -282,6 +282,8 @@
     <addaction name="actionEdit_Copy"/>
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
+    <addaction name="actionFormat_From_Listing"/>
+    <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
    </widget>
    <widget class="QMenu" name="menu_File">
@@ -290,6 +292,7 @@
     </property>
     <addaction name="actionFile_New"/>
     <addaction name="actionFile_Open"/>
+    <addaction name="actionOpen_Recent"/>
     <addaction name="separator"/>
     <addaction name="actionFile_Save_Source"/>
     <addaction name="actionFile_Save_Object"/>
@@ -782,6 +785,16 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionOpen_Recent">
+   <property name="text">
+    <string>Open Recent</string>
+   </property>
+  </action>
+  <action name="actionFormat_From_Listing">
+   <property name="text">
+    <string>Format From Listing</string>
    </property>
   </action>
  </widget>
