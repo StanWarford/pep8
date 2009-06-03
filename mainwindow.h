@@ -127,7 +127,7 @@ private slots:
     void on_actionAbout_Pep8_triggered();
     void on_actionAbout_Qt_triggered();
 
-    void on_helpCopyToSourceButton_clicked();
+    void helpCopyToSourceButtonClicked();
 
     // Byte converter
     void slotByteConverterDecEdited(const QString &);

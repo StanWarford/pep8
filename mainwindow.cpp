@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     redefineMnemonicsDialog->hide();
 
     helpDialog = new HelpDialog(this);
-    QObject::connect(helpDialog, SIGNAL(clicked()), this, SLOT(on_helpCopyToSourceButton_clicked()));
+    QObject::connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
     helpDialog->hide();
 
     // Byte converter setup
@@ -345,7 +345,7 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 
 }
 
-void MainWindow::on_helpCopyToSourceButton_clicked() {
+void MainWindow::helpCopyToSourceButtonClicked() {
     sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
 }
 

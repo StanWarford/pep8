@@ -22,7 +22,7 @@ private:
     void selectItem(QString string);
 
 private slots:
-   void on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
+   void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
 public:
    void machineLanguageClicked();

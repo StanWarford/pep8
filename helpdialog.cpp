@@ -11,7 +11,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     m_ui->setupUi(this);
 
     // Forward signal to the on_currentItemChanged slot
-    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(on_currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     // Forward the helpCopyToSourceButton_clicked() signal from this to the main window
     QObject::connect(m_ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
 
@@ -83,11 +83,9 @@ void HelpDialog::selectItem(QString string) {
         }
         ++it;
     }
-//    emit m_ui->helpTreeWidget->currentItemChanged((*it), (*it));
-    on_currentItemChanged((*it), (*it));
 }
 
-void HelpDialog::on_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
+void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 //    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
 //    qDebug() << "Parent row: " << m_ui->helpTreeWidget->currentIndex().parent().row();
 //    qDebug() << "Row: " << m_ui->helpTreeWidget->currentIndex().row();
