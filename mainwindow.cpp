@@ -180,7 +180,7 @@ void MainWindow::on_actionBuild_Assemble_triggered()
         ui->statusbar->showMessage("Assembly succeeded", 4000);
         objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
         assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-        //        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
     }
     else {
         ui->statusbar->showMessage("Assembly failed", 4000);

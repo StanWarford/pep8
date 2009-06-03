@@ -291,7 +291,7 @@ void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList 
     }
     QString dotStr = ".EQUATE";
     QString oprndStr = argument->getArgumentString();
-    QString lineStr = QString("             %1%2%3%4%5")
+    QString lineStr = QString("             %1%2%3%4")
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
                       .arg(oprndStr, -14)

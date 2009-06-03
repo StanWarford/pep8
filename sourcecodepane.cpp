@@ -82,40 +82,8 @@ QStringList SourceCodePane::getAssemblerListingList()
     assemblerListingList.clear();
     listingTraceList.clear();
     hasCheckBox.clear();
-    assemblerListingList.append("-------------------------------------------------------------------------------");
-    assemblerListingList.append("      Object");
-    assemblerListingList.append("Addr  code   Symbol   Mnemon  Operand       Comment");
-    assemblerListingList.append("-------------------------------------------------------------------------------");
     for (int i = 0; i < codeList.length(); i++) {
         codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox);
-    }
-    assemblerListingList.append("-------------------------------------------------------------------------------");
-    if (Pep::symbolTable.size() > 0) {
-        assemblerListingList.append("");
-        assemblerListingList.append("");
-        assemblerListingList.append("Symbol table");
-        assemblerListingList.append("--------------------------------------");
-        assemblerListingList.append("Symbol    Value        Symbol    Value");
-        assemblerListingList.append("--------------------------------------");
-        QMapIterator<QString, int> i(Pep::symbolTable);
-        QString symbolTableLine = "";
-        QString hexString;
-        while (i.hasNext()) {
-            i.next();
-            hexString = QString("%1").arg(i.value(), 4, 16, QLatin1Char('0')).toUpper();
-            if (symbolTableLine.length() == 0) {
-                symbolTableLine = QString("%1%2").arg(i.key(), -10).arg(hexString, -13);
-            }
-            else {
-                symbolTableLine.append(QString("%1%2").arg(i.key(), -10).arg(hexString, -4));
-                assemblerListingList.append(symbolTableLine);
-                symbolTableLine = "";
-            }
-        }
-        if (symbolTableLine.length() > 0) {
-            assemblerListingList.append(symbolTableLine);
-        }
-        assemblerListingList.append("--------------------------------------");
     }
     return assemblerListingList;
 }

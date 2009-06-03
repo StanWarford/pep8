@@ -46,7 +46,7 @@
        <property name="font">
         <font>
          <family>Courier</family>
-         <pointsize>13</pointsize>
+         <pointsize>12</pointsize>
          <weight>50</weight>
          <italic>false</italic>
          <bold>false</bold>

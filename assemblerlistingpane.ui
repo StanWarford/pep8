@@ -46,6 +46,7 @@
        <property name="font">
         <font>
          <family>Courier</family>
+         <pointsize>12</pointsize>
          <kerning>false</kerning>
         </font>
        </property>
