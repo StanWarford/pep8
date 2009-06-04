@@ -337,3 +337,7 @@ QString HelpDialog::getLeftTextEditText() {
     return m_ui->helpLeftTextEdit->toPlainText();
 }
 
+void HelpDialog::helpClicked()
+{
+
+}
