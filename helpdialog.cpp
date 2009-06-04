@@ -337,7 +337,9 @@ QString HelpDialog::getLeftTextEditText() {
     return m_ui->helpLeftTextEdit->toPlainText();
 }
 
-void HelpDialog::helpClicked()
-{
-
+// Gets called when the lifesaver button is pressed in the main window.
+void HelpDialog::helpClicked() {
+    m_ui->helpSplitter->widget(1)->hide();
+    m_ui->helpTopWebView->load(QUrl("qrc:/help/welcome.html"));
+    m_ui->helpTopWebView->show();
 }
