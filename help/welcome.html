@@ -1,44 +1,24 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: Operating System Documentation </title></head>
+<head><title> Welcome to the Pep/8 Help System</title></head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <center>
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
 <p align="center">
 <font FACE="Geneva,Helvetica,Arial" size="3">
-The Pep/8 Operating System
+Welcome to the Pep/8 Help System
 </font></td></tr></table></center>
 
 <h3>This is a placeholder title.</h3>
+
+Please choose a topic from the side bar.
+<br><br>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat ultricies lacus ac consequat. Proin vel sem lectus, non tristique lorem. Vivamus fringilla iaculis nunc id luctus. Etiam pharetra ullamcorper metus sit amet volutpat. Quisque cursus viverra elit ut volutpat. Morbi nec nisi nec risus dapibus adipiscing eget vehicula eros. Aenean lobortis, sapien at imperdiet fringilla, mi erat malesuada lectus, ut tincidunt enim orci sit amet sem. Integer gravida placerat varius. Nunc augue est, imperdiet laoreet rutrum at, posuere pretium ante. Pellentesque venenatis imperdiet est quis scelerisque. Etiam odio nulla, posuere eget bibendum ut, vehicula a mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Mauris lectus purus, feugiat sit amet molestie a, tincidunt quis nisl.<br><br>
 
-<h3>Example Assembly language program.</h3>
+Suspendisse accumsan, tellus in fermentum lobortis, tortor est vulputate eros, ac auctor neque ipsum suscipit nisi. Praesent justo odio, rutrum luctus imperdiet ut, egestas in eros. Fusce vestibulum, nunc ut sollicitudin auctor, sapien ipsum interdum tortor, eget pulvinar mi mauris lacinia dui. Suspendisse auctor imperdiet euismod. Aliquam erat volutpat.<br>
 
-<pre>;File: fig0526.pep
-;Computer Systems, Fourth edition
-;Figure 5.26
-;
-         BR      main
-bonus:   .EQUATE 5          ;constant
-exam1:   .BLOCK  2          ;global variable #2d
-exam2:   .BLOCK  2          ;global variable #2d
-score:   .BLOCK  2          ;global variable #2d
-;
-main:    DECI    exam1,d    ;cin >> exam1
-         DECI    exam2,d    ;   >> exam2
-         LDA     exam1,d    ;score = (exam1
-         ADDA    exam2,d    ;   + exam2)
-         ASRA               ;   / 2
-         ADDA    bonus,i    ;   + bonus
-         STA     score,d
-         STRO    msg,d      ;cout << "score = "
-         DECO    score,d       ;   << score
-         CHARO   '\n',i     ;   << endl
-         STOP
-msg:     .ASCII  "score = \x00"
-         .END
-</pre><br>
+<h3>Byte Converter Walkthrough</h3>
 
 In et imperdiet magna. Cras augue ligula, euismod dictum vulputate a, dapibus id dui. Integer tempus dictum mi, vel ultricies turpis congue at. Curabitur condimentum neque a arcu porta fringilla. Morbi aliquam pulvinar mollis. Proin sit amet lacinia sem. Donec a purus sapien, imperdiet molestie dolor. Praesent lacinia nunc eu nulla tincidunt quis rutrum lectus imperdiet.
 

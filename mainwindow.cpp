@@ -170,6 +170,11 @@ void MainWindow::on_actionFile_Open_triggered()
 
 }
 
+void MainWindow::on_actionFile_Open_Recent_triggered()
+{
+
+}
+
 void MainWindow::on_actionFile_Save_Source_triggered()
 {
 
@@ -246,6 +251,11 @@ void MainWindow::on_actionEdit_Paste_triggered()
 }
 
 void MainWindow::on_actionEdit_Font_triggered()
+{
+
+}
+
+void MainWindow::on_actionFormat_From_Listing_triggered()
 {
 
 }
@@ -354,7 +364,7 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 void MainWindow::on_actionHelp_triggered()
 {
     helpDialog->show();
-    helpDialog->assemblyLanguageClicked();
+    helpDialog->helpClicked();
 }
 
 void MainWindow::on_actionHelp_Assembly_Language_triggered()

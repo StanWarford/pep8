@@ -12,7 +12,6 @@
         <file>help/examples.html</file>
         <file>help/instructionset.html</file>
         <file>help/interrupthandlers.html</file>
-        <file>help/pep8os.html</file>
         <file>help/pep8reference.html</file>
         <file>help/symbolictrace.html</file>
         <file>help/figures/fig0518.cpp</file>
@@ -66,5 +65,6 @@
         <file>help/figures/fig0647.cpp</file>
         <file>help/figures/fig0647.pep</file>
         <file>help/figures/pep8os.pep</file>
+        <file>help/welcome.html</file>
     </qresource>
 </RCC>

@@ -85,6 +85,7 @@ private slots:
     // File
     void on_actionFile_New_triggered();
     void on_actionFile_Open_triggered();
+    void on_actionFile_Open_Recent_triggered();
     void on_actionFile_Save_Source_triggered();
     void on_actionFile_Save_Object_triggered();
     void on_actionFile_Save_Listing_triggered();
@@ -102,6 +103,7 @@ private slots:
     void on_actionEdit_Copy_triggered();
     void on_actionEdit_Paste_triggered();
     void on_actionEdit_Font_triggered();
+    void on_actionFormat_From_Listing_triggered();
 
     // Build
     void on_actionBuild_Assemble_triggered();

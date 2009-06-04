@@ -353,7 +353,7 @@
         </url>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QSplitter" name="splitter">
@@ -419,7 +419,6 @@
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <zorder>helpFigureLabel</zorder>
            </widget>
           </item>
           <item>
