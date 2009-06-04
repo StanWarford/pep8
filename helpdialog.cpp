@@ -17,6 +17,8 @@ HelpDialog::HelpDialog(QWidget *parent) :
 
     m_ui->helpSplitter->widget(1)->hide();
     m_ui->helpTreeWidget->expandAll();
+
+    this->selectItem("Machine Language");
 }
 
 HelpDialog::~HelpDialog()
