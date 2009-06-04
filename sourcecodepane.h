@@ -49,6 +49,18 @@ public:
     void setSourceCodePaneText(QString string);
     // Post: Sets text in source code pane to string.
     // Called from help dialog by helpCopyToSourceButton clicked.
+    void clearSourceCodePane();
+    // Post: Clears the source code pane
+    // Called from main window on file new
+    bool isModified();
+    // Post: Returns true if the source code pane has been modified
+    // Called from main window on file new
+    void setModified(bool modified);
+    // Post: Sets isModified of the source code pane to modified
+    // Called from main window on file new
+    QString toPlainText();
+    // Post: Contents of the source code pane are returned
+    // Called from main window on file save
 
 private:
     Ui::SourceCodePane *m_ui;

@@ -1,7 +1,10 @@
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -81,10 +84,86 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// Save methods
+
+bool MainWindow::save()
+{
+    if (curFile.isEmpty()) {
+        return on_actionFile_Save_Source_As_triggered();
+    } else {
+        return saveFile(curFile);
+    }
+}
+
+void MainWindow::readSettings() {}
+void MainWindow::writeSettings() {}
+
+bool MainWindow::maybeSave()
+{
+    if (sourceCodePane->isModified()) {
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(this, "Pep/8",
+                                   "The source code has been modified.\n"
+                                   "Do you want to save your changes?",
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        if (ret == QMessageBox::Save)
+            return save();
+        else if (ret == QMessageBox::Cancel)
+            return false;
+    }
+    return true;
+}
+
+void MainWindow::loadFile(const QString &fileName) {}
+bool MainWindow::saveFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    out << sourceCodePane->toPlainText();
+    QApplication::restoreOverrideCursor();
+
+    setCurrentFile(fileName);
+    statusBar()->showMessage(tr("File saved"), 2000);
+    return true;
+}
+
+void MainWindow::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    sourceCodePane->setModified(false);
+    setWindowModified(false);
+
+    QString shownName;
+    if (curFile.isEmpty())
+        shownName = "untitled.txt";
+    else
+        shownName = strippedName(curFile);
+
+    setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("Application")));
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
+}
+
+
 // File MainWindow triggers
 void MainWindow::on_actionFile_New_triggered()
 {
-
+    if (maybeSave()) {
+        sourceCodePane->clearSourceCodePane();
+        setCurrentFile("");
+    }
 }
 void MainWindow::on_actionFile_Open_triggered()
 {
@@ -106,9 +185,13 @@ void MainWindow::on_actionFile_Save_Listing_triggered()
 
 }
 
-void MainWindow::on_actionFile_Save_Source_As_triggered()
+bool MainWindow::on_actionFile_Save_Source_As_triggered()
 {
+    QString fileName = QFileDialog::getSaveFileName(this);
+    if (fileName.isEmpty())
+        return false;
 
+    return saveFile(fileName);
 }
 
 void MainWindow::on_actionFile_Save_Object_As_triggered()
@@ -346,6 +429,9 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 }
 
 void MainWindow::helpCopyToSourceButtonClicked() {
+    if (maybeSave()) {
+        setCurrentFile("");
+    }
     sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
 }
 

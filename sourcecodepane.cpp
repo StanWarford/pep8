@@ -129,6 +129,27 @@ void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mes
     m_ui->pepSourceCodeTextEdit->setTextColor(Qt::black);
 }
 
-void SourceCodePane::setSourceCodePaneText(QString string) {
+void SourceCodePane::setSourceCodePaneText(QString string)
+{
     m_ui->pepSourceCodeTextEdit->setText(string);
+}
+
+void SourceCodePane::clearSourceCodePane()
+{
+    m_ui->pepSourceCodeTextEdit->clear();
+}
+
+bool SourceCodePane::isModified()
+{
+    return m_ui->pepSourceCodeTextEdit->document()->isModified();
+}
+
+void SourceCodePane::setModified(bool modified)
+{
+    m_ui->pepSourceCodeTextEdit->document()->setModified(modified);
+}
+
+QString SourceCodePane::toPlainText()
+{
+    return m_ui->pepSourceCodeTextEdit->toPlainText();
 }

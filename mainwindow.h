@@ -69,6 +69,18 @@ private:
     ByteConverterBin *byteConverterBin;
     ByteConverterChar *byteConverterChar;
 
+    // Save methods
+    bool save();
+    void readSettings();
+    void writeSettings();
+    bool maybeSave();
+    void loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+
+    QString curFile;
+
 private slots:
     // File
     void on_actionFile_New_triggered();
@@ -76,7 +88,7 @@ private slots:
     void on_actionFile_Save_Source_triggered();
     void on_actionFile_Save_Object_triggered();
     void on_actionFile_Save_Listing_triggered();
-    void on_actionFile_Save_Source_As_triggered();
+    bool on_actionFile_Save_Source_As_triggered();
     void on_actionFile_Save_Object_As_triggered();
     void on_actionFile_Save_Listing_As_triggered();
     void on_actionFile_Print_Source_triggered();
