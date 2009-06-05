@@ -28,10 +28,9 @@ public:
 
     QStringList getAssemblerListingList();
     // Pre: codeList is populated with code from a complete correct Pep/8 source program.
-    // Post: assemlberListingList is populated with the assemlber listing, including headers
-    // and a text printout of the symbol table at the bottom, listingTraceList is populated with
-    // the object code, and hasCheckBox is populated with the checkBox list that specifies whether
-    // a trace line can have a break point.
+    // Post: assemlberListingList is populated with the assembler listing.
+    // Post: listingTraceList is populated with the object code.
+    // Post: hasCheckBox is populated with the checkBox list that specifies whether a trace line can have a break point.
     // Post: assemblerListingList is returned.
 
     QStringList getListingTraceList();
@@ -43,24 +42,26 @@ public:
     // Post: hasCheckBox is returned.
 
     void removeErrorMessages();
-    //
+    // Post: Searces for the string ";ERROR:" on each line and removes the end of the line.
+    // Post: Searces for the string ";WARNING:" on each line and removes the end of the line.
+
     void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
-    //
+    // Post: Appends message to the end of line lineNumber in color color.
+
     void setSourceCodePaneText(QString string);
     // Post: Sets text in source code pane to string.
-    // Called from help dialog by helpCopyToSourceButton clicked.
+
     void clearSourceCodePane();
     // Post: Clears the source code pane
-    // Called from main window on file new
+
     bool isModified();
     // Post: Returns true if the source code pane has been modified
-    // Called from main window on file new
+
     void setModified(bool modified);
     // Post: Sets isModified of the source code pane to modified
-    // Called from main window on file new
+
     QString toPlainText();
     // Post: Contents of the source code pane are returned
-    // Called from main window on file save
 
 private:
     Ui::SourceCodePane *m_ui;

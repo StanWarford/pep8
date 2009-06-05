@@ -14,6 +14,7 @@ public:
     explicit AssemblerListingPane(QWidget *parent = 0);
     virtual ~AssemblerListingPane();
     void setAssemblerListing(QStringList assemblerListingList);
+    void clearAssemblerListing();
 
 private:
     Ui::AssemblerListingPane *m_ui;

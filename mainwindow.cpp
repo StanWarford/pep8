@@ -268,6 +268,9 @@ void MainWindow::on_actionBuild_Assemble_triggered()
         if (Pep::burnCount > 0) {
             QString errorString = ";ERROR: .BURN not allowed in program unless installing OS.";
             sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            assemblerListingPane->clearAssemblerListing();
+            objectCodePane->clearObjectCode();
+            listingTracePane->clearListingTrace();
             ui->statusbar->showMessage("Assembly failed", 4000);
         }
         ui->statusbar->showMessage("Assembly succeeded", 4000);
@@ -276,9 +279,11 @@ void MainWindow::on_actionBuild_Assemble_triggered()
         listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
     }
     else {
+        assemblerListingPane->clearAssemblerListing();
+        objectCodePane->clearObjectCode();
+        listingTracePane->clearListingTrace();
         ui->statusbar->showMessage("Assembly failed", 4000);
     }
-
 }
 
 void MainWindow::on_actionBuild_Load_triggered()

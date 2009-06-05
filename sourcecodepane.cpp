@@ -90,7 +90,6 @@ QStringList SourceCodePane::getAssemblerListingList()
 
 QStringList SourceCodePane::getListingTraceList()
 {
-    // Compute listingTraceList and hasCheckBox
     return listingTraceList;
 }
 

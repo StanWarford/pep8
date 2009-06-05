@@ -15,7 +15,6 @@ ListingTracePane::~ListingTracePane()
 
 void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool> hasCheckBox)
 {
-    // Populate listingTraceTable from assemblerListingList and hasCheckBox
     QTableWidgetItem *item;
     int numRows = listingTraceList.size();
     m_ui->listingTraceTableWidget->setRowCount(numRows);
@@ -26,7 +25,7 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
     for (int i = 0; i < numRows; i++) {
         item = new QTableWidgetItem();
         if (hasCheckBox[i]) {
-            // item->setFlags(Qt::ItemIsUserCheckable);
+            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
             item->setCheckState(Qt::Unchecked);
         }
         else {
@@ -35,7 +34,14 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         m_ui->listingTraceTableWidget->setItem(i, 0, item);
     }
     m_ui->listingTraceTableWidget->resizeColumnsToContents();
-    m_ui->listingTraceTableWidget->setColumnWidth(0, m_ui->listingTraceTableWidget->columnWidth(0) + 5);
-    m_ui->listingTraceTableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->columnWidth(1) + 5);
     m_ui->listingTraceTableWidget->resizeRowsToContents();
+}
+
+void ListingTracePane::clearListingTrace()
+{
+    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+        delete m_ui->listingTraceTableWidget->itemAt(i, 0);
+        delete m_ui->listingTraceTableWidget->itemAt(i, 1);
+    }
+    m_ui->listingTraceTableWidget->setRowCount(0);
 }

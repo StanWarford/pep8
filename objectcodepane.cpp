@@ -25,3 +25,8 @@ void ObjectCodePane::setObjectCode(QList<int> objectCode)
     m_ui->pepObjectCodeTextEdit->clear();
     m_ui->pepObjectCodeTextEdit->setText(objectCodeString);
 }
+
+void ObjectCodePane::clearObjectCode()
+{
+    m_ui->pepObjectCodeTextEdit->clear();
+}

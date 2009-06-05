@@ -14,6 +14,7 @@ public:
     explicit ObjectCodePane(QWidget *parent = 0);
     virtual ~ObjectCodePane();
     void setObjectCode(QList<int> objectCode);
+    void clearObjectCode();
 
 private:
     Ui::ObjectCodePane *m_ui;

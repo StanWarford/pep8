@@ -49,3 +49,8 @@ void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList)
         m_ui->assemblerListingTextEdit->append("--------------------------------------");
     }
 }
+
+void AssemblerListingPane::clearAssemblerListing()
+{
+    m_ui->assemblerListingTextEdit->clear();
+}
