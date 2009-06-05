@@ -446,8 +446,11 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 void MainWindow::helpCopyToSourceButtonClicked() {
     if (maybeSave()) {
         setCurrentFile("");
+        sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
+        assemblerListingPane->clearAssemblerListing();
+        objectCodePane->clearObjectCode();
+        listingTracePane->clearListingTrace();
     }
-    sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
 }
 
 void MainWindow::on_actionAbout_Qt_triggered() {}
