@@ -282,7 +282,7 @@
     <addaction name="actionEdit_Copy"/>
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
-    <addaction name="actionFormat_From_Listing"/>
+    <addaction name="actionEdit_Format_From_Listing"/>
     <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
    </widget>
@@ -337,7 +337,6 @@
     <addaction name="actionView_Code_Only"/>
     <addaction name="actionView_Code_CPU"/>
     <addaction name="actionView_Code_CPU_Memory"/>
-    <addaction name="actionView_Code_Memory"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -657,18 +656,6 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionView_Code_Memory">
-   <property name="icon">
-    <iconset resource="pep8resources.qrc">
-     <normaloff>:/images/CodeMemory.xpm</normaloff>:/images/CodeMemory.xpm</iconset>
-   </property>
-   <property name="text">
-    <string>Code/Memory</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>false</bool>
-   </property>
-  </action>
   <action name="actionAbout_Pep8">
    <property name="text">
     <string>About Pep8</string>
@@ -792,7 +779,7 @@
     <string>Open Recent</string>
    </property>
   </action>
-  <action name="actionFormat_From_Listing">
+  <action name="actionEdit_Format_From_Listing">
    <property name="text">
     <string>Format From Listing</string>
    </property>

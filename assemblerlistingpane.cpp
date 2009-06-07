@@ -1,3 +1,4 @@
+#include <QScrollBar>
 #include "assemblerlistingpane.h"
 #include "ui_assemblerlistingpane.h"
 #include "Pep.h"
@@ -48,6 +49,7 @@ void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList)
         }
         m_ui->assemblerListingTextEdit->append("--------------------------------------");
     }
+    m_ui->assemblerListingTextEdit->verticalScrollBar()->setValue(m_ui->assemblerListingTextEdit->verticalScrollBar()->minimum());
 }
 
 void AssemblerListingPane::clearAssemblerListing()

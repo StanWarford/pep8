@@ -102,8 +102,8 @@ private slots:
     void on_actionEdit_Cut_triggered();
     void on_actionEdit_Copy_triggered();
     void on_actionEdit_Paste_triggered();
+    void on_actionEdit_Format_From_Listing_triggered();
     void on_actionEdit_Font_triggered();
-    void on_actionFormat_From_Listing_triggered();
 
     // Build
     void on_actionBuild_Assemble_triggered();

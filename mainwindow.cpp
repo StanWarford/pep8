@@ -114,7 +114,11 @@ bool MainWindow::maybeSave()
     return true;
 }
 
-void MainWindow::loadFile(const QString &fileName) {}
+void MainWindow::loadFile(const QString &fileName)
+{
+
+}
+
 bool MainWindow::saveFile(const QString &fileName)
 {
     QFile file(fileName);
@@ -250,12 +254,15 @@ void MainWindow::on_actionEdit_Paste_triggered()
 
 }
 
-void MainWindow::on_actionEdit_Font_triggered()
+void MainWindow::on_actionEdit_Format_From_Listing_triggered()
 {
-
+    QStringList assemblerListingList = sourceCodePane->getAssemblerListingList();
+    assemblerListingList.replaceInStrings(QRegExp("^............."), "");
+    assemblerListingList.removeAll("");
+    sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
 }
 
-void MainWindow::on_actionFormat_From_Listing_triggered()
+void MainWindow::on_actionEdit_Font_triggered()
 {
 
 }
