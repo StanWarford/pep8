@@ -37,7 +37,6 @@ public:
    void examplesClicked();
    void operatingSystemClicked();
    QString getLeftTextEditText();
-   void helpClicked();
 
 signals:
    void clicked();

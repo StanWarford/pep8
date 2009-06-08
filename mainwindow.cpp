@@ -439,7 +439,6 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 void MainWindow::on_actionHelp_triggered()
 {
     helpDialog->show();
-    helpDialog->helpClicked();
 }
 
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
