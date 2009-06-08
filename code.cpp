@@ -6,47 +6,57 @@
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
 {
-    objectCode.append(Pep::opCodeMap.value(mnemonic));
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        objectCode.append(Pep::opCodeMap.value(mnemonic));
+    }
 }
 
 void NonUnaryInstruction::appendObjectCode(QList<int> &objectCode)
 {
-    int instructionSpecifier = Pep::opCodeMap.value(mnemonic);
-    if (Pep::addrModeRequiredMap.value(mnemonic)) {
-        instructionSpecifier += Pep::aaaAddressField(addressingMode);
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        int instructionSpecifier = Pep::opCodeMap.value(mnemonic);
+        if (Pep::addrModeRequiredMap.value(mnemonic)) {
+            instructionSpecifier += Pep::aaaAddressField(addressingMode);
+        }
+        else {
+            instructionSpecifier += Pep::aAddressField(addressingMode);
+        }
+        objectCode.append(instructionSpecifier);
+        int operandSpecifier = argument->getArgumentValue();
+        objectCode.append(operandSpecifier / 256);
+        objectCode.append(operandSpecifier % 256);
     }
-    else {
-        instructionSpecifier += Pep::aAddressField(addressingMode);
-    }
-    objectCode.append(instructionSpecifier);
-    int operandSpecifier = argument->getArgumentValue();
-    objectCode.append(operandSpecifier / 256);
-    objectCode.append(operandSpecifier % 256);
 }
 
 void DotAddrss::appendObjectCode(QList<int> &objectCode)
 {
-    int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
-    objectCode.append(symbolValue / 256);
-    objectCode.append(symbolValue % 256);
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
+        objectCode.append(symbolValue / 256);
+        objectCode.append(symbolValue % 256);
+    }
 }
 
 void DotAscii::appendObjectCode(QList<int> &objectCode)
 {
-    int value;
-    QString str = argument->getArgumentString();
-    str.remove(0, 1); // Remove the leftmost double quote.
-    str.chop(1); // Remove the rightmost double quote.
-    while (str.length() > 0) {
-        Asm::unquotedStringToInt(str, value);
-        objectCode.append(value);
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        int value;
+        QString str = argument->getArgumentString();
+        str.remove(0, 1); // Remove the leftmost double quote.
+        str.chop(1); // Remove the rightmost double quote.
+        while (str.length() > 0) {
+            Asm::unquotedStringToInt(str, value);
+            objectCode.append(value);
+        }
     }
 }
 
 void DotBlock::appendObjectCode(QList<int> &objectCode)
 {
-    for (int i = 0; i < argument->getArgumentValue(); i++) {
-        objectCode.append(0);
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        for (int i = 0; i < argument->getArgumentValue(); i++) {
+            objectCode.append(0);
+        }
     }
 }
 
@@ -57,7 +67,9 @@ void DotBurn::appendObjectCode(QList<int> &)
 
 void DotByte::appendObjectCode(QList<int> &objectCode)
 {
-    objectCode.append(argument->getArgumentValue());
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        objectCode.append(argument->getArgumentValue());
+    }
 }
 
 void DotEnd::appendObjectCode(QList<int> &)
@@ -72,9 +84,11 @@ void DotEquate::appendObjectCode(QList<int> &)
 
 void DotWord::appendObjectCode(QList<int> &objectCode)
 {
-    int value = argument->getArgumentValue();
-    objectCode.append(value / 256);
-    objectCode.append(value % 256);
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        int value = argument->getArgumentValue();
+        objectCode.append(value / 256);
+        objectCode.append(value % 256);
+    }
 }
 
 void CommentOnly::appendObjectCode(QList<int> &)
@@ -90,7 +104,10 @@ void BlankLine::appendObjectCode(QList<int> &)
 void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
-    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();
+    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();;
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "  ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");
@@ -114,6 +131,10 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     temp += Pep::addrModeRequiredMap.value(mnemonic) ? Pep::aaaAddressField(addressingMode) : Pep::aAddressField(addressingMode);
     QString codeStr = QString("%1").arg(temp, 2, 16, QLatin1Char('0')).toUpper();
     QString oprndNumStr = QString("%1").arg(argument->getArgumentValue(), 4, 16, QLatin1Char('0')).toUpper();
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "  ";
+        oprndNumStr = "    ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");
@@ -121,6 +142,9 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
     QString oprndStr = argument->getArgumentString();
     if (Pep::addrModeRequiredMap.value(mnemonic)) {
+        oprndStr.append(Pep::commaPrefixedMode(addressingMode));
+    }
+    else if (addressingMode == Pep::X) {
         oprndStr.append(Pep::commaPrefixedMode(addressingMode));
     }
     QString lineStr = QString("%1%2%3%4%5%6%7")
@@ -141,6 +165,9 @@ void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList 
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
     QString codeStr = QString("%1").arg(symbolValue, 4, 16, QLatin1Char('0')).toUpper();
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "    ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");
@@ -171,6 +198,9 @@ void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &
         Asm::unquotedStringToInt(str, value);
         codeStr.append(QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
     }
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "      ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");
@@ -187,16 +217,18 @@ void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(false);
-    while (str.length() > 0) {
-        codeStr = "";
-        while ((str.length() > 0) && (codeStr.length() < 6)) {
-            Asm::unquotedStringToInt(str, value);
-            codeStr.append(QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        while (str.length() > 0) {
+            codeStr = "";
+            while ((str.length() > 0) && (codeStr.length() < 6)) {
+                Asm::unquotedStringToInt(str, value);
+                codeStr.append(QString("%1").arg(value, 2, 16, QLatin1Char('0')).toUpper());
+            }
+            lineStr = QString("      %1").arg(codeStr, -7, QLatin1Char(' '));
+            assemblerListingList.append(lineStr);
+            listingTraceList.append(lineStr);
+            hasCheckBox.append(false);
         }
-        lineStr = QString("      %1").arg(codeStr, -7, QLatin1Char(' '));
-        assemblerListingList.append(lineStr);
-        listingTraceList.append(lineStr);
-        hasCheckBox.append(false);
     }
 }
 
@@ -208,6 +240,9 @@ void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &
     while ((numBytes > 0) && (codeStr.length() < 6)) {
         codeStr.append("00");
         numBytes--;
+    }
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "      ";
     }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
@@ -225,28 +260,48 @@ void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(false);
-    while (numBytes > 0) {
-        codeStr = "";
-        while ((numBytes > 0) && (codeStr.length() < 6)) {
-            codeStr.append("00");
-            numBytes--;
+    if ((Pep::burnCount == 0) || ((Pep::burnCount == 1) && (memAddress >= Pep::romStartAddress))) {
+        while (numBytes > 0) {
+            codeStr = "";
+            while ((numBytes > 0) && (codeStr.length() < 6)) {
+                codeStr.append("00");
+                numBytes--;
+            }
+            lineStr = QString("      %1").arg(codeStr, -7, QLatin1Char(' '));
+            assemblerListingList.append(lineStr);
+            listingTraceList.append(lineStr);
+            hasCheckBox.append(false);
         }
-        lineStr = QString("      %1").arg(codeStr, -7, QLatin1Char(' '));
-        assemblerListingList.append(lineStr);
-        listingTraceList.append(lineStr);
-        hasCheckBox.append(false);
     }
 }
 
 void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
-
+    QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
+    QString symbolStr = symbolDef;
+    if (symbolStr.length() > 0) {
+        symbolStr.append(":");
+    }
+    QString dotStr = ".BURN";
+    QString oprndStr = argument->getArgumentString();
+    QString lineStr = QString("%1       %2%3%4%5")
+                      .arg(memStr, -6, QLatin1Char(' '))
+                      .arg(symbolStr, -9, QLatin1Char(' '))
+                      .arg(dotStr, -8, QLatin1Char(' '))
+                      .arg(oprndStr, -14)
+                      .arg(comment);
+    assemblerListingList.append(lineStr);
+    listingTraceList.append(lineStr);
+    hasCheckBox.append(false);
 }
 
 void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString codeStr = QString("%1").arg(argument->getArgumentValue(), 2, 16, QLatin1Char('0')).toUpper();
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "  ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");
@@ -305,6 +360,9 @@ void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &l
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString codeStr = QString("%1").arg(argument->getArgumentValue(), 4, 16, QLatin1Char('0')).toUpper();
+    if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
+        codeStr = "    ";
+    }
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
         symbolStr.append(":");

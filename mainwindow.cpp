@@ -280,10 +280,12 @@ void MainWindow::on_actionBuild_Assemble_triggered()
             listingTracePane->clearListingTrace();
             ui->statusbar->showMessage("Assembly failed", 4000);
         }
-        ui->statusbar->showMessage("Assembly succeeded", 4000);
-        objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-        assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+        else {
+            objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
+            assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+            listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+            ui->statusbar->showMessage("Assembly succeeded", 4000);
+        }
     }
     else {
         assemblerListingPane->clearAssemblerListing();
@@ -358,7 +360,49 @@ void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 
 void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
 {
-
+    Pep::burnCount = 0;
+    if (sourceCodePane->assemble()) {
+        if (Pep::burnCount == 0) {
+            QString errorString = ";ERROR: .BURN required to install OS.";
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            assemblerListingPane->clearAssemblerListing();
+            objectCodePane->clearObjectCode();
+            listingTracePane->clearListingTrace();
+            ui->statusbar->showMessage("Assembly failed", 4000);
+        }
+        else if (Pep::burnCount > 1) {
+            QString errorString = ";ERROR: Program contain more than one .BURN.";
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            assemblerListingPane->clearAssemblerListing();
+            objectCodePane->clearObjectCode();
+            listingTracePane->clearListingTrace();
+            ui->statusbar->showMessage("Assembly failed", 4000);
+        }
+        else {
+            // Adjust for .BURN
+            int addressDelta = Pep::dotBurnArgument - Pep::byteCount + 1;
+            QMutableMapIterator <QString, int> i(Pep::symbolTable);
+            while (i.hasNext()) {
+                i.next();
+                if (Pep::adjustSymbolValueForBurn.value(i.key())) {
+                    i.setValue(i.value() + addressDelta);
+                }
+            }
+            sourceCodePane->adjustCodeList(addressDelta);
+            Pep::romStartAddress += addressDelta;
+            objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
+            assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+            listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+            sourceCodePane->installOS();
+            ui->statusbar->showMessage("Assembly succeeded, OS installed", 4000);
+        }
+    }
+    else {
+        assemblerListingPane->clearAssemblerListing();
+        objectCodePane->clearObjectCode();
+        listingTracePane->clearListingTrace();
+        ui->statusbar->showMessage("Assembly failed", 4000);
+    }
 }
 
 void MainWindow::on_actionSystem_Reinstall_Default_OS_triggered()

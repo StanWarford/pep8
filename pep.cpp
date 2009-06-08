@@ -339,6 +339,7 @@ void Pep::initAddrModesMap()
 
 // The symbol table
 QMap<QString, int> Pep::symbolTable;
+QMap<QString, bool> Pep::adjustSymbolValueForBurn;
 
 // Map from instruction memory address to assembler listing line
 QMap<int, int> Pep::memAddrssToAssemblerListing;
@@ -638,9 +639,9 @@ void Pep::initDecoderTables()
 }
 
 // .BURN and the ROM state
+int Pep::byteCount;
 int Pep::burnCount;
 int Pep::dotBurnArgument;
-int Pep::dotBurnByteCount;
 int Pep::romStartAddress;
 
 // The machine

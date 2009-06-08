@@ -105,6 +105,7 @@ public:
 
     // The symbol table
     static QMap<QString, int> symbolTable;
+    static QMap<QString, bool> adjustSymbolValueForBurn;
 
     // Map from instruction memory address to assembler listing line
     static QMap<int, int> memAddrssToAssemblerListing;
@@ -115,9 +116,9 @@ public:
     static void initDecoderTables();
 
     // .BURN and the ROM state
+    static int byteCount;
     static int burnCount;
     static int dotBurnArgument;
-    static int dotBurnByteCount;
     static int romStartAddress;
 
     // The machine

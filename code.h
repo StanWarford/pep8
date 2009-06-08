@@ -13,6 +13,7 @@ public:
     virtual ~Code() { }
     virtual void appendObjectCode(QList<int> &objectCode) = 0;
     virtual void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox) = 0;
+    void adjustMemAddress(int addressDelta) { memAddress += addressDelta; }
 
 protected:
     int memAddress;

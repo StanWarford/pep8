@@ -21,6 +21,9 @@ public:
     // Pre: The source code pane contains a Pep/8 source program.
     // Post: If the program assembles correctly, true is returned, and codeList is populated
     // with the code objects. Otherwise false is returned and codeList is partially populated.
+    // Post: Pep::symbolTable is populated with values not adjusted for .BURN.
+    // Post: Pep::byteCount is the byte count for the object code not adjusted for .BURN.
+    // Post: Pep::burnCount is the number of .BURN instructions encountered in the source program.
 
     QList<int> getObjectCode();
     // Pre: codeList is populated with code from a complete correct Pep/8 source program.
@@ -40,6 +43,14 @@ public:
     QList<bool> getHasCheckBox();
     // Pre: hasCheckBox is populated.
     // Post: hasCheckBox is returned.
+
+    void adjustCodeList(int addressDelta);
+    // Pre: codeList is populated with code from a complete correct Pep/8 source program.
+    // Post: The memAddress field of each code object is incremented by addressDelta.
+
+    void installOS();
+    // Pre: objectCode is populated with code from a complete correct Pep/8 OS source program.
+    // Post: objectCode is loaded into OS rom of Pep::Mem.
 
     void removeErrorMessages();
     // Post: Searces for the string ";ERROR:" on each line and removes the end of the line.

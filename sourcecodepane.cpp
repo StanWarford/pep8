@@ -25,7 +25,6 @@ bool SourceCodePane::assemble()
     QString errorString;
     QStringList sourceCodeList;
     Code *code;
-    int byteCount = 0;
     int lineNum = 0;
     bool dotEndDetected = false;
 
@@ -33,15 +32,17 @@ bool SourceCodePane::assemble()
     Asm::listOfReferencedSymbols.clear();
     Pep::memAddrssToAssemblerListing.clear();
     Pep::symbolTable.clear();
+    Pep::adjustSymbolValueForBurn.clear();
     while (!codeList.isEmpty()) {
         delete codeList.takeFirst();
     }
     QString sourceCode = m_ui->pepSourceCodeTextEdit->toPlainText();
     sourceCodeList = sourceCode.split('\n');
+    Pep::byteCount = 0;
     Pep::burnCount = 0;
     while (lineNum < sourceCodeList.size() && !dotEndDetected) {
         sourceLine = sourceCodeList[lineNum];
-        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, byteCount, dotEndDetected)) {
+        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, dotEndDetected)) {
             appendMessageInSourceCodePaneAt(lineNum, errorString, Qt::red);
             return false;
         }
@@ -53,7 +54,7 @@ bool SourceCodePane::assemble()
         appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
         return false;
     }
-    if (byteCount > 65535) {
+    if (Pep::byteCount > 65535) {
         errorString = ";ERROR: Object code size too large to fit into memory.";
         appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
         return false;
@@ -96,6 +97,24 @@ QStringList SourceCodePane::getListingTraceList()
 QList<bool> SourceCodePane::getHasCheckBox()
 {
     return hasCheckBox;
+}
+
+void SourceCodePane::adjustCodeList(int addressDelta)
+{
+    for (int i = 0; i < codeList.length(); i++) {
+        codeList[i]->adjustMemAddress(addressDelta);
+    }
+}
+
+void SourceCodePane::installOS()
+{
+    for (int i = 0; i < 65536; i++) {
+        Pep::Mem[i] = 0;
+    }
+    int j = Pep::romStartAddress;
+    for (int i = 0; i < objectCode.size(); i++) {
+        Pep::Mem[j++] = objectCode[i];
+    }
 }
 
 void SourceCodePane::removeErrorMessages()
