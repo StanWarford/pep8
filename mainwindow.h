@@ -70,12 +70,12 @@ private:
     ByteConverterChar *byteConverterChar;
 
     // Save methods
-    bool save();
+    bool saveSource();
     void readSettings();
     void writeSettings();
-    bool maybeSave();
-    void loadFile(const QString &fileName);
-    bool saveFile(const QString &fileName);
+    bool maybeSaveSource();
+    void loadFileSource(const QString &fileName);
+    bool saveFileSource(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
 
@@ -86,12 +86,12 @@ private slots:
     void on_actionFile_New_triggered();
     void on_actionFile_Open_triggered();
     void on_actionFile_Open_Recent_triggered();
-    void on_actionFile_Save_Source_triggered();
-    void on_actionFile_Save_Object_triggered();
-    void on_actionFile_Save_Listing_triggered();
+    bool on_actionFile_Save_Source_triggered();
+    bool on_actionFile_Save_Object_triggered();
+    bool on_actionFile_Save_Listing_triggered();
     bool on_actionFile_Save_Source_As_triggered();
-    void on_actionFile_Save_Object_As_triggered();
-    void on_actionFile_Save_Listing_As_triggered();
+    bool on_actionFile_Save_Object_As_triggered();
+    bool on_actionFile_Save_Listing_As_triggered();
     void on_actionFile_Print_Source_triggered();
     void on_actionFile_Print_Object_triggered();
     void on_actionFile_Print_Listing_triggered();
@@ -117,7 +117,6 @@ private slots:
     void on_actionView_Code_Only_triggered();
     void on_actionView_Code_CPU_triggered();
     void on_actionView_Code_CPU_Memory_triggered();
-    void on_actionView_Code_Memory_triggered();
 
     // System
     void on_actionSystem_Redefine_Mnemonics_triggered();

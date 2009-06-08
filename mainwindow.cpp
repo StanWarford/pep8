@@ -86,19 +86,19 @@ MainWindow::~MainWindow()
 
 // Save methods
 
-bool MainWindow::save()
+bool MainWindow::saveSource()
 {
     if (curFile.isEmpty()) {
         return on_actionFile_Save_Source_As_triggered();
     } else {
-        return saveFile(curFile);
+        return saveFileSource(curFile);
     }
 }
 
 void MainWindow::readSettings() {}
 void MainWindow::writeSettings() {}
 
-bool MainWindow::maybeSave()
+bool MainWindow::maybeSaveSource()
 {
     if (sourceCodePane->isModified()) {
         QMessageBox::StandardButton ret;
@@ -107,20 +107,39 @@ bool MainWindow::maybeSave()
                                    "Do you want to save your changes?",
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save)
-            return save();
+            return saveSource();
         else if (ret == QMessageBox::Cancel)
             return false;
     }
     return true;
 }
 
-void MainWindow::loadFile(const QString &fileName)
+void MainWindow::loadFileSource(const QString &fileName)
 {
 
 }
 
-bool MainWindow::saveFile(const QString &fileName)
+bool MainWindow::saveFileSource(const QString &fileName)
 {
+// Warford's code:
+//    QFile file(fileName);
+//    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+//        QMessageBox::warning(this, tr("Application"),
+//                             tr("Cannot read file %1:\n%2.")
+//                             .arg(fileName)
+//                             .arg(file.errorString()));
+//        return;
+//    }
+//
+//    QTextStream in(&file);
+//    QApplication::setOverrideCursor(Qt::WaitCursor);
+//    sourceCodePane->setSourceCodePaneText(in.readAll());
+//    QApplication::restoreOverrideCursor();
+//
+//    setCurrentFile(fileName);
+//    statusBar()->showMessage(tr("File loaded"), 2000);
+
+// Chris' code:
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         QMessageBox::warning(this, tr("Application"),
@@ -130,13 +149,13 @@ bool MainWindow::saveFile(const QString &fileName)
         return false;
     }
 
-    QTextStream out(&file);
+    QTextStream in(&file);
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    out << sourceCodePane->toPlainText();
+    in << sourceCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
 
     setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File saved"), 2000);
+    statusBar()->showMessage("Source saved", 2000);
     return true;
 }
 
@@ -164,14 +183,18 @@ QString MainWindow::strippedName(const QString &fullFileName)
 // File MainWindow triggers
 void MainWindow::on_actionFile_New_triggered()
 {
-    if (maybeSave()) {
+    if (maybeSaveSource()) {
         sourceCodePane->clearSourceCodePane();
         setCurrentFile("");
     }
 }
 void MainWindow::on_actionFile_Open_triggered()
 {
-
+    if (maybeSaveSource()) {
+        QString fileName = QFileDialog::getOpenFileName(this);
+        if (!fileName.isEmpty())
+            loadFileSource(fileName);
+    }
 }
 
 void MainWindow::on_actionFile_Open_Recent_triggered()
@@ -179,19 +202,23 @@ void MainWindow::on_actionFile_Open_Recent_triggered()
 
 }
 
-void MainWindow::on_actionFile_Save_Source_triggered()
+bool MainWindow::on_actionFile_Save_Source_triggered()
 {
-
+    if (curFile.isEmpty()) {
+        return on_actionFile_Save_Source_As_triggered();
+    } else {
+        return saveFileSource(curFile);
+    }
 }
 
-void MainWindow::on_actionFile_Save_Object_triggered()
+bool MainWindow::on_actionFile_Save_Object_triggered()
 {
-
+    return true;
 }
 
-void MainWindow::on_actionFile_Save_Listing_triggered()
+bool MainWindow::on_actionFile_Save_Listing_triggered()
 {
-
+    return true;
 }
 
 bool MainWindow::on_actionFile_Save_Source_As_triggered()
@@ -200,17 +227,17 @@ bool MainWindow::on_actionFile_Save_Source_As_triggered()
     if (fileName.isEmpty())
         return false;
 
-    return saveFile(fileName);
+    return saveFileSource(fileName);
 }
 
-void MainWindow::on_actionFile_Save_Object_As_triggered()
+bool MainWindow::on_actionFile_Save_Object_As_triggered()
 {
-
+    return true;
 }
 
-void MainWindow::on_actionFile_Save_Listing_As_triggered()
+bool MainWindow::on_actionFile_Save_Listing_As_triggered()
 {
-
+    return true;
 }
 
 void MainWindow::on_actionFile_Print_Source_triggered()
@@ -343,14 +370,6 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
 }
-
-void MainWindow::on_actionView_Code_Memory_triggered()
-{
-    ui->horizontalSplitter->widget(0)->show();
-    ui->horizontalSplitter->widget(1)->hide();
-    ui->horizontalSplitter->widget(2)->show();
-}
-
 
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
@@ -495,7 +514,7 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 }
 
 void MainWindow::helpCopyToSourceButtonClicked() {
-    if (maybeSave()) {
+    if (maybeSaveSource()) {
         setCurrentFile("");
         sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
         assemblerListingPane->clearAssemblerListing();
