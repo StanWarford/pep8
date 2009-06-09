@@ -111,7 +111,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pepBatchTab">
          <attribute name="title">
@@ -204,7 +204,6 @@
    <addaction name="actionFile_New"/>
    <addaction name="actionFile_Open"/>
    <addaction name="actionFile_Save_Source"/>
-   <addaction name="actionFile_Print_Source"/>
   </widget>
   <widget class="QToolBar" name="editToolBar">
    <property name="orientation">
@@ -337,6 +336,12 @@
     <addaction name="actionView_Code_Only"/>
     <addaction name="actionView_Code_CPU"/>
     <addaction name="actionView_Code_CPU_Memory"/>
+    <addaction name="separator"/>
+    <addaction name="actionCode_Tab"/>
+    <addaction name="actionTrace_Tab"/>
+    <addaction name="separator"/>
+    <addaction name="actionBatch_I_O_Tab"/>
+    <addaction name="actionTerminal_Tab"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -628,6 +633,9 @@
    <property name="text">
     <string>Code Only</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
    </property>
@@ -640,6 +648,9 @@
    <property name="text">
     <string>Code/CPU</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
    </property>
@@ -651,6 +662,9 @@
    </property>
    <property name="text">
     <string>Code/CPU/Memory</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
@@ -785,6 +799,38 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionCode_Tab">
+   <property name="text">
+    <string>Code Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionTrace_Tab">
+   <property name="text">
+    <string>Trace Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actionBatch_I_O_Tab">
+   <property name="text">
+    <string>Batch I/O Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
+   </property>
+  </action>
+  <action name="actionTerminal_Tab">
+   <property name="text">
+    <string>Terminal Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
    </property>
   </action>
  </widget>
