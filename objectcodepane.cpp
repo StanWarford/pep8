@@ -54,5 +54,5 @@ QString ObjectCodePane::toPlainText()
 
 void ObjectCodePane::setCurrentFile(QString string)
 {
-    m_ui->pepObjectCodeLabel->setText("Object Code - \"" + string +"\"");
+    m_ui->pepObjectCodeLabel->setText("Object Code - " + string);
 }

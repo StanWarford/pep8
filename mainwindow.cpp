@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initDecoderTables();
 
     // Save system setup
-    setCurrentFile("");
     readSettings();
 
     // Mac title bar
@@ -108,28 +107,28 @@ MainWindow::~MainWindow()
 
 bool MainWindow::saveSource()
 {
-    if (curFile.isEmpty()) {
+    if (curSourceFile.isEmpty()) {
         return on_actionFile_Save_Source_As_triggered();
     } else {
-        return saveFileSource(curFile);
+        return saveFileSource(curSourceFile);
     }
 }
 
 bool MainWindow::saveObject()
 {
-    if (curFile.isEmpty()) {
+    if (curObjectFile.isEmpty()) {
         return on_actionFile_Save_Object_As_triggered();
     } else {
-        return saveFileObject(curFile);
+        return saveFileObject(curObjectFile);
     }
 }
 
 bool MainWindow::saveListing()
 {
-    if (curFile.isEmpty()) {
+    if (curListingFile.isEmpty()) {
         return on_actionFile_Save_Listing_As_triggered();
     } else {
-        return saveFileListing(curFile);
+        return saveFileListing(curListingFile);
     }
 }
 
@@ -211,17 +210,20 @@ void MainWindow::loadFile(const QString &fileName)
      QTextStream in(&file);
      QApplication::setOverrideCursor(Qt::WaitCursor);
      QRegExp rx("*.pepo");
+     QString pane = "";
      if (rx.exactMatch(fileName)) {
         // Set object code pane text
          objectCodePane->setObjectCodePaneText(in.readAll());
+         pane = "Object";
      } else { // Need to implement a difference between .pep and .pepl
         // Set source code pane text
          sourceCodePane->setSourceCodePaneText(in.readAll());
+         pane = "Source";
      }
      QApplication::restoreOverrideCursor();
 
-     setCurrentFile(fileName);
-     statusBar()->showMessage(tr("File loaded"), 2000);
+     setCurrentFile(fileName, pane);
+     statusBar()->showMessage(tr("File loaded"), 4000);
 }
 
 bool MainWindow::saveFileSource(const QString &fileName)
@@ -242,7 +244,7 @@ bool MainWindow::saveFileSource(const QString &fileName)
 //    QApplication::restoreOverrideCursor();
 //
 //    setCurrentFile(fileName);
-//    statusBar()->showMessage(tr("File loaded"), 2000);
+//    statusBar()->showMessage(tr("File loaded"), 4000);
 
 // Chris' code:
     QFile file(fileName);
@@ -259,8 +261,8 @@ bool MainWindow::saveFileSource(const QString &fileName)
     out << sourceCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName);
-    statusBar()->showMessage("Source saved", 2000);
+    setCurrentFile(fileName, "Source");
+    statusBar()->showMessage("Source saved", 4000);
     return true;
 }
 
@@ -280,16 +282,16 @@ bool MainWindow::saveFileObject(const QString &fileName) // Copied and pasted, c
     out << objectCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName);
-    statusBar()->showMessage("Object code saved", 2000);
+    setCurrentFile(fileName, "Object");
+    statusBar()->showMessage("Object code saved", 4000);
     return true;
 }
 
-bool MainWindow::saveFileListing(const QString &fileName) // Copied and pasted, change.
+bool MainWindow::saveFileListing(const QString &fileName)
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        QMessageBox::warning(this, tr("Application"),
+        QMessageBox::warning(this, tr("Pep/8"),
                              tr("Cannot write file %1:\n%2.")
                              .arg(fileName)
                              .arg(file.errorString()));
@@ -301,24 +303,48 @@ bool MainWindow::saveFileListing(const QString &fileName) // Copied and pasted, 
     out << assemblerListingPane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName);
-    statusBar()->showMessage("Assembler listing saved", 2000);
+    setCurrentFile(fileName, "Listing");
+    statusBar()->showMessage("Assembler listing saved", 4000);
     return true;
 }
 
-void MainWindow::setCurrentFile(const QString &fileName)
+void MainWindow::setCurrentFile(const QString &fileName, QString pane)
 {
-    curFile = fileName;
-    sourceCodePane->setModified(false);
-    setWindowModified(false);
+    if (pane == "Source") {
+        curSourceFile = fileName;
+        sourceCodePane->setModified(false);
+    } else if (pane == "Object") {
+        curObjectFile = fileName;
+        objectCodePane->setModified(false);
+    } else if (pane == "Listing") {
+        curListingFile = fileName;
+        assemblerListingPane->setModified(false);
+    }
+//  setWindowModified(false);
 
     QString shownName;
-    if (curFile.isEmpty()) {
-        shownName = "untitled.txt";
-    } else {
-        shownName = strippedName(curFile);
+    if (pane == "Source") {
+        if (curSourceFile.isEmpty()) {
+            shownName = "untitled.pep";
+        } else {
+            shownName = strippedName(curSourceFile); // Shows full file path
+        }
+        sourceCodePane->setCurrentFile(shownName);
+    } else if (pane == "Object") {
+        if (curObjectFile.isEmpty()) {
+            shownName = "untitled.pepo";
+        } else {
+            shownName = strippedName(curObjectFile);
+        }
+        objectCodePane->setCurrentFile(shownName);
+    } else if (pane == "Listing") {
+        if (curListingFile.isEmpty()) {
+            shownName = "untitled.pepl";
+        } else {
+            shownName = strippedName(curListingFile);
+        }
+        assemblerListingPane->setCurrentFile(shownName);
     }
-    setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("Application")));
 
 //    // For recent files:
 //    QSettings settings("Pep/8", "Recent Files");
@@ -369,7 +395,7 @@ void MainWindow::on_actionFile_New_triggered()
 {
     if (maybeSaveSource()) {
         sourceCodePane->clearSourceCode();
-        setCurrentFile("");
+        setCurrentFile("", "Source");
     }
 }
 void MainWindow::on_actionFile_Open_triggered()
@@ -383,28 +409,28 @@ void MainWindow::on_actionFile_Open_triggered()
 
 bool MainWindow::on_actionFile_Save_Source_triggered()
 {
-    if (curFile.isEmpty()) {
+    if (curSourceFile.isEmpty()) {
         return on_actionFile_Save_Source_As_triggered();
     } else {
-        return saveFileSource(curFile);
+        return saveFileSource(curSourceFile);
     }
 }
 
 bool MainWindow::on_actionFile_Save_Object_triggered()
 {
-    if (curFile.isEmpty()) {
+    if (curObjectFile.isEmpty()) {
         return on_actionFile_Save_Object_As_triggered();
     } else {
-        return saveFileObject(curFile);
+        return saveFileObject(curObjectFile);
     }
 }
 
 bool MainWindow::on_actionFile_Save_Listing_triggered()
 {
-    if (curFile.isEmpty()) {
+    if (curListingFile.isEmpty()) {
         return on_actionFile_Save_Listing_As_triggered();
     } else {
-        return saveFileListing(curFile);
+        return saveFileListing(curListingFile);
     }
 }
 
@@ -429,9 +455,9 @@ bool MainWindow::on_actionFile_Save_Object_As_triggered()
 bool MainWindow::on_actionFile_Save_Listing_As_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this);
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
         return false;
-
+    }
     return saveFileListing(fileName);
 }
 
@@ -732,19 +758,25 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 
 }
 
-void MainWindow::helpCopyToSourceButtonClicked() {
+void MainWindow::helpCopyToSourceButtonClicked()
+{
     if (maybeSaveSource()) {
-        setCurrentFile("");
+        setCurrentFile("untitled.pep", "Source");
         sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
         assemblerListingPane->clearAssemblerListing();
         objectCodePane->clearObjectCode();
         listingTracePane->clearListingTrace();
+        statusBar()->showMessage("Copied to source", 4000);
     }
 }
 
-void MainWindow::on_actionAbout_Qt_triggered() {}
+void MainWindow::on_actionAbout_Qt_triggered()
+{
 
-void MainWindow::slotByteConverterDecEdited(const QString &str) {
+}
+
+void MainWindow::slotByteConverterDecEdited(const QString &str)
+{
     if (str.length() > 0) {
         bool ok;
         int data = str.toInt(&ok, 10);

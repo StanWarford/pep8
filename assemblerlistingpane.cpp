@@ -74,7 +74,7 @@ QString AssemblerListingPane::toPlainText()
 
 void AssemblerListingPane::setCurrentFile(QString string)
 {
-    m_ui->assemblerListingLabel->setText("Assembler listing - \"" + string +"\"");
+    m_ui->assemblerListingLabel->setText("Assembler listing - " + string);
 }
 
 
