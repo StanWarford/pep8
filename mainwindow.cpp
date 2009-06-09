@@ -42,12 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     memoryDumpPane = new MemoryDumpPane(ui->horizontalSplitter);
     delete ui->MemoryDumpWidgetPane;
 
-    // Adjust initial configuration
-    ui->horizontalSplitter->widget(2)->hide();
-    ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
-    ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
-    ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
-
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
     redefineMnemonicsDialog->hide();
@@ -80,8 +74,19 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initMnemonicMaps();
     Pep::initDecoderTables();
 
+    // Adjust initial configuration
+    ui->horizontalSplitter->widget(2)->hide();
+    ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
+    ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
+    ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
+    ui->horizontalSplitter->widget(2)->resize(QSize(memoryDumpPane->memDumpPaneWidth(), 1));
+
     // Save system setup
     readSettings();
+
+    // Memory pane refresh
+    memoryDumpPane->refreshMemory();
+
 
     // Mac title bar
     setUnifiedTitleAndToolBarOnMac(true);
