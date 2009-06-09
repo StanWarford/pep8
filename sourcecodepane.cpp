@@ -152,7 +152,7 @@ void SourceCodePane::setSourceCodePaneText(QString string)
     m_ui->pepSourceCodeTextEdit->setText(string);
 }
 
-void SourceCodePane::clearSourceCodePane()
+void SourceCodePane::clearSourceCode()
 {
     m_ui->pepSourceCodeTextEdit->clear();
 }

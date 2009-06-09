@@ -783,6 +783,9 @@
    <property name="text">
     <string>Format From Listing</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
  </widget>
  <resources>

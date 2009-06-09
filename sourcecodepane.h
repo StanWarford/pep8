@@ -62,7 +62,7 @@ public:
     void setSourceCodePaneText(QString string);
     // Post: Sets text in source code pane to string.
 
-    void clearSourceCodePane();
+    void clearSourceCode();
     // Post: Clears the source code pane
 
     bool isModified();

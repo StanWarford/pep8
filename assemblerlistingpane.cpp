@@ -56,3 +56,19 @@ void AssemblerListingPane::clearAssemblerListing()
 {
     m_ui->assemblerListingTextEdit->clear();
 }
+
+bool AssemblerListingPane::isModified()
+{
+    return m_ui->assemblerListingTextEdit->document()->isModified();
+}
+
+void AssemblerListingPane::setModified(bool modified)
+{
+    m_ui->assemblerListingTextEdit->document()->setModified(modified);
+}
+
+QString AssemblerListingPane::toPlainText()
+{
+    return m_ui->assemblerListingTextEdit->toPlainText();
+}
+

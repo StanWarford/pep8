@@ -13,8 +13,24 @@ class ObjectCodePane : public QWidget {
 public:
     explicit ObjectCodePane(QWidget *parent = 0);
     virtual ~ObjectCodePane();
+
     void setObjectCode(QList<int> objectCode);
+    // Post Sets text in source code pane.
+
+    void setObjectCodePaneText(QString string);
+    // Post: Sets text in source code pane to string.
+
     void clearObjectCode();
+    // Post: Clears the source code pane
+
+    bool isModified();
+    // Post: Returns true if the source code pane has been modified
+
+    void setModified(bool modified);
+    // Post: Sets isModified of the source code pane to modified
+
+    QString toPlainText();
+    // Post: Contents of the source code pane are returned
 
 private:
     Ui::ObjectCodePane *m_ui;

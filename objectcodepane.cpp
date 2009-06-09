@@ -26,7 +26,28 @@ void ObjectCodePane::setObjectCode(QList<int> objectCode)
     m_ui->pepObjectCodeTextEdit->setText(objectCodeString);
 }
 
-void ObjectCodePane::clearObjectCode()
+void ObjectCodePane::setObjectCodePaneText(QString string)
+{
+	m_ui->pepObjectCodeTextEdit->setText(string);
+}
+
+void ObjectCodePane::ObjectCodePane::clearObjectCode()
 {
     m_ui->pepObjectCodeTextEdit->clear();
+}
+
+
+bool ObjectCodePane::isModified()
+{
+	return m_ui->pepObjectCodeTextEdit->document()->isModified();
+}
+
+void ObjectCodePane::setModified(bool modified)
+{
+	m_ui->pepObjectCodeTextEdit->document()->setModified(modified);
+}
+
+QString ObjectCodePane::toPlainText()
+{
+	return m_ui->pepObjectCodeTextEdit->toPlainText();
 }
