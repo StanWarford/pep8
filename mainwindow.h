@@ -135,6 +135,10 @@ private slots:
     void on_actionView_Code_Only_triggered();
     void on_actionView_Code_CPU_triggered();
     void on_actionView_Code_CPU_Memory_triggered();
+    void on_actionView_Code_Tab_triggered();
+    void on_actionView_Trace_Tab_triggered();
+    void on_actionView_Batch_I_O_Tab_triggered();
+    void on_actionView_Terminal_Tab_triggered();
 
     // System
     void on_actionSystem_Redefine_Mnemonics_triggered();

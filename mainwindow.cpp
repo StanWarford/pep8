@@ -542,7 +542,6 @@ void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
     sourceCodePane->removeErrorMessages();
 }
 
-
 // View MainWindow triggers
 void MainWindow::on_actionView_Code_Only_triggered()
 {
@@ -564,6 +563,32 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
+}
+
+void MainWindow::on_actionView_Code_Tab_triggered()
+{
+    ui->pepCodeTraceTab->setCurrentIndex(0);
+}
+
+void MainWindow::on_actionView_Trace_Tab_triggered()
+{
+    ui->pepCodeTraceTab->setCurrentIndex(1);
+}
+
+void MainWindow::on_actionView_Batch_I_O_Tab_triggered()
+{
+    ui->pepInputOutputTab->setCurrentIndex(0);
+    if (ui->horizontalSplitter->widget(1)->isHidden()) {
+        on_actionView_Code_CPU_triggered();
+    }
+}
+
+void MainWindow::on_actionView_Terminal_Tab_triggered()
+{
+    ui->pepInputOutputTab->setCurrentIndex(1);
+    if (ui->horizontalSplitter->widget(1)->isHidden()) {
+        on_actionView_Code_CPU_triggered();
+    }
 }
 
 // System MainWindow triggers
