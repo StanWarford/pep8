@@ -25,6 +25,9 @@ public:
     QString toPlainText();
     // Post: Contents of the source code pane are returned
 
+    void setCurrentFile(QString string);
+    // Post: Title bar of the window is set to "Assembler Listing - 'string'"
+
 private:
     Ui::AssemblerListingPane *m_ui;
 };

@@ -74,6 +74,10 @@ public:
     QString toPlainText();
     // Post: Contents of the source code pane are returned
 
+    void setCurrentFile(QString string);
+    // Post: Title bar of the window is set to "Object Code - 'string'"
+
+
 private:
     Ui::SourceCodePane *m_ui;
     QList<Code *> codeList;

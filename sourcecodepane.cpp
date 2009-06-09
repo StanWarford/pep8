@@ -171,3 +171,8 @@ QString SourceCodePane::toPlainText()
 {
     return m_ui->pepSourceCodeTextEdit->toPlainText();
 }
+
+void SourceCodePane::setCurrentFile(QString string)
+{
+    m_ui->pepSourceCodeLabel->setText("Source Code - \"" + string +"\"");
+}
