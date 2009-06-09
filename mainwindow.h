@@ -40,6 +40,9 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     Ui::MainWindowClass *ui;
 

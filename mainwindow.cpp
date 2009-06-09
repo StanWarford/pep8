@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QCloseEvent>
 #include <QSettings>
 #include <QDebug>
 #include "mainwindow.h"
@@ -78,12 +79,30 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initAddrModesMap();
     Pep::initMnemonicMaps();
     Pep::initDecoderTables();
+
+    // Save system setup
+    setCurrentFile("");
+    readSettings();
+
+    // Mac title bar
+    setUnifiedTitleAndToolBarOnMac(true);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+// Protected closeEvent
+ void MainWindow::closeEvent(QCloseEvent *event)
+ {
+     if (maybeSaveSource() || maybeSaveObject() || maybeSaveListing()) {
+         writeSettings();
+         event->accept();
+     } else {
+         event->ignore();
+     }
+ }
 
 // Save methods
 
@@ -96,7 +115,7 @@ bool MainWindow::saveSource()
     }
 }
 
-bool MainWindow::saveObject() // Copied and pasted, change.
+bool MainWindow::saveObject()
 {
     if (curFile.isEmpty()) {
         return on_actionFile_Save_Object_As_triggered();
@@ -105,7 +124,7 @@ bool MainWindow::saveObject() // Copied and pasted, change.
     }
 }
 
-bool MainWindow::saveListing() // Copied and pasted, change.
+bool MainWindow::saveListing()
 {
     if (curFile.isEmpty()) {
         return on_actionFile_Save_Listing_As_triggered();
@@ -114,8 +133,21 @@ bool MainWindow::saveListing() // Copied and pasted, change.
     }
 }
 
-void MainWindow::readSettings() {}
-void MainWindow::writeSettings() {}
+void MainWindow::readSettings()
+{
+    QSettings settings("Pep/8", "Dialog");
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(400, 400)).toSize();
+    resize(size);
+    move(pos);
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("Pep/8", "Dialog");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+}
 
 bool MainWindow::maybeSaveSource()
 {
