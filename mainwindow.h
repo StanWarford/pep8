@@ -82,15 +82,12 @@ private:
     bool maybeSaveObject();
     bool maybeSaveListing();
     void loadFile(const QString &fileName);
-//    void loadFileObject(const QString &fileName); // Possibly needed, depending on implementation of open menu item
-//    void loadFileListing(const QString &fileName); // Possibly needed, depending on implementation of open menu item
     bool saveFileSource(const QString &fileName);
     bool saveFileObject(const QString &fileName);
     bool saveFileListing(const QString &fileName);
     void setCurrentFile(const QString &fileName, QString pane);
     QString strippedName(const QString &fullFileName);
 
-    QString curFile;
     QString curSourceFile;
     QString curObjectFile;
     QString curListingFile;
@@ -169,6 +166,9 @@ private slots:
     void slotByteConverterHexEdited(const QString &);
     void slotByteConverterBinEdited(const QString &);
     void slotByteConverterCharEdited(const QString &);
+
+    // Focus coloring
+    void highlightLabel(QWidget *, QWidget *);
 
     /*
     These belong in the other panes

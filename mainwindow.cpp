@@ -2,6 +2,7 @@
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QSettings>
+#include <QApplication>
 #include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -87,9 +88,12 @@ MainWindow::MainWindow(QWidget *parent)
     // Memory pane refresh
     memoryDumpPane->refreshMemory();
 
-
     // Mac title bar
     setUnifiedTitleAndToolBarOnMac(true);
+
+    // Focus highlighting
+    QObject::connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
+
 }
 
 MainWindow::~MainWindow()
@@ -839,3 +843,25 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
         byteConverterBin->setValue(data);
     }
 }
+
+// Focus Coloring
+
+void MainWindow::highlightLabel(QWidget *, QWidget *)
+{
+//    oldLabelPalette.setColor(QPalette::Active, QPalette::Window, QColor(230,230,230));
+//    newLabelPalette.setColor(QPalette::Active, QPalette::Window, QColor(153,204,255));
+
+    sourceCodePane->highlightOnFocus();
+    objectCodePane->highlightOnFocus();
+
+//    assemblerListingPane;
+//    listingTracePane;
+//    memoryTracePane;
+//    cpuPane;
+//    inputPane;
+//    outputPane;
+//    terminalPane;
+//    memoryDumpPane;
+
+}
+

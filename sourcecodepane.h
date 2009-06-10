@@ -4,6 +4,7 @@
 #include <QtGui/QWidget>
 #include <QString>
 #include <QList>
+#include "pep.h"
 #include "asm.h"
 
 namespace Ui {
@@ -77,6 +78,8 @@ public:
     void setCurrentFile(QString string);
     // Post: Title bar of the window is set to "Object Code - 'string'"
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on Pep::labelHighlightColor and labelNoHighlightColor
 
 private:
     Ui::SourceCodePane *m_ui;
@@ -89,3 +92,4 @@ private:
 };
 
 #endif // SOURCECODEPANE_H
+

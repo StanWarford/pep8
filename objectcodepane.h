@@ -35,6 +35,8 @@ public:
     void setCurrentFile(QString string);
     // Post: Title bar of the window is set to "Object Code - 'string'"
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on Pep::labelHighlightColor and labelNoHighlightColor
 
 private:
     Ui::ObjectCodePane *m_ui;

@@ -1,6 +1,7 @@
 #include <QList>
 #include <QStringList>
 #include <QTextCursor>
+#include <QPalette>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
@@ -12,6 +13,7 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
         m_ui(new Ui::SourceCodePane)
 {
     m_ui->setupUi(this);
+//    QWidget::setAutoFillBackground( true )
 }
 
 SourceCodePane::~SourceCodePane()
@@ -176,3 +178,20 @@ void SourceCodePane::setCurrentFile(QString string)
 {
     m_ui->pepSourceCodeLabel->setText("Source Code - " + string);
 }
+
+void SourceCodePane::highlightOnFocus()
+{
+//    QPalette labelNoHighlightPalette;
+//    QPalette labelHighlightPalette;
+//    labelNoHighlightPalette.setColor(QPalette::Active, QPalette::Window, QColor(230,230,230));
+//    labelHighlightPalette.setColor(QPalette::Active, QPalette::Window, QColor(153,204,255));
+    if (m_ui->pepSourceCodeTextEdit->hasFocus()) {
+//        m_ui->pepSourceCodeLabel->setDisabled(false);
+        m_ui->pepSourceCodeLabel->setAutoFillBackground(true);
+    }
+    else {
+//        m_ui->pepSourceCodeLabel->setDisabled(true);
+        m_ui->pepSourceCodeLabel->setAutoFillBackground(false);
+    }
+}
+

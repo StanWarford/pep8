@@ -1,5 +1,6 @@
 #include "objectcodepane.h"
 #include "ui_objectcodepane.h"
+#include "pep.h"
 #include <QDebug>
 
 ObjectCodePane::ObjectCodePane(QWidget *parent) :
@@ -56,3 +57,19 @@ void ObjectCodePane::setCurrentFile(QString string)
 {
     m_ui->pepObjectCodeLabel->setText("Object Code - " + string);
 }
+
+void ObjectCodePane::highlightOnFocus()
+{
+    QPalette labelHighlightPalette;
+    QPalette labelNoHighlightPalette;
+    labelHighlightPalette.setColor(QPalette::Active, QPalette::Window, Pep::labelHighlightColor);
+    labelNoHighlightPalette.setColor(QPalette::Active, QPalette::Window, Pep::labelNoHighlightColor);
+
+    if (hasFocus()) {
+        m_ui->pepObjectCodeLabel->setPalette(labelHighlightPalette);
+    }
+    else {
+        m_ui->pepObjectCodeLabel->setPalette(labelNoHighlightPalette);
+    }
+}
+

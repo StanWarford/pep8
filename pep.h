@@ -6,10 +6,16 @@
 #include <QString>
 #include <QStringList>
 #include <QVector>
+#include <QColor>
 
 class Pep
 {
 public:
+
+    // Label highlight colors
+    static const QColor labelHighlightColor;
+    static const QColor labelNoHighlightColor;
+
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;
     static const QString defaultUnaryMnemonic1;

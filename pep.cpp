@@ -3,6 +3,10 @@
 
 #include "pep.h"
 
+// Label highlight colors
+const QColor Pep::labelHighlightColor = QColor(230,230,230);
+const QColor Pep::labelNoHighlightColor = QColor(153,204,255);
+
 // Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";
 const QString Pep::defaultUnaryMnemonic1 = "NOP1";
