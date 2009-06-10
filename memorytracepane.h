@@ -14,6 +14,9 @@ public:
     explicit MemoryTracePane(QWidget *parent = 0);
     virtual ~MemoryTracePane();
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on the label window color saved in the UI file
+
 private:
     Ui::MemoryTracePane *m_ui;
 };

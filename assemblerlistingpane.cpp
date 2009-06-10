@@ -77,4 +77,13 @@ void AssemblerListingPane::setCurrentFile(QString string)
     m_ui->assemblerListingLabel->setText("Assembler listing - " + string);
 }
 
+void AssemblerListingPane::highlightOnFocus()
+{
+    if (m_ui->assemblerListingTextEdit->hasFocus()) {
+        m_ui->assemblerListingLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->assemblerListingLabel->setAutoFillBackground(false);
+    }
+}
 

@@ -28,6 +28,9 @@ public:
     void setCurrentFile(QString string);
     // Post: Title bar of the window is set to "Assembler Listing - 'string'"
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on the label window color saved in the UI file
+
 private:
     Ui::AssemblerListingPane *m_ui;
 };

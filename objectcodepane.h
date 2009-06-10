@@ -36,7 +36,7 @@ public:
     // Post: Title bar of the window is set to "Object Code - 'string'"
 
     void highlightOnFocus();
-    // Post: Highlights the label based on Pep::labelHighlightColor and labelNoHighlightColor
+    // Post: Highlights the label based on the label window color saved in the UI file
 
 private:
     Ui::ObjectCodePane *m_ui;

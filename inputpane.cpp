@@ -12,3 +12,13 @@ InputPane::~InputPane()
 {
     delete m_ui;
 }
+
+void InputPane::highlightOnFocus()
+{
+    if (m_ui->_textEdit->hasFocus()) {
+        m_ui->_label->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->_label->setAutoFillBackground(false);
+    }
+}

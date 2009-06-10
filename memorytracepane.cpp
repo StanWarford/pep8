@@ -12,3 +12,13 @@ MemoryTracePane::~MemoryTracePane()
 {
     delete m_ui;
 }
+
+void MemoryTracePane::highlightOnFocus()
+{
+    if (m_ui->pepStackTraceGraphicsView->hasFocus()) {
+        m_ui->pepMemoryTraceLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->pepMemoryTraceLabel->setAutoFillBackground(false);
+    }
+}

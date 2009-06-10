@@ -2,7 +2,6 @@
 #define HELPDIALOG_H
 
 #include <QtGui/QDialog>
-
 #include <QTreeWidgetItem>
 
 namespace Ui {

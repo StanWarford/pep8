@@ -45,3 +45,13 @@ void ListingTracePane::clearListingTrace()
     }
     m_ui->listingTraceTableWidget->setRowCount(0);
 }
+
+void ListingTracePane::highlightOnFocus()
+{
+    if (m_ui->listingTraceTableWidget->hasFocus()) {
+        m_ui->listingTraceLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->listingTraceLabel->setAutoFillBackground(false);
+    }
+}

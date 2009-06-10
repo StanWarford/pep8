@@ -17,6 +17,9 @@ public:
     void refreshMemory();
     int memDumpPaneWidth();
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on the label window color saved in the UI file
+
 private:
     Ui::MemoryDumpPane *m_ui;
 

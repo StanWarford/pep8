@@ -55,3 +55,14 @@ void MemoryDumpPane::on_pepMemRefreshButton_clicked()
 {
     refreshMemory();
 }
+
+void MemoryDumpPane::highlightOnFocus()
+{
+    if (m_ui->pepMemoryDumpTextEdit->hasFocus()) {
+        m_ui->pepMemoryDumpLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->pepMemoryDumpLabel->setAutoFillBackground(false);
+    }
+}
+

@@ -14,6 +14,9 @@ public:
     explicit InputPane(QWidget *parent = 0);
     virtual ~InputPane();
 
+    void highlightOnFocus();
+    // Post: Highlights the label based on the label window color saved in the UI file
+
 private:
     Ui::InputPane *m_ui;
 };

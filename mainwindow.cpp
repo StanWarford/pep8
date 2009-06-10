@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     redefineMnemonicsDialog->hide();
 
     helpDialog = new HelpDialog(this);
-    QObject::connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
+    connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
     helpDialog->hide();
 
     // Byte converter setup
@@ -693,7 +693,19 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 // Help MainWindow triggers
 void MainWindow::on_actionHelp_triggered()
 {
+    if (!helpDialog) {
+        helpDialog = new HelpDialog(this);
+        connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
+
+        helpDialog->show();
+        helpDialog->raise();
+        helpDialog->activateWindow();
+
+    }
+
     helpDialog->show();
+    helpDialog->raise();
+    helpDialog->activateWindow();
 }
 
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
@@ -848,20 +860,16 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
 
 void MainWindow::highlightLabel(QWidget *, QWidget *)
 {
-//    oldLabelPalette.setColor(QPalette::Active, QPalette::Window, QColor(230,230,230));
-//    newLabelPalette.setColor(QPalette::Active, QPalette::Window, QColor(153,204,255));
-
     sourceCodePane->highlightOnFocus();
     objectCodePane->highlightOnFocus();
-
-//    assemblerListingPane;
-//    listingTracePane;
-//    memoryTracePane;
-//    cpuPane;
-//    inputPane;
-//    outputPane;
-//    terminalPane;
-//    memoryDumpPane;
+    assemblerListingPane->highlightOnFocus();
+    listingTracePane->highlightOnFocus();
+    memoryTracePane->highlightOnFocus();
+    cpuPane->highlightOnFocus();
+    inputPane->highlightOnFocus();
+    outputPane->highlightOnFocus();
+    terminalPane->highlightOnFocus();
+    memoryDumpPane->highlightOnFocus();
 
 }
 

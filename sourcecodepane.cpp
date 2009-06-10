@@ -181,16 +181,10 @@ void SourceCodePane::setCurrentFile(QString string)
 
 void SourceCodePane::highlightOnFocus()
 {
-//    QPalette labelNoHighlightPalette;
-//    QPalette labelHighlightPalette;
-//    labelNoHighlightPalette.setColor(QPalette::Active, QPalette::Window, QColor(230,230,230));
-//    labelHighlightPalette.setColor(QPalette::Active, QPalette::Window, QColor(153,204,255));
     if (m_ui->pepSourceCodeTextEdit->hasFocus()) {
-//        m_ui->pepSourceCodeLabel->setDisabled(false);
         m_ui->pepSourceCodeLabel->setAutoFillBackground(true);
     }
     else {
-//        m_ui->pepSourceCodeLabel->setDisabled(true);
         m_ui->pepSourceCodeLabel->setAutoFillBackground(false);
     }
 }

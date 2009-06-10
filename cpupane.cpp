@@ -12,3 +12,13 @@ CpuPane::~CpuPane()
 {
     delete m_ui;
 }
+
+void CpuPane::highlightOnFocus()
+{
+    if (m_ui->pepCpuLabel->hasFocus()) { // Never has focus, which is fine
+        m_ui->pepCpuLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->pepCpuLabel->setAutoFillBackground(false);
+    }
+}

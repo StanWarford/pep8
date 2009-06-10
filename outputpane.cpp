@@ -12,3 +12,13 @@ OutputPane::~OutputPane()
 {
     delete m_ui;
 }
+
+void OutputPane::highlightOnFocus()
+{
+    if (m_ui->pepOutputTextEdit->hasFocus()) {
+        m_ui->pepOutputLabel->setAutoFillBackground(true);
+    }
+    else {
+        m_ui->pepOutputLabel->setAutoFillBackground(false);
+    }
+}

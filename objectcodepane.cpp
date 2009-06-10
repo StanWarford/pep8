@@ -60,16 +60,11 @@ void ObjectCodePane::setCurrentFile(QString string)
 
 void ObjectCodePane::highlightOnFocus()
 {
-    QPalette labelHighlightPalette;
-    QPalette labelNoHighlightPalette;
-    labelHighlightPalette.setColor(QPalette::Active, QPalette::Window, Pep::labelHighlightColor);
-    labelNoHighlightPalette.setColor(QPalette::Active, QPalette::Window, Pep::labelNoHighlightColor);
-
-    if (hasFocus()) {
-        m_ui->pepObjectCodeLabel->setPalette(labelHighlightPalette);
+    if (m_ui->pepObjectCodeTextEdit->hasFocus()) {
+        m_ui->pepObjectCodeLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepObjectCodeLabel->setPalette(labelNoHighlightPalette);
+        m_ui->pepObjectCodeLabel->setAutoFillBackground(false);
     }
 }
 
