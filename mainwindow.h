@@ -93,9 +93,10 @@ private:
     QString curListingFile;
 
     // Recent Files methods
-//    void updateRecentFileActions();
-//    enum { MaxRecentFiles = 5};
-//    QAction *recentFileActs[MaxRecentFiles];
+    void updateRecentFileActions();
+    enum { MaxRecentFiles = 5};
+    QAction *recentFileActs[MaxRecentFiles];
+    QAction *separatorAct;
 
 private slots:
     // File
@@ -169,6 +170,9 @@ private slots:
 
     // Focus coloring
     void highlightLabel(QWidget *, QWidget *);
+
+    // Recent files
+    void openRecentFile();
 
     /*
     These belong in the other panes

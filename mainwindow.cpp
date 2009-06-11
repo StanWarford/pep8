@@ -4,10 +4,10 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDebug>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     helpDialog = new HelpDialog(this);
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
-    helpDialog->setWindowModality(Qt::NonModal);
 
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
@@ -92,6 +91,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Focus highlighting
     QObject::connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
+
+    // Recent files
+    for (int i = 0; i < MaxRecentFiles; ++i) {
+        recentFileActs[i] = new QAction(this);
+        recentFileActs[i]->setVisible(false);
+        connect(recentFileActs[i], SIGNAL(triggered()),
+                this, SLOT(openRecentFile()));
+    }
+
+    separatorAct = ui->menu_File->addSeparator();
+    for (int i = 0; i < MaxRecentFiles; ++i) {
+        ui->menu_File->addAction(recentFileActs[i]);
+    }
+    updateRecentFileActions();
 
 }
 
@@ -223,7 +236,7 @@ void MainWindow::loadFile(const QString &fileName)
         // Set object code pane text
          objectCodePane->setObjectCodePaneText(in.readAll());
          pane = "Object";
-     } else { // Need to implement a difference between .pep and .pepl
+     } else {
         // Set source code pane text
          sourceCodePane->setSourceCodePaneText(in.readAll());
          pane = "Source";
@@ -236,25 +249,6 @@ void MainWindow::loadFile(const QString &fileName)
 
 bool MainWindow::saveFileSource(const QString &fileName)
 {
-// Warford's code:
-//    QFile file(fileName);
-//    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-//        QMessageBox::warning(this, tr("Application"),
-//                             tr("Cannot read file %1:\n%2.")
-//                             .arg(fileName)
-//                             .arg(file.errorString()));
-//        return;
-//    }
-//
-//    QTextStream in(&file);
-//    QApplication::setOverrideCursor(Qt::WaitCursor);
-//    sourceCodePane->setSourceCodePaneText(in.readAll());
-//    QApplication::restoreOverrideCursor();
-//
-//    setCurrentFile(fileName);
-//    statusBar()->showMessage(tr("File loaded"), 4000);
-
-// Chris' code:
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         QMessageBox::warning(this, tr("Application"),
@@ -355,20 +349,20 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
     }
 
 //    // For recent files:
-//    QSettings settings("Pep/8", "Recent Files");
-//    QStringList files = settings.value("recentFileList").toStringList();
-//    files.removeAll(fileName);
-//    files.prepend(fileName);
-//    while (files.size() > MaxRecentFiles)
-//        files.removeLast();
-//
-//    settings.setValue("recentFileList", files);
-//
-//    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
-//        MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
-//        if (mainWin)
-//            mainWin->updateRecentFileActions();
-//    }
+    QSettings settings("Pep/8", "Recent Files");
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(fileName);
+    files.prepend(fileName);
+    while (files.size() > MaxRecentFiles)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+        MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
+        if (mainWin)
+            mainWin->updateRecentFileActions();
+    }
 }
 
 QString MainWindow::strippedName(const QString &fullFileName)
@@ -378,24 +372,24 @@ QString MainWindow::strippedName(const QString &fullFileName)
 
 // Recent files members:
 
-//void MainWindow::updateRecentFileActions()
-//{
-//    QSettings settings("Pep/8", "Recent Files");
-//    QStringList files = settings.value("recentFileList").toStringList();
-//
-//    int numRecentFiles = qMin(files.size(), (int)MaxRecentFiles);
-//
-//    for (int i = 0; i < numRecentFiles; ++i) {
-//        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(files[i]));
-//        recentFileActs[i]->setText(text);
-//        recentFileActs[i]->setData(files[i]);
-//        recentFileActs[i]->setVisible(true);
-//    }
-//    for (int j = numRecentFiles; j < MaxRecentFiles; ++j)
-//        recentFileActs[j]->setVisible(false);
-//
-////    separatorAct->setVisible(numRecentFiles > 0);
-//}
+void MainWindow::updateRecentFileActions()
+{
+    QSettings settings("Pep/8", "Recent Files");
+    QStringList files = settings.value("recentFileList").toStringList();
+
+    int numRecentFiles = qMin(files.size(), (int)MaxRecentFiles);
+
+    for (int i = 0; i < numRecentFiles; ++i) {
+        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName(files[i]));
+        recentFileActs[i]->setText(text);
+        recentFileActs[i]->setData(files[i]);
+        recentFileActs[i]->setVisible(true);
+    }
+    for (int j = numRecentFiles; j < MaxRecentFiles; ++j)
+        recentFileActs[j]->setVisible(false);
+
+    separatorAct->setVisible(numRecentFiles > 0);
+}
 
 
 // File MainWindow triggers
@@ -850,7 +844,6 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
 }
 
 // Focus Coloring
-
 void MainWindow::highlightLabel(QWidget *, QWidget *)
 {
     sourceCodePane->highlightOnFocus();
@@ -865,4 +858,13 @@ void MainWindow::highlightLabel(QWidget *, QWidget *)
     memoryDumpPane->highlightOnFocus();
 
 }
+
+// Recent files
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        loadFile(action->data().toString());
+}
+
 
