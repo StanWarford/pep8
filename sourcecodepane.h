@@ -4,8 +4,7 @@
 #include <QtGui/QWidget>
 #include <QString>
 #include <QList>
-#include "pep.h"
-#include "asm.h"
+#include "asm.h" // For Code in QList<Code *> codeList;
 
 namespace Ui {
     class SourceCodePane;

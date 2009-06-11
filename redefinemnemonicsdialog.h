@@ -19,10 +19,9 @@ private:
     Ui::RedefineMnemonicsDialog *m_ui;
 
 private:
-    void restoreDefaults();
 
 private slots:
-    void closeDialog();
+    void restoreDefaults();
 };
 
 #endif // REDEFINEMNEMONICSDIALOG_H

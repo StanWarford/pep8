@@ -126,16 +126,6 @@ public:
     static int burnCount;
     static int dotBurnArgument;
     static int romStartAddress;
-
-    // The machine
-    static QVector<int> Mem;
-    static int nBit, zBit, vBit, cBit;
-    static int accumulator;
-    static int indexRegister;
-    static int stackPointer;
-    static int programCounter;
-    static int instructionRegister;
-    static int operandSpecifier;
 };
 
 #endif // PEP_H

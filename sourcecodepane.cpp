@@ -5,6 +5,8 @@
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
+#include "sim.h"
+#include "pep.h"
 
 #include <QDebug>
 
@@ -111,11 +113,11 @@ void SourceCodePane::adjustCodeList(int addressDelta)
 void SourceCodePane::installOS()
 {
     for (int i = 0; i < 65536; i++) {
-        Pep::Mem[i] = 0;
+        Sim::Mem[i] = 0;
     }
     int j = Pep::romStartAddress;
     for (int i = 0; i < objectCode.size(); i++) {
-        Pep::Mem[j++] = objectCode[i];
+        Sim::Mem[j++] = objectCode[i];
     }
 }
 

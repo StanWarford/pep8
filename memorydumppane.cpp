@@ -1,6 +1,6 @@
 #include "memorydumppane.h"
 #include "ui_memorydumppane.h"
-#include "pep.h"
+#include "sim.h"
 
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
@@ -26,11 +26,11 @@ void MemoryDumpPane::refreshMemory()
         memoryDumpLine = "";
         memoryDumpLine.append(QString("%1 | ").arg(i, 4, 16, QLatin1Char('0')).toUpper());
         for (int j = 0; j < 8; j++) {
-            memoryDumpLine.append(QString("%1 ").arg(Pep::Mem[i + j], 2, 16, QLatin1Char('0')).toUpper());
+            memoryDumpLine.append(QString("%1 ").arg(Sim::Mem[i + j], 2, 16, QLatin1Char('0')).toUpper());
         }
         memoryDumpLine.append("|");
         for (int j = 0; j < 8; j++) {
-            ch = QChar(Pep::Mem[i + j]);
+            ch = QChar(Sim::Mem[i + j]);
             if (ch.isPrint()) {
                 memoryDumpLine.append(ch);
             } else {

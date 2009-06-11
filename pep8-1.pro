@@ -34,7 +34,8 @@ HEADERS += mainwindow.h \
     listingtracepane.h \
     asm.h \
     code.h \
-    argument.h
+    argument.h \
+    sim.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -72,7 +73,8 @@ SOURCES += main.cpp \
     helpdialog.cpp \
     listingtracepane.cpp \
     asm.cpp \
-    code.cpp
+    code.cpp \
+    sim.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \

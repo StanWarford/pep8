@@ -647,13 +647,3 @@ int Pep::byteCount;
 int Pep::burnCount;
 int Pep::dotBurnArgument;
 int Pep::romStartAddress;
-
-// The machine
-QVector<int> Pep::Mem(65536);
-int Pep::nBit, Pep::zBit, Pep::vBit, Pep::cBit;
-int Pep::accumulator;
-int Pep::indexRegister;
-int Pep::stackPointer;
-int Pep::programCounter;
-int Pep::instructionRegister;
-int Pep::operandSpecifier;

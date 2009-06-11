@@ -622,7 +622,7 @@ void MainWindow::on_actionView_Terminal_Tab_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 {
-    redefineMnemonicsDialog->exec();
+    redefineMnemonicsDialog->show();
 }
 
 void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
