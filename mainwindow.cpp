@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
+#include "sim.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -219,32 +220,32 @@ bool MainWindow::maybeSaveListing() // Copied and pasted, change. Do we even nee
 
 void MainWindow::loadFile(const QString &fileName)
 {
-     QFile file(fileName);
-     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-         QMessageBox::warning(this, tr("Application"),
-                              tr("Cannot read file %1:\n%2.")
-                              .arg(fileName)
-                              .arg(file.errorString()));
-         return;
-     }
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                             tr("Cannot read file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return;
+    }
 
-     QTextStream in(&file);
-     QApplication::setOverrideCursor(Qt::WaitCursor);
-     QRegExp rx("*.pepo");
-     QString pane = "";
-     if (rx.exactMatch(fileName)) {
+    QTextStream in(&file);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QRegExp rx("*.pepo");
+    QString pane = "";
+    if (rx.exactMatch(fileName)) {
         // Set object code pane text
-         objectCodePane->setObjectCodePaneText(in.readAll());
-         pane = "Object";
-     } else {
+        objectCodePane->setObjectCodePaneText(in.readAll());
+        pane = "Object";
+    } else {
         // Set source code pane text
-         sourceCodePane->setSourceCodePaneText(in.readAll());
-         pane = "Source";
-     }
-     QApplication::restoreOverrideCursor();
+        sourceCodePane->setSourceCodePaneText(in.readAll());
+        pane = "Source";
+    }
+    QApplication::restoreOverrideCursor();
 
-     setCurrentFile(fileName, pane);
-     statusBar()->showMessage(tr("File loaded"), 4000);
+    setCurrentFile(fileName, pane);
+    statusBar()->showMessage(tr("File loaded"), 4000);
 }
 
 bool MainWindow::saveFileSource(const QString &fileName)
@@ -547,7 +548,14 @@ void MainWindow::on_actionBuild_Assemble_triggered()
 
 void MainWindow::on_actionBuild_Load_triggered()
 {
-
+    QList<int> objectCodeList;
+    if (objectCodePane->getObjectCode(objectCodeList)) {
+        Sim::loadMem(objectCodeList);
+        ui->statusbar->showMessage("Load succeeded", 4000);
+    }
+    else {
+        ui->statusbar->showMessage("Load failed", 4000);
+    }
 }
 
 void MainWindow::on_actionBuild_Execute_triggered()
@@ -588,6 +596,7 @@ void MainWindow::on_actionView_Code_CPU_triggered()
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
+    memoryDumpPane->refreshMemory();
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();

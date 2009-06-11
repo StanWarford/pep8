@@ -32,6 +32,27 @@ void ObjectCodePane::setObjectCodePaneText(QString string)
 	m_ui->pepObjectCodeTextEdit->setText(string);
 }
 
+bool ObjectCodePane::getObjectCode(QList<int> &objectCodeList)
+{
+    QString objectString = m_ui->pepObjectCodeTextEdit->toPlainText();
+    while (objectString.length() > 0) {
+        if (objectString.at(1) == QChar('z')) {
+            return true;
+        }
+        if (objectString.length() < 3) {
+            return false;
+        }
+        QString s = objectString.left(2); // Get the two-char hex number
+        objectString.remove(0, 3); // Removes the number and trailing whitespace
+        bool ok;
+        objectCodeList.append(s.toInt(&ok, 16));
+        if (!ok) {
+            return false;
+        }
+    }
+    return false;
+}
+
 void ObjectCodePane::ObjectCodePane::clearObjectCode()
 {
     m_ui->pepObjectCodeTextEdit->clear();
@@ -40,17 +61,17 @@ void ObjectCodePane::ObjectCodePane::clearObjectCode()
 
 bool ObjectCodePane::isModified()
 {
-	return m_ui->pepObjectCodeTextEdit->document()->isModified();
+    return m_ui->pepObjectCodeTextEdit->document()->isModified();
 }
 
 void ObjectCodePane::setModified(bool modified)
 {
-	m_ui->pepObjectCodeTextEdit->document()->setModified(modified);
+    m_ui->pepObjectCodeTextEdit->document()->setModified(modified);
 }
 
 QString ObjectCodePane::toPlainText()
 {
-	return m_ui->pepObjectCodeTextEdit->toPlainText();
+    return m_ui->pepObjectCodeTextEdit->toPlainText();
 }
 
 void ObjectCodePane::setCurrentFile(QString string)

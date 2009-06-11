@@ -16,6 +16,7 @@ public:
     static int instructionRegister;
     static int operandSpecifier;
 
+    static void loadMem(QList<int> objectCodeList);
 };
 
 #endif // SIM_H

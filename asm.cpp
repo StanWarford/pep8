@@ -173,7 +173,7 @@ void Asm::unquotedStringToInt(QString &str, int &value)
     if (str.startsWith("\\x") || str.startsWith("\\X")) {
         str.remove(0, 2); // Remove the leading \x or \X
         s = str.left(2);
-        str.remove(0, 2); // Get the two-byte hex number
+        str.remove(0, 2); // Get the two-char hex number
         bool ok;
         value = s.toInt(&ok, 16);
     }

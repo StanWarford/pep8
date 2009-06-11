@@ -20,6 +20,12 @@ public:
     void setObjectCodePaneText(QString string);
     // Post: Sets text in source code pane to string.
 
+    bool getObjectCode(QList<int> &objectCodeList);
+    // Pre: The object code pane contains object code
+    // Post: If the object code is syntactically correct, true is returned, and
+    // &objectCodeList contains the object code, one byte per integer.
+    // Otherwise, false is returned.
+
     void clearObjectCode();
     // Post: Clears the source code pane
 
