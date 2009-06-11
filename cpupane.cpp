@@ -1,5 +1,6 @@
 #include "cpupane.h"
 #include "ui_cpupane.h"
+#include "sim.h"
 
 CpuPane::CpuPane(QWidget *parent) :
     QWidget(parent),
@@ -11,6 +12,34 @@ CpuPane::CpuPane(QWidget *parent) :
 CpuPane::~CpuPane()
 {
     delete m_ui;
+}
+
+void CpuPane::updateCpu() {
+    m_ui->cpuNLabel->setText(Sim::nBit ? "1" : "0");
+    m_ui->cpuZLabel->setText(Sim::zBit ? "1" : "0");
+    m_ui->cpuVLabel->setText(Sim::vBit ? "1" : "0");
+    m_ui->cpuCLabel->setText(Sim::cBit ? "1" : "0");
+
+    m_ui->cpuAHexLabel->setText(QString("0x") + QString("%1").arg(Sim::accumulator, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuADecLabel->setText(QString("%1").arg(Sim::accumulator));
+
+    m_ui->cpuXHexLabel->setText(QString("0x") + QString("%1").arg(Sim::indexRegister, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuXDecLabel->setText(QString("%1").arg(Sim::indexRegister));
+
+    m_ui->cpuSPHexLabel->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuSPDecLabel->setText(QString("%1").arg(Sim::stackPointer));
+
+    m_ui->cpuPCHexLabel->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuPCDecLabel->setText(QString("%1").arg(Sim::programCounter));
+
+    m_ui->cpuInstrSpecBinLabel->setText(QString("%1").arg(Sim::instructionSpecifier, 8, 2, QLatin1Char('0')).toUpper());
+    m_ui->cpuInstrSpecMnemonLabel->setText(QString("Change me!")); //.arg(Sim::accumulator));
+
+    m_ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::accumulator, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuInstrSpecAddrModeLabel->setText(QString("Change me!")); //.arg(Sim::accumulator));
+
+    m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
+    m_ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::operandSpecifier));
 }
 
 void CpuPane::highlightOnFocus()

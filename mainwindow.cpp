@@ -84,29 +84,36 @@ MainWindow::MainWindow(QWidget *parent)
     // Save system setup
     readSettings();
 
-    // Memory pane refresh
-    memoryDumpPane->refreshMemory();
-
     // Mac title bar
     setUnifiedTitleAndToolBarOnMac(true);
 
     // Focus highlighting
-    QObject::connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
+    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
         recentFileActs[i]->setVisible(false);
-        connect(recentFileActs[i], SIGNAL(triggered()),
-                this, SLOT(openRecentFile()));
+        connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
     }
-
     separatorAct = ui->menu_File->addSeparator();
     for (int i = 0; i < MaxRecentFiles; ++i) {
         ui->menu_File->addAction(recentFileActs[i]);
     }
     updateRecentFileActions();
 
+    // Testing updateCpu
+    Sim::nBit = true;
+    Sim::zBit = false;
+    Sim::vBit = true;
+    Sim::cBit = true;
+    Sim::accumulator = 35000;
+    Sim::indexRegister = 65535;
+    Sim::programCounter = 0;
+    Sim::instructionSpecifier = 8;
+    Sim::stackPointer = 55000;
+
+    cpuPane->updateCpu();
 }
 
 MainWindow::~MainWindow()

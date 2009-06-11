@@ -14,6 +14,9 @@ public:
     explicit CpuPane(QWidget *parent = 0);
     virtual ~CpuPane();
 
+    void updateCpu();
+    // Post: Updates CPU pane labels
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
