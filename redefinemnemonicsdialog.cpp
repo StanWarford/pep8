@@ -7,6 +7,8 @@ RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
     restoreDefaults();
+
+    connect(m_ui->closeButton, SIGNAL(clicked()), this, SLOT(closeDialog()));
 }
 
 RedefineMnemonicsDialog::~RedefineMnemonicsDialog()
@@ -56,4 +58,8 @@ void RedefineMnemonicsDialog::restoreDefaults()
     m_ui->mnemon3xCheckBox->setChecked(Pep::defaultMnemon3x);
     m_ui->mnemon3sxCheckBox->setChecked(Pep::defaultMnemon3sx);
     m_ui->mnemon3sxfCheckBox->setChecked(Pep::defaultMnemon3sxf);
+}
+
+void RedefineMnemonicsDialog::closeDialog() {
+    hide();
 }

@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>RedefineMnemonicsDialog</class>
  <widget class="QDialog" name="RedefineMnemonicsDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>504</width>
-    <height>391</height>
+    <height>361</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +26,7 @@
    <bool>false</bool>
   </property>
   <property name="modal">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

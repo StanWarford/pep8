@@ -20,6 +20,9 @@ private:
 
 private:
     void restoreDefaults();
+
+private slots:
+    void closeDialog();
 };
 
 #endif // REDEFINEMNEMONICSDIALOG_H

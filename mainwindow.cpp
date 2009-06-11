@@ -45,11 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
-    redefineMnemonicsDialog->hide();
 
     helpDialog = new HelpDialog(this);
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
-    helpDialog->hide();
+    helpDialog->setWindowModality(Qt::NonModal);
 
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
@@ -629,7 +628,7 @@ void MainWindow::on_actionView_Terminal_Tab_triggered()
 // System MainWindow triggers
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 {
-    redefineMnemonicsDialog->show();
+    redefineMnemonicsDialog->exec();
 }
 
 void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
@@ -693,20 +692,14 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 // Help MainWindow triggers
 void MainWindow::on_actionHelp_triggered()
 {
-    if (!helpDialog) {
-        helpDialog = new HelpDialog(this);
-        connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
-
-        helpDialog->show();
+    if (helpDialog->isHidden()) {
+        helpDialog->setHidden(false);
+    }
+    else {
         helpDialog->raise();
         helpDialog->activateWindow();
-
     }
-
-    helpDialog->show();
-    helpDialog->raise();
-    helpDialog->activateWindow();
-}
+ }
 
 void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
