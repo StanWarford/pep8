@@ -372,7 +372,6 @@ void HelpDialog::operatingSystemClicked() {
 }
 
 // Helper Functions
-
 QString HelpDialog::getLeftTextEditText() {
     return m_ui->helpLeftTextEdit->toPlainText();
 }

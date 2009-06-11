@@ -6,6 +6,9 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 
+# Mac icon
+ICON = icon.icns
+
 # Help system support for html files
 QT += webkit
 
@@ -100,3 +103,6 @@ OTHER_FILES += images/update.png \
     images/assembler.png
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
+
+# Windows RC file
+RC_FILE = pep8resources.rc
