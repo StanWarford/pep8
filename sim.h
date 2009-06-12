@@ -35,6 +35,9 @@ public:
     static void writeByteOprnd(int addrMode, int value);
     static void writeWordOprnd(int addrMode, int value);
 
+    static void vonNeumanStep();
+
+
 };
 
 #endif // SIM_H

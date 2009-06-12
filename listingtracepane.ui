@@ -116,6 +116,9 @@
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="showGrid">
         <bool>false</bool>
        </property>

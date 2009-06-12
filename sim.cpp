@@ -137,3 +137,23 @@ void Sim::writeWordOprnd(int addrMode, int value)
     }
 }
 
+void Sim::vonNeumanStep()
+{
+    // Fetch
+    Sim::instructionSpecifier = Sim::readByte(Sim::programCounter);
+    // Increment
+    Sim::programCounter = (Sim::programCounter + 1) % 65536;
+    // Decode
+    if (!Pep::isUnaryMap[Pep::decodeMnemonic[Sim::instructionSpecifier]]) {
+        Sim::operandSpecifier = Sim::readWord(Sim::programCounter);
+        Sim::programCounter = (Sim::programCounter + 2) % 65536;
+    }
+    // Execute
+//    switch () {
+//
+//    }
+}
+
+
+
+

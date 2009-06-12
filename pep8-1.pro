@@ -35,7 +35,8 @@ HEADERS += mainwindow.h \
     asm.h \
     code.h \
     argument.h \
-    sim.h
+    sim.h \
+    enu.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \

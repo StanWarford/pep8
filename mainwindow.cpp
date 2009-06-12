@@ -876,7 +876,6 @@ void MainWindow::highlightLabel(QWidget *, QWidget *)
     outputPane->highlightOnFocus();
     terminalPane->highlightOnFocus();
     memoryDumpPane->highlightOnFocus();
-
 }
 
 // Recent files
@@ -886,5 +885,4 @@ void MainWindow::openRecentFile()
     if (action)
         loadFile(action->data().toString());
 }
-
 

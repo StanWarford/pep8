@@ -15,7 +15,6 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
         m_ui(new Ui::SourceCodePane)
 {
     m_ui->setupUi(this);
-//    QWidget::setAutoFillBackground( true )
 }
 
 SourceCodePane::~SourceCodePane()
