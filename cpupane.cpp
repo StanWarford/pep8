@@ -46,6 +46,20 @@ void CpuPane::updateCpu() {
 
 }
 
+void CpuPane::runClicked() {
+    m_ui->pepTraceLoadCheckBox->setChecked(false);
+    m_ui->pepTraceProgramCheckBox->setChecked(false);
+    m_ui->pepTraceTrapsCheckBox->setChecked(false);
+}
+
+void CpuPane::startDebuggingClicked() {
+    if (m_ui->pepTraceLoadCheckBox->isChecked() || m_ui->pepTraceProgramCheckBox->isChecked() || m_ui->pepTraceTrapsCheckBox->isChecked()) {
+        // do nothing
+    } else {
+        m_ui->pepTraceProgramCheckBox->setChecked(true);
+    }
+}
+
 void CpuPane::highlightOnFocus()
 {
     if (m_ui->pepCpuLabel->hasFocus()) { // Never has focus, which is fine
@@ -55,3 +69,4 @@ void CpuPane::highlightOnFocus()
         m_ui->pepCpuLabel->setAutoFillBackground(false);
     }
 }
+

@@ -19,14 +19,8 @@ public:
     bool isModified();
     // Post: Returns true if the assembler listing pane has been modified
 
-    void setModified(bool modified);
-    // Post: Sets isModified of the assembler listing pane to modified
-
     QString toPlainText();
     // Post: Contents of the source code pane are returned
-
-    void setCurrentFile(QString string);
-    // Post: Title bar of the window is set to "Assembler Listing - 'string'"
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file

@@ -294,7 +294,6 @@
     <addaction name="separator"/>
     <addaction name="actionFile_Save_Source"/>
     <addaction name="actionFile_Save_Object"/>
-    <addaction name="actionFile_Save_Listing"/>
     <addaction name="separator"/>
     <addaction name="actionFile_Save_Source_As"/>
     <addaction name="actionFile_Save_Object_As"/>

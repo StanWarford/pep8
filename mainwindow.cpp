@@ -4,7 +4,6 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDebug>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
@@ -128,7 +127,7 @@ MainWindow::~MainWindow()
 // Protected closeEvent
  void MainWindow::closeEvent(QCloseEvent *event)
  {
-     if (maybeSaveSource() || maybeSaveObject() || maybeSaveListing()) {
+     if (maybeSaveSource() || maybeSaveObject()) {
          writeSettings();
          event->accept();
      } else {
@@ -153,15 +152,6 @@ bool MainWindow::saveObject()
         return on_actionFile_Save_Object_As_triggered();
     } else {
         return saveFileObject(curObjectFile);
-    }
-}
-
-bool MainWindow::saveListing()
-{
-    if (curListingFile.isEmpty()) {
-        return on_actionFile_Save_Listing_As_triggered();
-    } else {
-        return saveFileListing(curListingFile);
     }
 }
 
@@ -207,22 +197,6 @@ bool MainWindow::maybeSaveObject()
                                    QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save)
             return saveObject();
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
-}
-
-bool MainWindow::maybeSaveListing() // Copied and pasted, change. Do we even need this?
-{
-    if (assemblerListingPane->isModified()) {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, "Pep/8",
-                                   "The assembler listing has been modified.\n"
-                                   "Do you want to save your changes?",
-                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return saveListing();
         else if (ret == QMessageBox::Cancel)
             return false;
     }
@@ -317,7 +291,6 @@ bool MainWindow::saveFileListing(const QString &fileName)
     out << assemblerListingPane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName, "Listing");
     statusBar()->showMessage("Assembler listing saved", 4000);
     return true;
 }
@@ -330,11 +303,7 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
     } else if (pane == "Object") {
         curObjectFile = fileName;
         objectCodePane->setModified(false);
-    } else if (pane == "Listing") {
-        curListingFile = fileName;
-        assemblerListingPane->setModified(false);
     }
-//  setWindowModified(false);
 
     QString shownName;
     if (pane == "Source") {
@@ -344,6 +313,12 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
             shownName = strippedName(curSourceFile); // Shows full file path
         }
         sourceCodePane->setCurrentFile(shownName);
+        if (curObjectFile.isEmpty()) {
+            // Set curObjectFile name here.
+            // Things to watch out for:
+            // 1) We don't want to overwrite a file by the same name as the curSourceFile sans extension by accident
+            // 2) We want both dialogs to open to the same directory
+        }
     } else if (pane == "Object") {
         if (curObjectFile.isEmpty()) {
             shownName = "untitled.pepo";
@@ -351,16 +326,9 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
             shownName = strippedName(curObjectFile);
         }
         objectCodePane->setCurrentFile(shownName);
-    } else if (pane == "Listing") {
-        if (curListingFile.isEmpty()) {
-            shownName = "untitled.pepl";
-        } else {
-            shownName = strippedName(curListingFile);
-        }
-        assemblerListingPane->setCurrentFile(shownName);
     }
 
-//    // For recent files:
+    // For recent files:
     QSettings settings("Pep/8", "Recent Files");
     QStringList files = settings.value("recentFileList").toStringList();
     files.removeAll(fileName);
@@ -415,7 +383,11 @@ void MainWindow::on_actionFile_New_triggered()
 void MainWindow::on_actionFile_Open_triggered()
 {
     if (maybeSaveSource()) {
-        QString fileName = QFileDialog::getOpenFileName(this);
+        QString fileName = QFileDialog::getOpenFileName(
+                this,
+                "Open text file",
+                "",
+                "Text files (*.txt *.pep *.pepo)");
         if (!fileName.isEmpty())
             loadFile(fileName);
     }
@@ -439,18 +411,13 @@ bool MainWindow::on_actionFile_Save_Object_triggered()
     }
 }
 
-bool MainWindow::on_actionFile_Save_Listing_triggered()
-{
-    if (curListingFile.isEmpty()) {
-        return on_actionFile_Save_Listing_As_triggered();
-    } else {
-        return saveFileListing(curListingFile);
-    }
-}
-
 bool MainWindow::on_actionFile_Save_Source_As_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Source Code",
+            curSourceFile.isEmpty() ? "untitled.pep" : curSourceFile.remove(QRegExp(".pep")).remove(QRegExp(".txt")) + ".pep",
+            "Pep8 Source (*.pep *.txt)");
     if (fileName.isEmpty())
         return false;
 
@@ -459,7 +426,11 @@ bool MainWindow::on_actionFile_Save_Source_As_triggered()
 
 bool MainWindow::on_actionFile_Save_Object_As_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Object Code",
+            curObjectFile.isEmpty() ? "untitled.pepo" : curObjectFile.remove(QRegExp(".pepo")).remove(QRegExp(".txt")) + ".pepo",
+            "Pep8 Object (*.pepo *.txt)");
     if (fileName.isEmpty())
         return false;
 
@@ -576,12 +547,12 @@ void MainWindow::on_actionBuild_Execute_triggered()
 
 void MainWindow::on_actionBuild_Run_triggered()
 {
-
+    cpuPane->runClicked();
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
 {
-
+    cpuPane->startDebuggingClicked();
 }
 
 void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
@@ -885,4 +856,3 @@ void MainWindow::openRecentFile()
     if (action)
         loadFile(action->data().toString());
 }
-

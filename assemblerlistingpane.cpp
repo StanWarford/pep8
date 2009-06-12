@@ -62,19 +62,9 @@ bool AssemblerListingPane::isModified()
     return m_ui->assemblerListingTextEdit->document()->isModified();
 }
 
-void AssemblerListingPane::setModified(bool modified)
-{
-    m_ui->assemblerListingTextEdit->document()->setModified(modified);
-}
-
 QString AssemblerListingPane::toPlainText()
 {
     return m_ui->assemblerListingTextEdit->toPlainText();
-}
-
-void AssemblerListingPane::setCurrentFile(QString string)
-{
-    m_ui->assemblerListingLabel->setText("Assembler listing - " + string);
 }
 
 void AssemblerListingPane::highlightOnFocus()

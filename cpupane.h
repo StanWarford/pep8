@@ -17,8 +17,17 @@ public:
     void updateCpu();
     // Post: Updates CPU pane labels
 
+    void runClicked();
+    // Post: All of the debug checkboxes are unclicked
+
+    void startDebuggingClicked();
+    // Post: If no checkboxes are clicked, click the trace program checkbox
+    // Else: Do nothing.
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
+
+
 
 private:
     Ui::CpuPane *m_ui;

@@ -80,7 +80,6 @@ private:
     void writeSettings();
     bool maybeSaveSource();
     bool maybeSaveObject();
-    bool maybeSaveListing();
     void loadFile(const QString &fileName);
     bool saveFileSource(const QString &fileName);
     bool saveFileObject(const QString &fileName);
@@ -104,7 +103,6 @@ private slots:
     void on_actionFile_Open_triggered();
     bool on_actionFile_Save_Source_triggered();
     bool on_actionFile_Save_Object_triggered();
-    bool on_actionFile_Save_Listing_triggered();
     bool on_actionFile_Save_Source_As_triggered();
     bool on_actionFile_Save_Object_As_triggered();
     bool on_actionFile_Save_Listing_As_triggered();
