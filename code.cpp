@@ -144,7 +144,7 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     if (Pep::addrModeRequiredMap.value(mnemonic)) {
         oprndStr.append("," + Pep::intToAddrMode(addressingMode));
     }
-    else if (addressingMode == Pep::X) {
+    else if (addressingMode == Enu::X) {
         oprndStr.append("," + Pep::intToAddrMode(addressingMode));
     }
     QString lineStr = QString("%1%2%3%4%5%6%7")

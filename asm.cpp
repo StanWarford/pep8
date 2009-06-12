@@ -129,15 +129,15 @@ int Asm::stringToAddrMode(QString str)
 {
     str.remove(0, 1); // Remove the comma.
     str = str.trimmed().toUpper();
-    if (str == "I") return Pep::I;
-    if (str == "D") return Pep::D;
-    if (str == "N") return Pep::N;
-    if (str == "S") return Pep::S;
-    if (str == "SF") return Pep::SF;
-    if (str == "X") return Pep::X;
-    if (str == "SX") return Pep::SX;
-    if (str == "SXF") return Pep::SXF;
-    return Pep::NONE;
+    if (str == "I") return Enu::I;
+    if (str == "D") return Enu::D;
+    if (str == "N") return Enu::N;
+    if (str == "S") return Enu::S;
+    if (str == "SF") return Enu::SF;
+    if (str == "X") return Enu::X;
+    if (str == "SX") return Enu::SX;
+    if (str == "SXF") return Enu::SXF;
+    return Enu::NONE;
 }
 
 int Asm::charStringToInt(QString str)
@@ -235,7 +235,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
     Asm::ELexicalToken token; // Passed to getToken.
     QString tokenString; // Passed to getToken.
     QString localSymbolDef = ""; // Saves symbol definition for processing in the following state.
-    Pep::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
+    Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
 
     // The concrete code objects asssigned to code.
     UnaryInstruction *unaryInstruction;
@@ -547,7 +547,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 return false;
             }
             else { // Must be branch type instruction with no addressing mode. Assign default addressing mode.
-                nonUnaryInstruction->addressingMode = Pep::I;
+                nonUnaryInstruction->addressingMode = Enu::I;
                 state = Asm::PS_CLOSE;
             }
             break;

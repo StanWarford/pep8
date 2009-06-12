@@ -2,10 +2,7 @@
 #include <QTextStream>
 
 #include "pep.h"
-
-// Label highlight colors
-const QColor Pep::labelHighlightColor = QColor(230,230,230);
-const QColor Pep::labelNoHighlightColor = QColor(153,204,255);
+using namespace Enu;
 
 // Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";
@@ -49,60 +46,48 @@ const bool Pep::defaultMnemon3x = false;
 const bool Pep::defaultMnemon3sx = false;
 const bool Pep::defaultMnemon3sxf = false;
 
-// Constants used to define valid addressing modes for instructions
-const int Pep::NONE = 0;
-const int Pep::I = 1;
-const int Pep::D = 2;
-const int Pep::N = 4;
-const int Pep::S = 8;
-const int Pep::SF = 16;
-const int Pep::X = 32;
-const int Pep::SX = 64;
-const int Pep::SXF = 128;
-const int Pep::ALL = 255;
-
 int Pep::aaaAddressField(int addressMode)
 {
-    if (addressMode == Pep::I) return 0;
-    if (addressMode == Pep::D) return 1;
-    if (addressMode == Pep::N) return 2;
-    if (addressMode == Pep::S) return 3;
-    if (addressMode == Pep::SF) return 4;
-    if (addressMode == Pep::X) return 5;
-    if (addressMode == Pep::SX) return 6;
-    if (addressMode == Pep::SXF) return 7;
+    if (addressMode == Enu::I) return 0;
+    if (addressMode == Enu::D) return 1;
+    if (addressMode == Enu::N) return 2;
+    if (addressMode == Enu::S) return 3;
+    if (addressMode == Enu::SF) return 4;
+    if (addressMode == Enu::X) return 5;
+    if (addressMode == Enu::SX) return 6;
+    if (addressMode == Enu::SXF) return 7;
     return -1; // Should not occur;
 }
 
 int Pep::aAddressField(int addressMode)
 {
-    if (addressMode == Pep::I) return 0;
-    if (addressMode == Pep::X) return 1;
+    if (addressMode == Enu::I) return 0;
+    if (addressMode == Enu::X) return 1;
     return -1; // Should not occur;
 }
 
 QString Pep::intToAddrMode(int addressMode) {
-    if (addressMode == Pep::I) return "i";
-    if (addressMode == Pep::D) return "d";
-    if (addressMode == Pep::N) return "n";
-    if (addressMode == Pep::S) return "s";
-    if (addressMode == Pep::SF) return "sf";
-    if (addressMode == Pep::X) return "x";
-    if (addressMode == Pep::SX) return "sx";
-    if (addressMode == Pep::SXF) return "sxf";
+    if (addressMode == Enu::I) return "i";
+    if (addressMode == Enu::D) return "d";
+    if (addressMode == Enu::N) return "n";
+    if (addressMode == Enu::S) return "s";
+    if (addressMode == Enu::SF) return "sf";
+    if (addressMode == Enu::X) return "x";
+    if (addressMode == Enu::SX) return "sx";
+    if (addressMode == Enu::SXF) return "sxf";
     return ""; // Should not occur
 }
 
 QString Pep::commaSpaceToAddrMode(int addressMode) {
     if (addressMode == 0) return "";
-    if (addressMode == Pep::I) return ", i";
-    if (addressMode == Pep::D) return ", d";
-    if (addressMode == Pep::N) return ", n";
-    if (addressMode == Pep::S) return ", s";
-    if (addressMode == Pep::SF) return ", sf";
-    if (addressMode == Pep::X) return ", x";
-    if (addressMode == Pep::SX) return ", sx";
-    if (addressMode == Pep::SXF) return ", sxf";
+    if (addressMode == Enu::I) return ", i";
+    if (addressMode == Enu::D) return ", d";
+    if (addressMode == Enu::N) return ", n";
+    if (addressMode == Enu::S) return ", s";
+    if (addressMode == Enu::SF) return ", sf";
+    if (addressMode == Enu::X) return ", x";
+    if (addressMode == Enu::SX) return ", sx";
+    if (addressMode == Enu::SXF) return ", sxf";
     return ""; // Should not occur
 }
 
@@ -120,8 +105,8 @@ QString Pep::resToString(QString fileName) {
 }
 
 // Maps between mnemonic enums and strings
-QMap<Pep::EMnemonic, QString> Pep::enumToMnemonMap;
-QMap<QString, Pep::EMnemonic> Pep::mnemonToEnumMap;
+QMap<Enu::EMnemonic, QString> Pep::enumToMnemonMap;
+QMap<QString, Enu::EMnemonic> Pep::mnemonToEnumMap;
 void Pep::initEnumMnemonMaps()
 {
     enumToMnemonMap.insert(ADDA, "ADDA"); mnemonToEnumMap.insert("ADDA", ADDA);
@@ -191,10 +176,10 @@ void Pep::initEnumMnemonMaps()
 }
 
 // Maps to characterize each instruction
-QMap<Pep::EMnemonic, int> Pep::opCodeMap;
-QMap<Pep::EMnemonic, bool> Pep::isUnaryMap;
-QMap<Pep::EMnemonic, bool> Pep::addrModeRequiredMap;
-QMap<Pep::EMnemonic, bool> Pep::isTrapMap;
+QMap<Enu::EMnemonic, int> Pep::opCodeMap;
+QMap<Enu::EMnemonic, bool> Pep::isUnaryMap;
+QMap<Enu::EMnemonic, bool> Pep::addrModeRequiredMap;
+QMap<Enu::EMnemonic, bool> Pep::isTrapMap;
 
 void Pep::initMnemonicMaps()
 {
@@ -274,7 +259,7 @@ void Pep::initMnemonicMaps()
 }
 
 // Map to specify legal addressing modes for each instruction
-QMap<Pep::EMnemonic, int > Pep::addrModesMap;
+QMap<Enu::EMnemonic, int > Pep::addrModesMap;
 void Pep::initAddrModesMap()
 {
     // Nonunary instructions
@@ -362,7 +347,7 @@ QMap<QString, bool> Pep::adjustSymbolValueForBurn;
 QMap<int, int> Pep::memAddrssToAssemblerListing;
 
 // Decoder tables
-QVector<Pep::EMnemonic> Pep::decodeMnemonic(256);
+QVector<Enu::EMnemonic> Pep::decodeMnemonic(256);
 QVector<int> Pep::decodeAddrMode(256);
 void Pep::initDecoderTables()
 {

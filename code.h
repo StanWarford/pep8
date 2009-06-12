@@ -2,6 +2,7 @@
 #define CODE_H
 
 #include "pep.h"
+#include "enu.h"
 
 class Argument; // Forward declaration for attributes of code classes.
 
@@ -26,7 +27,7 @@ class UnaryInstruction: public Code
 {
     friend class Asm;
 private:
-    Pep::EMnemonic mnemonic;
+    Enu::EMnemonic mnemonic;
 public:
     void appendObjectCode(QList<int> &objectCode);
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
@@ -36,7 +37,7 @@ class NonUnaryInstruction: public Code
 {
     friend class Asm;
 private:
-    Pep::EMnemonic mnemonic;
+    Enu::EMnemonic mnemonic;
     int addressingMode;
     Argument *argument;
 public:

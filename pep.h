@@ -8,6 +8,8 @@
 #include <QVector>
 #include <QColor>
 
+#include "enu.h"
+
 class Pep
 {
 public:
@@ -58,18 +60,6 @@ public:
     static const bool defaultMnemon3sx;
     static const bool defaultMnemon3sxf;
 
-    // Constants used to define valid addressing modes for instructions
-    static const int NONE;
-    static const int I;
-    static const int D;
-    static const int N;
-    static const int S;
-    static const int SF;
-    static const int X;
-    static const int SX;
-    static const int SXF;
-    static const int ALL;
-
     // Functions for computing instruction specifiers
     static int aaaAddressField(int addressMode);
     static int aAddressField(int addressMode);
@@ -79,35 +69,20 @@ public:
     // Function to read text from a resource file
     static QString resToString(QString fileName);
 
-    // Instruction mnemonics
-    enum EMnemonic
-    {
-        ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
-        BR, BRC, BREQ, BRGE, BRGT, BRLE, BRLT, BRNE, BRV,
-        CALL, CHARI, CHARO, CPA, CPX,
-        DECI, DECO,
-        LDA, LDBYTEA, LDBYTEX, LDX,
-        MOVFLGA, MOVSPA,
-        NEGA, NEGX, NOP, NOP0, NOP1, NOP2, NOP3, NOTA, NOTX,
-        ORA, ORX,
-        RET0, RET1, RET2, RET3, RET4, RET5, RET6, RET7, RETTR, ROLA, ROLX, RORA, RORX,
-        STA, STBYTEA, STBYTEX, STOP, STRO, STX, SUBA, SUBSP, SUBX
-    };
-
     // Maps between mnemonic enums and strings
-    static QMap<EMnemonic, QString> enumToMnemonMap;
-    static QMap<QString, EMnemonic> mnemonToEnumMap;
+    static QMap<Enu::EMnemonic, QString> enumToMnemonMap;
+    static QMap<QString, Enu::EMnemonic> mnemonToEnumMap;
     static void initEnumMnemonMaps();
 
     // Maps to characterize each instruction
-    static QMap<EMnemonic, int> opCodeMap;
-    static QMap<EMnemonic, bool> isUnaryMap;
-    static QMap<EMnemonic, bool> addrModeRequiredMap;
-    static QMap<EMnemonic, bool> isTrapMap;
+    static QMap<Enu::EMnemonic, int> opCodeMap;
+    static QMap<Enu::EMnemonic, bool> isUnaryMap;
+    static QMap<Enu::EMnemonic, bool> addrModeRequiredMap;
+    static QMap<Enu::EMnemonic, bool> isTrapMap;
     static void initMnemonicMaps();
 
     // Map to specify legal addressing modes for each instruction
-    static QMap<EMnemonic, int> addrModesMap;
+    static QMap<Enu::EMnemonic, int> addrModesMap;
     static void initAddrModesMap();
 
     // The symbol table
@@ -118,7 +93,7 @@ public:
     static QMap<int, int> memAddrssToAssemblerListing;
 
     // Decoder tables
-    static QVector<EMnemonic> decodeMnemonic;
+    static QVector<Enu::EMnemonic> decodeMnemonic;
     static QVector<int> decodeAddrMode;
     static void initDecoderTables();
 
