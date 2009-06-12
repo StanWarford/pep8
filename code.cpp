@@ -142,10 +142,10 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
     QString mnemonStr = Pep::enumToMnemonMap.value(mnemonic);
     QString oprndStr = argument->getArgumentString();
     if (Pep::addrModeRequiredMap.value(mnemonic)) {
-        oprndStr.append(Pep::commaPrefixedMode(addressingMode));
+        oprndStr.append("," + Pep::intToAddrMode(addressingMode));
     }
     else if (addressingMode == Pep::X) {
-        oprndStr.append(Pep::commaPrefixedMode(addressingMode));
+        oprndStr.append("," + Pep::intToAddrMode(addressingMode));
     }
     QString lineStr = QString("%1%2%3%4%5%6%7")
                       .arg(memStr, -6, QLatin1Char(' '))

@@ -9,7 +9,6 @@ MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     m_ui->setupUi(this);
 
     QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
-
 }
 
 MemoryDumpPane::~MemoryDumpPane()
@@ -53,7 +52,9 @@ int MemoryDumpPane::memDumpPaneWidth()
 
 void MemoryDumpPane::on_pepMemRefreshButton_clicked()
 {
+    int scrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
     refreshMemory();
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(scrollBarPosition);
 }
 
 void MemoryDumpPane::highlightOnFocus()

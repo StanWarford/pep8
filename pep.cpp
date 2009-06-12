@@ -81,16 +81,29 @@ int Pep::aAddressField(int addressMode)
     return -1; // Should not occur;
 }
 
-QString Pep::commaPrefixedMode(int addressMode) {
-    if (addressMode == Pep::I) return ",i";
-    if (addressMode == Pep::D) return ",d";
-    if (addressMode == Pep::N) return ",n";
-    if (addressMode == Pep::S) return ",s";
-    if (addressMode == Pep::SF) return ",sf";
-    if (addressMode == Pep::X) return ",x";
-    if (addressMode == Pep::SX) return ",sx";
-    if (addressMode == Pep::SXF) return ",sxf";
-    return ""; // Should not occur;
+QString Pep::intToAddrMode(int addressMode) {
+    if (addressMode == Pep::I) return "i";
+    if (addressMode == Pep::D) return "d";
+    if (addressMode == Pep::N) return "n";
+    if (addressMode == Pep::S) return "s";
+    if (addressMode == Pep::SF) return "sf";
+    if (addressMode == Pep::X) return "x";
+    if (addressMode == Pep::SX) return "sx";
+    if (addressMode == Pep::SXF) return "sxf";
+    return ""; // Should not occur
+}
+
+QString Pep::commaSpaceToAddrMode(int addressMode) {
+    if (addressMode == 0) return "";
+    if (addressMode == Pep::I) return ", i";
+    if (addressMode == Pep::D) return ", d";
+    if (addressMode == Pep::N) return ", n";
+    if (addressMode == Pep::S) return ", s";
+    if (addressMode == Pep::SF) return ", sf";
+    if (addressMode == Pep::X) return ", x";
+    if (addressMode == Pep::SX) return ", sx";
+    if (addressMode == Pep::SXF) return ", sxf";
+    return ""; // Should not occur
 }
 
 // Function to read text from a resource file

@@ -73,7 +73,8 @@ public:
     // Functions for computing instruction specifiers
     static int aaaAddressField(int addressMode);
     static int aAddressField(int addressMode);
-    static QString commaPrefixedMode(int addressMode);
+    static QString intToAddrMode(int addressMode);
+    static QString commaSpaceToAddrMode(int addressMode);
 
     // Function to read text from a resource file
     static QString resToString(QString fileName);
