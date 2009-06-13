@@ -2,6 +2,8 @@
 #include "pep.h"
 #include <QDebug>
 
+using namespace Enu;
+
 // The machine
 QVector<int> Sim::Mem(65536);
 bool Sim::nBit, Sim::zBit, Sim::vBit, Sim::cBit;
@@ -165,9 +167,139 @@ void Sim::vonNeumanStep()
         programCounter = (programCounter + 2) % 65536;
     }
     // Execute
-//    switch () {
-//
-//    }
+//    qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
+    switch (Pep::decodeMnemonic[instructionSpecifier]) {
+    case ADDA:
+        break;
+    case ADDSP:
+        break;
+    case ADDX:
+        break;
+    case ANDA:
+        break;
+    case ANDX:
+        break;
+    case ASLA:
+        break;
+    case ASLX:
+        break;
+    case ASRA:
+        break;
+    case ASRX:
+        break;
+    case BR:
+        break;
+    case BRC:
+        break;
+    case BREQ:
+        break;
+    case BRGE:
+        break;
+    case BRGT:
+        break;
+    case BRLE:
+        break;
+    case BRLT:
+        break;
+    case BRNE:
+        break;
+    case BRV:
+        break;
+    case CALL:
+        break;
+    case CHARI:
+        break;
+    case CHARO:
+        break;
+    case CPA:
+        break;
+    case CPX:
+        break;
+    case DECI:
+        break;
+    case DECO:
+        break;
+    case LDA:
+        break;
+    case LDBYTEA:
+        break;
+    case LDBYTEX:
+        break;
+    case LDX:
+        break;
+    case MOVFLGA:
+        break;
+    case MOVSPA:
+        break;
+    case NEGA:
+        break;
+    case NEGX:
+        break;
+    case NOP:
+        break;
+    case NOP0:
+        break;
+    case NOP1:
+        break;
+    case NOP2:
+        break;
+    case NOP3:
+        break;
+    case NOTA:
+        break;
+    case NOTX:
+        break;
+    case ORA:
+        break;
+    case ORX:
+        break;
+    case RET0:
+        break;
+    case RET1:
+        break;
+    case RET2:
+        break;
+    case RET3:
+        break;
+    case RET4:
+        break;
+    case RET5:
+        break;
+    case RET6:
+        break;
+    case RET7:
+        break;
+    case RETTR:
+        break;
+    case ROLA:
+        break;
+    case ROLX:
+        break;
+    case RORA:
+        break;
+    case RORX:
+        break;
+    case STA:
+        break;
+    case STBYTEA:
+        break;
+    case STBYTEX:
+        break;
+    case STOP:
+        break;
+    case STRO:
+        break;
+    case STX:
+        break;
+    case SUBA:
+        break;
+    case SUBSP:
+        break;
+    case SUBX:
+        break;
+    default:
+        qDebug() << "Invalid instruction?!";
+    }
 }
 
 

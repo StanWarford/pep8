@@ -107,14 +107,16 @@ MainWindow::MainWindow(QWidget *parent)
     Sim::zBit = false;
     Sim::vBit = true;
     Sim::cBit = true;
-    Sim::accumulator = 35000;
-    Sim::indexRegister = 8;
+    Sim::accumulator = 5;
+    Sim::indexRegister = 0;
     Sim::stackPointer = 500;
-    Sim::programCounter = 2;
-    Sim::instructionSpecifier = 199;
-    Sim::operandSpecifier = 10;
-    Sim::writeWord(510, 50);
-    Sim::writeWord(58, 47);
+    Sim::programCounter = 0;
+    Sim::instructionSpecifier = 0;
+    Sim::operandSpecifier = 0;
+//    Sim::writeWord(510, 50);
+//    Sim::writeWord(58, 47);
+
+    Sim::vonNeumanStep();
 
     cpuPane->updateCpu();
 }
