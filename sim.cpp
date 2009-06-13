@@ -28,48 +28,56 @@ int Sim::readWord(int memAddr)
     return 256 * Mem[memAddr % 65536] + Mem[(memAddr + 1) % 65536];
 }
 
-int Sim::readByteOprnd(int addrMode)
+int Sim::readByteOprnd(Enu::EAddrMode addrMode)
 {
     switch (addrMode) {
-    case 1: // Pep::I, Immediate
+    case Enu::NONE:
+        break;
+    case Enu::I:
         return Sim::operandSpecifier;
-    case 2: // Pep::D, Direct
+    case Enu::D:
         return readByte(Sim::operandSpecifier);
-    case 4: // Pep::N, Indirect
+    case Enu::N:
         return readByte(readWord(Sim::operandSpecifier));
-    case 8: // Pep::S, Stack-relative
+    case Enu::S:
         return readByte(Sim::stackPointer + Sim::operandSpecifier);
-    case 16: // Pep::SF, Stack-relative deferred
+    case Enu::SF:
         return readByte(readWord(Sim::stackPointer + Sim::operandSpecifier));
-    case 32: // Pep::X, Indexed
+    case Enu::X:
         return readByte(Sim::operandSpecifier + Sim::indexRegister);
-    case 64: // Pep::SX, Stack-indexed
+    case Enu::SX:
         return readByte(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister);
-    case 128: // Pep:SXF, Stack-indexed deferred
+    case Enu::SXF:
         return readByte(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister);
+    case Enu::ALL:
+        break;
     }
     return 0;
 }
 
-int Sim::readWordOprnd(int addrMode)
+int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 {
     switch (addrMode) {
-    case 1: // Pep::I, Immediate
+    case Enu::NONE:
+        break;
+    case Enu::I:
         return Sim::operandSpecifier;
-    case 2: // Pep::D, Direct
+    case Enu::D:
         return readWord(Sim::operandSpecifier);
-    case 4: // Pep::N, Indirect
+    case Enu::N:
         return readWord(readWord(Sim::operandSpecifier));
-    case 8: // Pep::S, Stack-relative
+    case Enu::S:
         return readWord(Sim::stackPointer + Sim::operandSpecifier);
-    case 16: // Pep::SF, Stack-relative deferred
+    case Enu::SF:
         return readWord(readWord(Sim::stackPointer + Sim::operandSpecifier));
-    case 32: // Pep::X, Indexed
+    case Enu::X:
         return readWord(Sim::operandSpecifier + Sim::indexRegister);
-    case 64: // Pep::SX, Stack-indexed
+    case Enu::SX:
         return readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister);
-    case 128: // Pep:SXF, Stack-indexed deferred
+    case Enu::SXF:
         return readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister);
+    case Enu::ALL:
+        break;
     }
     return 0;
 }
@@ -85,55 +93,63 @@ void Sim::writeWord(int memAddr, int value)
     Mem[(memAddr + 1) % 65536] = value % 256;
 }
 
-void Sim::writeByteOprnd(int addrMode, int value)
+void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
 {
     switch (addrMode) {
-    case 1: // Pep::I, Immediate
+    case Enu::NONE:
+        break;
+    case Enu::I:
         // illegal
         break;
-    case 2: // Pep::D, Direct
+    case Enu::D:
         writeByte(readWord(Sim::operandSpecifier), value);
         break;
-    case 4: // Pep::N, Indirect
+    case Enu::N:
         writeByte(readWord(readWord(Sim::operandSpecifier)), value);
         break;
-    case 8: // Pep::S, Stack-relative
+    case Enu::S:
         writeByte(readWord(Sim::stackPointer + Sim::operandSpecifier), value);
         break;
-    case 16: // Pep::SF, Stack-relative deferred
+    case Enu::SF:
         writeByte(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier)), value);
-    case 32: // Pep::X, Indexed
+    case Enu::X:
         writeByte(readWord(Sim::operandSpecifier + Sim::indexRegister), value);
-    case 64: // Pep::SX, Stack-indexed
+    case Enu::SX:
         writeByte(readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister), value);
-    case 128: // Pep:SXF, Stack-indexed deferred
+    case Enu::SXF:
         writeByte(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister), value);
+    case Enu::ALL:
+        break;
     }
 }
 
-void Sim::writeWordOprnd(int addrMode, int value)
+void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
 {
     switch (addrMode) {
-    case 1: // Pep::I, Immediate
+    case Enu::NONE:
+        break;
+    case Enu::I:
         // illegal
         break;
-    case 2: // Pep::D, Direct
+    case Enu::D:
         writeWord(readWord(Sim::operandSpecifier), value);
         break;
-    case 4: // Pep::N, Indirect
+    case Enu::N:
         writeWord(readWord(readWord(Sim::operandSpecifier)), value);
         break;
-    case 8: // Pep::S, Stack-relative
+    case Enu::S:
         writeWord(readWord(Sim::stackPointer + Sim::operandSpecifier), value);
         break;
-    case 16: // Pep::SF, Stack-relative deferred
+    case Enu::SF:
         writeWord(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier)), value);
-    case 32: // Pep::X, Indexed
+    case Enu::X:
         writeWord(readWord(Sim::operandSpecifier + Sim::indexRegister), value);
-    case 64: // Pep::SX, Stack-indexed
+    case Enu::SX:
         writeWord(readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister), value);
-    case 128: // Pep:SXF, Stack-indexed deferred
+    case Enu::SXF:
         writeWord(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister), value);
+    case Enu::ALL:
+        break;
     }
 }
 

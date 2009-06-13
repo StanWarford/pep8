@@ -2,6 +2,7 @@
 #include "ui_cpupane.h"
 #include "sim.h"
 #include "pep.h"
+#include "enu.h"
 
 CpuPane::CpuPane(QWidget *parent) :
     QWidget(parent),
@@ -16,7 +17,7 @@ CpuPane::~CpuPane()
 }
 
 void CpuPane::updateCpu() {
-    int addrMode = Pep::decodeAddrMode[Sim::instructionSpecifier];
+    Enu::EAddrMode addrMode = Pep::decodeAddrMode[Sim::instructionSpecifier];
 
     m_ui->cpuNLabel->setText(Sim::nBit ? "1" : "0");
     m_ui->cpuZLabel->setText(Sim::zBit ? "1" : "0");

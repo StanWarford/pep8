@@ -46,48 +46,48 @@ const bool Pep::defaultMnemon3x = false;
 const bool Pep::defaultMnemon3sx = false;
 const bool Pep::defaultMnemon3sxf = false;
 
-int Pep::aaaAddressField(int addressMode)
+int Pep::aaaAddressField(EAddrMode addressMode)
 {
-    if (addressMode == Enu::I) return 0;
-    if (addressMode == Enu::D) return 1;
-    if (addressMode == Enu::N) return 2;
-    if (addressMode == Enu::S) return 3;
-    if (addressMode == Enu::SF) return 4;
-    if (addressMode == Enu::X) return 5;
-    if (addressMode == Enu::SX) return 6;
-    if (addressMode == Enu::SXF) return 7;
+    if (addressMode == I) return 0;
+    if (addressMode == D) return 1;
+    if (addressMode == N) return 2;
+    if (addressMode == S) return 3;
+    if (addressMode == SF) return 4;
+    if (addressMode == X) return 5;
+    if (addressMode == SX) return 6;
+    if (addressMode == SXF) return 7;
     return -1; // Should not occur;
 }
 
-int Pep::aAddressField(int addressMode)
+int Pep::aAddressField(EAddrMode addressMode)
 {
-    if (addressMode == Enu::I) return 0;
-    if (addressMode == Enu::X) return 1;
+    if (addressMode == I) return 0;
+    if (addressMode == X) return 1;
     return -1; // Should not occur;
 }
 
-QString Pep::intToAddrMode(int addressMode) {
-    if (addressMode == Enu::I) return "i";
-    if (addressMode == Enu::D) return "d";
-    if (addressMode == Enu::N) return "n";
-    if (addressMode == Enu::S) return "s";
-    if (addressMode == Enu::SF) return "sf";
-    if (addressMode == Enu::X) return "x";
-    if (addressMode == Enu::SX) return "sx";
-    if (addressMode == Enu::SXF) return "sxf";
+QString Pep::intToAddrMode(EAddrMode addressMode) {
+    if (addressMode == I) return "i";
+    if (addressMode == D) return "d";
+    if (addressMode == N) return "n";
+    if (addressMode == S) return "s";
+    if (addressMode == SF) return "sf";
+    if (addressMode == X) return "x";
+    if (addressMode == SX) return "sx";
+    if (addressMode == SXF) return "sxf";
     return ""; // Should not occur
 }
 
-QString Pep::commaSpaceToAddrMode(int addressMode) {
-    if (addressMode == 0) return "";
-    if (addressMode == Enu::I) return ", i";
-    if (addressMode == Enu::D) return ", d";
-    if (addressMode == Enu::N) return ", n";
-    if (addressMode == Enu::S) return ", s";
-    if (addressMode == Enu::SF) return ", sf";
-    if (addressMode == Enu::X) return ", x";
-    if (addressMode == Enu::SX) return ", sx";
-    if (addressMode == Enu::SXF) return ", sxf";
+QString Pep::commaSpaceToAddrMode(EAddrMode addressMode) {
+    if (addressMode == NONE) return "";
+    if (addressMode == I) return ", i";
+    if (addressMode == D) return ", d";
+    if (addressMode == N) return ", n";
+    if (addressMode == S) return ", s";
+    if (addressMode == SF) return ", sf";
+    if (addressMode == X) return ", x";
+    if (addressMode == SX) return ", sx";
+    if (addressMode == SXF) return ", sxf";
     return ""; // Should not occur
 }
 
@@ -348,13 +348,13 @@ QMap<int, int> Pep::memAddrssToAssemblerListing;
 
 // Decoder tables
 QVector<Enu::EMnemonic> Pep::decodeMnemonic(256);
-QVector<int> Pep::decodeAddrMode(256);
+QVector<Enu::EAddrMode> Pep::decodeAddrMode(256);
 void Pep::initDecoderTables()
 {
-    decodeMnemonic[0] = STOP; decodeAddrMode[0] = 0;
-    decodeMnemonic[1] = RETTR; decodeAddrMode[1] = 0;
-    decodeMnemonic[2] = MOVSPA; decodeAddrMode[2] = 0;
-    decodeMnemonic[3] = MOVFLGA; decodeAddrMode[3] = 0;
+    decodeMnemonic[0] = STOP; decodeAddrMode[0] = NONE;
+    decodeMnemonic[1] = RETTR; decodeAddrMode[1] = NONE;
+    decodeMnemonic[2] = MOVSPA; decodeAddrMode[2] = NONE;
+    decodeMnemonic[3] = MOVFLGA; decodeAddrMode[3] = NONE;
 
     decodeMnemonic[4] = BR; decodeAddrMode[4] = I;
     decodeMnemonic[5] = BR; decodeAddrMode[5] = X;
@@ -377,60 +377,60 @@ void Pep::initDecoderTables()
     decodeMnemonic[22] = CALL; decodeAddrMode[22] = I;
     decodeMnemonic[23] = CALL; decodeAddrMode[23] = X;
 
-    decodeMnemonic[24] = NOTA; decodeAddrMode[24] = 0;
-    decodeMnemonic[25] = NOTX; decodeAddrMode[25] = 0;
-    decodeMnemonic[26] = NEGA; decodeAddrMode[26] = 0;
-    decodeMnemonic[27] = NEGX; decodeAddrMode[27] = 0;
-    decodeMnemonic[28] = ASLA; decodeAddrMode[28] = 0;
-    decodeMnemonic[29] = ASLX; decodeAddrMode[29] = 0;
-    decodeMnemonic[30] = ASRA; decodeAddrMode[30] = 0;
-    decodeMnemonic[31] = ASRX; decodeAddrMode[31] = 0;
-    decodeMnemonic[32] = ROLA; decodeAddrMode[32] = 0;
-    decodeMnemonic[33] = ROLX; decodeAddrMode[33] = 0;
-    decodeMnemonic[34] = RORA; decodeAddrMode[34] = 0;
-    decodeMnemonic[35] = RORX; decodeAddrMode[35] = 0;
+    decodeMnemonic[24] = NOTA; decodeAddrMode[24] = NONE;
+    decodeMnemonic[25] = NOTX; decodeAddrMode[25] = NONE;
+    decodeMnemonic[26] = NEGA; decodeAddrMode[26] = NONE;
+    decodeMnemonic[27] = NEGX; decodeAddrMode[27] = NONE;
+    decodeMnemonic[28] = ASLA; decodeAddrMode[28] = NONE;
+    decodeMnemonic[29] = ASLX; decodeAddrMode[29] = NONE;
+    decodeMnemonic[30] = ASRA; decodeAddrMode[30] = NONE;
+    decodeMnemonic[31] = ASRX; decodeAddrMode[31] = NONE;
+    decodeMnemonic[32] = ROLA; decodeAddrMode[32] = NONE;
+    decodeMnemonic[33] = ROLX; decodeAddrMode[33] = NONE;
+    decodeMnemonic[34] = RORA; decodeAddrMode[34] = NONE;
+    decodeMnemonic[35] = RORX; decodeAddrMode[35] = NONE;
 
     // Note that the trap instructions are all unary at the machine level
-    decodeMnemonic[36] = NOP0; decodeAddrMode[36] = 0;
-    decodeMnemonic[37] = NOP1; decodeAddrMode[37] = 0;
-    decodeMnemonic[38] = NOP2; decodeAddrMode[38] = 0;
-    decodeMnemonic[39] = NOP3; decodeAddrMode[39] = 0;
+    decodeMnemonic[36] = NOP0; decodeAddrMode[36] = NONE;
+    decodeMnemonic[37] = NOP1; decodeAddrMode[37] = NONE;
+    decodeMnemonic[38] = NOP2; decodeAddrMode[38] = NONE;
+    decodeMnemonic[39] = NOP3; decodeAddrMode[39] = NONE;
 
-    decodeMnemonic[40] = NOP; decodeAddrMode[40] = 0;
-    decodeMnemonic[41] = NOP; decodeAddrMode[41] = 0;
-    decodeMnemonic[42] = NOP; decodeAddrMode[42] = 0;
-    decodeMnemonic[43] = NOP; decodeAddrMode[43] = 0;
-    decodeMnemonic[44] = NOP; decodeAddrMode[44] = 0;
-    decodeMnemonic[45] = NOP; decodeAddrMode[45] = 0;
-    decodeMnemonic[46] = NOP; decodeAddrMode[46] = 0;
-    decodeMnemonic[47] = NOP; decodeAddrMode[47] = 0;
+    decodeMnemonic[40] = NOP; decodeAddrMode[40] = NONE;
+    decodeMnemonic[41] = NOP; decodeAddrMode[41] = NONE;
+    decodeMnemonic[42] = NOP; decodeAddrMode[42] = NONE;
+    decodeMnemonic[43] = NOP; decodeAddrMode[43] = NONE;
+    decodeMnemonic[44] = NOP; decodeAddrMode[44] = NONE;
+    decodeMnemonic[45] = NOP; decodeAddrMode[45] = NONE;
+    decodeMnemonic[46] = NOP; decodeAddrMode[46] = NONE;
+    decodeMnemonic[47] = NOP; decodeAddrMode[47] = NONE;
 
-    decodeMnemonic[48] = DECI; decodeAddrMode[48] = 0;
-    decodeMnemonic[49] = DECI; decodeAddrMode[49] = 0;
-    decodeMnemonic[50] = DECI; decodeAddrMode[50] = 0;
-    decodeMnemonic[51] = DECI; decodeAddrMode[51] = 0;
-    decodeMnemonic[52] = DECI; decodeAddrMode[52] = 0;
-    decodeMnemonic[53] = DECI; decodeAddrMode[53] = 0;
-    decodeMnemonic[54] = DECI; decodeAddrMode[54] = 0;
-    decodeMnemonic[55] = DECI; decodeAddrMode[55] = 0;
+    decodeMnemonic[48] = DECI; decodeAddrMode[48] = NONE;
+    decodeMnemonic[49] = DECI; decodeAddrMode[49] = NONE;
+    decodeMnemonic[50] = DECI; decodeAddrMode[50] = NONE;
+    decodeMnemonic[51] = DECI; decodeAddrMode[51] = NONE;
+    decodeMnemonic[52] = DECI; decodeAddrMode[52] = NONE;
+    decodeMnemonic[53] = DECI; decodeAddrMode[53] = NONE;
+    decodeMnemonic[54] = DECI; decodeAddrMode[54] = NONE;
+    decodeMnemonic[55] = DECI; decodeAddrMode[55] = NONE;
 
-    decodeMnemonic[56] = DECO; decodeAddrMode[56] = 0;
-    decodeMnemonic[57] = DECO; decodeAddrMode[57] = 0;
-    decodeMnemonic[58] = DECO; decodeAddrMode[58] = 0;
-    decodeMnemonic[59] = DECO; decodeAddrMode[59] = 0;
-    decodeMnemonic[60] = DECO; decodeAddrMode[60] = 0;
-    decodeMnemonic[61] = DECO; decodeAddrMode[61] = 0;
-    decodeMnemonic[62] = DECO; decodeAddrMode[62] = 0;
-    decodeMnemonic[63] = DECO; decodeAddrMode[63] = 0;
+    decodeMnemonic[56] = DECO; decodeAddrMode[56] = NONE;
+    decodeMnemonic[57] = DECO; decodeAddrMode[57] = NONE;
+    decodeMnemonic[58] = DECO; decodeAddrMode[58] = NONE;
+    decodeMnemonic[59] = DECO; decodeAddrMode[59] = NONE;
+    decodeMnemonic[60] = DECO; decodeAddrMode[60] = NONE;
+    decodeMnemonic[61] = DECO; decodeAddrMode[61] = NONE;
+    decodeMnemonic[62] = DECO; decodeAddrMode[62] = NONE;
+    decodeMnemonic[63] = DECO; decodeAddrMode[63] = NONE;
 
-    decodeMnemonic[64] = STRO; decodeAddrMode[64] = 0;
-    decodeMnemonic[65] = STRO; decodeAddrMode[65] = 0;
-    decodeMnemonic[66] = STRO; decodeAddrMode[66] = 0;
-    decodeMnemonic[67] = STRO; decodeAddrMode[67] = 0;
-    decodeMnemonic[68] = STRO; decodeAddrMode[68] = 0;
-    decodeMnemonic[69] = STRO; decodeAddrMode[69] = 0;
-    decodeMnemonic[70] = STRO; decodeAddrMode[70] = 0;
-    decodeMnemonic[71] = STRO; decodeAddrMode[71] = 0;
+    decodeMnemonic[64] = STRO; decodeAddrMode[64] = NONE;
+    decodeMnemonic[65] = STRO; decodeAddrMode[65] = NONE;
+    decodeMnemonic[66] = STRO; decodeAddrMode[66] = NONE;
+    decodeMnemonic[67] = STRO; decodeAddrMode[67] = NONE;
+    decodeMnemonic[68] = STRO; decodeAddrMode[68] = NONE;
+    decodeMnemonic[69] = STRO; decodeAddrMode[69] = NONE;
+    decodeMnemonic[70] = STRO; decodeAddrMode[70] = NONE;
+    decodeMnemonic[71] = STRO; decodeAddrMode[71] = NONE;
 
     decodeMnemonic[72] = CHARI; decodeAddrMode[72] = I;
     decodeMnemonic[73] = CHARI; decodeAddrMode[73] = D;
@@ -450,14 +450,14 @@ void Pep::initDecoderTables()
     decodeMnemonic[86] = CHARO; decodeAddrMode[86] = SX;
     decodeMnemonic[87] = CHARO; decodeAddrMode[87] = SXF;
 
-    decodeMnemonic[88] = RET0; decodeAddrMode[88] = 0;
-    decodeMnemonic[89] = RET1; decodeAddrMode[89] = 0;
-    decodeMnemonic[90] = RET2; decodeAddrMode[90] = 0;
-    decodeMnemonic[91] = RET3; decodeAddrMode[91] = 0;
-    decodeMnemonic[92] = RET4; decodeAddrMode[92] = 0;
-    decodeMnemonic[93] = RET5; decodeAddrMode[93] = 0;
-    decodeMnemonic[94] = RET6; decodeAddrMode[94] = 0;
-    decodeMnemonic[95] = RET7; decodeAddrMode[95] = 0;
+    decodeMnemonic[88] = RET0; decodeAddrMode[88] = NONE;
+    decodeMnemonic[89] = RET1; decodeAddrMode[89] = NONE;
+    decodeMnemonic[90] = RET2; decodeAddrMode[90] = NONE;
+    decodeMnemonic[91] = RET3; decodeAddrMode[91] = NONE;
+    decodeMnemonic[92] = RET4; decodeAddrMode[92] = NONE;
+    decodeMnemonic[93] = RET5; decodeAddrMode[93] = NONE;
+    decodeMnemonic[94] = RET6; decodeAddrMode[94] = NONE;
+    decodeMnemonic[95] = RET7; decodeAddrMode[95] = NONE;
 
     decodeMnemonic[96] = ADDSP; decodeAddrMode[96] = I;
     decodeMnemonic[97] = ADDSP; decodeAddrMode[97] = D;

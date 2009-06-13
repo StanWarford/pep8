@@ -2,6 +2,7 @@
 #define ASM_H
 
 #include <QRegExp>
+#include "enu.h"
 
 class Code; // Forward declaration for argument of processSourceLine.
 
@@ -52,7 +53,7 @@ public:
     static bool startsWithHexPrefix(QString str);
     // Post: Returns true if str starts with the characters 0x or 0X. Otherwise returns false.
 
-    static int stringToAddrMode(QString str);
+    static Enu::EAddrMode stringToAddrMode(QString str);
     // Post: Returns the addressing mode integer defined in Pep from its string representation.
 
     static int charStringToInt(QString str);

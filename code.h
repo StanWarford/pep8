@@ -38,7 +38,7 @@ class NonUnaryInstruction: public Code
     friend class Asm;
 private:
     Enu::EMnemonic mnemonic;
-    int addressingMode;
+    Enu::EAddrMode addressingMode;
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);

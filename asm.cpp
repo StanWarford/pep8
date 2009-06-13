@@ -125,7 +125,7 @@ bool Asm::startsWithHexPrefix(QString str)
     return false;
 }
 
-int Asm::stringToAddrMode(QString str)
+Enu::EAddrMode Asm::stringToAddrMode(QString str)
 {
     str.remove(0, 1); // Remove the comma.
     str = str.trimmed().toUpper();
@@ -534,7 +534,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
 
         case Asm::PS_ADDRESSING_MODE:
             if (token == Asm::LT_ADDRESSING_MODE) {
-                int addrMode = Asm::stringToAddrMode(tokenString);
+                Enu::EAddrMode addrMode = Asm::stringToAddrMode(tokenString);
                 if ((addrMode & Pep::addrModesMap.value(localEnumMnemonic)) == 0) { // Nested parens required.
                     errorString = ";ERROR: Illegal addressing mode for this instruction.";
                     return false;

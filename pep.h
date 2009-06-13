@@ -61,10 +61,10 @@ public:
     static const bool defaultMnemon3sxf;
 
     // Functions for computing instruction specifiers
-    static int aaaAddressField(int addressMode);
-    static int aAddressField(int addressMode);
-    static QString intToAddrMode(int addressMode);
-    static QString commaSpaceToAddrMode(int addressMode);
+    static int aaaAddressField(Enu::EAddrMode addressMode);
+    static int aAddressField(Enu::EAddrMode addressMode);
+    static QString intToAddrMode(Enu::EAddrMode addressMode);
+    static QString commaSpaceToAddrMode(Enu::EAddrMode addressMode);
 
     // Function to read text from a resource file
     static QString resToString(QString fileName);
@@ -94,7 +94,7 @@ public:
 
     // Decoder tables
     static QVector<Enu::EMnemonic> decodeMnemonic;
-    static QVector<int> decodeAddrMode;
+    static QVector<Enu::EAddrMode> decodeAddrMode;
     static void initDecoderTables();
 
     // .BURN and the ROM state
