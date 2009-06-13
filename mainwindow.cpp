@@ -350,8 +350,7 @@ QString MainWindow::strippedName(const QString &fullFileName)
     return QFileInfo(fullFileName).fileName();
 }
 
-// Recent files members:
-
+// Recent files:
 void MainWindow::updateRecentFileActions()
 {
     QSettings settings("Pep/8", "Recent Files");

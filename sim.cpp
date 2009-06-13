@@ -34,21 +34,21 @@ int Sim::readByteOprnd(Enu::EAddrMode addrMode)
     case Enu::NONE:
         break;
     case Enu::I:
-        return Sim::operandSpecifier;
+        return operandSpecifier;
     case Enu::D:
-        return readByte(Sim::operandSpecifier);
+        return readByte(operandSpecifier);
     case Enu::N:
-        return readByte(readWord(Sim::operandSpecifier));
+        return readByte(readWord(operandSpecifier));
     case Enu::S:
-        return readByte(Sim::stackPointer + Sim::operandSpecifier);
+        return readByte(stackPointer + operandSpecifier);
     case Enu::SF:
-        return readByte(readWord(Sim::stackPointer + Sim::operandSpecifier));
+        return readByte(readWord(stackPointer + operandSpecifier));
     case Enu::X:
-        return readByte(Sim::operandSpecifier + Sim::indexRegister);
+        return readByte(operandSpecifier + indexRegister);
     case Enu::SX:
-        return readByte(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister);
+        return readByte(stackPointer + operandSpecifier + indexRegister);
     case Enu::SXF:
-        return readByte(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister);
+        return readByte(readWord(stackPointer + operandSpecifier) + indexRegister);
     case Enu::ALL:
         break;
     }
@@ -61,21 +61,21 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
     case Enu::NONE:
         break;
     case Enu::I:
-        return Sim::operandSpecifier;
+        return operandSpecifier;
     case Enu::D:
-        return readWord(Sim::operandSpecifier);
+        return readWord(operandSpecifier);
     case Enu::N:
-        return readWord(readWord(Sim::operandSpecifier));
+        return readWord(readWord(operandSpecifier));
     case Enu::S:
-        return readWord(Sim::stackPointer + Sim::operandSpecifier);
+        return readWord(stackPointer + operandSpecifier);
     case Enu::SF:
-        return readWord(readWord(Sim::stackPointer + Sim::operandSpecifier));
+        return readWord(readWord(stackPointer + operandSpecifier));
     case Enu::X:
-        return readWord(Sim::operandSpecifier + Sim::indexRegister);
+        return readWord(operandSpecifier + indexRegister);
     case Enu::SX:
-        return readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister);
+        return readWord(stackPointer + operandSpecifier + indexRegister);
     case Enu::SXF:
-        return readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister);
+        return readWord(readWord(stackPointer + operandSpecifier) + indexRegister);
     case Enu::ALL:
         break;
     }
@@ -102,22 +102,22 @@ void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
         // illegal
         break;
     case Enu::D:
-        writeByte(readWord(Sim::operandSpecifier), value);
+        writeByte(readWord(operandSpecifier), value);
         break;
     case Enu::N:
-        writeByte(readWord(readWord(Sim::operandSpecifier)), value);
+        writeByte(readWord(readWord(operandSpecifier)), value);
         break;
     case Enu::S:
-        writeByte(readWord(Sim::stackPointer + Sim::operandSpecifier), value);
+        writeByte(readWord(stackPointer + operandSpecifier), value);
         break;
     case Enu::SF:
-        writeByte(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier)), value);
+        writeByte(readWord(readWord(stackPointer + operandSpecifier)), value);
     case Enu::X:
-        writeByte(readWord(Sim::operandSpecifier + Sim::indexRegister), value);
+        writeByte(readWord(operandSpecifier + indexRegister), value);
     case Enu::SX:
-        writeByte(readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister), value);
+        writeByte(readWord(stackPointer + operandSpecifier + indexRegister), value);
     case Enu::SXF:
-        writeByte(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister), value);
+        writeByte(readWord(readWord(stackPointer + operandSpecifier) + indexRegister), value);
     case Enu::ALL:
         break;
     }
@@ -132,22 +132,22 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
         // illegal
         break;
     case Enu::D:
-        writeWord(readWord(Sim::operandSpecifier), value);
+        writeWord(readWord(operandSpecifier), value);
         break;
     case Enu::N:
-        writeWord(readWord(readWord(Sim::operandSpecifier)), value);
+        writeWord(readWord(readWord(operandSpecifier)), value);
         break;
     case Enu::S:
-        writeWord(readWord(Sim::stackPointer + Sim::operandSpecifier), value);
+        writeWord(readWord(stackPointer + operandSpecifier), value);
         break;
     case Enu::SF:
-        writeWord(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier)), value);
+        writeWord(readWord(readWord(stackPointer + operandSpecifier)), value);
     case Enu::X:
-        writeWord(readWord(Sim::operandSpecifier + Sim::indexRegister), value);
+        writeWord(readWord(operandSpecifier + indexRegister), value);
     case Enu::SX:
-        writeWord(readWord(Sim::stackPointer + Sim::operandSpecifier + Sim::indexRegister), value);
+        writeWord(readWord(stackPointer + operandSpecifier + indexRegister), value);
     case Enu::SXF:
-        writeWord(readWord(readWord(Sim::stackPointer + Sim::operandSpecifier) + Sim::indexRegister), value);
+        writeWord(readWord(readWord(stackPointer + operandSpecifier) + indexRegister), value);
     case Enu::ALL:
         break;
     }
@@ -156,13 +156,13 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
 void Sim::vonNeumanStep()
 {
     // Fetch
-    Sim::instructionSpecifier = Sim::readByte(Sim::programCounter);
+    instructionSpecifier = readByte(programCounter);
     // Increment
-    Sim::programCounter = (Sim::programCounter + 1) % 65536;
+    programCounter = (programCounter + 1) % 65536;
     // Decode
-    if (!Pep::isUnaryMap[Pep::decodeMnemonic[Sim::instructionSpecifier]]) {
-        Sim::operandSpecifier = Sim::readWord(Sim::programCounter);
-        Sim::programCounter = (Sim::programCounter + 2) % 65536;
+    if (!Pep::isUnaryMap[Pep::decodeMnemonic[instructionSpecifier]]) {
+        operandSpecifier = readWord(programCounter);
+        programCounter = (programCounter + 2) % 65536;
     }
     // Execute
 //    switch () {
