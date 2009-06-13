@@ -116,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    Sim::writeWord(510, 50);
 //    Sim::writeWord(58, 47);
 
-    Sim::vonNeumanStep();
+    Sim::vonNeumannStep();
 
     cpuPane->updateCpu();
 }

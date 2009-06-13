@@ -36,7 +36,7 @@ public:
     static void writeByteOprnd(Enu::EAddrMode addrMode, int value);
     static void writeWordOprnd(Enu::EAddrMode addrMode, int value);
 
-    static void vonNeumanStep();
+    static void vonNeumannStep();
 
 
 };

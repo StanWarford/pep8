@@ -155,7 +155,7 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
     }
 }
 
-void Sim::vonNeumanStep()
+void Sim::vonNeumannStep()
 {
     // Fetch
     instructionSpecifier = readByte(programCounter);
@@ -167,7 +167,7 @@ void Sim::vonNeumanStep()
         programCounter = (programCounter + 2) % 65536;
     }
     // Execute
-//    qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
+    // qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
     switch (Pep::decodeMnemonic[instructionSpecifier]) {
     case ADDA:
         break;
@@ -188,24 +188,55 @@ void Sim::vonNeumanStep()
     case ASRX:
         break;
     case BR:
+        programCounter = operandSpecifier;
         break;
     case BRC:
+        if (cBit == 1) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BREQ:
+        if (zBit == 1) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRGE:
+        if (nBit == 0) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRGT:
+        if (nBit == 0 || zBit == 0) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRLE:
+        if (nBit == 1 || zBit == 1) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRLT:
+        if (nBit == 0) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRNE:
+        if (zBit == 0) {
+            programCounter = operandSpecifier;
+        }
         break;
     case BRV:
+        if (vBit == 1) {
+            programCounter = operandSpecifier;
+        }
         break;
     case CALL:
+        // SP <- SP - 2
+        stackPointer = (stackPointer - 2) % 65536;
+        // Mem[SP] <- PC
+        writeWord(operandSpecifier, programCounter);
+        // PC <- Oprnd
+        programCounter = operandSpecifier;
         break;
     case CHARI:
         break;
@@ -230,6 +261,7 @@ void Sim::vonNeumanStep()
     case MOVFLGA:
         break;
     case MOVSPA:
+        stackPointer = accumulator;
         break;
     case NEGA:
         break;
@@ -254,20 +286,68 @@ void Sim::vonNeumanStep()
     case ORX:
         break;
     case RET0:
+        // SP <- SP + n
+        stackPointer = stackPointer + 0;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET1:
+        // SP <- SP + n
+        stackPointer = stackPointer + 1;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET2:
+        // SP <- SP + n
+        stackPointer = stackPointer + 2;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET3:
+        // SP <- SP + n
+        stackPointer = stackPointer + 3;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET4:
+        // SP <- SP + n
+        stackPointer = stackPointer + 4;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET5:
+        // SP <- SP + n
+        stackPointer = stackPointer + 5;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET6:
+        // SP <- SP + n
+        stackPointer = stackPointer + 6;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RET7:
+        // SP <- SP + n
+        stackPointer = stackPointer + 7;
+        // PC <- Mem[SP]
+        Sim::programCounter = readWord(stackPointer);
+        // SP <- SP + 2
+        stackPointer = (stackPointer + 2) % 65536;
         break;
     case RETTR:
         break;
