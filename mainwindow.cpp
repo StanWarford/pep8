@@ -293,6 +293,7 @@ bool MainWindow::saveFileListing(const QString &fileName)
     out << assemblerListingPane->toPlainText();
     QApplication::restoreOverrideCursor();
 
+    setCurrentFile(fileName, "Listing");
     statusBar()->showMessage("Assembler listing saved", 4000);
     return true;
 }
@@ -305,6 +306,8 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
     } else if (pane == "Object") {
         curObjectFile = fileName;
         objectCodePane->setModifiedFalse();
+    } else if (pane == "Listing") {
+        curListingFile = fileName;
     }
 
     QString shownName;
@@ -315,6 +318,19 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
             shownName = strippedName(curSourceFile);
         }
         sourceCodePane->setCurrentFile(shownName);
+        if (curListingFile.isEmpty()) {
+            if (curSourceFile.isEmpty()) {
+                curListingFile = "untitled.pepl";
+            }
+            else {
+                QString temp = curSourceFile;
+                if (temp.endsWith(".pep", Qt::CaseInsensitive) || temp.endsWith(".txt", Qt::CaseInsensitive)) {
+                    temp.chop(4);
+                }
+                temp.append(".pepl");
+                curListingFile = temp;
+            }
+        }
         if (curObjectFile.isEmpty()) {
             // Set curObjectFile name here.
             // Things to watch out for:
@@ -331,19 +347,21 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
     }
 
     // For recent files:
-    QSettings settings("Pep/8", "Recent Files");
-    QStringList files = settings.value("recentFileList").toStringList();
-    files.removeAll(fileName);
-    files.prepend(fileName);
-    while (files.size() > MaxRecentFiles)
-        files.removeLast();
+    if (pane != "Listing") {
+        QSettings settings("Pep/8", "Recent Files");
+        QStringList files = settings.value("recentFileList").toStringList();
+        files.removeAll(fileName);
+        files.prepend(fileName);
+        while (files.size() > MaxRecentFiles)
+            files.removeLast();
 
-    settings.setValue("recentFileList", files);
+        settings.setValue("recentFileList", files);
 
-    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
-        MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
-        if (mainWin)
-            mainWin->updateRecentFileActions();
+        foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+            MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
+            if (mainWin)
+                mainWin->updateRecentFileActions();
+        }
     }
 }
 
@@ -417,7 +435,7 @@ bool MainWindow::on_actionFile_Save_Source_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Source Code",
-            curSourceFile.isEmpty() ? "untitled.pep" : curSourceFile.remove(QRegExp(".pep")).remove(QRegExp(".txt")) + ".pep",
+            curSourceFile.isEmpty() ? "untitled.pep" : curSourceFile,
             "Pep8 Source (*.pep *.txt)");
     if (fileName.isEmpty())
         return false;
@@ -430,7 +448,7 @@ bool MainWindow::on_actionFile_Save_Object_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Object Code",
-            curObjectFile.isEmpty() ? "untitled.pepo" : curObjectFile.remove(QRegExp(".pepo")).remove(QRegExp(".txt")) + ".pepo",
+            curObjectFile.isEmpty() ? "untitled.pepo" : curObjectFile,
             "Pep8 Object (*.pepo *.txt)");
     if (fileName.isEmpty())
         return false;
@@ -440,7 +458,11 @@ bool MainWindow::on_actionFile_Save_Object_As_triggered()
 
 bool MainWindow::on_actionFile_Save_Listing_As_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
+    QString fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Assembler Listing",
+            curListingFile.isEmpty() ? "untitled.pepl" : curListingFile,
+            "Pep8 Listing (*.pepl)");
     if (fileName.isEmpty()) {
         return false;
     }
