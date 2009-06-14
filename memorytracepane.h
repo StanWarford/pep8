@@ -28,6 +28,12 @@ public:
 
 private:
     Ui::MemoryTracePane *m_ui;
+
+private slots:
+    void singleStep();
+
+    void resumeExecution();
+
 };
 
 #endif // MEMORYTRACEPANE_H

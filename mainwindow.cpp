@@ -104,20 +104,6 @@ MainWindow::MainWindow(QWidget *parent)
     updateRecentFileActions();
 
     // Testing updateCpu
-
-    Sim::nBit = true;
-    Sim::zBit = false;
-    Sim::vBit = true;
-    Sim::cBit = true;
-    Sim::accumulator = 5;
-    Sim::indexRegister = 0;
-    Sim::stackPointer = 500;
-    Sim::programCounter = 0;
-    Sim::instructionSpecifier = 0;
-    Sim::operandSpecifier = 0;
-//    Sim::writeWord(510, 50);
-//    Sim::writeWord(58, 47);
-
     Sim::vonNeumannStep();
 
     cpuPane->updateCpu();
