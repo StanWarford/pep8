@@ -30,6 +30,15 @@ public:
     void redo();
     // Post: does nothing in this pane
 
+    void cut();
+    // Read only text, not allowed
+
+    void copy();
+    // Post: selected text in the text edit is copied to the clipboard
+
+    void paste();
+    // Read only text, not allowed
+
 private:
     Ui::MemoryDumpPane *m_ui;
 

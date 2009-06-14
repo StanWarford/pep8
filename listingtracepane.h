@@ -31,6 +31,15 @@ public:
     void redo();
     // Post: does nothing in this pane
 
+    void cut();
+    // Does nothing in our implementation of the listing trace
+
+    void copy();
+    // Does nothing in our implementation of the listing trace
+
+    void paste();
+    // Does nothing in our implementation of the listing trace
+
 private:
     Ui::ListingTracePane *m_ui;
 };

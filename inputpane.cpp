@@ -37,3 +37,20 @@ void InputPane::redo()
 {
     m_ui->_textEdit->redo();
 }
+
+void InputPane::cut()
+{
+    m_ui->_textEdit->cut();
+}
+
+void InputPane::copy()
+{
+    m_ui->_textEdit->copy();
+}
+
+void InputPane::paste()
+{
+    m_ui->_textEdit->paste();
+}
+
+

@@ -26,6 +26,15 @@ public:
     void redo();
     // Post: does nothing in this pane
 
+    void cut();
+    // Does nothing in our implementation of the memory trace
+
+    void copy();
+    // Does nothing in our implementation of the memory trace
+
+    void paste();
+    // Does nothing in our implementation of the memory trace
+
 private:
     Ui::MemoryTracePane *m_ui;
 

@@ -70,3 +70,19 @@ void ListingTracePane::redo()
 {
     // does nothing with our current implementation
 }
+
+void ListingTracePane::cut()
+{
+    // does nothing with our current implementation
+}
+
+void ListingTracePane::copy()
+{
+    // does nothing with our current implementation
+}
+
+void ListingTracePane::paste()
+{
+    // does nothing with our current implementation
+}
+

@@ -50,13 +50,6 @@ int MemoryDumpPane::memDumpPaneWidth()
 //    m_ui->pepMemoryDumpTextEdit->lineWidth()
 }
 
-void MemoryDumpPane::on_pepMemRefreshButton_clicked()
-{
-    int scrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
-    refreshMemory();
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(scrollBarPosition);
-}
-
 void MemoryDumpPane::highlightOnFocus()
 {
     if (m_ui->pepMemoryDumpTextEdit->hasFocus()) {
@@ -81,4 +74,29 @@ void MemoryDumpPane::redo()
 {
     // does nothing with our current implementation
 }
+
+void MemoryDumpPane::cut()
+{
+    // read only pane, not allowed
+}
+
+void MemoryDumpPane::copy()
+{
+    m_ui->pepMemoryDumpTextEdit->copy();
+}
+
+void MemoryDumpPane::paste()
+{
+    // does nothing with our current implementation
+}
+
+void MemoryDumpPane::on_pepMemRefreshButton_clicked()
+{
+    int scrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    refreshMemory();
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(scrollBarPosition);
+}
+
+
+
 

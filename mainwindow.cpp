@@ -543,17 +543,104 @@ void MainWindow::on_actionEdit_Redo_triggered()
 
 void MainWindow::on_actionEdit_Cut_triggered()
 {
-
+    if (sourceCodePane->hasFocus()) {
+        sourceCodePane->cut();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->cut();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->cut();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->cut();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->cut();
+    }
+    else if (cpuPane->hasFocus()) {
+        cpuPane->cut();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->cut();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->cut();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->cut();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->cut();
+    }
 }
 
 void MainWindow::on_actionEdit_Copy_triggered()
 {
-
+    if (sourceCodePane->hasFocus()) {
+        sourceCodePane->copy();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->copy();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->copy();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->copy();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->copy();
+    }
+    else if (cpuPane->hasFocus()) {
+        cpuPane->copy();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->copy();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->copy();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->copy();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->copy();
+    }
 }
 
 void MainWindow::on_actionEdit_Paste_triggered()
 {
-
+    if (sourceCodePane->hasFocus()) {
+        sourceCodePane->paste();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->paste();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->paste();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->paste();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->paste();
+    }
+    else if (cpuPane->hasFocus()) {
+        cpuPane->paste();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->paste();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->paste();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->paste();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->paste();
+    }
 }
 
 void MainWindow::on_actionEdit_Format_From_Listing_triggered()

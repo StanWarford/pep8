@@ -91,18 +91,6 @@ void ObjectCodePane::highlightOnFocus()
     }
 }
 
-void ObjectCodePane::setLabelToModified(bool modified)
-{
-    QString temp = m_ui->pepObjectCodeLabel->text();
-    if (modified) {
-        m_ui->pepObjectCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
-    }
-    else if (temp.endsWith(QChar('*'))) {
-        temp.chop(1);
-        m_ui->pepObjectCodeLabel->setText(temp);
-    }
-}
-
 bool ObjectCodePane::hasFocus()
 {
     return m_ui->pepObjectCodeTextEdit->hasFocus();
@@ -117,3 +105,33 @@ void ObjectCodePane::redo()
 {
     m_ui->pepObjectCodeTextEdit->redo();
 }
+
+void ObjectCodePane::cut()
+{
+    m_ui->pepObjectCodeTextEdit->cut();
+}
+
+void ObjectCodePane::copy()
+{
+    m_ui->pepObjectCodeTextEdit->copy();
+}
+
+void ObjectCodePane::paste()
+{
+    m_ui->pepObjectCodeTextEdit->paste();
+}
+
+
+void ObjectCodePane::setLabelToModified(bool modified)
+{
+    QString temp = m_ui->pepObjectCodeLabel->text();
+    if (modified) {
+        m_ui->pepObjectCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+    }
+    else if (temp.endsWith(QChar('*'))) {
+        temp.chop(1);
+        m_ui->pepObjectCodeLabel->setText(temp);
+    }
+}
+
+

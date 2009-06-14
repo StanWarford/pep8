@@ -44,6 +44,21 @@ void MemoryTracePane::redo()
     // does nothing with our current implementation
 }
 
+void MemoryTracePane::cut()
+{
+    // does nothing with our current implementation
+}
+
+void MemoryTracePane::copy()
+{
+    // does nothing with our current implementation
+}
+
+void MemoryTracePane::paste()
+{
+    // does nothing with our current implementation
+}
+
 void MemoryTracePane::singleStep()
 {
     Sim::vonNeumannStep();

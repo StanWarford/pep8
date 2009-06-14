@@ -26,6 +26,15 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    void cut();
+    // Not allowed in this pane (read only)
+
+    void copy();
+    // Post: selected text in the text edit is copied to the clipboard
+
+    void paste();
+    // Not allowed in this pane (read only)
+
 private:
     Ui::OutputPane *m_ui;
 };

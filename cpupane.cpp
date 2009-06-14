@@ -85,3 +85,19 @@ void CpuPane::redo()
 {
     // does nothing with our current implementation
 }
+
+void CpuPane::cut()
+{
+    // does nothing with our current implementation
+}
+
+void CpuPane::copy()
+{
+    // does nothing with our current implementation
+}
+
+void CpuPane::paste()
+{
+    // does nothing with our current implementation
+}
+

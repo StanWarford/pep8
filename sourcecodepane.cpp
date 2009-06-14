@@ -207,6 +207,21 @@ void SourceCodePane::redo()
     m_ui->pepSourceCodeTextEdit->redo();
 }
 
+void SourceCodePane::cut()
+{
+    m_ui->pepSourceCodeTextEdit->cut();
+}
+
+void SourceCodePane::copy()
+{
+    m_ui->pepSourceCodeTextEdit->copy();
+}
+
+void SourceCodePane::paste()
+{
+    m_ui->pepSourceCodeTextEdit->paste();
+}
+
 
 void SourceCodePane::setLabelToModified(bool modified)
 {

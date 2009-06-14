@@ -89,6 +89,15 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    void cut();
+    // Post: selected text in the text edit is cut to the clipboard
+
+    void copy();
+    // Post: selected text in the text edit is copied to the clipboard
+
+    void paste();
+    // Post: selected text in the clipboard is pasted to the text edit
+
 private:
     Ui::SourceCodePane *m_ui;
     QList<Code *> codeList;

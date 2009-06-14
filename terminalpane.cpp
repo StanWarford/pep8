@@ -37,3 +37,20 @@ void TerminalPane::redo()
 {
     m_ui->pepTerminalTextEdit->redo();
 }
+
+void TerminalPane::cut()
+{
+    // not allowed in interactive i/o
+}
+
+void TerminalPane::copy()
+{
+    m_ui->pepTerminalTextEdit->copy();
+}
+
+void TerminalPane::paste()
+{
+    m_ui->pepTerminalTextEdit->moveCursor(QTextCursor::End);
+    m_ui->pepTerminalTextEdit->paste();
+}
+
