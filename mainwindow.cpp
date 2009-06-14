@@ -86,10 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Mac title bar
     setUnifiedTitleAndToolBarOnMac(true);
 
-    // Focus highlighting
-    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
-    // Undo/redo highlight thing
-    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(actionsDeActivate(QWidget*,QWidget*)));
+    // Focus highlighting, actions enable/disable
+    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -103,9 +101,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
     updateRecentFileActions();
 
-    // Testing updateCpu
+    // Testing the simulator
     Sim::vonNeumannStep();
-
     cpuPane->updateCpu();
 }
 
@@ -990,8 +987,8 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
     }
 }
 
-// Focus Coloring
-void MainWindow::highlightLabel(QWidget *, QWidget *)
+// Focus Coloring. Activates and deactivates undo/redo/cut/copy/paste actions contextually
+void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
 {
     sourceCodePane->highlightOnFocus();
     objectCodePane->highlightOnFocus();
@@ -1003,11 +1000,7 @@ void MainWindow::highlightLabel(QWidget *, QWidget *)
     outputPane->highlightOnFocus();
     terminalPane->highlightOnFocus();
     memoryDumpPane->highlightOnFocus();
-}
 
-// Activates and deactivates undo/redo/cut/copy/paste actions contextually
-void MainWindow::actionsDeActivate(QWidget *, QWidget *)
-{
     if (sourceCodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(false);
         ui->actionEdit_Redo->setDisabled(false);

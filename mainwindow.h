@@ -166,11 +166,8 @@ private slots:
     void slotByteConverterBinEdited(const QString &);
     void slotByteConverterCharEdited(const QString &);
 
-    // Focus coloring
-    void highlightLabel(QWidget *, QWidget *);
-
-    // Undo/Redo activate/deactivate
-    void actionsDeActivate(QWidget *, QWidget *);
+    // Focus coloring Undo/Redo/Cut/Copy/Paste activate/deactivate
+    void mainWindowUtilities(QWidget *, QWidget *);
 
     // Recent files
     void openRecentFile();
