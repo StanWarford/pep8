@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Focus highlighting
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
     // Undo/redo highlight thing
-    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(undoRedoColor(QWidget*,QWidget*)));
+    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(actionsDeActivate(QWidget*,QWidget*)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -1005,48 +1005,80 @@ void MainWindow::highlightLabel(QWidget *, QWidget *)
     memoryDumpPane->highlightOnFocus();
 }
 
-// Undo/Redo activate/deactivate
-void MainWindow::undoRedoColor(QWidget *, QWidget *)
+// Activates and deactivates undo/redo/cut/copy/paste actions contextually
+void MainWindow::actionsDeActivate(QWidget *, QWidget *)
 {
     if (sourceCodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(false);
         ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(false);
     }
     else if (objectCodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(false);
         ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(false);
     }
     else if (assemblerListingPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
     }
     else if (listingTracePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
+
     }
     else if (memoryTracePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
+
     }
     else if (cpuPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
     }
     else if (inputPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(false);
         ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(false);
     }
     else if (outputPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
     }
     else if (terminalPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(false);
         ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(false);
     }
     else if (memoryDumpPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
     }
 }
 
