@@ -170,14 +170,23 @@ void Sim::vonNeumannStep()
     // qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
     switch (Pep::decodeMnemonic[instructionSpecifier]) {
     case ADDA:
+        Sim::accumulator = (Sim::accumulator + Sim::operandSpecifier) % 65536;
         break;
     case ADDSP:
+        Sim::stackPointer = (Sim::stackPointer + Sim::operandSpecifier) % 65536;
         break;
     case ADDX:
+        Sim::indexRegister = (Sim::indexRegister + Sim::operandSpecifier) % 65536;
         break;
     case ANDA:
+        Sim::accumulator = (Sim::accumulator | Sim::operandSpecifier) % 65536;
+        Sim::nBit = Sim::accumulator < 0 ? 1 : 0;
+        Sim::zBit = Sim::accumulator == 0 ? 1 : 0;
         break;
     case ANDX:
+        Sim::indexRegister = (Sim::indexRegister | Sim::operandSpecifier) % 65536;
+        Sim::nBit = Sim::indexRegister < 0 ? 1 : 0;
+        Sim::zBit = Sim::indexRegister == 0 ? 1 : 0;
         break;
     case ASLA:
         break;
@@ -251,12 +260,18 @@ void Sim::vonNeumannStep()
     case DECO:
         break;
     case LDA:
+        Sim::accumulator = Sim::operandSpecifier % 65536;
+        Sim::nBit = Sim::accumulator < 0 ? 1 : 0;
+        Sim::zBit = Sim::accumulator == 0 ? 1 : 0;
         break;
     case LDBYTEA:
         break;
     case LDBYTEX:
         break;
     case LDX:
+        Sim::indexRegister = Sim::operandSpecifier % 65536;
+        Sim::nBit = Sim::indexRegister < 0 ? 1 : 0;
+        Sim::zBit = Sim::indexRegister == 0 ? 1 : 0;
         break;
     case MOVFLGA:
         break;
@@ -360,6 +375,7 @@ void Sim::vonNeumannStep()
     case RORX:
         break;
     case STA:
+        Sim::operandSpecifier = Sim::accumulator % 65536;
         break;
     case STBYTEA:
         break;
@@ -370,6 +386,7 @@ void Sim::vonNeumannStep()
     case STRO:
         break;
     case STX:
+        Sim::operandSpecifier = Sim::indexRegister % 65536;
         break;
     case SUBA:
         break;
