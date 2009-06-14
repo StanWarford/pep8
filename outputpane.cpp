@@ -22,3 +22,19 @@ void OutputPane::highlightOnFocus()
         m_ui->pepOutputLabel->setAutoFillBackground(false);
     }
 }
+
+bool OutputPane::hasFocus()
+{
+    return m_ui->pepOutputTextEdit->hasFocus();
+}
+
+void OutputPane::undo()
+{
+    m_ui->pepOutputTextEdit->undo();
+}
+
+void OutputPane::redo()
+{
+    m_ui->pepOutputTextEdit->redo();
+}
+

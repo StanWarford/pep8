@@ -192,6 +192,22 @@ void SourceCodePane::highlightOnFocus()
     }
 }
 
+bool SourceCodePane::hasFocus()
+{
+    return m_ui->pepSourceCodeTextEdit->hasFocus();
+}
+
+void SourceCodePane::undo()
+{
+    m_ui->pepSourceCodeTextEdit->undo();
+}
+
+void SourceCodePane::redo()
+{
+    m_ui->pepSourceCodeTextEdit->redo();
+}
+
+
 void SourceCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepSourceCodeLabel->text();

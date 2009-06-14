@@ -21,6 +21,15 @@ public:
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
+    bool hasFocus();
+    // Post: returns if the pane has focus
+
+    void undo();
+    // Post: does nothing in this pane
+
+    void redo();
+    // Post: does nothing in this pane
+
 private:
     Ui::MemoryDumpPane *m_ui;
 

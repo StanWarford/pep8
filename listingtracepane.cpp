@@ -55,3 +55,18 @@ void ListingTracePane::highlightOnFocus()
         m_ui->listingTraceLabel->setAutoFillBackground(false);
     }
 }
+
+bool ListingTracePane::hasFocus()
+{
+    return m_ui->listingTraceTableWidget->hasFocus();
+}
+
+void ListingTracePane::undo()
+{
+    // does nothing with our current implementation
+}
+
+void ListingTracePane::redo()
+{
+    // does nothing with our current implementation
+}

@@ -22,3 +22,18 @@ void MemoryTracePane::highlightOnFocus()
         m_ui->pepMemoryTraceLabel->setAutoFillBackground(false);
     }
 }
+
+bool MemoryTracePane::hasFocus()
+{
+    return m_ui->pepStackTraceGraphicsView->hasFocus();
+}
+
+void MemoryTracePane::undo()
+{
+    // does nothing with our current implementation
+}
+
+void MemoryTracePane::redo()
+{
+    // does nothing with our current implementation
+}

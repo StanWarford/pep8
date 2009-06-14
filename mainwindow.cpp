@@ -88,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Focus highlighting
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(highlightLabel(QWidget*, QWidget*)));
+    // Undo/redo highlight thing
+    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(undoRedoColor(QWidget*,QWidget*)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -335,7 +337,7 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
             // Set curObjectFile name here.
             // Things to watch out for:
             // 1) We don't want to overwrite a file by the same name as the curSourceFile sans extension by accident
-            // 2) We want both dialogs to open to the same directory
+            // 2) We want all dialogs to open to the same directory
         }
     } else if (pane == "Object") {
         if (curObjectFile.isEmpty()) {
@@ -487,12 +489,70 @@ void MainWindow::on_actionFile_Print_Listing_triggered()
 // Edit MainWindow triggers
 void MainWindow::on_actionEdit_Undo_triggered()
 {
-
+    if (sourceCodePane->hasFocus()) {
+        sourceCodePane->undo();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->undo();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->undo();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->undo();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->undo();
+    }
+    else if (cpuPane->hasFocus()) {
+        cpuPane->undo();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->undo();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->undo();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->undo();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->undo();
+    }
 }
 
 void MainWindow::on_actionEdit_Redo_triggered()
 {
-
+    if (sourceCodePane->hasFocus()) {
+        sourceCodePane->redo();
+    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->redo();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->redo();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->redo();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->redo();
+    }
+    else if (cpuPane->hasFocus()) {
+        cpuPane->redo();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->redo();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->redo();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->redo();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->redo();
+    }
 }
 
 void MainWindow::on_actionEdit_Cut_triggered()
@@ -870,6 +930,51 @@ void MainWindow::highlightLabel(QWidget *, QWidget *)
     outputPane->highlightOnFocus();
     terminalPane->highlightOnFocus();
     memoryDumpPane->highlightOnFocus();
+}
+
+// Undo/Redo activate/deactivate
+void MainWindow::undoRedoColor(QWidget *, QWidget *)
+{
+    if (sourceCodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(false);
+        ui->actionEdit_Redo->setDisabled(false);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(false);
+        ui->actionEdit_Redo->setDisabled(false);
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (listingTracePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (memoryTracePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (cpuPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (inputPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(false);
+        ui->actionEdit_Redo->setDisabled(false);
+    }
+    else if (outputPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
+    else if (terminalPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(false);
+        ui->actionEdit_Redo->setDisabled(false);
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+    }
 }
 
 // Recent files

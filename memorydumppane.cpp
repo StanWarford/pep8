@@ -67,3 +67,18 @@ void MemoryDumpPane::highlightOnFocus()
     }
 }
 
+bool MemoryDumpPane::hasFocus()
+{
+    return m_ui->pepMemoryDumpTextEdit->hasFocus();
+}
+
+void MemoryDumpPane::undo()
+{
+    // does nothing with our current implementation
+}
+
+void MemoryDumpPane::redo()
+{
+    // does nothing with our current implementation
+}
+

@@ -22,3 +22,18 @@ void TerminalPane::highlightOnFocus()
         m_ui->pepTerminalLabel->setAutoFillBackground(false);
     }
 }
+
+bool TerminalPane::hasFocus()
+{
+    return m_ui->pepTerminalTextEdit->hasFocus();
+}
+
+void TerminalPane::undo()
+{
+    m_ui->pepTerminalTextEdit->undo();
+}
+
+void TerminalPane::redo()
+{
+    m_ui->pepTerminalTextEdit->redo();
+}

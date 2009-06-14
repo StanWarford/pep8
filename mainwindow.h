@@ -169,6 +169,9 @@ private slots:
     // Focus coloring
     void highlightLabel(QWidget *, QWidget *);
 
+    // Undo/Redo activate/deactivate
+    void undoRedoColor(QWidget *, QWidget *);
+
     // Recent files
     void openRecentFile();
 

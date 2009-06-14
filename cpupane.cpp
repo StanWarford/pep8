@@ -71,3 +71,17 @@ void CpuPane::highlightOnFocus()
     }
 }
 
+bool CpuPane::hasFocus()
+{
+    return m_ui->pepCpuLabel->hasFocus();
+}
+
+void CpuPane::undo()
+{
+    // does nothing with our current implementation
+}
+
+void CpuPane::redo()
+{
+    // does nothing with our current implementation
+}

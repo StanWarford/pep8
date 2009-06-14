@@ -22,3 +22,18 @@ void InputPane::highlightOnFocus()
         m_ui->_label->setAutoFillBackground(false);
     }
 }
+
+bool InputPane::hasFocus()
+{
+    return m_ui->_textEdit->hasFocus();
+}
+
+void InputPane::undo()
+{
+    m_ui->_textEdit->undo();
+}
+
+void InputPane::redo()
+{
+    m_ui->_textEdit->redo();
+}

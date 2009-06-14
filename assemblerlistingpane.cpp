@@ -78,3 +78,17 @@ void AssemblerListingPane::highlightOnFocus()
     }
 }
 
+bool AssemblerListingPane::hasFocus()
+{
+    return m_ui->assemblerListingTextEdit->hasFocus();
+}
+
+void AssemblerListingPane::undo()
+{
+    // does nothing with our current implementation
+}
+
+void AssemblerListingPane::redo()
+{
+    // does nothing with our current implementation
+}

@@ -103,4 +103,17 @@ void ObjectCodePane::setLabelToModified(bool modified)
     }
 }
 
+bool ObjectCodePane::hasFocus()
+{
+    return m_ui->pepObjectCodeTextEdit->hasFocus();
+}
 
+void ObjectCodePane::undo()
+{
+    m_ui->pepObjectCodeTextEdit->undo();
+}
+
+void ObjectCodePane::redo()
+{
+    m_ui->pepObjectCodeTextEdit->redo();
+}
