@@ -68,8 +68,8 @@ public:
     bool isModified();
     // Post: Returns true if the source code pane has been modified
 
-    void setModified(bool modified);
-    // Post: Sets isModified of the source code pane to modified
+    void setModifiedFalse();
+    // Post: Sets isModified of the source code pane to false
 
     QString toPlainText();
     // Post: Contents of the source code pane are returned
@@ -87,6 +87,9 @@ private:
     QStringList assemblerListingList;
     QStringList listingTraceList;
     QList<bool> hasCheckBox;
+
+private slots:
+    void setLabelToModified(bool modified);
 
 };
 

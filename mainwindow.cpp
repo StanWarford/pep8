@@ -301,10 +301,10 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
 {
     if (pane == "Source") {
         curSourceFile = fileName;
-        sourceCodePane->setModified(false);
+        sourceCodePane->setModifiedFalse();
     } else if (pane == "Object") {
         curObjectFile = fileName;
-        objectCodePane->setModified(false);
+        objectCodePane->setModifiedFalse();
     }
 
     QString shownName;
@@ -312,7 +312,7 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
         if (curSourceFile.isEmpty()) {
             shownName = "untitled.pep";
         } else {
-            shownName = strippedName(curSourceFile); // Shows full file path
+            shownName = strippedName(curSourceFile);
         }
         sourceCodePane->setCurrentFile(shownName);
         if (curObjectFile.isEmpty()) {

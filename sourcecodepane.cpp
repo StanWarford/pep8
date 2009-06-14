@@ -15,6 +15,8 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
         m_ui(new Ui::SourceCodePane)
 {
     m_ui->setupUi(this);
+
+    connect(m_ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 }
 
 SourceCodePane::~SourceCodePane()
@@ -165,9 +167,9 @@ bool SourceCodePane::isModified()
     return m_ui->pepSourceCodeTextEdit->document()->isModified();
 }
 
-void SourceCodePane::setModified(bool modified)
+void SourceCodePane::setModifiedFalse()
 {
-    m_ui->pepSourceCodeTextEdit->document()->setModified(modified);
+    m_ui->pepSourceCodeTextEdit->document()->setModified(false);
 }
 
 QString SourceCodePane::toPlainText()
@@ -190,3 +192,14 @@ void SourceCodePane::highlightOnFocus()
     }
 }
 
+void SourceCodePane::setLabelToModified(bool modified)
+{
+    QString temp = m_ui->pepSourceCodeLabel->text();
+    if (modified) {
+        m_ui->pepSourceCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+    }
+    else if (temp.endsWith(QChar('*'))) {
+        temp.chop(1);
+        m_ui->pepSourceCodeLabel->setText(temp);
+    }
+}

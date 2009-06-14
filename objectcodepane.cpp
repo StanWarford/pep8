@@ -8,6 +8,8 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
     m_ui(new Ui::ObjectCodePane)
 {
     m_ui->setupUi(this);
+
+    connect(m_ui->pepObjectCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 }
 
 ObjectCodePane::~ObjectCodePane()
@@ -64,9 +66,9 @@ bool ObjectCodePane::isModified()
     return m_ui->pepObjectCodeTextEdit->document()->isModified();
 }
 
-void ObjectCodePane::setModified(bool modified)
+void ObjectCodePane::setModifiedFalse()
 {
-    m_ui->pepObjectCodeTextEdit->document()->setModified(modified);
+    m_ui->pepObjectCodeTextEdit->document()->setModified(false);
 }
 
 QString ObjectCodePane::toPlainText()
@@ -88,4 +90,17 @@ void ObjectCodePane::highlightOnFocus()
         m_ui->pepObjectCodeLabel->setAutoFillBackground(false);
     }
 }
+
+void ObjectCodePane::setLabelToModified(bool modified)
+{
+    QString temp = m_ui->pepObjectCodeLabel->text();
+    if (modified) {
+        m_ui->pepObjectCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+    }
+    else if (temp.endsWith(QChar('*'))) {
+        temp.chop(1);
+        m_ui->pepObjectCodeLabel->setText(temp);
+    }
+}
+
 
