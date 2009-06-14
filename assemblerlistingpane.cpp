@@ -4,8 +4,8 @@
 #include "Pep.h"
 
 AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
-    QWidget(parent),
-    m_ui(new Ui::AssemblerListingPane)
+        QWidget(parent),
+        m_ui(new Ui::AssemblerListingPane)
 {
     m_ui->setupUi(this);
 }
@@ -16,6 +16,7 @@ AssemblerListingPane::~AssemblerListingPane()
 }
 
 void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList) {
+    clearAssemblerListing();
     m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
     m_ui->assemblerListingTextEdit->append("      Object");
     m_ui->assemblerListingTextEdit->append("Addr  code   Symbol   Mnemon  Operand       Comment");
