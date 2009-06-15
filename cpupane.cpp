@@ -5,8 +5,8 @@
 #include "enu.h"
 
 CpuPane::CpuPane(QWidget *parent) :
-    QWidget(parent),
-    m_ui(new Ui::CpuPane)
+        QWidget(parent),
+        m_ui(new Ui::CpuPane)
 {
     m_ui->setupUi(this);
 }
@@ -25,10 +25,10 @@ void CpuPane::updateCpu() {
     m_ui->cpuCLabel->setText(Sim::cBit ? "1" : "0");
 
     m_ui->cpuAHexLabel->setText(QString("0x") + QString("%1").arg(Sim::accumulator, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuADecLabel->setText(QString("%1").arg(Sim::accumulator));
+    m_ui->cpuADecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::accumulator)));
 
     m_ui->cpuXHexLabel->setText(QString("0x") + QString("%1").arg(Sim::indexRegister, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuXDecLabel->setText(QString("%1").arg(Sim::indexRegister));
+    m_ui->cpuXDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::indexRegister)));
 
     m_ui->cpuSPHexLabel->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
     m_ui->cpuSPDecLabel->setText(QString("%1").arg(Sim::stackPointer));
@@ -40,11 +40,18 @@ void CpuPane::updateCpu() {
     m_ui->cpuInstrSpecMnemonLabel->setText(" " + Pep::enumToMnemonMap.value(Pep::decodeMnemonic[Sim::instructionSpecifier])
                                            + Pep::commaSpaceToAddrMode(addrMode));
 
-    m_ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
-
-    m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::readWordOprnd(addrMode), 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::readWordOprnd(addrMode)));
-
+    if (Pep::decodeAddrMode.value(Sim::instructionSpecifier) == Enu::NONE) {
+        m_ui->cpuOprndSpecHexLabel->setText("");
+        m_ui->cpuOprndSpecDecLabel->setText("");
+        m_ui->cpuOprndHexLabel->setText("");
+        m_ui->cpuOprndDecLabel->setText("");
+    }
+    else {
+        m_ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
+        m_ui->cpuOprndSpecDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operandSpecifier)));
+        m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::readWordOprnd(addrMode), 4, 16, QLatin1Char('0')).toUpper());
+        m_ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::readWordOprnd(addrMode))));
+    }
 }
 
 void CpuPane::runClicked() {

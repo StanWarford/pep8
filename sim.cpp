@@ -14,6 +14,16 @@ int Sim::programCounter;
 int Sim::instructionSpecifier;
 int Sim::operandSpecifier;
 
+int Sim::toSignedDecimal(int value)
+{
+    return value > 32767 ? value - 65536 : value;
+}
+
+int Sim::fromSignedDecimal(int value)
+{
+    return value < 0 ? value + 65536 : value;
+}
+
 void Sim::loadMem(QList<int> objectCodeList) {
     for (int i = 0; objectCodeList.length() > 0; i++) {
         Mem[i] = objectCodeList.takeAt(0);

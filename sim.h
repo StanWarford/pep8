@@ -17,6 +17,14 @@ public:
     static int instructionSpecifier;
     static int operandSpecifier;
 
+    static int toSignedDecimal(int value);
+    // Pre: 0 <= value < 65536
+    // Post: -32768 <= value < 32768
+
+    static int fromSignedDecimal(int value);
+    // Pre: -32768 <= value < 32768
+    // Post: 0 <= value < 65536
+
     static void loadMem(QList<int> objectCodeList);
 
     static int readByte(int memAddr);

@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent)
     updateRecentFileActions();
 
     // Testing the simulator
+    Sim::writeByte(0, 240);
+    Sim::writeWord(1, 65534);
     Sim::vonNeumannStep();
     cpuPane->updateCpu();
 }
