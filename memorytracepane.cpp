@@ -61,7 +61,13 @@ void MemoryTracePane::paste()
 
 void MemoryTracePane::singleStep()
 {
-    Sim::vonNeumannStep();
+    if (Sim::vonNeumannStep()) {
+
+    }
+    else {
+
+    }
+
 }
 
 void MemoryTracePane::resumeExecution()

@@ -25,6 +25,10 @@ public:
     // Pre: -32768 <= value < 32768
     // Post: 0 <= value < 65536
 
+    static int add(int lhs, int rhs);
+
+    static int addAndSetNZVC(int lhs, int rhs);
+
     static void loadMem(QList<int> objectCodeList);
 
     static int readByte(int memAddr);
@@ -44,7 +48,7 @@ public:
     static void writeByteOprnd(Enu::EAddrMode addrMode, int value);
     static void writeWordOprnd(Enu::EAddrMode addrMode, int value);
 
-    static void vonNeumannStep();
+    static bool vonNeumannStep();
 
 
 };

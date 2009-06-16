@@ -30,6 +30,28 @@ void Sim::loadMem(QList<int> objectCodeList) {
     }
 }
 
+int Sim::add(int lhs, int rhs)
+{
+    return (lhs + rhs) % 65536;
+}
+
+int Sim::addAndSetNZVC(int lhs, int rhs)
+{
+    int result = lhs + rhs;    
+    if (result >= 65536) {
+        Sim::cBit = 1;
+        result = result % 65536;
+    }
+    else {
+        Sim::cBit = 0;
+    }
+    Sim::nBit = result < 32768 ?  false : true;
+    Sim::zBit = result == 0 ? true : false;
+    Sim::vBit = (lhs < 32768 && rhs < 32768 && result >= 32768) ||
+                (lhs >= 32768 && rhs <= 32768 && result < 32768);
+
+}
+
 int Sim::readByte(int memAddr)
 {
     return Mem[memAddr % 65536];
@@ -52,15 +74,15 @@ int Sim::readByteOprnd(Enu::EAddrMode addrMode)
     case Enu::N:
         return readByte(readWord(operandSpecifier));
     case Enu::S:
-        return readByte(stackPointer + operandSpecifier);
+        return readByte(add(stackPointer, operandSpecifier));
     case Enu::SF:
-        return readByte(readWord(stackPointer + operandSpecifier));
+        return readByte(readWord(add(stackPointer, operandSpecifier)));
     case Enu::X:
-        return readByte(operandSpecifier + indexRegister);
+        return readByte(add(operandSpecifier, indexRegister));
     case Enu::SX:
-        return readByte(stackPointer + operandSpecifier + indexRegister);
+        return readByte(add(add(stackPointer, operandSpecifier), indexRegister));
     case Enu::SXF:
-        return readByte(readWord(stackPointer + operandSpecifier) + indexRegister);
+        return readByte(add(readWord(add(stackPointer, operandSpecifier)), indexRegister));
     case Enu::ALL:
         break;
     }
@@ -79,15 +101,15 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
     case Enu::N:
         return readWord(readWord(operandSpecifier));
     case Enu::S:
-        return readWord(stackPointer + operandSpecifier);
+        return readWord(add(stackPointer, operandSpecifier));
     case Enu::SF:
-        return readWord(readWord(stackPointer + operandSpecifier));
+        return readWord(readWord(add(stackPointer, operandSpecifier)));
     case Enu::X:
-        return readWord(operandSpecifier + indexRegister);
+        return readWord(add(operandSpecifier, indexRegister));
     case Enu::SX:
-        return readWord(stackPointer + operandSpecifier + indexRegister);
+        return readWord(add(add(stackPointer, operandSpecifier), indexRegister));
     case Enu::SXF:
-        return readWord(readWord(stackPointer + operandSpecifier) + indexRegister);
+        return readWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister));
     case Enu::ALL:
         break;
     }
@@ -120,16 +142,20 @@ void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
         writeByte(readWord(readWord(operandSpecifier)), value);
         break;
     case Enu::S:
-        writeByte(readWord(stackPointer + operandSpecifier), value);
+        writeByte(readWord(add(stackPointer, operandSpecifier)), value);
         break;
     case Enu::SF:
-        writeByte(readWord(readWord(stackPointer + operandSpecifier)), value);
+        writeByte(readWord(readWord(add(stackPointer, operandSpecifier))), value);
+        break;
     case Enu::X:
-        writeByte(readWord(operandSpecifier + indexRegister), value);
+        writeByte(readWord(add(operandSpecifier, indexRegister)), value);
+        break;
     case Enu::SX:
-        writeByte(readWord(stackPointer + operandSpecifier + indexRegister), value);
+        writeByte(readWord(add(add(stackPointer, operandSpecifier), indexRegister)), value);
+        break;
     case Enu::SXF:
-        writeByte(readWord(readWord(stackPointer + operandSpecifier) + indexRegister), value);
+        writeByte(readWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister)), value);
+        break;
     case Enu::ALL:
         break;
     }
@@ -150,113 +176,169 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
         writeWord(readWord(readWord(operandSpecifier)), value);
         break;
     case Enu::S:
-        writeWord(readWord(stackPointer + operandSpecifier), value);
+        writeWord(readWord(add(stackPointer, operandSpecifier)), value);
         break;
     case Enu::SF:
-        writeWord(readWord(readWord(stackPointer + operandSpecifier)), value);
+        writeWord(readWord(readWord(add(stackPointer, operandSpecifier))), value);
+        break;
     case Enu::X:
-        writeWord(readWord(operandSpecifier + indexRegister), value);
+        writeWord(readWord(add(operandSpecifier, indexRegister)), value);
+        break;
     case Enu::SX:
-        writeWord(readWord(stackPointer + operandSpecifier + indexRegister), value);
+        writeWord(readWord(add(add(stackPointer, operandSpecifier), indexRegister)), value);
+        break;
     case Enu::SXF:
-        writeWord(readWord(readWord(stackPointer + operandSpecifier) + indexRegister), value);
+        writeWord(readWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister)), value);
+        break;
     case Enu::ALL:
         break;
     }
 }
 
-void Sim::vonNeumannStep()
+bool Sim::vonNeumannStep()
 {
+    EMnemonic mnemonic;
+    int operand;
+    EAddrMode addrMode;
+    int result;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment
-    programCounter = (programCounter + 1) % 65536;
+    programCounter = add(programCounter, 1);
     // Decode
-    if (!Pep::isUnaryMap[Pep::decodeMnemonic[instructionSpecifier]]) {
+    mnemonic = Pep::decodeMnemonic[instructionSpecifier];
+    addrMode = Pep::decodeAddrMode[Sim::instructionSpecifier];
+    if (!Pep::isUnaryMap[mnemonic]) {
         operandSpecifier = readWord(programCounter);
-        programCounter = (programCounter + 2) % 65536;
+        programCounter = add(programCounter, 2);
     }
     // Execute
     // qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
+    if (!(Pep::addrModesMap.value(mnemonic) & addrMode)) {
+        return false;
+    }
+
     switch (Pep::decodeMnemonic[instructionSpecifier]) {
     case ADDA:
-        Sim::accumulator = (Sim::accumulator + Sim::operandSpecifier) % 65536;
-        break;
+        operand = Sim::readWordOprnd(addrMode);
+        Sim::accumulator = addAndSetNZVC(accumulator, operand);
+        return true;
     case ADDSP:
-        Sim::stackPointer = (Sim::stackPointer + Sim::operandSpecifier) % 65536;
-        break;
+        operand = Sim::readWordOprnd(addrMode);
+        Sim::stackPointer = addAndSetNZVC(stackPointer, operand);
+        return true;
     case ADDX:
-        Sim::indexRegister = (Sim::indexRegister + Sim::operandSpecifier) % 65536;
-        break;
+        operand = Sim::readWordOprnd(addrMode);
+        Sim::indexRegister = addAndSetNZVC(indexRegister, operand);
+        return true;
     case ANDA:
-        Sim::accumulator = (Sim::accumulator | Sim::operandSpecifier) % 65536;
-        Sim::nBit = Sim::accumulator < 0 ? 1 : 0;
-        Sim::zBit = Sim::accumulator == 0 ? 1 : 0;
-        break;
+        Sim::accumulator = Sim::accumulator & Sim::operandSpecifier;
+        Sim::nBit = Sim::accumulator > 32768;
+        Sim::zBit = Sim::accumulator == 0;
+        return true;
     case ANDX:
-        Sim::indexRegister = (Sim::indexRegister | Sim::operandSpecifier) % 65536;
-        Sim::nBit = Sim::indexRegister < 0 ? 1 : 0;
-        Sim::zBit = Sim::indexRegister == 0 ? 1 : 0;
-        break;
+        Sim::indexRegister = Sim::indexRegister & Sim::operandSpecifier;
+        Sim::nBit = Sim::accumulator > 32768;
+        Sim::zBit = Sim::accumulator == 0;
+        return true;
     case ASLA:
-        break;
+        Sim::vBit = (Sim::accumulator >= 16384 && Sim::accumulator < 32768) ||
+                    (Sim::accumulator >= 32768 && Sim::accumulator < 49152);
+        Sim::accumulator *= 2;
+        if (Sim::accumulator >= 65536) {
+            Sim::cBit = 1;
+            Sim::accumulator = Sim::accumulator % 65536;
+        }
+        else {
+            Sim::cBit = 0;
+        }
+        Sim::nBit = Sim::accumulator >= 32768;
+        Sim::zBit = Sim::accumulator == 0;
+        return true;
     case ASLX:
-        break;
+        Sim::vBit = (Sim::indexRegister >= 16384 && Sim::indexRegister < 32768) ||
+                    (Sim::indexRegister >= 32768 && Sim::indexRegister < 49152);
+        Sim::indexRegister *= 2;
+        if (Sim::indexRegister >= 65536) {
+            Sim::cBit = 1;
+            Sim::indexRegister = Sim::indexRegister % 65536;
+        }
+        else {
+            Sim::cBit = 0;
+        }
+        Sim::nBit = Sim::indexRegister >= 32768;
+        Sim::zBit = Sim::indexRegister == 0;
+        return true;
     case ASRA:
-        break;
+        Sim::cBit = (Sim::accumulator % 2) == 1;
+        if (Sim::accumulator < 32768) {
+            Sim::accumulator /= 2;
+        }
+        else {
+            Sim::accumulator = Sim::accumulator / 2 + 32768;
+        }
+        Sim::nBit = Sim::accumulator >= 32768;
+        Sim::zBit = Sim::accumulator == 0;
+        return true;
     case ASRX:
-        break;
+        Sim::cBit = (Sim::indexRegister % 2) == 1;
+        if (Sim::indexRegister < 32768) {
+            Sim::indexRegister /= 2;
+        }
+        else {
+            Sim::indexRegister = Sim::indexRegister / 2 + 32768;
+        }
+        Sim::nBit = Sim::indexRegister >= 32768;
+        Sim::zBit = Sim::indexRegister == 0;
+        return true;
     case BR:
-        programCounter = operandSpecifier;
-        break;
+        programCounter = operand;
+        return true;
     case BRC:
-        if (cBit == 1) {
-            programCounter = operandSpecifier;
+        if (cBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BREQ:
-        if (zBit == 1) {
-            programCounter = operandSpecifier;
+        if (zBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRGE:
-        if (nBit == 0) {
-            programCounter = operandSpecifier;
+        if (!nBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRGT:
-        if (nBit == 0 || zBit == 0) {
-            programCounter = operandSpecifier;
+        if (!nBit && !zBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRLE:
-        if (nBit == 1 || zBit == 1) {
-            programCounter = operandSpecifier;
+        if (nBit || zBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRLT:
-        if (nBit == 0) {
-            programCounter = operandSpecifier;
+        if (nBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRNE:
-        if (zBit == 0) {
-            programCounter = operandSpecifier;
+        if (!zBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case BRV:
-        if (vBit == 1) {
-            programCounter = operandSpecifier;
+        if (vBit) {
+            programCounter = operand;
         }
-        break;
+        return true;
     case CALL:
-        // SP <- SP - 2
-        stackPointer = (stackPointer - 2) % 65536;
-        // Mem[SP] <- PC
-        writeWord(operandSpecifier, programCounter);
-        // PC <- Oprnd
-        programCounter = operandSpecifier;
-        break;
+        stackPointer = add(stackPointer, 65534); // SP <- SP - 2
+        writeWord(stackPointer, programCounter); // Mem[SP] <- PC
+        programCounter = operand; // PC <- Oprnd
+        return true;
     case CHARI:
         break;
     case CHARO:
