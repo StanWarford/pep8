@@ -141,6 +141,87 @@
        <column/>
       </widget>
      </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="listingTraceComboBox"/>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>16</width>
+           <height>21</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="listingSingleStepPushButton">
+         <property name="font">
+          <font>
+           <family>Lucida Grande</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="text">
+          <string>Single Step</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="minimumSize">
+          <size>
+           <width>10</width>
+           <height>5</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>10</width>
+           <height>5</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="listingResumePushButton">
+         <property name="font">
+          <font>
+           <family>Lucida Grande</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="text">
+          <string>Resume</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
   </layout>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
-    <height>414</height>
+    <width>395</width>
+    <height>430</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,206 +25,114 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="margin">
     <number>1</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <property name="spacing">
-      <number>6</number>
+    <widget class="QLabel" name="pepMemoryTraceLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="pepMemoryTraceLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>104</red>
-               <green>173</green>
-               <blue>245</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>104</red>
-               <green>173</green>
-               <blue>245</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>104</red>
-               <green>173</green>
-               <blue>245</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>104</red>
-               <green>173</green>
-               <blue>245</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Panel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="lineWidth">
-          <number>0</number>
-         </property>
-         <property name="text">
-          <string>Memory Trace</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGraphicsView" name="pepStackTraceGraphicsView">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QComboBox" name="pepMemTraceComboBox"/>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>16</width>
-           <height>21</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pepMemSingleStepPushButton">
-         <property name="font">
-          <font>
-           <family>Lucida Grande</family>
-           <pointsize>11</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="text">
-          <string>Single Step</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="frame">
-         <property name="minimumSize">
-          <size>
-           <width>10</width>
-           <height>5</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>10</width>
-           <height>5</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <property name="lineWidth">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pepMemResumePushButton">
-         <property name="font">
-          <font>
-           <family>Lucida Grande</family>
-           <pointsize>11</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="text">
-          <string>Resume</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>104</red>
+           <green>173</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>104</red>
+           <green>173</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>104</red>
+           <green>173</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Window">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>104</red>
+           <green>173</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <property name="text">
+      <string>Memory Trace</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGraphicsView" name="pepStackTraceGraphicsView">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

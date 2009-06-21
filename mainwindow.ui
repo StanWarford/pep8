@@ -78,7 +78,7 @@
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <widget class="QWidget" name="MemoryTraceWidgetPane" native="true">
+           <widget class="QWidget" name="ListingTraceWidgetPane" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -86,7 +86,7 @@
              </sizepolicy>
             </property>
            </widget>
-           <widget class="QWidget" name="ListingTraceWidgetPane" native="true"/>
+           <widget class="QWidget" name="MemoryTraceWidgetPane" native="true"/>
           </widget>
          </item>
         </layout>
@@ -387,7 +387,7 @@
   </widget>
   <action name="actionFile_New">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/new.png</normaloff>:/images/new.png</iconset>
    </property>
    <property name="text">
@@ -402,7 +402,7 @@
   </action>
   <action name="actionFile_Open">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
@@ -417,7 +417,7 @@
   </action>
   <action name="actionFile_Save_Source">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -440,7 +440,7 @@
   </action>
   <action name="actionFile_Print_Source">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/print.png</normaloff>:/images/print.png</iconset>
    </property>
    <property name="text">
@@ -455,7 +455,7 @@
   </action>
   <action name="actionEdit_Undo">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/undo.png</normaloff>:/images/undo.png</iconset>
    </property>
    <property name="text">
@@ -473,7 +473,7 @@
   </action>
   <action name="actionEdit_Redo">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/redo.png</normaloff>:/images/redo.png</iconset>
    </property>
    <property name="text">
@@ -488,7 +488,7 @@
   </action>
   <action name="actionEdit_Cut">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/cut.png</normaloff>:/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -503,7 +503,7 @@
   </action>
   <action name="actionEdit_Copy">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/copy.png</normaloff>:/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -518,7 +518,7 @@
   </action>
   <action name="actionEdit_Paste">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/paste.png</normaloff>:/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -541,7 +541,7 @@
   </action>
   <action name="actionBuild_Assemble">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/assemble.png</normaloff>:/images/assemble.png</iconset>
    </property>
    <property name="text">
@@ -571,7 +571,7 @@
   </action>
   <action name="actionBuild_Run">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
    </property>
    <property name="text">
@@ -586,7 +586,7 @@
   </action>
   <action name="actionBuild_Start_Debugging">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/debugger_start.png</normaloff>:/images/debugger_start.png</iconset>
    </property>
    <property name="text">
@@ -631,7 +631,7 @@
   </action>
   <action name="actionView_Code_Only">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/CodeOnly.xpm</normaloff>:/images/CodeOnly.xpm</iconset>
    </property>
    <property name="text">
@@ -646,7 +646,7 @@
   </action>
   <action name="actionView_Code_CPU">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/CodeCPU.xpm</normaloff>:/images/CodeCPU.xpm</iconset>
    </property>
    <property name="text">
@@ -661,7 +661,7 @@
   </action>
   <action name="actionView_Code_CPU_Memory">
    <property name="icon">
-    <iconset>
+    <iconset resource="pep8resources.qrc">
      <normaloff>:/images/CodeCPUMemory.xpm</normaloff>:/images/CodeCPUMemory.xpm</iconset>
    </property>
    <property name="text">
@@ -833,6 +833,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="pep8resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

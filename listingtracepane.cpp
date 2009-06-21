@@ -1,11 +1,17 @@
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
+#include "sim.h"
 
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::ListingTracePane)
 {
     m_ui->setupUi(this);
+
+    connect(m_ui->listingSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStep()));
+
+    connect(m_ui->listingResumePushButton, SIGNAL(clicked()), this, SLOT(resumeExecution()));
+
 }
 
 ListingTracePane::~ListingTracePane()
@@ -84,5 +90,17 @@ void ListingTracePane::copy()
 void ListingTracePane::paste()
 {
     // does nothing with our current implementation
+}
+
+void ListingTracePane::singleStep()
+{
+    Sim::vonNeumannStep();
+}
+
+void ListingTracePane::resumeExecution()
+{
+    while (Sim::instructionSpecifier) {
+        Sim::vonNeumannStep();
+    }
 }
 

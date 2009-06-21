@@ -42,6 +42,12 @@ public:
 
 private:
     Ui::ListingTracePane *m_ui;
+
+private slots:
+    void singleStep();
+
+    void resumeExecution();
+
 };
 
 #endif // LISTINGTRACEPANE_H
