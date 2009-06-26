@@ -8,10 +8,6 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    connect(m_ui->pepMemSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStep()));
-
-    connect(m_ui->pepMemResumePushButton, SIGNAL(clicked()), this, SLOT(resumeExecution()));
-
 }
 
 MemoryTracePane::~MemoryTracePane()
@@ -58,22 +54,3 @@ void MemoryTracePane::paste()
 {
     // does nothing with our current implementation
 }
-
-void MemoryTracePane::singleStep()
-{
-    if (Sim::vonNeumannStep()) {
-
-    }
-    else {
-
-    }
-
-}
-
-void MemoryTracePane::resumeExecution()
-{
-    while (Sim::instructionSpecifier) {
-        Sim::vonNeumannStep();
-    }
-}
-
