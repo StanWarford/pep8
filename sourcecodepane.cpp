@@ -134,11 +134,42 @@ void SourceCodePane::installOS()
 
 bool SourceCodePane::installOSOnStartup()
 {
-    m_ui->pepSourceCodeTextEdit->setText(Pep::resToString(":/help/figures/pep8os.pep"));
+    QString sourceLine;
+    QString errorString;
+    QStringList sourceCodeList;
+    Code *code;
+    int lineNum = 0;
+    bool dotEndDetected = false;
 
+    Asm::listOfReferencedSymbols.clear();
+    Pep::memAddrssToAssemblerListing.clear();
+    Pep::symbolTable.clear();
+    Pep::adjustSymbolValueForBurn.clear();
+    while (!codeList.isEmpty()) {
+        delete codeList.takeFirst();
+    }
+    QString sourceCode = Pep::resToString(":/help/figures/pep8os.pep");
+    sourceCodeList = sourceCode.split('\n');
+    Pep::byteCount = 0;
     Pep::burnCount = 0;
-    if (!assemble()) {
+    while (lineNum < sourceCodeList.size() && !dotEndDetected) {
+        sourceLine = sourceCodeList[lineNum];
+        if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, dotEndDetected)) {
+            return false;
+        }
+        codeList.append(code);
+        lineNum++;
+    }
+    if (!dotEndDetected) {
         return false;
+    }
+    if (Pep::byteCount > 65535) {
+        return false;
+    }
+    for (int i = 0; i < Asm::listOfReferencedSymbols.length(); i++) {
+        if (!Pep::symbolTable.contains(Asm::listOfReferencedSymbols[i])) {
+            return false;
+        }
     }
 
     if (Pep::burnCount != 1) {
@@ -159,7 +190,6 @@ bool SourceCodePane::installOSOnStartup()
     Pep::romStartAddress += addressDelta;
     getObjectCode();
     installOS();
-    clearSourceCode();
     return true;
 }
 
