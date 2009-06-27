@@ -3,6 +3,8 @@
 #include <QCloseEvent>
 #include <QSettings>
 #include <QApplication>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -474,16 +476,36 @@ bool MainWindow::on_actionFile_Save_Listing_As_triggered()
 
 void MainWindow::on_actionFile_Print_Source_triggered()
 {
+    QPrinter printer;
 
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle("Print Source Code");
+    if (dialog->exec() != QDialog::Accepted) {
+        return;
+    }
 }
 
 void MainWindow::on_actionFile_Print_Object_triggered()
 {
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle("Print Object Code");
+    if (dialog->exec() != QDialog::Accepted) {
+        return;
+    }
 
 }
 
 void MainWindow::on_actionFile_Print_Listing_triggered()
 {
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle("Print Assembler Listing");
+    if (dialog->exec() != QDialog::Accepted) {
+        return;
+    }
 
 }
 
