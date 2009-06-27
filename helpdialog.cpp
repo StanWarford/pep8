@@ -10,9 +10,9 @@ HelpDialog::HelpDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    QObject::connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+    connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     // Forward the helpCopyToSourceButton_clicked() signal from this to the main window
-    QObject::connect(m_ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
+    connect(m_ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
 
     m_ui->helpSplitter->widget(1)->hide();
     m_ui->helpTreeWidget->expandAll();
@@ -107,7 +107,6 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             m_ui->helpSplitter->widget(1)->hide();
             m_ui->helpTopWebView->show();
             m_ui->helpTopWebView->load(QUrl("qrc:/help/examples.html"));
-//            m_ui->helpTopWebView->setHtml(
         }
         else {
             m_ui->helpSplitter->widget(0)->hide();

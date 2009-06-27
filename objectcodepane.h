@@ -53,6 +53,12 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    bool isUndoable;
+    // The undoability of the text edit is stored here
+
+    bool isRedoable;
+    // The redoability of the text edit is stored here
+
     void cut();
     // Post: selected text in the text edit is cut to the clipboard
 
@@ -67,7 +73,8 @@ private:
 
 private slots:
     void setLabelToModified(bool modified);
-
+    void setUndoability(bool b);
+    void setRedoability(bool b);
 };
 
 #endif // OBJECTCODEPANE_H

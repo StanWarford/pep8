@@ -168,6 +168,8 @@ private slots:
 
     // Focus coloring Undo/Redo/Cut/Copy/Paste activate/deactivate
     void mainWindowUtilities(QWidget *, QWidget *);
+//    void setButtonUndo(bool b);
+//    void setButtonRedo(bool b);
 
     // Recent files
     void openRecentFile();
