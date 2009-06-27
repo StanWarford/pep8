@@ -52,6 +52,12 @@ public:
     // Pre: objectCode is populated with code from a complete correct Pep/8 OS source program.
     // Post: objectCode is loaded into OS rom of Pep::Mem.
 
+    bool installOSOnStartup();
+    // Pre: nothing is yet in memory
+    // Post: the pep/8 operating system is installed into memory, and true is returned
+    // If assembly fails, false is returned
+    // This function should only be called on program startup once
+
     void removeErrorMessages();
     // Post: Searces for the string ";ERROR:" on each line and removes the end of the line.
     // Post: Searces for the string ";WARNING:" on each line and removes the end of the line.
@@ -89,6 +95,12 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    bool isUndoable;
+    // The undoability of the text edit is stored here
+
+    bool isRedoable;
+    // The redoability of the text edit is stored here
+
     void cut();
     // Post: selected text in the text edit is cut to the clipboard
 
@@ -108,6 +120,8 @@ private:
 
 private slots:
     void setLabelToModified(bool modified);
+    void setUndoability(bool b);
+    void setRedoability(bool b);
 
 };
 

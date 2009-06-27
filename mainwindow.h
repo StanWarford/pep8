@@ -168,8 +168,8 @@ private slots:
 
     // Focus coloring Undo/Redo/Cut/Copy/Paste activate/deactivate
     void mainWindowUtilities(QWidget *, QWidget *);
-//    void setButtonUndo(bool b);
-//    void setButtonRedo(bool b);
+    void setUndoability(bool b);
+    void setRedoability(bool b);
 
     // Recent files
     void openRecentFile();
@@ -177,9 +177,7 @@ private slots:
     /*
     These belong in the other panes
     // Trace
-    void on_pepCpuSingleStepPushButton_clicked();
     void on_pepMemSingleStepPushButton_clicked();
-    void on_pepCpuResumePushButton_clicked();
     void on_pepMemResumePushButton_clicked();
     void pepResumePushButtonClicked();
 

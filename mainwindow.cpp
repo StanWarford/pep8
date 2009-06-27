@@ -58,13 +58,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->byteConverterToolBar->addWidget(byteConverterBin);
     byteConverterChar = new ByteConverterChar();
     ui->byteConverterToolBar->addWidget(byteConverterChar);
-    QObject::connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this,
+    connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterDecEdited(const QString &)));
-    QObject::connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this,
+    connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterHexEdited(const QString &)));
-    QObject::connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this,
+    connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterBinEdited(const QString &)));
-    QObject::connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
+    connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
                      SLOT(slotByteConverterCharEdited(const QString &)));
 
     // Pep tables setup
@@ -83,11 +83,21 @@ MainWindow::MainWindow(QWidget *parent)
     // Save system setup
     readSettings();
 
-    // Mac title bar
-    setUnifiedTitleAndToolBarOnMac(true);
+    // Install OS into memory
+    if (sourceCodePane->installOSOnStartup()) {
+        ui->statusbar->showMessage("Assembly succeeded, OS installed", 4000);
+    }
+    else {
+        ui->statusbar->showMessage("Assembly failed", 4000);
+    }
 
     // Focus highlighting, actions enable/disable
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
+//    connect(objectCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+//    connect(objectCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+//
+//    connect(sourceCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+//    connect(sourceCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -100,6 +110,12 @@ MainWindow::MainWindow(QWidget *parent)
         ui->menu_File->addAction(recentFileActs[i]);
     }
     updateRecentFileActions();
+
+    // Mac toolbar
+    setUnifiedTitleAndToolBarOnMac(true);
+
+    // Hide memory trace pane, because nothing is implemented there (for now!)
+    memoryTracePane->hide();
 
     // Testing the simulator
     Sim::writeByte(0, 240);
@@ -1004,8 +1020,8 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     memoryDumpPane->highlightOnFocus();
 
     if (sourceCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(false);
-        ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(!sourceCodePane->isUndoable);
+        ui->actionEdit_Redo->setDisabled(!sourceCodePane->isRedoable);
         ui->actionEdit_Cut->setDisabled(false);
         ui->actionEdit_Copy->setDisabled(false);
         ui->actionEdit_Paste->setDisabled(false);
@@ -1030,7 +1046,6 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Cut->setDisabled(true);
         ui->actionEdit_Copy->setDisabled(true);
         ui->actionEdit_Paste->setDisabled(true);
-
     }
     else if (memoryTracePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -1038,7 +1053,6 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Cut->setDisabled(true);
         ui->actionEdit_Copy->setDisabled(true);
         ui->actionEdit_Paste->setDisabled(true);
-
     }
     else if (cpuPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -1077,73 +1091,37 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     }
 }
 
-//void MainWindow::setButtonUndo(bool b)
-//{
-//    if (sourceCodePane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (objectCodePane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (assemblerListingPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (listingTracePane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (memoryTracePane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (cpuPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (inputPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (outputPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (terminalPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//    else if (memoryDumpPane->hasFocus()) {
-//        ui->actionEdit_Undo->setDisabled(!b);
-//    }
-//}
-//
-//void MainWindow::setButtonRedo(bool b)
-//{
-//    if (sourceCodePane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (objectCodePane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (assemblerListingPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (listingTracePane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (memoryTracePane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (cpuPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (inputPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (outputPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (terminalPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//    else if (memoryDumpPane->hasFocus()) {
-//        ui->actionEdit_Redo->setDisabled(!b);
-//    }
-//}
+void MainWindow::setUndoability(bool b)
+{
+    if (sourceCodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!b);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!b);
+    }
+    else if (inputPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!b);
+    }
+    else if (terminalPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(!b);
+    }
+}
+
+void MainWindow::setRedoability(bool b)
+{
+    if (sourceCodePane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(!b);
+    }
+    else if (objectCodePane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(!b);
+    }
+    else if (inputPane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(!b);
+    }
+    else if (terminalPane->hasFocus()) {
+        ui->actionEdit_Redo->setDisabled(!b);
+    }
+}
 
 // Recent files
 void MainWindow::openRecentFile()

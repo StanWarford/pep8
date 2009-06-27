@@ -17,6 +17,16 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
     m_ui->setupUi(this);
 
     connect(m_ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
+
+    isUndoable = false;
+    isRedoable = false;
+
+    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+
+//    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+//    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
 }
 
 SourceCodePane::~SourceCodePane()
@@ -120,6 +130,37 @@ void SourceCodePane::installOS()
     for (int i = 0; i < objectCode.size(); i++) {
         Sim::Mem[j++] = objectCode[i];
     }
+}
+
+bool SourceCodePane::installOSOnStartup()
+{
+    m_ui->pepSourceCodeTextEdit->setText(Pep::resToString(":/help/figures/pep8os.pep"));
+
+    Pep::burnCount = 0;
+    if (!assemble()) {
+        return false;
+    }
+
+    if (Pep::burnCount != 1) {
+        return false;
+    }
+
+    // Adjust for .BURN
+    int addressDelta = Pep::dotBurnArgument - Pep::byteCount + 1;
+    QMutableMapIterator <QString, int> i(Pep::symbolTable);
+    while (i.hasNext()) {
+        i.next();
+        if (Pep::adjustSymbolValueForBurn.value(i.key())) {
+            i.setValue(i.value() + addressDelta);
+        }
+    }
+
+    adjustCodeList(addressDelta);
+    Pep::romStartAddress += addressDelta;
+    getObjectCode();
+    installOS();
+    clearSourceCode();
+    return true;
 }
 
 void SourceCodePane::removeErrorMessages()
@@ -234,3 +275,14 @@ void SourceCodePane::setLabelToModified(bool modified)
         m_ui->pepSourceCodeLabel->setText(temp);
     }
 }
+
+void SourceCodePane::setUndoability(bool b)
+{
+    isUndoable = b;
+}
+
+void SourceCodePane::setRedoability(bool b)
+{
+    isRedoable = b;
+}
+

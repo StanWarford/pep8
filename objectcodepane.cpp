@@ -17,8 +17,8 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
-//    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvail(bool)));
-//    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvail(bool)));
+//    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+//    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 }
 
 ObjectCodePane::~ObjectCodePane()
