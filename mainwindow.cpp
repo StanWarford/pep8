@@ -1011,8 +1011,8 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(false);
     }
     else if (objectCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(false);
-        ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(!objectCodePane->isUndoable);
+        ui->actionEdit_Redo->setDisabled(!objectCodePane->isRedoable);
         ui->actionEdit_Cut->setDisabled(false);
         ui->actionEdit_Copy->setDisabled(false);
         ui->actionEdit_Paste->setDisabled(false);
@@ -1076,6 +1076,74 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
 }
+
+//void MainWindow::setButtonUndo(bool b)
+//{
+//    if (sourceCodePane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (objectCodePane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (assemblerListingPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (listingTracePane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (memoryTracePane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (cpuPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (inputPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (outputPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (terminalPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//    else if (memoryDumpPane->hasFocus()) {
+//        ui->actionEdit_Undo->setDisabled(!b);
+//    }
+//}
+//
+//void MainWindow::setButtonRedo(bool b)
+//{
+//    if (sourceCodePane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (objectCodePane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (assemblerListingPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (listingTracePane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (memoryTracePane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (cpuPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (inputPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (outputPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (terminalPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//    else if (memoryDumpPane->hasFocus()) {
+//        ui->actionEdit_Redo->setDisabled(!b);
+//    }
+//}
 
 // Recent files
 void MainWindow::openRecentFile()
