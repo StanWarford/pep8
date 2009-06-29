@@ -23,7 +23,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Help</string>
+   <string>Pep/8 Help</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

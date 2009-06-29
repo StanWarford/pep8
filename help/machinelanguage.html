@@ -7,20 +7,22 @@
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
 <p align="center">
 <font FACE="Geneva,Helvetica,Arial" size="3">
-Machine Language in Pep/8
+Machine Language
 </font></td></tr></table></center>
-
-<h3>Machine Language</h3>
+<p>
 Reference: <i>Computer Systems</i>, Chapter 4.
 <p>
 A machine language program is a binary sequence, that is, a sequence of ones and zeros, that the
 machine interprets according to its von Neumann cycle as in Figure 4.31.
 Therefore, to write a machine language program is to write a sequence of ones and zeros.
 Fortunately, the Pep/8 loader permits you to use the hexadecimal abbreviation for binary, as Section 3.4 explains.
-<h4>Writing a machine language program</h4>
+
+<h3>Writing a machine language program</h3>
+
 Writing a machine language program is a three-step process.
 <p>
-1. With this Pep/8 application, you write the machine language program in hexadecimal in the Object Code pane.
+Step 1.<br>
+With this Pep/8 application, you write the machine language program in hexadecimal in the Object Code pane.
 The following figure shows the object program from Figure 4.41 of the textbook.
 <p>
 <i>Screenshot here of</i>
@@ -36,7 +38,8 @@ and no trailing spaces at the end of a line.
 The last two characters in the file must be lowercase zz,
 which is used as the terminating sentinel by the loader.
 <p>
-2. After writing the machine language program, load it by selecting Build -> Load.
+Step 2.<br>
+After writing the machine language program, load it by selecting Build -> Load from the menu.
 <p>
 <i>Screenshot here of the menu selection.</i>
 <p>
@@ -44,7 +47,8 @@ If there are no errors in the program a message to that effect will appear at th
 <p>
 <i>Screenshot here of the message.</i>
 <p>
-3. To execute the program select Build -> Execute.
+Step 3.<br>
+To execute the program select Build -> Execute from the menu.
 <p>
 <i>Screenshot here of the menu selection.</i>
 <p>

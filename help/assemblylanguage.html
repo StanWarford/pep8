@@ -7,20 +7,22 @@
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
 <p align="center">
 <font FACE="Geneva,Helvetica,Arial" size="3">
-Assembly Language in Pep/8
+Assembly Language
 </font></td></tr></table></center>
-
-<h3>Assembly Language</h3>
-Reference: <i>Computer Systems</i>, Chapters 5, 6.
+<p>
+ Reference: <i>Computer Systems</i>, Chapters 5, 6.
 <p>
 An assembly language program is a sequence of lines, each line containing either an instruction
 from the Pep/8 instruction set specfied by a mnemonic,
 or a pseudo-operation, also called a pseudo-op or a dot command.
 The assembly language program must end with the pseudo-op <code>.END</code>.
-<p>
+
+<h3>Writing an assembly language program</h3>
+
 Writing an assembly language program is a four-step process.
 <p>
-1. With this Pep/8 application, you write the assembly language program using the built-in text editor in the Source Code pane.
+Step 1.<br>
+With this Pep/8 application, you write the assembly language program using the built-in text editor in the Source Code pane.
 The following figure shows the source program after entering the program from Figure 5.18 of the textbook.
 <p>
 <i>Screenshot here of</i>
@@ -52,7 +54,8 @@ msg:.ASCII  "Love\x00
 .ENd
 </pre>
 <p>
-2. After writing the assembly language program, assemble it by selecting Build->Assemble from the menu
+Step 2.<br>
+After writing the assembly language program, assemble it by selecting Build->Assemble from the menu
 or clicking on the hammer icon in the tool bar.
 <p>
 <i>Screenshots here of menu selection and hammer icon.</i>
@@ -78,25 +81,29 @@ the <code>STRO</code> instruction.
 msg:     .ASCII  "Love\x00"
          .END
 </pre>
-If you would like, you can select Build->Remove Error Messages to delete the error message.
+If you would like, you can select Build->Remove Error Messages from the menu to delete the error message.
 Then, you can correct your error and try to assemble your program again.
 It is not necessary to remove the error message before correcting your program, as error messages
 are automatically removed when you assemble your program.
 <p>
 Once you assemble your program so that a formatted listing appears in the Assembler Listing pane,
-you can select Edit->Format From Listing.
+you can select Edit->Format From Listing from the menu.
 Your source code will be replaced with the standard formatted source code extracted from the Assembler Listing pane.
 <p>
 <i>Screenshot here of the menu selection.</i>
 <p>
-3. Load your program by selecting Build -> Load.
+Step 3.<br>
+Load your program by selecting Build -> Load from the menu.
 <p>
 <i>Screenshot here of the menu selection.</i>
 <p>
-4. To execute the program select Build -> Execute.
+Step 4.<br>
+To execute the program select Build -> Execute from the menu.
 <p>
 <i>Screenshot here of the menu selection.</i>
+
 <h3>The Run Option</h3>
+
 The three steps -- Assemble, Load, Execute -- are combined in the single option called Run.
 You can initiate a run by selecting Build->Run from the menu or by clicking on the Run icon in the tool bar.
 <p>
