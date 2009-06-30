@@ -52,11 +52,11 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
-    addrFormat.setFontItalic(true);
-    addrFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp(",[\\s]*\\b(i|d|n|s|sf|x|sx|sxf)\\b");
-    rule.format = addrFormat;
-    highlightingRules.append(rule);
+//    numFormat.setFontItalic(true);
+//    numFormat.setForeground(Qt::blue);
+//    rule.pattern = QRegExp("\\s(?(?=\\b0x)(\\b0x\\xhh*)|\\d*)(?=,)");
+//    rule.format = numFormat;
+//    highlightingRules.append(rule);
 
     commentStartExpression = QRegExp(";ERROR:");
     commentEndExpression = QRegExp("$");

@@ -35,7 +35,7 @@ private:
     QTextCharFormat singleLineCommentFormat;
     QTextCharFormat multiLineCommentFormat;
     QTextCharFormat quotationFormat;
-    QTextCharFormat addrFormat;
+//    QTextCharFormat numFormat;
 };
 
 #endif // PEPHIGHLIGHTER_H
