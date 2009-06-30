@@ -296,7 +296,6 @@ void SourceCodePane::paste()
     m_ui->pepSourceCodeTextEdit->paste();
 }
 
-
 void SourceCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepSourceCodeLabel->text();
