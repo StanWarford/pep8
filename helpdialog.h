@@ -3,6 +3,7 @@
 
 #include <QtGui/QDialog>
 #include <QTreeWidgetItem>
+#include "highlighter.h" // For syntax highlighting
 
 namespace Ui {
     class HelpDialog;
@@ -11,14 +12,29 @@ namespace Ui {
 class HelpDialog : public QDialog {
     Q_OBJECT
     Q_DISABLE_COPY(HelpDialog)
-public:
-    explicit HelpDialog(QWidget *parent = 0);
+        public:
+            explicit HelpDialog(QWidget *parent = 0);
     virtual ~HelpDialog();
+
+    void machineLanguageClicked();
+    void assemblyLanguageClicked();
+    void breakPointsClicked();
+    void symbolicTraceClicked();
+    void byteConverterClicked();
+    void interruptHandlersClicked();
+    void instructionSetClicked();
+    void dotCommandsClicked();
+    void addressingModesClicked();
+    void examplesClicked();
+    void operatingSystemClicked();
+    QString getLeftTextEditText();
 
 private:
     Ui::HelpDialog *m_ui;
 
     void selectItem(QString string);
+    Highlighter *highlighter;
+
 
     enum Row {
         eWRITING = 0,
@@ -68,24 +84,10 @@ private:
     };
 
 private slots:
-   void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
-
-public:
-   void machineLanguageClicked();
-   void assemblyLanguageClicked();
-   void breakPointsClicked();
-   void symbolicTraceClicked();
-   void byteConverterClicked();
-   void interruptHandlersClicked();
-   void instructionSetClicked();
-   void dotCommandsClicked();
-   void addressingModesClicked();
-   void examplesClicked();
-   void operatingSystemClicked();
-   QString getLeftTextEditText();
+    void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
 signals:
-   void clicked();
+    void clicked();
 };
 
 #endif // HELPDIALOG_H

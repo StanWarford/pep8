@@ -36,7 +36,8 @@ HEADERS += mainwindow.h \
     code.h \
     argument.h \
     sim.h \
-    enu.h
+    enu.h \
+    highlighter.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -75,7 +76,8 @@ SOURCES += main.cpp \
     listingtracepane.cpp \
     asm.cpp \
     code.cpp \
-    sim.cpp
+    sim.cpp \
+    highlighter.cpp
 OTHER_FILES += images/update.png \
     images/undo.png \
     images/ShowMemoryPane.png \

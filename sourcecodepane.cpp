@@ -2,6 +2,7 @@
 #include <QStringList>
 #include <QTextCursor>
 #include <QPalette>
+#include <QSyntaxHighlighter>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
@@ -18,14 +19,16 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
 
     connect(m_ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 
+    highlighter = new Highlighter(m_ui->pepSourceCodeTextEdit->document());
+
     isUndoable = false;
     isRedoable = false;
 
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
-//    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-//    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
 }
 

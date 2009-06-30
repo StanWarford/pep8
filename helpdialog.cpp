@@ -18,6 +18,8 @@ HelpDialog::HelpDialog(QWidget *parent) :
     m_ui->helpTreeWidget->expandAll();
 
     selectItem("Writing Programs");
+
+    highlighter = new Highlighter(m_ui->helpLeftTextEdit->document());
 }
 
 HelpDialog::~HelpDialog()

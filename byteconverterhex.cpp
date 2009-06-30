@@ -14,6 +14,8 @@ ByteConverterHex::ByteConverterHex(QWidget *parent) :
     // Forward the textEdited() signal from m_ui->lineEdit up to the main window
     QObject::connect(m_ui->lineEdit, SIGNAL(textEdited(const QString &)), this,
                      SIGNAL(textEdited(const QString &)));
+
+
 }
 
 ByteConverterHex::~ByteConverterHex()

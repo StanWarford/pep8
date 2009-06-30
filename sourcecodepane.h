@@ -5,6 +5,7 @@
 #include <QString>
 #include <QList>
 #include "asm.h" // For Code in QList<Code *> codeList;
+#include "highlighter.h" // For syntax highlighting
 
 namespace Ui {
     class SourceCodePane;
@@ -118,11 +119,16 @@ private:
     QStringList listingTraceList;
     QList<bool> hasCheckBox;
 
+    Highlighter *highlighter;
+
 private slots:
     void setLabelToModified(bool modified);
     void setUndoability(bool b);
     void setRedoability(bool b);
 
+signals:
+    void undoAvailable(bool);
+    void redoAvailable(bool);
 };
 
 #endif // SOURCECODEPANE_H

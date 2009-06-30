@@ -75,6 +75,11 @@ private slots:
     void setLabelToModified(bool modified);
     void setUndoability(bool b);
     void setRedoability(bool b);
+
+signals:
+    void undoAvailable(bool);
+    void redoAvailable(bool);
+
 };
 
 #endif // OBJECTCODEPANE_H
