@@ -47,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
-
     helpDialog = new HelpDialog(this);
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
 
@@ -60,14 +59,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->byteConverterToolBar->addWidget(byteConverterBin);
     byteConverterChar = new ByteConverterChar();
     ui->byteConverterToolBar->addWidget(byteConverterChar);
-    connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this,
-                     SLOT(slotByteConverterDecEdited(const QString &)));
-    connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this,
-                     SLOT(slotByteConverterHexEdited(const QString &)));
-    connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this,
-                     SLOT(slotByteConverterBinEdited(const QString &)));
-    connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this,
-                     SLOT(slotByteConverterCharEdited(const QString &)));
+    connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterDecEdited(const QString &)));
+    connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterHexEdited(const QString &)));
+    connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterBinEdited(const QString &)));
+    connect(byteConverterChar, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterCharEdited(const QString &)));
 
     // Pep tables setup
     Pep::initEnumMnemonMaps();
@@ -86,21 +81,22 @@ MainWindow::MainWindow(QWidget *parent)
     readSettings();
 
     // Install OS into memory
-    if (sourceCodePane->installOSOnStartup()) {
+    if (sourceCodePane->installOSOnStartup())
         ui->statusbar->showMessage("Assembly succeeded, OS installed", 4000);
-    }
-    else {
+    else
         ui->statusbar->showMessage("Assembly failed", 4000);
-    }
 
     // Focus highlighting, actions enable/disable
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
 
     connect(objectCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(objectCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
     connect(sourceCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(sourceCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+    connect(inputPane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(inputPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+    connect(terminalPane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(terminalPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -109,9 +105,8 @@ MainWindow::MainWindow(QWidget *parent)
         connect(recentFileActs[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
     }
     separatorAct = ui->menu_File->addSeparator();
-    for (int i = 0; i < MaxRecentFiles; ++i) {
+    for (int i = 0; i < MaxRecentFiles; ++i)
         ui->menu_File->addAction(recentFileActs[i]);
-    }
     updateRecentFileActions();
 
     // Mac toolbar
@@ -144,7 +139,6 @@ MainWindow::~MainWindow()
  }
 
 // Save methods
-
 bool MainWindow::saveSource()
 {
     if (curSourceFile.isEmpty()) {
@@ -1036,7 +1030,6 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     assemblerListingPane->highlightOnFocus();
     listingTracePane->highlightOnFocus();
     memoryTracePane->highlightOnFocus();
-    cpuPane->highlightOnFocus();
     inputPane->highlightOnFocus();
     outputPane->highlightOnFocus();
     terminalPane->highlightOnFocus();
@@ -1077,16 +1070,9 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Copy->setDisabled(true);
         ui->actionEdit_Paste->setDisabled(true);
     }
-    else if (cpuPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(true);
-        ui->actionEdit_Redo->setDisabled(true);
-        ui->actionEdit_Cut->setDisabled(true);
-        ui->actionEdit_Copy->setDisabled(true);
-        ui->actionEdit_Paste->setDisabled(true);
-    }
     else if (inputPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(false);
-        ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(!inputPane->isUndoable);
+        ui->actionEdit_Redo->setDisabled(!inputPane->isRedoable);
         ui->actionEdit_Cut->setDisabled(false);
         ui->actionEdit_Copy->setDisabled(false);
         ui->actionEdit_Paste->setDisabled(false);
@@ -1099,8 +1085,8 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (terminalPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(false);
-        ui->actionEdit_Redo->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(!terminalPane->isUndoable);
+        ui->actionEdit_Redo->setDisabled(!terminalPane->isRedoable);
         ui->actionEdit_Cut->setDisabled(true);
         ui->actionEdit_Copy->setDisabled(false);
         ui->actionEdit_Paste->setDisabled(false);

@@ -6,6 +6,16 @@ InputPane::InputPane(QWidget *parent) :
     m_ui(new Ui::InputPane)
 {
     m_ui->setupUi(this);
+
+    isUndoable = false;
+    isRedoable = false;
+
+    connect(m_ui->_textEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
+    connect(m_ui->_textEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
+
+    connect(m_ui->_textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(m_ui->_textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
 }
 
 InputPane::~InputPane()
@@ -53,4 +63,13 @@ void InputPane::paste()
     m_ui->_textEdit->paste();
 }
 
+void InputPane::setUndoability(bool b)
+{
+    isUndoable = b;
+}
+
+void InputPane::setRedoability(bool b)
+{
+    isRedoable = b;
+}
 

@@ -26,6 +26,12 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    bool isUndoable;
+    // The undoability of the text edit is stored here
+
+    bool isRedoable;
+    // The redoability of the text edit is stored here
+
     void cut();
     // Not allowed in this pane, interactive i/o
 
@@ -37,6 +43,15 @@ public:
 
 private:
     Ui::TerminalPane *m_ui;
+
+private slots:
+    void setUndoability(bool b);
+    void setRedoability(bool b);
+
+signals:
+    void undoAvailable(bool);
+    void redoAvailable(bool);
+
 };
 
 #endif // TERMINALPANE_H

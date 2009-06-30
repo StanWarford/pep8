@@ -26,6 +26,12 @@ public:
     void redo();
     // Post: the last undo in the text edit is redone
 
+    bool isUndoable;
+    // The undoability of the text edit is stored here
+
+    bool isRedoable;
+    // The redoability of the text edit is stored here
+
     void cut();
     // Post: selected text in the text edit is cut to the clipboard
 
@@ -37,6 +43,15 @@ public:
 
 private:
     Ui::InputPane *m_ui;
+
+private slots:
+    void setUndoability(bool b);
+    void setRedoability(bool b);
+
+signals:
+    void undoAvailable(bool);
+    void redoAvailable(bool);
+
 };
 
 #endif // INPUTPANE_H
