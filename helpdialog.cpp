@@ -20,6 +20,7 @@ HelpDialog::HelpDialog(QWidget *parent) :
     selectItem("Writing Programs");
 
     pepHighlighter = new PepHighlighter(m_ui->helpLeftTextEdit->document());
+    cppHighlighter = new CppHighlighter(m_ui->helpRightTextEdit->document());
 }
 
 HelpDialog::~HelpDialog()

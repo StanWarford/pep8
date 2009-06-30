@@ -4,7 +4,7 @@
 #include <QtGui/QDialog>
 #include <QTreeWidgetItem>
 #include "pephighlighter.h" // For syntax highlighting
-
+#include "cpphighlighter.h"
 namespace Ui {
     class HelpDialog;
 }
@@ -34,6 +34,7 @@ private:
 
     void selectItem(QString string);
     PepHighlighter *pepHighlighter;
+    CppHighlighter *cppHighlighter;
 
     enum Row {
         eWRITING = 0,
