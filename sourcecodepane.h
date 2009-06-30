@@ -5,7 +5,7 @@
 #include <QString>
 #include <QList>
 #include "asm.h" // For Code in QList<Code *> codeList;
-#include "highlighter.h" // For syntax highlighting
+#include "pephighlighter.h" // For syntax highlighting
 
 namespace Ui {
     class SourceCodePane;
@@ -119,7 +119,7 @@ private:
     QStringList listingTraceList;
     QList<bool> hasCheckBox;
 
-    Highlighter *highlighter;
+    PepHighlighter *pepHighlighter;
 
 private slots:
     void setLabelToModified(bool modified);

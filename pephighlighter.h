@@ -1,5 +1,5 @@
-#ifndef HIGHLIGHTER_H
-#define HIGHLIGHTER_H
+#ifndef PEPHIGHLIGHTER_H
+#define PEPHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
 
@@ -10,10 +10,10 @@ QT_BEGIN_NAMESPACE
 class QTextDocument;
 QT_END_NAMESPACE
 
-class Highlighter : public QSyntaxHighlighter
+class PepHighlighter : public QSyntaxHighlighter
 {
 public:
-    Highlighter(QTextDocument *parent = 0);
+    PepHighlighter(QTextDocument *parent = 0);
 
 protected:
     void highlightBlock(const QString &text);
@@ -35,8 +35,7 @@ private:
     QTextCharFormat singleLineCommentFormat;
     QTextCharFormat multiLineCommentFormat;
     QTextCharFormat quotationFormat;
-    QTextCharFormat functionFormat;
-
+    QTextCharFormat addrFormat;
 };
 
-#endif // HIGHLIGHTER_H
+#endif // PEPHIGHLIGHTER_H

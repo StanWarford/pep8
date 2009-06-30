@@ -19,7 +19,7 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
 
     connect(m_ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 
-    highlighter = new Highlighter(m_ui->pepSourceCodeTextEdit->document());
+    pepHighlighter = new PepHighlighter(m_ui->pepSourceCodeTextEdit->document());
 
     isUndoable = false;
     isRedoable = false;
