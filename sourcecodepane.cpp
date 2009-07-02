@@ -3,6 +3,7 @@
 #include <QTextCursor>
 #include <QPalette>
 #include <QSyntaxHighlighter>
+#include <QFont>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
@@ -294,6 +295,16 @@ void SourceCodePane::copy()
 void SourceCodePane::paste()
 {
     m_ui->pepSourceCodeTextEdit->paste();
+}
+
+QFont SourceCodePane::getFont()
+{
+    return m_ui->pepSourceCodeTextEdit->currentFont();
+}
+
+void SourceCodePane::setFont(QFont font)
+{
+    m_ui->pepSourceCodeTextEdit->setCurrentFont(font);
 }
 
 void SourceCodePane::setLabelToModified(bool modified)
