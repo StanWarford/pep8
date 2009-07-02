@@ -19,7 +19,7 @@ void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList)
     clearAssemblerListing();
     m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
     m_ui->assemblerListingTextEdit->append("      Object");
-    m_ui->assemblerListingTextEdit->append("Addr  code   Symbol   Mnemon  Operand       Comment");
+    m_ui->assemblerListingTextEdit->append("Addr  code   Symbol   Mnemon  Operand     Comment");
     m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
     m_ui->assemblerListingTextEdit->append(assemblerListingList.join("\n"));
     m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");

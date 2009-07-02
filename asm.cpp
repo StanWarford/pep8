@@ -278,7 +278,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                         nonUnaryInstruction->mnemonic = localEnumMnemonic;
                         code = nonUnaryInstruction;
                         code->memAddress = Pep::byteCount;
-                        Pep::byteCount += 3; // Three bytes generated for unary instruction.
+                        Pep::byteCount += 3; // Three bytes generated for nonunary instruction.
                         state = Asm::PS_INSTRUCTION;
                     }
                 }
@@ -548,7 +548,17 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             }
             else { // Must be branch type instruction with no addressing mode. Assign default addressing mode.
                 nonUnaryInstruction->addressingMode = Enu::I;
-                state = Asm::PS_CLOSE;
+                if (token == Asm::LT_COMMENT) {
+                    code->comment = tokenString;
+                    state = Asm::PS_COMMENT;
+                }
+                else if (token == Asm::LT_EMPTY) {
+                    state = Asm::PS_FINISH;
+                }
+                else {
+                    errorString = ";ERROR: Comment expected following instruction.";
+                    return false;
+                }
             }
             break;
 

@@ -1,22 +1,18 @@
-// File: fig0640b.cpp
+// File: fig0610.cpp
 // Computer Systems, Fourth Edition
-// Figure 6.40, modified with default
+// Figure 6.10
 
 #include <iostream>
 using namespace std;
 
+char letter;
+
 int main () {
-   int guess;
-   cout << "Pick a number 0..3: ";
-   cin >> guess;
-   switch (guess) {
-      case 0: cout << "Not close"; break;
-      case 1: cout << "Close"; break;
-      case 2: cout << "Right on"; break;
-      case 3: cout << "Too high"; break;
-      default: cout << "Out of range:";
+   cin >> letter;
+   while (letter != '*') {
+      cout << letter;
+      cin >> letter;
    }
-   cout << endl;
    return 0;
 }
 

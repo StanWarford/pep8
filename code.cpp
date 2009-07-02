@@ -118,7 +118,7 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(mnemonStr, -8, QLatin1Char(' '))
-                      .arg("              " + comment);
+                      .arg("            " + comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(true);
@@ -153,7 +153,7 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
                       .arg(oprndNumStr, -5, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(mnemonStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -179,7 +179,7 @@ void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList 
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -212,7 +212,7 @@ void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -255,7 +255,7 @@ void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -288,7 +288,7 @@ void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &l
                       .arg(memStr, -6, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -313,7 +313,7 @@ void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &l
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -349,7 +349,7 @@ void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList 
     QString lineStr = QString("             %1%2%3%4")
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
@@ -374,7 +374,7 @@ void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &l
                       .arg(codeStr, -7, QLatin1Char(' '))
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(dotStr, -8, QLatin1Char(' '))
-                      .arg(oprndStr, -14)
+                      .arg(oprndStr, -12)
                       .arg(comment);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
