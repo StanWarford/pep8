@@ -12,8 +12,8 @@ namespace Ui {
 class HelpDialog : public QDialog {
     Q_OBJECT
     Q_DISABLE_COPY(HelpDialog)
-        public:
-            explicit HelpDialog(QWidget *parent = 0);
+public:
+    explicit HelpDialog(QWidget *parent = 0);
     virtual ~HelpDialog();
 
     void machineLanguageClicked();
@@ -28,6 +28,12 @@ class HelpDialog : public QDialog {
     void examplesClicked();
     void operatingSystemClicked();
     QString getLeftTextEditText();
+
+    bool hasFocus();
+    // Post: returns true if either of the text edits have focus
+
+    void copy();
+    // Post: the text edit that has focus has the copy() operation performed
 
 private:
     Ui::HelpDialog *m_ui;

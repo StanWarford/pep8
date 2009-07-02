@@ -1,7 +1,7 @@
+#include <QClipboard>
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 #include "pep.h"
-
 #include <QDebug>
 
 HelpDialog::HelpDialog(QWidget *parent) :
@@ -328,5 +328,21 @@ void HelpDialog::operatingSystemClicked() {
 // Helper Functions
 QString HelpDialog::getLeftTextEditText() {
     return m_ui->helpLeftTextEdit->toPlainText();
+}
+
+bool HelpDialog::hasFocus()
+{
+    return m_ui->helpLeftTextEdit->hasFocus() || m_ui->helpRightTextEdit->hasFocus() || m_ui->helpTopWebView->hasFocus();
+}
+
+void HelpDialog::copy()
+{
+    if (m_ui->helpLeftTextEdit->hasFocus()) {
+        m_ui->helpLeftTextEdit->copy();
+    } else if (m_ui->helpRightTextEdit->hasFocus()) {
+        m_ui->helpRightTextEdit->copy();
+    } else if (m_ui->helpTopWebView->hasFocus()) {
+        QApplication::clipboard()->setText(m_ui->helpTopWebView->selectedText());
+    }
 }
 

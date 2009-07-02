@@ -649,6 +649,9 @@ void MainWindow::on_actionEdit_Copy_triggered()
     else if (memoryDumpPane->hasFocus()) {
         memoryDumpPane->copy();
     }
+    else if (helpDialog->hasFocus()) {
+        helpDialog->copy();
+    }
 }
 
 void MainWindow::on_actionEdit_Paste_triggered()
@@ -1102,6 +1105,13 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(false);
     }
     else if (memoryDumpPane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
+    }
+    else if (helpDialog->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
         ui->actionEdit_Cut->setDisabled(true);
