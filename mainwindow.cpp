@@ -84,9 +84,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Install OS into memory
     if (sourceCodePane->installOSOnStartup())
-        ui->statusbar->showMessage("Assembly succeeded, OS installed", 4000);
+        ui->statusbar->showMessage("OS installed", 4000);
     else
-        ui->statusbar->showMessage("Assembly failed", 4000);
+        ui->statusbar->showMessage("OS assembly failed", 4000);
 
     // Focus highlighting, actions enable/disable
     connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
@@ -220,15 +220,21 @@ void MainWindow::loadFile(const QString &fileName)
 
     QTextStream in(&file);
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    QRegExp rx("*.pepo");
+    QRegExp rx(".*.pepo");
     QString pane = "";
-    if (rx.exactMatch(fileName)) {
+    if (rx.exactMatch(strippedName(fileName))) {
         // Set object code pane text
         objectCodePane->setObjectCodePaneText(in.readAll());
+        sourceCodePane->clearSourceCode();
+        assemblerListingPane->clearAssemblerListing();
+        listingTracePane->clearListingTrace();
         pane = "Object";
     } else {
         // Set source code pane text
         sourceCodePane->setSourceCodePaneText(in.readAll());
+        objectCodePane->clearObjectCode();
+        assemblerListingPane->clearAssemblerListing();
+        listingTracePane->clearListingTrace();
         pane = "Source";
     }
     QApplication::restoreOverrideCursor();
@@ -408,7 +414,7 @@ void MainWindow::on_actionFile_Open_triggered()
                 this,
                 "Open text file",
                 "",
-                "Text files (*.txt *.pep *.pepo)");
+                "Text files (*.pepo *.txt *.pep)");
         if (!fileName.isEmpty())
             loadFile(fileName);
     }
@@ -738,7 +744,7 @@ void MainWindow::on_actionBuild_Assemble_triggered()
     if (sourceCodePane->assemble()) {
         if (Pep::burnCount > 0) {
             QString errorString = ";ERROR: .BURN not allowed in program unless installing OS.";
-            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString);
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
             listingTracePane->clearListingTrace();
@@ -853,7 +859,7 @@ void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
     if (sourceCodePane->assemble()) {
         if (Pep::burnCount == 0) {
             QString errorString = ";ERROR: .BURN required to install OS.";
-            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString);
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
             listingTracePane->clearListingTrace();
@@ -861,7 +867,7 @@ void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
         }
         else if (Pep::burnCount > 1) {
             QString errorString = ";ERROR: Program contain more than one .BURN.";
-            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString);
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
             listingTracePane->clearListingTrace();
@@ -1189,3 +1195,5 @@ void MainWindow::openRecentFile()
     if (action)
         loadFile(action->data().toString());
 }
+
+

@@ -63,7 +63,7 @@ public:
     // Post: Searces for the string ";ERROR:" on each line and removes the end of the line.
     // Post: Searces for the string ";WARNING:" on each line and removes the end of the line.
 
-    void appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color);
+    void appendMessageInSourceCodePaneAt(int lineNumber, QString message);
     // Post: Appends message to the end of line lineNumber in color color.
 
     void setSourceCodePaneText(QString string);

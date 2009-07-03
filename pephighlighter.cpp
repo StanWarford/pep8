@@ -41,24 +41,23 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
     highlightingRules.append(rule);
 
     singleLineCommentFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp(";[^\n]*");
+    rule.pattern = QRegExp(";.*");
     rule.format = singleLineCommentFormat;
     highlightingRules.append(rule);
 
     multiLineCommentFormat.setForeground(Qt::red);
 
-    quotationFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("(\".*\"|\'.*\')");
-    rule.format = quotationFormat;
+    singleQuotationFormat.setForeground(Qt::red);
+    rule.pattern = QRegExp("((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");
+    rule.format = singleQuotationFormat;
     highlightingRules.append(rule);
 
-//    numFormat.setFontItalic(true);
-//    numFormat.setForeground(Qt::blue);
-//    rule.pattern = QRegExp("\\s(?(?=\\b0x)(\\b0x\\xhh*)|\\d*)(?=,)");
-//    rule.format = numFormat;
-//    highlightingRules.append(rule);
+    doubleQuotationFormat.setForeground(Qt::red);
+    rule.pattern = QRegExp("((\")((([^\"|\\\\])|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))*)(\"))");
+    rule.format = doubleQuotationFormat;
+    highlightingRules.append(rule);
 
-    commentStartExpression = QRegExp(";ERROR:");
+    commentStartExpression = QRegExp(";ERROR:[\\s]");
     commentEndExpression = QRegExp("$");
 }
 

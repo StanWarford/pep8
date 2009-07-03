@@ -37,9 +37,14 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
 
     multiLineCommentFormat.setForeground(Qt::darkGreen);
 
-    quotationFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("\".*\"");
-    rule.format = quotationFormat;
+    singleQuotationFormat.setForeground(Qt::red);
+    rule.pattern = QRegExp("((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");
+    rule.format = singleQuotationFormat;
+    highlightingRules.append(rule);
+
+    doubleQuotationFormat.setForeground(Qt::red);
+    rule.pattern = QRegExp("((\")((([^\"|\\\\])|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))*)(\"))");
+    rule.format = doubleQuotationFormat;
     highlightingRules.append(rule);
 
     functionFormat.setFontItalic(true);

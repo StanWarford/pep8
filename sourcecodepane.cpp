@@ -62,7 +62,7 @@ bool SourceCodePane::assemble()
     while (lineNum < sourceCodeList.size() && !dotEndDetected) {
         sourceLine = sourceCodeList[lineNum];
         if (!Asm::processSourceLine(sourceLine, lineNum, code, errorString, dotEndDetected)) {
-            appendMessageInSourceCodePaneAt(lineNum, errorString, Qt::red);
+            appendMessageInSourceCodePaneAt(lineNum, errorString);
             return false;
         }
         codeList.append(code);
@@ -70,18 +70,18 @@ bool SourceCodePane::assemble()
     }
     if (!dotEndDetected) {
         errorString = ";ERROR: Missing .END sentinel.";
-        appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+        appendMessageInSourceCodePaneAt(0, errorString);
         return false;
     }
     if (Pep::byteCount > 65535) {
         errorString = ";ERROR: Object code size too large to fit into memory.";
-        appendMessageInSourceCodePaneAt(0, errorString, Qt::red);
+        appendMessageInSourceCodePaneAt(0, errorString);
         return false;
     }
     for (int i = 0; i < Asm::listOfReferencedSymbols.length(); i++) {
         if (!Pep::symbolTable.contains(Asm::listOfReferencedSymbols[i])) {
             errorString = ";ERROR: Symbol " + Asm::listOfReferencedSymbols[i] + " is used but not defined.";
-            appendMessageInSourceCodePaneAt(Asm::listOfReferencedSymbolLineNums[i], errorString, Qt::red);
+            appendMessageInSourceCodePaneAt(Asm::listOfReferencedSymbolLineNums[i], errorString);
             return false;
         }
     }
@@ -213,7 +213,7 @@ void SourceCodePane::removeErrorMessages()
     }
 }
 
-void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message, Qt::GlobalColor color)
+void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
 {
     QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document());
     cursor.setPosition(0);
@@ -222,9 +222,7 @@ void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mes
     }
     cursor.movePosition(QTextCursor::EndOfLine);
     m_ui->pepSourceCodeTextEdit->setTextCursor(cursor);
-    m_ui->pepSourceCodeTextEdit->setTextColor(color);
     m_ui->pepSourceCodeTextEdit->textCursor().insertText(message);
-    m_ui->pepSourceCodeTextEdit->setTextColor(Qt::black);
 }
 
 void SourceCodePane::setSourceCodePaneText(QString string)

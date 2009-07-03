@@ -174,9 +174,9 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
                 m_ui->helpRightTextEdit->show();
             }
             else if (row == eFIG616) {
+                m_ui->helpRightTextEdit->hide();
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0616.pep"));
                 m_ui->helpFigureLabel->setText("<b>Figure 6.16</b><code>  </code> A mystery program.");
-                m_ui->helpRightTextEdit->hide();
             }
             else if (row == eFIG618) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0618.pep"));
