@@ -125,6 +125,7 @@ private slots:
     void on_actionBuild_Execute_triggered();
     void on_actionBuild_Run_triggered();
     void on_actionBuild_Start_Debugging_triggered();
+    void on_actionBuild_Stop_Execution_triggered();
     void on_actionBuild_Remove_Error_Messages_triggered();
 
     // View
@@ -170,6 +171,9 @@ private slots:
     void mainWindowUtilities(QWidget *, QWidget *);
     void setUndoability(bool b);
     void setRedoability(bool b);
+
+    // For updating the CPU and Memory trace from listing trace pane
+    void updateCpuAndMemoryTrace();
 
     // Recent files
     void openRecentFile();

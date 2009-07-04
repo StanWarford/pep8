@@ -115,7 +115,10 @@ public:
     // Post: the font used by the text edit is returned
 
     void setFont(QFont font);
-    // Post the font used by the text edit is set to font
+    // Post: the font used by the text edit is set to font
+
+    void setReadOnly(bool b);
+    // Post: the text edit's read only attribute is set to b
 
 private:
     Ui::SourceCodePane *m_ui;

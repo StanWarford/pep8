@@ -68,6 +68,9 @@ public:
     void paste();
     // Post: selected text in the clipboard is pasted to the text edit
 
+    void setReadOnly(bool b);
+    // Post: the text edit's read only attribute is set to b
+
 private:
     Ui::ObjectCodePane *m_ui;
 

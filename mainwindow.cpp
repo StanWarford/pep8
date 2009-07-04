@@ -100,6 +100,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(terminalPane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(terminalPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
+    // For updating the CPU and Memory trace from listing trace pane
+    connect(listingTracePane, SIGNAL(updateCpuAndMemoryTrace()), this, SLOT(updateCpuAndMemoryTrace()));
+
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -116,12 +119,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
-
-    // Testing the simulator
-    Sim::writeByte(0, 240);
-    Sim::writeWord(1, 65534);
-    Sim::vonNeumannStep();
-    cpuPane->updateCpu();
 }
 
 MainWindow::~MainWindow()
@@ -779,7 +776,8 @@ void MainWindow::on_actionBuild_Load_triggered()
 
 void MainWindow::on_actionBuild_Execute_triggered()
 {
-
+    Sim::stackPointer = Sim::readWord(0xFFF8);
+    Sim::programCounter = 0x0000;
 }
 
 void MainWindow::on_actionBuild_Run_triggered()
@@ -790,6 +788,39 @@ void MainWindow::on_actionBuild_Run_triggered()
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
 {
     cpuPane->startDebuggingClicked();
+    ui->actionBuild_Assemble->setDisabled(true);
+    ui->actionBuild_Execute->setDisabled(true);
+    ui->actionBuild_Load->setDisabled(true);
+    ui->actionBuild_Run->setDisabled(true);
+    ui->actionBuild_Start_Debugging->setDisabled(true);
+    ui->actionBuild_Stop_Execution->setDisabled(false);
+    ui->actionBuild_Remove_Error_Messages->setDisabled(true);
+    inputPane->setReadOnly(true);
+    sourceCodePane->setReadOnly(true);
+    objectCodePane->setReadOnly(true);
+    listingTracePane->setButtonsDisabled(false);
+    ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
+
+    Sim::stackPointer = Sim::readWord(0xFFF8);
+    Sim::programCounter = 0x0000;
+
+    on_actionBuild_Load_triggered();
+    cpuPane->updateCpu();
+}
+
+void MainWindow::on_actionBuild_Stop_Execution_triggered()
+{
+    ui->actionBuild_Assemble->setDisabled(false);
+    ui->actionBuild_Execute->setDisabled(false);
+    ui->actionBuild_Load->setDisabled(false);
+    ui->actionBuild_Run->setDisabled(false);
+    ui->actionBuild_Start_Debugging->setDisabled(false);
+    ui->actionBuild_Stop_Execution->setDisabled(true);
+    ui->actionBuild_Remove_Error_Messages->setDisabled(false);
+    inputPane->setReadOnly(false);
+    sourceCodePane->setReadOnly(false);
+    objectCodePane->setReadOnly(false);
+    listingTracePane->setButtonsDisabled(true);
 }
 
 void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
@@ -1186,6 +1217,11 @@ void MainWindow::setRedoability(bool b)
     else if (terminalPane->hasFocus()) {
         ui->actionEdit_Redo->setDisabled(!b);
     }
+}
+
+void MainWindow::updateCpuAndMemoryTrace()
+{
+    cpuPane->updateCpu();
 }
 
 // Recent files

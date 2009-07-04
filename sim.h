@@ -17,6 +17,9 @@ public:
     static int instructionSpecifier;
     static int operandSpecifier;
 
+    static Enu::EExecState executionState;
+    // State for keeping track of what actions are possible for user and machine
+
     static int toSignedDecimal(int value);
     // Pre: 0 <= value < 65536
     // Post: -32768 <= value < 32768
@@ -49,7 +52,6 @@ public:
     static void writeWordOprnd(Enu::EAddrMode addrMode, int value);
 
     static bool vonNeumannStep();
-
 
 };
 

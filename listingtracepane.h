@@ -40,6 +40,9 @@ public:
     void paste();
     // Does nothing in our implementation of the listing trace
 
+    void setButtonsDisabled(bool b);
+    // Post: resume and single step buttons clickability is set to b
+
 private:
     Ui::ListingTracePane *m_ui;
 
@@ -48,6 +51,8 @@ private slots:
 
     void resumeExecution();
 
+signals:
+    void updateCpuAndMemoryTrace();
 };
 
 #endif // LISTINGTRACEPANE_H

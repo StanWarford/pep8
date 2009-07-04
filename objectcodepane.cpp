@@ -153,4 +153,8 @@ void ObjectCodePane::setRedoability(bool b)
     isRedoable = b;
 }
 
+void ObjectCodePane::setReadOnly(bool b)
+{
+    m_ui->pepObjectCodeTextEdit->setReadOnly(b);
+}
 

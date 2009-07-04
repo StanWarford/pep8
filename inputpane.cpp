@@ -73,3 +73,7 @@ void InputPane::setRedoability(bool b)
     isRedoable = b;
 }
 
+void InputPane::setReadOnly(bool b)
+{
+    m_ui->_textEdit->setReadOnly(b);
+}

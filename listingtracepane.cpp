@@ -1,6 +1,7 @@
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
 #include "sim.h"
+#include "pep.h"
 
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
@@ -92,9 +93,17 @@ void ListingTracePane::paste()
     // does nothing with our current implementation
 }
 
+void ListingTracePane::setButtonsDisabled(bool b)
+{
+    m_ui->listingResumePushButton->setDisabled(b);
+    m_ui->listingSingleStepPushButton->setDisabled(b);
+}
+
 void ListingTracePane::singleStep()
 {
     Sim::vonNeumannStep();
+    emit updateCpuAndMemoryTrace();
+    m_ui->listingTraceTableWidget->selectRow(Pep::memAddrssToAssemblerListing.value(Sim::programCounter));
 }
 
 void ListingTracePane::resumeExecution()

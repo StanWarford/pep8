@@ -103,7 +103,7 @@ QStringList SourceCodePane::getAssemblerListingList()
     listingTraceList.clear();
     hasCheckBox.clear();
     for (int i = 0; i < codeList.length(); i++) {
-        codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox);
+        codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox, Pep::memAddrssToAssemblerListing);
     }
     return assemblerListingList;
 }
@@ -194,6 +194,11 @@ bool SourceCodePane::installOSOnStartup()
     Pep::romStartAddress += addressDelta;
     getObjectCode();
     installOS();
+
+    while (!codeList.isEmpty()) {
+        delete codeList.takeFirst();
+    }
+
     return true;
 }
 
@@ -324,6 +329,10 @@ void SourceCodePane::setUndoability(bool b)
 
 void SourceCodePane::setRedoability(bool b)
 {
-    isRedoable = b;
+    isRedoable = b; 
 }
 
+void SourceCodePane::setReadOnly(bool b)
+{
+    m_ui->pepSourceCodeTextEdit->setReadOnly(b);
+}

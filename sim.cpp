@@ -14,6 +14,8 @@ int Sim::programCounter;
 int Sim::instructionSpecifier;
 int Sim::operandSpecifier;
 
+Enu::EExecState Sim::executionState;
+
 int Sim::toSignedDecimal(int value)
 {
     return value > 32767 ? value - 65536 : value;
@@ -49,7 +51,7 @@ int Sim::addAndSetNZVC(int lhs, int rhs)
     Sim::zBit = result == 0 ? true : false;
     Sim::vBit = (lhs < 32768 && rhs < 32768 && result >= 32768) ||
                 (lhs >= 32768 && rhs <= 32768 && result < 32768);
-
+    return result;
 }
 
 int Sim::readByte(int memAddr)
@@ -170,25 +172,25 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
         // illegal
         break;
     case Enu::D:
-        writeWord(readWord(operandSpecifier), value);
+        writeWord(operandSpecifier, value);
         break;
     case Enu::N:
-        writeWord(readWord(readWord(operandSpecifier)), value);
+        writeWord(readWord(operandSpecifier), value);
         break;
     case Enu::S:
-        writeWord(readWord(add(stackPointer, operandSpecifier)), value);
+        writeWord(add(stackPointer, operandSpecifier), value);
         break;
     case Enu::SF:
-        writeWord(readWord(readWord(add(stackPointer, operandSpecifier))), value);
+        writeWord(readWord(add(stackPointer, operandSpecifier)), value);
         break;
     case Enu::X:
-        writeWord(readWord(add(operandSpecifier, indexRegister)), value);
+        writeWord(add(operandSpecifier, indexRegister), value);
         break;
     case Enu::SX:
-        writeWord(readWord(add(add(stackPointer, operandSpecifier), indexRegister)), value);
+        writeWord(add(add(stackPointer, operandSpecifier), indexRegister), value);
         break;
     case Enu::SXF:
-        writeWord(readWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister)), value);
+        writeWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister), value);
         break;
     case Enu::ALL:
         break;
@@ -364,7 +366,8 @@ bool Sim::vonNeumannStep()
     case DECO:
         return true;
     case LDA:
-        Sim::accumulator = Sim::operandSpecifier % 65536;
+        operand = Sim::readWordOprnd(addrMode);
+        Sim::accumulator = operand % 65536;
         Sim::nBit = Sim::accumulator >= 32768;
         Sim::zBit = Sim::accumulator == 0;
         return true;
@@ -383,7 +386,8 @@ bool Sim::vonNeumannStep()
         Sim::zBit = Sim::indexRegister == 0;
         return true;
     case LDX:
-        Sim::indexRegister = Sim::operandSpecifier % 65536;
+        operand = Sim::readWordOprnd(addrMode);
+        Sim::indexRegister = operand % 65536;
         Sim::nBit = Sim::indexRegister >= 32768;
         Sim::zBit = Sim::indexRegister == 0;
         return true;
@@ -484,8 +488,7 @@ bool Sim::vonNeumannStep()
     case RORX:
         return true;
     case STA:
-        operand = Sim::readWordOprnd(addrMode);
-        accumulator = operand;
+        Sim::writeWordOprnd(addrMode, accumulator);
         return true;
     case STBYTEA:
         operand = Sim::readByteOprnd(addrMode);

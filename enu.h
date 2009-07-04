@@ -33,6 +33,13 @@ namespace Enu
         ALL = 255
     };
 
+    enum EExecState
+    {
+        EStart,
+        ERun, ERunAwaitIO,
+        EDebugAwaitIO, EDebugAwaitClick, EDebugRunToBP, EDebugSingleStep
+    };
+
 }
 
 #endif // ENU_H
