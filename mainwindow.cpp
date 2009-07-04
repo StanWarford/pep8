@@ -780,6 +780,8 @@ void MainWindow::on_actionBuild_Execute_triggered()
 {
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
+
+    // Other things go here.
 }
 
 void MainWindow::on_actionBuild_Run_triggered()
@@ -808,6 +810,7 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
 
     on_actionBuild_Load_triggered();
     cpuPane->updateCpu();
+    listingTracePane->beginExecution();
 }
 
 void MainWindow::on_actionBuild_Stop_Execution_triggered()

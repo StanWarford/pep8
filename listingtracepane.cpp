@@ -3,6 +3,8 @@
 #include "sim.h"
 #include "pep.h"
 
+#include <QDebug>
+
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::ListingTracePane)
@@ -99,6 +101,11 @@ void ListingTracePane::setButtonsDisabled(bool b)
     m_ui->listingSingleStepPushButton->setDisabled(b);
 }
 
+void ListingTracePane::beginExecution()
+{
+    m_ui->listingTraceTableWidget->selectRow(Pep::memAddrssToAssemblerListing.value(Sim::programCounter));
+}
+
 void ListingTracePane::singleStep()
 {
     Sim::vonNeumannStep();
@@ -112,4 +119,3 @@ void ListingTracePane::resumeExecution()
         Sim::vonNeumannStep();
     }
 }
-

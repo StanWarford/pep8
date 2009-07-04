@@ -202,7 +202,7 @@ bool Sim::vonNeumannStep()
     EMnemonic mnemonic;
     int operand;
     EAddrMode addrMode;
-    int result;
+//    int result;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment

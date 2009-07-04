@@ -43,12 +43,14 @@ public:
     void setButtonsDisabled(bool b);
     // Post: resume and single step buttons clickability is set to b
 
+    void beginExecution();
+    // Sets up the trace pane for execution (selects first instruction)
+
 private:
     Ui::ListingTracePane *m_ui;
 
 private slots:
     void singleStep();
-
     void resumeExecution();
 
 signals:
