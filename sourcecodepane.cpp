@@ -22,12 +22,6 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
 
     pepHighlighter = new PepHighlighter(m_ui->pepSourceCodeTextEdit->document());
 
-    isUndoable = false;
-    isRedoable = false;
-
-    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
@@ -285,6 +279,16 @@ void SourceCodePane::redo()
     m_ui->pepSourceCodeTextEdit->redo();
 }
 
+bool SourceCodePane::isUndoable()
+{
+    return m_ui->pepSourceCodeTextEdit->document()->isUndoAvailable();
+}
+
+bool SourceCodePane::isRedoable()
+{
+    return m_ui->pepSourceCodeTextEdit->document()->isRedoAvailable();
+}
+
 void SourceCodePane::cut()
 {
     m_ui->pepSourceCodeTextEdit->cut();
@@ -310,6 +314,11 @@ void SourceCodePane::setFont(QFont font)
     m_ui->pepSourceCodeTextEdit->setCurrentFont(font);
 }
 
+void SourceCodePane::setReadOnly(bool b)
+{
+    m_ui->pepSourceCodeTextEdit->setReadOnly(b);
+}
+
 void SourceCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepSourceCodeLabel->text();
@@ -322,17 +331,3 @@ void SourceCodePane::setLabelToModified(bool modified)
     }
 }
 
-void SourceCodePane::setUndoability(bool b)
-{
-    isUndoable = b;
-}
-
-void SourceCodePane::setRedoability(bool b)
-{
-    isRedoable = b; 
-}
-
-void SourceCodePane::setReadOnly(bool b)
-{
-    m_ui->pepSourceCodeTextEdit->setReadOnly(b);
-}

@@ -7,12 +7,6 @@ TerminalPane::TerminalPane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    isUndoable = false;
-    isRedoable = false;
-
-    connect(m_ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-    connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
     connect(m_ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 }
@@ -47,6 +41,16 @@ void TerminalPane::redo()
     m_ui->pepTerminalTextEdit->redo();
 }
 
+bool TerminalPane::isUndoable()
+{
+    return m_ui->pepTerminalTextEdit->document()->isUndoAvailable();
+}
+
+bool TerminalPane::isRedoable()
+{
+    return m_ui->pepTerminalTextEdit->document()->isRedoAvailable();
+}
+
 void TerminalPane::cut()
 {
     // not allowed in interactive i/o
@@ -63,13 +67,4 @@ void TerminalPane::paste()
     m_ui->pepTerminalTextEdit->paste();
 }
 
-void TerminalPane::setUndoability(bool b)
-{
-    isUndoable = b;
-}
-
-void TerminalPane::setRedoability(bool b)
-{
-    isRedoable = b;
-}
 

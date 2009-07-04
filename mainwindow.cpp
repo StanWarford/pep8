@@ -745,6 +745,7 @@ void MainWindow::on_actionBuild_Assemble_triggered()
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
             listingTracePane->clearListingTrace();
+            ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
             ui->statusbar->showMessage("Assembly failed", 4000);
         }
         else {
@@ -758,6 +759,7 @@ void MainWindow::on_actionBuild_Assemble_triggered()
         assemblerListingPane->clearAssemblerListing();
         objectCodePane->clearObjectCode();
         listingTracePane->clearListingTrace();
+        ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
         ui->statusbar->showMessage("Assembly failed", 4000);
     }
 }
@@ -821,6 +823,8 @@ void MainWindow::on_actionBuild_Stop_Execution_triggered()
     sourceCodePane->setReadOnly(false);
     objectCodePane->setReadOnly(false);
     listingTracePane->setButtonsDisabled(true);
+
+    mainWindowUtilities(this, this);
 }
 
 void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
@@ -1027,7 +1031,11 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 
 void MainWindow::helpCopyToSourceButtonClicked()
 {
-    if (maybeSaveSource()) {
+    helpDialog->hide();
+    if (ui->actionBuild_Stop_Execution->isEnabled()) {
+        ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
+    }
+    else if (maybeSaveSource()) {
         setCurrentFile("untitled.pep", "Source");
         sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
         assemblerListingPane->clearAssemblerListing();
@@ -1116,18 +1124,18 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     memoryDumpPane->highlightOnFocus();
 
     if (sourceCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!sourceCodePane->isUndoable);
-        ui->actionEdit_Redo->setDisabled(!sourceCodePane->isRedoable);
-        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !sourceCodePane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !sourceCodePane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
     }
     else if (objectCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!objectCodePane->isUndoable);
-        ui->actionEdit_Redo->setDisabled(!objectCodePane->isRedoable);
-        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !objectCodePane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !objectCodePane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
     }
     else if (assemblerListingPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -1151,11 +1159,11 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (inputPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!inputPane->isUndoable);
-        ui->actionEdit_Redo->setDisabled(!inputPane->isRedoable);
-        ui->actionEdit_Cut->setDisabled(false);
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !inputPane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !inputPane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
     }
     else if (outputPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -1165,8 +1173,8 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (terminalPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!terminalPane->isUndoable);
-        ui->actionEdit_Redo->setDisabled(!terminalPane->isRedoable);
+        ui->actionEdit_Undo->setDisabled(!terminalPane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(!terminalPane->isRedoable());
         ui->actionEdit_Cut->setDisabled(true);
         ui->actionEdit_Copy->setDisabled(false);
         ui->actionEdit_Paste->setDisabled(false);

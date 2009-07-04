@@ -11,12 +11,6 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
 
     connect(m_ui->pepObjectCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 
-    isUndoable = false;
-    isRedoable = false;
-
-    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
-    connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
-
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 }
@@ -115,6 +109,16 @@ void ObjectCodePane::redo()
     m_ui->pepObjectCodeTextEdit->redo();
 }
 
+bool ObjectCodePane::isUndoable()
+{
+    return m_ui->pepObjectCodeTextEdit->document()->isUndoAvailable();
+}
+
+bool ObjectCodePane::isRedoable()
+{
+    return m_ui->pepObjectCodeTextEdit->document()->isRedoAvailable();
+}
+
 void ObjectCodePane::cut()
 {
     m_ui->pepObjectCodeTextEdit->cut();
@@ -130,6 +134,10 @@ void ObjectCodePane::paste()
     m_ui->pepObjectCodeTextEdit->paste();
 }
 
+void ObjectCodePane::setReadOnly(bool b)
+{
+    m_ui->pepObjectCodeTextEdit->setReadOnly(b);
+}
 
 void ObjectCodePane::setLabelToModified(bool modified)
 {
@@ -141,20 +149,5 @@ void ObjectCodePane::setLabelToModified(bool modified)
         temp.chop(1);
         m_ui->pepObjectCodeLabel->setText(temp);
     }
-}
-
-void ObjectCodePane::setUndoability(bool b)
-{
-    isUndoable = b;
-}
-
-void ObjectCodePane::setRedoability(bool b)
-{
-    isRedoable = b;
-}
-
-void ObjectCodePane::setReadOnly(bool b)
-{
-    m_ui->pepObjectCodeTextEdit->setReadOnly(b);
 }
 
