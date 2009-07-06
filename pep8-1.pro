@@ -107,7 +107,9 @@ OTHER_FILES += images/update.png \
     images/CodeCPU.xpm \
     images/CodeCPU.png \
     images/assembler.xpm \
-    images/assembler.png
+    images/assembler.png \
+    help/figures/fig0432.pepb \
+    help/figures/fig0432.pepb
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
 

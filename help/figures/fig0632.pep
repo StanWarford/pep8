@@ -1,6 +1,6 @@
 ;File: fig0632.pep
-;Computer Systems
-;Figure 6.32, Fourth edition
+;Computer Systems, Fourth edition
+;Figure 6.32
 ;
          BR      main        
 true:    .EQUATE 1           
