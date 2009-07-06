@@ -66,5 +66,28 @@
         <file>help/figures/fig0647.pep</file>
         <file>help/figures/pep8os.pep</file>
         <file>help/welcome.html</file>
+        <file>help/figures/fig0432.pepb</file>
+        <file>help/figures/fig0432.peph</file>
+        <file>help/figures/fig0432.pepo</file>
+        <file>help/figures/fig0434.pepb</file>
+        <file>help/figures/fig0434.peph</file>
+        <file>help/figures/fig0434.pepo</file>
+        <file>help/figures/fig0435.pepb</file>
+        <file>help/figures/fig0435.peph</file>
+        <file>help/figures/fig0435.pepo</file>
+        <file>help/figures/fig0436.pepb</file>
+        <file>help/figures/fig0436.peph</file>
+        <file>help/figures/fig0436.pepo</file>
+        <file>help/figures/fig0503.pep</file>
+        <file>help/figures/fig0506.pep</file>
+        <file>help/figures/fig0507.pep</file>
+        <file>help/figures/fig0510.pep</file>
+        <file>help/figures/fig0511.pep</file>
+        <file>help/figures/fig0512.pep</file>
+        <file>help/figures/fig0513.pep</file>
+        <file>help/figures/fig0514a.pep</file>
+        <file>help/figures/fig0514b.pep</file>
+        <file>help/figures/fig0515.pep</file>
+        <file>help/figures/fig0516.pep</file>
     </qresource>
 </RCC>
