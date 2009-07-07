@@ -10,7 +10,8 @@ HelpDialog::HelpDialog(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+    connect(m_ui->helpTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this,
+            SLOT(onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     // Forward the helpCopyToSourceButton_clicked() signal from this to the main window
     connect(m_ui->helpCopyToSourceButton, SIGNAL(clicked()), this, SIGNAL(clicked()));
 

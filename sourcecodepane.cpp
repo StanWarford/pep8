@@ -4,6 +4,7 @@
 #include <QPalette>
 #include <QSyntaxHighlighter>
 #include <QFont>
+#include <QFontDialog>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
@@ -306,12 +307,21 @@ void SourceCodePane::paste()
 
 QFont SourceCodePane::getFont()
 {
-    return m_ui->pepSourceCodeTextEdit->currentFont();
+    qDebug() << "Source code pane font (SCP): " << m_ui->pepSourceCodeTextEdit->font();
+    return m_ui->pepSourceCodeTextEdit->font();
 }
 
 void SourceCodePane::setFont(QFont font)
 {
-    m_ui->pepSourceCodeTextEdit->setCurrentFont(font);
+    qDebug() << "Source code pane setFont QFont font (SCP): " << font;
+    m_ui->pepSourceCodeTextEdit->setFont(font);
+    qDebug() << "Source code pane current font: " << m_ui->pepSourceCodeTextEdit->font();
+}
+
+void SourceCodePane::setFont()
+{
+    qDebug() << "Source code pane current font: " << m_ui->pepSourceCodeTextEdit->font();
+    m_ui->pepSourceCodeTextEdit->setFont(QFontDialog::getFont(0, m_ui->pepSourceCodeTextEdit->font()));
 }
 
 void SourceCodePane::setReadOnly(bool b)

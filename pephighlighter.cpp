@@ -45,7 +45,8 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
     rule.format = singleLineCommentFormat;
     highlightingRules.append(rule);
 
-    multiLineCommentFormat.setForeground(Qt::red);
+    multiLineCommentFormat.setForeground(Qt::white);
+    multiLineCommentFormat.setBackground(Qt::red);
 
     singleQuotationFormat.setForeground(Qt::red);
     rule.pattern = QRegExp("((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");

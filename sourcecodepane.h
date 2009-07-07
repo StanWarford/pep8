@@ -117,6 +117,9 @@ public:
     void setFont(QFont font);
     // Post: the font used by the text edit is set to font
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
     void setReadOnly(bool b);
     // Post: the text edit's read only attribute is set to b
 

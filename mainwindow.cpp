@@ -703,7 +703,8 @@ void MainWindow::on_actionEdit_Format_From_Listing_triggered()
 void MainWindow::on_actionEdit_Font_triggered()
 {
     if (sourceCodePane->hasFocus()) {
-        sourceCodePane->setFont(QFontDialog::getFont(0, sourceCodePane->getFont()));
+//        sourceCodePane->setFont(QFontDialog::getFont(0, sourceCodePane->getFont()));
+        sourceCodePane->setFont();
     }
 //    else if (objectCodePane->hasFocus()) {
 //        objectCodePane->setFont(QFontDialog::getFont(0, objectCodePane->getFont()));
