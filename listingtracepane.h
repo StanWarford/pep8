@@ -58,6 +58,7 @@ private slots:
 
 signals:
     void updateCpuAndMemoryTrace();
+    void executionComplete();
 };
 
 #endif // LISTINGTRACEPANE_H

@@ -68,6 +68,13 @@ void CpuPane::startDebuggingClicked() {
     }
 }
 
+void CpuPane::setExecutionState(bool b)
+{
+    m_ui->pepTraceLoadCheckBox->setDisabled(b);
+    m_ui->pepTraceProgramCheckBox->setDisabled(b);
+    m_ui->pepTraceTrapsCheckBox->setDisabled(b);
+}
+
 void CpuPane::highlightOnFocus()
 {
     if (m_ui->pepCpuLabel->hasFocus()) { // Never has focus, which is fine

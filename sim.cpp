@@ -222,131 +222,131 @@ bool Sim::vonNeumannStep()
 
     switch (Pep::decodeMnemonic[instructionSpecifier]) {
     case ADDA:
-        operand = Sim::readWordOprnd(addrMode);
-        Sim::accumulator = addAndSetNZVC(accumulator, operand);
+        operand = readWordOprnd(addrMode);
+        accumulator = addAndSetNZVC(accumulator, operand);
         return true;
     case ADDSP:
-        operand = Sim::readWordOprnd(addrMode);
-        Sim::stackPointer = addAndSetNZVC(stackPointer, operand);
+        operand = readWordOprnd(addrMode);
+        stackPointer = addAndSetNZVC(stackPointer, operand);
         return true;
     case ADDX:
-        operand = Sim::readWordOprnd(addrMode);
-        Sim::indexRegister = addAndSetNZVC(indexRegister, operand);
+        operand = readWordOprnd(addrMode);
+        indexRegister = addAndSetNZVC(indexRegister, operand);
         return true;
     case ANDA:
-        Sim::accumulator = Sim::accumulator & Sim::operandSpecifier;
-        Sim::nBit = Sim::accumulator > 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        accumulator = accumulator & operandSpecifier;
+        nBit = accumulator > 32768;
+        zBit = accumulator == 0;
         return true;
     case ANDX:
-        Sim::indexRegister = Sim::indexRegister & Sim::operandSpecifier;
-        Sim::nBit = Sim::accumulator > 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        indexRegister = indexRegister & operandSpecifier;
+        nBit = accumulator > 32768;
+        zBit = accumulator == 0;
         return true;
     case ASLA:
-        Sim::vBit = (Sim::accumulator >= 0x4000 && Sim::accumulator < 0x8000) || // prefix is 01 (bin)
-                    (Sim::accumulator >= 0x8000 && Sim::accumulator < 0xC000); // prefix is 10 (bin)
-        Sim::accumulator *= 2;
-        if (Sim::accumulator >= 65536) {
-            Sim::cBit = 1;
-            Sim::accumulator = Sim::accumulator % 65536;
+        vBit = (accumulator >= 0x4000 && accumulator < 0x8000) || // prefix is 01 (bin)
+                    (accumulator >= 0x8000 && accumulator < 0xC000); // prefix is 10 (bin)
+        accumulator *= 2;
+        if (accumulator >= 65536) {
+            cBit = 1;
+            accumulator = accumulator % 65536;
         }
         else {
-            Sim::cBit = 0;
+            cBit = 0;
         }
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case ASLX:
-        Sim::vBit = (Sim::indexRegister >= 0x4000 && Sim::indexRegister < 0x8000) || // prefix is 01 (bin)
-                    (Sim::indexRegister >= 0x8000 && Sim::indexRegister < 0xC000); // prefix is 10 (bin)
-        Sim::indexRegister *= 2;
-        if (Sim::indexRegister >= 65536) {
-            Sim::cBit = 1;
-            Sim::indexRegister = Sim::indexRegister % 65536;
+        vBit = (indexRegister >= 0x4000 && indexRegister < 0x8000) || // prefix is 01 (bin)
+                    (indexRegister >= 0x8000 && indexRegister < 0xC000); // prefix is 10 (bin)
+        indexRegister *= 2;
+        if (indexRegister >= 65536) {
+            cBit = 1;
+            indexRegister = indexRegister % 65536;
         }
         else {
-            Sim::cBit = 0;
+            cBit = 0;
         }
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case ASRA:
-        Sim::cBit = (Sim::accumulator % 2) == 1;
-        if (Sim::accumulator < 32768) {
-            Sim::accumulator /= 2;
+        cBit = (accumulator % 2) == 1;
+        if (accumulator < 32768) {
+            accumulator /= 2;
         }
         else {
-            Sim::accumulator = Sim::accumulator / 2 + 32768;
+            accumulator = accumulator / 2 + 32768;
         }
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case ASRX:
-        Sim::cBit = (Sim::indexRegister % 2) == 1;
-        if (Sim::indexRegister < 32768) {
-            Sim::indexRegister /= 2;
+        cBit = (indexRegister % 2) == 1;
+        if (indexRegister < 32768) {
+            indexRegister /= 2;
         }
         else {
-            Sim::indexRegister = Sim::indexRegister / 2 + 32768;
+            indexRegister = indexRegister / 2 + 32768;
         }
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case BR:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         programCounter = operand;
         return true;
     case BRC:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (cBit) {
             programCounter = operand;
         }
         return true;
     case BREQ:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (zBit) {
             programCounter = operand;
         }
         return true;
     case BRGE:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (!nBit) {
             programCounter = operand;
         }
         return true;
     case BRGT:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (!nBit && !zBit) {
             programCounter = operand;
         }
         return true;
     case BRLE:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (nBit || zBit) {
             programCounter = operand;
         }
         return true;
     case BRLT:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (nBit) {
             programCounter = operand;
         }
         return true;
     case BRNE:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (!zBit) {
             programCounter = operand;
         }
         return true;
     case BRV:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         if (vBit) {
             programCounter = operand;
         }
         return true;
     case CALL:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         stackPointer = add(stackPointer, 65534); // SP <- SP - 2
         writeWord(stackPointer, programCounter); // Mem[SP] <- PC
         programCounter = operand; // PC <- Oprnd
@@ -354,8 +354,7 @@ bool Sim::vonNeumannStep()
     case CHARI:
         return true;
     case CHARO:
-        operand = Sim::readByteOprnd(addrMode);
-        qDebug() << operand;
+        operand = readByteOprnd(addrMode);
         return true;
     case CPA:
         return true;
@@ -366,50 +365,50 @@ bool Sim::vonNeumannStep()
     case DECO:
         return true;
     case LDA:
-        operand = Sim::readWordOprnd(addrMode);
-        Sim::accumulator = operand % 65536;
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        operand = readWordOprnd(addrMode);
+        accumulator = operand % 65536;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case LDBYTEA:
-        operand = Sim::readByteOprnd(addrMode);
-        Sim::accumulator = Sim::accumulator & 0xFF00;
-        Sim::accumulator |= operand;
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        operand = readByteOprnd(addrMode);
+        accumulator = accumulator & 0xFF00;
+        accumulator |= operand;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case LDBYTEX:
-        operand = Sim::readByteOprnd(addrMode);
-        Sim::indexRegister = Sim::indexRegister & 0xFF00;
-        Sim::indexRegister |= operand;
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        operand = readByteOprnd(addrMode);
+        indexRegister = indexRegister & 0xFF00;
+        indexRegister |= operand;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case LDX:
-        operand = Sim::readWordOprnd(addrMode);
-        Sim::indexRegister = operand % 65536;
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        operand = readWordOprnd(addrMode);
+        indexRegister = operand % 65536;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case MOVFLGA:
-        Sim::accumulator = 0;
-        Sim::accumulator += Sim::cBit ? 1 : 0;
-        Sim::accumulator += Sim::vBit ? 2 : 0;
-        Sim::accumulator += Sim::zBit ? 4 : 0;
-        Sim::accumulator += Sim::nBit ? 8 : 0;
+        accumulator = 0;
+        accumulator += cBit ? 1 : 0;
+        accumulator += vBit ? 2 : 0;
+        accumulator += zBit ? 4 : 0;
+        accumulator += nBit ? 8 : 0;
         return true;
     case MOVSPA:
         stackPointer = accumulator;
         return true;
     case NEGA:
         accumulator = (~accumulator + 1) & 65535;
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case NEGX:
         indexRegister = (~indexRegister + 1) & 65535;
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case NOP:
     case NOP0:
@@ -420,61 +419,61 @@ bool Sim::vonNeumannStep()
         return true;
     case NOTA:
         accumulator = ~accumulator & 65535;
-        Sim::nBit = Sim::accumulator >= 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        nBit = accumulator >= 32768;
+        zBit = accumulator == 0;
         return true;
     case NOTX:
         indexRegister = ~indexRegister & 65535;
-        Sim::nBit = Sim::indexRegister >= 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        nBit = indexRegister >= 32768;
+        zBit = indexRegister == 0;
         return true;
     case ORA:
-        Sim::accumulator = Sim::accumulator | Sim::operandSpecifier;
-        Sim::nBit = Sim::accumulator > 32768;
-        Sim::zBit = Sim::accumulator == 0;
+        accumulator = accumulator | operandSpecifier;
+        nBit = accumulator > 32768;
+        zBit = accumulator == 0;
         return true;
     case ORX:
-        Sim::indexRegister = Sim::indexRegister | Sim::operandSpecifier;
-        Sim::nBit = Sim::indexRegister > 32768;
-        Sim::zBit = Sim::indexRegister == 0;
+        indexRegister = indexRegister | operandSpecifier;
+        nBit = indexRegister > 32768;
+        zBit = indexRegister == 0;
         return true;
     case RET0:
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET1:
         stackPointer = add(stackPointer, 1); // SP <- SP + 1
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET2:
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET3:
         stackPointer = add(stackPointer, 3); // SP <- SP + 3
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET4:
         stackPointer = add(stackPointer, 4); // SP <- SP + 4
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET5:
         stackPointer = add(stackPointer, 5); // SP <- SP + 5
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET6:
         stackPointer = add(stackPointer, 6); // SP <- SP + 6
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RET7:
         stackPointer = add(stackPointer, 7); // SP <- SP + 7
-        Sim::programCounter = readWord(stackPointer); // PC <- Mem[SP]
+        programCounter = readWord(stackPointer); // PC <- Mem[SP]
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RETTR:
@@ -488,15 +487,15 @@ bool Sim::vonNeumannStep()
     case RORX:
         return true;
     case STA:
-        Sim::writeWordOprnd(addrMode, accumulator);
+        writeWordOprnd(addrMode, accumulator);
         return true;
     case STBYTEA:
-        operand = Sim::readByteOprnd(addrMode);
+        operand = readByteOprnd(addrMode);
         accumulator = accumulator & 0xFF00;
         accumulator |= operand;
         return true;
     case STBYTEX:
-        operand = Sim::readByteOprnd(addrMode);
+        operand = readByteOprnd(addrMode);
         indexRegister = indexRegister & 0xFF00;
         indexRegister |= operand;
         return true;
@@ -505,19 +504,19 @@ bool Sim::vonNeumannStep()
     case STRO:
         return true;
     case STX:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         indexRegister = operand;
         return true;
     case SUBA:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         accumulator = addAndSetNZVC(accumulator, (~operand + 1) & 0xFFFF);
         return true;
     case SUBSP:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         stackPointer = addAndSetNZVC(stackPointer, (~operand + 1) & 0xFFFF);
         return true;
     case SUBX:
-        operand = Sim::readWordOprnd(addrMode);
+        operand = readWordOprnd(addrMode);
         indexRegister = addAndSetNZVC(indexRegister, (~operand + 1) & 0xFFFF);
         return true;
     default:

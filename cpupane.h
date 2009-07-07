@@ -22,7 +22,9 @@ public:
 
     void startDebuggingClicked();
     // Post: If no checkboxes are clicked, click the trace program checkbox
-    // Else: Do nothing.
+
+    void setExecutionState(bool b);
+    // Post: if b is true, checkboxes are set to disabled, and vice versa
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file

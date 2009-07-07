@@ -1287,6 +1287,9 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>Trace Program</string>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">

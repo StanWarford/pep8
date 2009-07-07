@@ -103,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent)
     // For updating the CPU and Memory trace from listing trace pane
     connect(listingTracePane, SIGNAL(updateCpuAndMemoryTrace()), this, SLOT(updateCpuAndMemoryTrace()));
 
+    connect(listingTracePane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
+
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -791,6 +793,7 @@ void MainWindow::on_actionBuild_Run_triggered()
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
 {
     cpuPane->startDebuggingClicked();
+    cpuPane->setExecutionState(true);
     ui->actionBuild_Assemble->setDisabled(true);
     ui->actionBuild_Execute->setDisabled(true);
     ui->actionBuild_Load->setDisabled(true);
@@ -803,6 +806,8 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     objectCodePane->setReadOnly(true);
     listingTracePane->setButtonsDisabled(false);
     ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
+
+    qDebug() << Pep::memAddrssToAssemblerListing;
 
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
@@ -825,6 +830,7 @@ void MainWindow::on_actionBuild_Stop_Execution_triggered()
     sourceCodePane->setReadOnly(false);
     objectCodePane->setReadOnly(false);
     listingTracePane->setButtonsDisabled(true);
+    cpuPane->setExecutionState(false);
 
     mainWindowUtilities(this, this);
 }

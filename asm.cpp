@@ -345,7 +345,6 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     dotWord->symbolDef = "";
                     code = dotWord;
                     code->memAddress = Pep::byteCount;
-                    Pep::Pep::Pep::byteCount += 2;
                     state = Asm::PS_DOT_WORD;
                 }
                 else {

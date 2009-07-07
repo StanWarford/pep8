@@ -117,22 +117,37 @@ void ListingTracePane::beginExecution()
         m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
         m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
     }
-    int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-    m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-    m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+    if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
+        int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+        m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+        m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+    }
 }
 
 void ListingTracePane::singleStep()
 {
     Sim::vonNeumannStep();
     emit updateCpuAndMemoryTrace();
-    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+    if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
+        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+        }
+        if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
+            int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+            m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+            m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+        }
     }
-    int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-    m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-    m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+    else {
+        m_ui->listingResumePushButton->setDisabled(true);
+        m_ui->listingSingleStepPushButton->setDisabled(true);
+        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+        }
+        emit executionComplete();
+    }
 }
 
 void ListingTracePane::resumeExecution()
