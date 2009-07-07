@@ -113,14 +113,26 @@ void ListingTracePane::setButtonsDisabled(bool b)
 
 void ListingTracePane::beginExecution()
 {
-    m_ui->listingTraceTableWidget->selectRow(Pep::memAddrssToAssemblerListing.value(Sim::programCounter));
+    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+    }
+    int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+    m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+    m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
 }
 
 void ListingTracePane::singleStep()
 {
     Sim::vonNeumannStep();
     emit updateCpuAndMemoryTrace();
-    m_ui->listingTraceTableWidget->selectRow(Pep::memAddrssToAssemblerListing.value(Sim::programCounter));
+    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+    }
+    int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+    m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+    m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
 }
 
 void ListingTracePane::resumeExecution()
