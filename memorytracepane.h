@@ -35,6 +35,9 @@ public:
     void paste();
     // Does nothing in our implementation of the memory trace
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
 private:
     Ui::MemoryTracePane *m_ui;
 

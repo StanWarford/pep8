@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "terminalpane.h"
 #include "ui_terminalpane.h"
 
@@ -67,4 +68,12 @@ void TerminalPane::paste()
     m_ui->pepTerminalTextEdit->paste();
 }
 
+void TerminalPane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepTerminalTextEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepTerminalTextEdit->setFont(font);
+    }
+}
 

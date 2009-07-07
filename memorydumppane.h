@@ -39,6 +39,9 @@ public:
     void paste();
     // Read only text, not allowed
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
 private:
     Ui::MemoryDumpPane *m_ui;
 

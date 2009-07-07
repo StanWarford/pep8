@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "memorydumppane.h"
 #include "ui_memorydumppane.h"
 #include "sim.h"
@@ -88,6 +89,15 @@ void MemoryDumpPane::copy()
 void MemoryDumpPane::paste()
 {
     // does nothing with our current implementation
+}
+
+void MemoryDumpPane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepMemoryDumpTextEdit->font()), this, "Set Memory Dump Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepMemoryDumpTextEdit->setFont(font);
+    }
 }
 
 void MemoryDumpPane::on_pepMemRefreshButton_clicked()

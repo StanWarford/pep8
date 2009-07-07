@@ -111,12 +111,6 @@ public:
     void paste();
     // Post: selected text in the clipboard is pasted to the text edit
 
-    QFont getFont();
-    // Post: the font used by the text edit is returned
-
-    void setFont(QFont font);
-    // Post: the font used by the text edit is set to font
-
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 

@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "memorytracepane.h"
 #include "ui_memorytracepane.h"
 #include "sim.h"
@@ -53,4 +54,13 @@ void MemoryTracePane::copy()
 void MemoryTracePane::paste()
 {
     // does nothing with our current implementation
+}
+
+void MemoryTracePane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepStackTraceGraphicsView->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepStackTraceGraphicsView->setFont(font);
+    }
 }

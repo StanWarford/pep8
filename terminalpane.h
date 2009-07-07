@@ -41,6 +41,9 @@ public:
     void paste();
     // Post: selected text in the clipboard is pasted to the end of the text edit
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
 private:
     Ui::TerminalPane *m_ui;
 

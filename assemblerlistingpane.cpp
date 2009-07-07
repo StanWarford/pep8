@@ -1,4 +1,5 @@
 #include <QScrollBar>
+#include <QFontDialog>
 #include "assemblerlistingpane.h"
 #include "ui_assemblerlistingpane.h"
 #include "Pep.h"
@@ -8,6 +9,8 @@ AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
         m_ui(new Ui::AssemblerListingPane)
 {
     m_ui->setupUi(this);
+
+    pepHighlighter = new PepHighlighter(m_ui->assemblerListingTextEdit->document());
 }
 
 AssemblerListingPane::~AssemblerListingPane()
@@ -108,3 +111,11 @@ void AssemblerListingPane::paste()
     // does nothing with our current implementation
 }
 
+void AssemblerListingPane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->assemblerListingTextEdit->font()), this, "Set Assembler Listing Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->assemblerListingTextEdit->setFont(font);
+    }
+}

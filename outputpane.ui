@@ -107,6 +107,12 @@
      </item>
      <item>
       <widget class="QTextEdit" name="pepOutputTextEdit">
+       <property name="font">
+        <font>
+         <family>Courier</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>

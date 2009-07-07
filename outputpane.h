@@ -35,6 +35,9 @@ public:
     void paste();
     // Not allowed in this pane (read only)
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
 private:
     Ui::OutputPane *m_ui;
 };

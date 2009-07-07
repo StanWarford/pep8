@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "objectcodepane.h"
 #include "ui_objectcodepane.h"
 #include "pep.h"
@@ -132,6 +133,15 @@ void ObjectCodePane::copy()
 void ObjectCodePane::paste()
 {
     m_ui->pepObjectCodeTextEdit->paste();
+}
+
+void ObjectCodePane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepObjectCodeTextEdit->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepObjectCodeTextEdit->setFont(font);
+    }
 }
 
 void ObjectCodePane::setReadOnly(bool b)

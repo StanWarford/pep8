@@ -703,36 +703,34 @@ void MainWindow::on_actionEdit_Format_From_Listing_triggered()
 void MainWindow::on_actionEdit_Font_triggered()
 {
     if (sourceCodePane->hasFocus()) {
-//        sourceCodePane->setFont(QFontDialog::getFont(0, sourceCodePane->getFont()));
         sourceCodePane->setFont();
     }
-//    else if (objectCodePane->hasFocus()) {
-//        objectCodePane->setFont(QFontDialog::getFont(0, objectCodePane->getFont()));
-//    }
-//    else if (assemblerListingPane->hasFocus()) {
-//        assemblerListingPane->setFont(QFontDialog::getFont(0, assemblerListingPane->getFont()));
-//    }
-//    else if (listingTracePane->hasFocus()) {
-//        listingTracePane->setFont(QFontDialog::getFont(0, listingTracePane->getFont()));
-//    }
-//    else if (memoryTracePane->hasFocus()) {
-//        memoryTracePane->setFont(QFontDialog::getFont(0, memoryTracePane->getFont()));
-//    }
-//    else if (cpuPane->hasFocus()) {
-//        cpuPane->setFont(QFontDialog::getFont(0, cpuPane->getFont()));
-//    }
-//    else if (inputPane->hasFocus()) {
-//        inputPane->setFont(QFontDialog::getFont(0, inputPane->getFont()));
-//    }
-//    else if (outputPane->hasFocus()) {
-//        outputPane->setFont(QFontDialog::getFont(0, outputPane->getFont()));
-//    }
-//    else if (terminalPane->hasFocus()) {
-//        terminalPane->setFont(QFontDialog::getFont(0, terminalPane->getFont()));
-//    }
-//    else if (memoryDumpPane->hasFocus()) {
-//        memoryDumpPane->setFont(QFontDialog::getFont(0, memoryDumpPane->getFont()));
-//    }
+    else if (objectCodePane->hasFocus()) {
+        objectCodePane->setFont();
+    }
+    else if (assemblerListingPane->hasFocus()) {
+        assemblerListingPane->setFont();
+    }
+    else if (listingTracePane->hasFocus()) {
+        listingTracePane->setFont();
+    }
+    else if (memoryTracePane->hasFocus()) {
+        memoryTracePane->setFont();
+    }
+    else if (inputPane->hasFocus()) {
+        inputPane->setFont();
+    }
+    else if (outputPane->hasFocus()) {
+        outputPane->setFont();
+    }
+    else if (terminalPane->hasFocus()) {
+        terminalPane->setFont();
+    }
+    else if (memoryDumpPane->hasFocus()) {
+        memoryDumpPane->setFont();
+    }
+    else if (cpuPane->hasFocus()) {
+    }
 }
 
 // Build MainWindow triggers

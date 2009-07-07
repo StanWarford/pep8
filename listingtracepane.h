@@ -40,6 +40,9 @@ public:
     void paste();
     // Does nothing in our implementation of the listing trace
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
     void setButtonsDisabled(bool b);
     // Post: resume and single step buttons clickability is set to b
 

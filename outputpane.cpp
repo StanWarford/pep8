@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "outputpane.h"
 #include "ui_outputpane.h"
 
@@ -53,3 +54,11 @@ void OutputPane::paste()
     // not allowed, read only
 }
 
+void OutputPane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepOutputTextEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepOutputTextEdit->setFont(font);
+    }
+}

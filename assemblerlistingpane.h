@@ -2,6 +2,7 @@
 #define ASSEMBLERLISTINGPANE_H
 
 #include <QtGui/QWidget>
+#include "pephighlighter.h"
 
 namespace Ui {
     class AssemblerListingPane;
@@ -43,8 +44,13 @@ public:
     void paste();
     // Does nothing in our implementation of the assembler listing
 
+    void setFont();
+    // Post: the font used by the text edit is set to a font chosen in a font dialog
+
 private:
     Ui::AssemblerListingPane *m_ui;
+
+    PepHighlighter *pepHighlighter;
 };
 
 #endif // ASSEMBLERLISTINGPANE_H

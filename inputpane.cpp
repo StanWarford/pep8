@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "inputpane.h"
 #include "ui_inputpane.h"
 
@@ -7,8 +8,8 @@ InputPane::InputPane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    connect(m_ui->_textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(m_ui->_textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
 }
 
@@ -19,55 +20,64 @@ InputPane::~InputPane()
 
 void InputPane::highlightOnFocus()
 {
-    if (m_ui->_textEdit->hasFocus()) {
-        m_ui->_label->setAutoFillBackground(true);
+    if (m_ui->pepInputTextEdit->hasFocus()) {
+        m_ui->pepInputLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->_label->setAutoFillBackground(false);
+        m_ui->pepInputLabel->setAutoFillBackground(false);
     }
 }
 
 bool InputPane::hasFocus()
 {
-    return m_ui->_textEdit->hasFocus();
+    return m_ui->pepInputTextEdit->hasFocus();
 }
 
 void InputPane::undo()
 {
-    m_ui->_textEdit->undo();
+    m_ui->pepInputTextEdit->undo();
 }
 
 void InputPane::redo()
 {
-    m_ui->_textEdit->redo();
+    m_ui->pepInputTextEdit->redo();
 }
 
 bool InputPane::isUndoable()
 {
-    return m_ui->_textEdit->document()->isUndoAvailable();
+    return m_ui->pepInputTextEdit->document()->isUndoAvailable();
 }
 
 bool InputPane::isRedoable()
 {
-    return m_ui->_textEdit->document()->isRedoAvailable();
+    return m_ui->pepInputTextEdit->document()->isRedoAvailable();
 }
 
 void InputPane::cut()
 {
-    m_ui->_textEdit->cut();
+    m_ui->pepInputTextEdit->cut();
 }
 
 void InputPane::copy()
 {
-    m_ui->_textEdit->copy();
+    m_ui->pepInputTextEdit->copy();
 }
 
 void InputPane::paste()
 {
-    m_ui->_textEdit->paste();
+    m_ui->pepInputTextEdit->paste();
+}
+
+void InputPane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepInputTextEdit->font()), this, "Set Input Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->pepInputTextEdit->setFont(font);
+    }
 }
 
 void InputPane::setReadOnly(bool b)
 {
-    m_ui->_textEdit->setReadOnly(b);
+    m_ui->pepInputTextEdit->setReadOnly(b);
 }

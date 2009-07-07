@@ -1,3 +1,4 @@
+#include <QFontDialog>
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
 #include "sim.h"
@@ -93,6 +94,15 @@ void ListingTracePane::copy()
 void ListingTracePane::paste()
 {
     // does nothing with our current implementation
+}
+
+void ListingTracePane::setFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
+    if (ok) {
+        m_ui->listingTraceTableWidget->setFont(font);
+    }
 }
 
 void ListingTracePane::setButtonsDisabled(bool b)

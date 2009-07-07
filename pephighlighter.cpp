@@ -36,7 +36,7 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
 
     symbolFormat.setFontWeight(QFont::Bold);
     symbolFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegExp("^[A-Za-z0-9_]+(?=:)");
+    rule.pattern = QRegExp("[A-Za-z0-9_]+(?=:)");
     rule.format = symbolFormat;
     highlightingRules.append(rule);
 
