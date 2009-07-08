@@ -130,7 +130,7 @@ void SourceCodePane::installOS()
     }
 }
 
-bool SourceCodePane::installOSOnStartup()
+bool SourceCodePane::installDefaultOs()
 {
     QString sourceLine;
     QString errorString;

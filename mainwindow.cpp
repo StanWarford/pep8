@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     readSettings();
 
     // Install OS into memory
-    if (sourceCodePane->installOSOnStartup())
+    if (sourceCodePane->installDefaultOs())
         ui->statusbar->showMessage("OS installed", 4000);
     else
         ui->statusbar->showMessage("OS assembly failed", 4000);
@@ -100,12 +100,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(terminalPane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(terminalPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
-    // For updating the CPU and Memory trace from listing trace pane
+    // Simulator signals
     connect(listingTracePane, SIGNAL(updateCpuAndMemoryTrace()), this, SLOT(updateCpuAndMemoryTrace()));
 
     connect(listingTracePane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
 
     connect(listingTracePane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
+
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -788,13 +789,12 @@ void MainWindow::on_actionBuild_Execute_triggered()
 
 void MainWindow::on_actionBuild_Run_triggered()
 {
-    Sim::stackPointer = Sim::readWord(0xFFF8);
+    on_actionBuild_Assemble_triggered(); // Assemble
+    on_actionBuild_Load_triggered(); // Load
+    Sim::stackPointer = Sim::readWord(0xFFF8); // Execute...
     Sim::programCounter = 0x0000;
-
-    on_actionBuild_Load_triggered();
     cpuPane->runClicked();
     cpuPane->clearCpu();
-
     if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
         Sim::inputBuffer = inputPane->toPlainText();
         listingTracePane->runWithBatch();
@@ -803,7 +803,6 @@ void MainWindow::on_actionBuild_Run_triggered()
         ui->pepInputOutputTab->setTabEnabled(0, false);
         listingTracePane->runWithTerminal();
     }
-
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
@@ -968,7 +967,10 @@ void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
 
 void MainWindow::on_actionSystem_Reinstall_Default_OS_triggered()
 {
-
+    if (sourceCodePane->installDefaultOs())
+        ui->statusbar->showMessage("OS installed", 4000);
+    else
+        ui->statusbar->showMessage("OS assembly failed", 4000);
 }
 
 void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()

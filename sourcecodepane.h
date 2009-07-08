@@ -53,8 +53,7 @@ public:
     // Pre: objectCode is populated with code from a complete correct Pep/8 OS source program.
     // Post: objectCode is loaded into OS rom of Pep::Mem.
 
-    bool installOSOnStartup();
-    // Pre: nothing is yet in memory
+    bool installDefaultOs();
     // Post: the pep/8 operating system is installed into memory, and true is returned
     // If assembly fails, false is returned
     // This function should only be called on program startup once
