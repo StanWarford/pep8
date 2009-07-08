@@ -1066,13 +1066,24 @@ void MainWindow::helpCopyToSourceButtonClicked()
     if (ui->actionBuild_Stop_Execution->isEnabled()) {
         ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
     }
-    else if (maybeSaveSource()) {
+    QString loc;
+    QString code = helpDialog->getCode(loc);
+    if (loc == "Source") {
+        if (maybeSaveSource()) {
+            setCurrentFile("untitled.pep", "Source");
+            sourceCodePane->setSourceCodePaneText(code);
+            assemblerListingPane->clearAssemblerListing();
+            objectCodePane->clearObjectCode();
+            listingTracePane->clearListingTrace();
+            statusBar()->showMessage("Copied to source", 4000);
+        }
+    } else if (maybeSaveObject()) {
         setCurrentFile("untitled.pep", "Source");
-        sourceCodePane->setSourceCodePaneText(helpDialog->getLeftTextEditText());
+        objectCodePane->setObjectCodePaneText(code);
+        sourceCodePane->clearSourceCode();
         assemblerListingPane->clearAssemblerListing();
-        objectCodePane->clearObjectCode();
         listingTracePane->clearListingTrace();
-        statusBar()->showMessage("Copied to source", 4000);
+        statusBar()->showMessage("Copied to object", 4000);
     }
 }
 

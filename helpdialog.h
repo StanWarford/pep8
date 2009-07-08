@@ -27,7 +27,7 @@ public:
     void addressingModesClicked();
     void examplesClicked();
     void operatingSystemClicked();
-    QString getLeftTextEditText();
+    QString getCode(QString &loc);
 
     bool hasFocus();
     // Post: returns true if either of the text edits have focus

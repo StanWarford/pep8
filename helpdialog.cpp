@@ -115,29 +115,34 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         else {
             m_ui->helpSplitter->widget(0)->hide();
             m_ui->helpSplitter->widget(1)->show();
+            m_ui->helpCopyToSourceButton->setText("Copy to Source");
             if (row == eFIG432) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0432.peph"));
                 m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0432.pepb"));
                 m_ui->helpFigureLabel->setText("<b>Figure 4.32</b><code>  </code> A machine language program to output the characters <code>Hi</code>.");
                 m_ui->helpRightTextEdit->show();
+                m_ui->helpCopyToSourceButton->setText("Copy to Object");
             }
             else if (row == eFIG434) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0434.peph"));
                 m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0434.pepb"));
                 m_ui->helpFigureLabel->setText("<b>Figure 4.34</b><code>  </code> A machine language program to input two characters and output them in reverse order.");
                 m_ui->helpRightTextEdit->show();
+                m_ui->helpCopyToSourceButton->setText("Copy to Object");
             }
             else if (row == eFIG435) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0435.peph"));
                 m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0435.pepb"));
                 m_ui->helpFigureLabel->setText("<b>Figure 4.35</b><code>  </code> A machine language program to add 5 and 3 and output the single-character result.");
                 m_ui->helpRightTextEdit->show();
+                m_ui->helpCopyToSourceButton->setText("Copy to Object");
             }
             else if (row == eFIG436) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0436.peph"));
                 m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0436.pepb"));
                 m_ui->helpFigureLabel->setText("<b>Figure 4.36</b><code>  </code> A machine language program that modifies itself. The add accumulator instruction changes to a subtract instruction.");
                 m_ui->helpRightTextEdit->show();
+                m_ui->helpCopyToSourceButton->setText("Copy to Object");
             }
             else if (row == eFIG503) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0503.pep"));
@@ -351,6 +356,7 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         }
     }
     else if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
+        m_ui->helpCopyToSourceButton->setText("Copy to Source");
         m_ui->helpSplitter->widget(0)->hide();
         m_ui->helpSplitter->widget(1)->show();
         m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/pep8os.pep"));
@@ -406,8 +412,33 @@ void HelpDialog::operatingSystemClicked() {
 }
 
 // Helper Functions
-QString HelpDialog::getLeftTextEditText() {
-    return m_ui->helpLeftTextEdit->toPlainText();
+QString HelpDialog::getCode(QString &loc) {
+    bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
+    int row = m_ui->helpTreeWidget->currentIndex().row();
+    if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
+        loc = "Source";
+        return m_ui->helpLeftTextEdit->toPlainText();
+    }
+    if (row == eFIG432) {
+        loc = "Object";
+        return Pep::resToString(":/help/figures/fig0432.pepo");
+    }
+    else if (row == eFIG434) {
+        loc = "Object";
+        return Pep::resToString(":/help/figures/fig0434.pepo");
+    }
+    else if (row == eFIG435) {
+        loc = "Object";
+        return Pep::resToString(":/help/figures/fig0435.pepo");
+    }
+    else if (row == eFIG436) {
+        loc = "Object";
+        return Pep::resToString(":/help/figures/fig0436.pepo");
+    }
+    else if (row >= eFIG503) {
+        loc = "Source";
+        return m_ui->helpLeftTextEdit->toPlainText();
+    }
 }
 
 bool HelpDialog::hasFocus()
