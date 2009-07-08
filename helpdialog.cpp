@@ -435,10 +435,8 @@ QString HelpDialog::getCode(QString &loc) {
         loc = "Object";
         return Pep::resToString(":/help/figures/fig0436.pepo");
     }
-    else if (row >= eFIG503) {
-        loc = "Source";
-        return m_ui->helpLeftTextEdit->toPlainText();
-    }
+    loc = "Source";
+    return m_ui->helpLeftTextEdit->toPlainText();
 }
 
 bool HelpDialog::hasFocus()
