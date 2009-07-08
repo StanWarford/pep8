@@ -105,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(listingTracePane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
 
+    connect(listingTracePane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -781,19 +782,22 @@ void MainWindow::on_actionBuild_Execute_triggered()
 {
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
-
+    Sim::inputBuffer = inputPane->toPlainText();
     // Other things go here.
 }
 
 void MainWindow::on_actionBuild_Run_triggered()
 {
     cpuPane->runClicked();
+    Sim::inputBuffer = inputPane->toPlainText();
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
 {
-    cpuPane->startDebuggingClicked();
-    cpuPane->setExecutionState(true);
+    Sim::stackPointer = Sim::readWord(0xFFF8);
+    Sim::programCounter = 0x0000;
+    Sim::inputBuffer = inputPane->toPlainText();
+
     ui->actionBuild_Assemble->setDisabled(true);
     ui->actionBuild_Execute->setDisabled(true);
     ui->actionBuild_Load->setDisabled(true);
@@ -804,17 +808,18 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     inputPane->setReadOnly(true);
     sourceCodePane->setReadOnly(true);
     objectCodePane->setReadOnly(true);
-    listingTracePane->setButtonsDisabled(false);
     ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
-
-    qDebug() << Pep::memAddrssToAssemblerListing;
-
-    Sim::stackPointer = Sim::readWord(0xFFF8);
-    Sim::programCounter = 0x0000;
+    if (ui->pepInputOutputTab->currentIndex() == 0) {
+        ui->pepInputOutputTab->setTabEnabled(1, false);
+    }
+    else {
+        ui->pepInputOutputTab->setTabEnabled(0, false);
+    }
 
     on_actionBuild_Load_triggered();
+    cpuPane->setExecutionState(true);
     cpuPane->updateCpu();
-    listingTracePane->beginExecution();
+    listingTracePane->setDebuggingState(true);
 }
 
 void MainWindow::on_actionBuild_Stop_Execution_triggered()
@@ -829,8 +834,11 @@ void MainWindow::on_actionBuild_Stop_Execution_triggered()
     inputPane->setReadOnly(false);
     sourceCodePane->setReadOnly(false);
     objectCodePane->setReadOnly(false);
-    listingTracePane->setButtonsDisabled(true);
+    listingTracePane->setDebuggingState(false);
     cpuPane->setExecutionState(false);
+    ui->pepInputOutputTab->setTabEnabled(0, true);
+    ui->pepInputOutputTab->setTabEnabled(1, true);
+
 
     mainWindowUtilities(this, this);
 }
@@ -1238,6 +1246,16 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateCpuAndMemoryTrace()
 {
     cpuPane->updateCpu();
+}
+
+void MainWindow::appendOutput(QString str)
+{
+    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch output
+        outputPane->appendOutput(str);
+    }
+    else { // terminal output
+        terminalPane->appendOutput(str);
+    }
 }
 
 // Recent files

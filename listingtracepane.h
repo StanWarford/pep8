@@ -43,8 +43,9 @@ public:
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
-    void setButtonsDisabled(bool b);
+    void setDebuggingState(bool b);
     // Post: resume and single step buttons clickability is set to b
+    // Also clears the selection
 
     void beginExecution();
     // Sets up the trace pane for execution (selects first instruction)
@@ -59,6 +60,7 @@ private slots:
 signals:
     void updateCpuAndMemoryTrace();
     void executionComplete();
+    void appendOutput(QString);
 };
 
 #endif // LISTINGTRACEPANE_H

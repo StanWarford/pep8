@@ -17,6 +17,9 @@ public:
     static int instructionSpecifier;
     static int operandSpecifier;
 
+    static QString inputBuffer;
+    static QString outputBuffer;
+
     static Enu::EExecState executionState;
     // State for keeping track of what actions are possible for user and machine
 

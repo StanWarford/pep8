@@ -1,5 +1,6 @@
 #include "sim.h"
 #include "pep.h"
+#include <QMessageBox>
 #include <QDebug>
 
 using namespace Enu;
@@ -13,6 +14,9 @@ int Sim::stackPointer;
 int Sim::programCounter;
 int Sim::instructionSpecifier;
 int Sim::operandSpecifier;
+
+QString Sim::inputBuffer;
+QString Sim::outputBuffer;
 
 Enu::EExecState Sim::executionState;
 
@@ -352,9 +356,20 @@ bool Sim::vonNeumannStep()
         programCounter = operand; // PC <- Oprnd
         return true;
     case CHARI:
+        if (Sim::inputBuffer.size() != 0) {
+            QString ch = Sim::inputBuffer.left(1);
+            Sim::inputBuffer.remove(0, 1);
+            Sim::writeByteOprnd(addrMode, QChar(ch[0]).toAscii());
+            qDebug() << QChar(ch[0]).toAscii();
+        }
+        else {
+            QMessageBox::warning(0, "Pep/8", "Error: CHARI executed past end of input.");
+            return false;
+        }
         return true;
     case CHARO:
         operand = readByteOprnd(addrMode);
+        Sim::outputBuffer = QString(operand);
         return true;
     case CPA:
         return true;

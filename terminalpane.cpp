@@ -17,6 +17,11 @@ TerminalPane::~TerminalPane()
     delete m_ui;
 }
 
+void TerminalPane::appendOutput(QString str)
+{
+    m_ui->pepTerminalTextEdit->setText(m_ui->pepTerminalTextEdit->toPlainText().append(str));
+}
+
 void TerminalPane::highlightOnFocus()
 {
     if (m_ui->pepTerminalTextEdit->hasFocus()) {

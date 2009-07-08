@@ -195,6 +195,81 @@
        </property>
        <item>
         <property name="text">
+         <string>Figure 4.32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 4.34</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 4.35</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 4.36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.6</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.7</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.11</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.12</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.14a</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.14b</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.15</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Figure 5.16</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Figure 5.18</string>
         </property>
        </item>

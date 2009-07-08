@@ -28,6 +28,11 @@ void InputPane::highlightOnFocus()
     }
 }
 
+QString InputPane::toPlainText()
+{
+    return m_ui->pepInputTextEdit->toPlainText();
+}
+
 bool InputPane::hasFocus()
 {
     return m_ui->pepInputTextEdit->hasFocus();

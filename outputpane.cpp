@@ -14,6 +14,11 @@ OutputPane::~OutputPane()
     delete m_ui;
 }
 
+void OutputPane::appendOutput(QString str)
+{
+    m_ui->pepOutputTextEdit->setText(m_ui->pepOutputTextEdit->toPlainText().append(str));
+}
+
 void OutputPane::highlightOnFocus()
 {
     if (m_ui->pepOutputTextEdit->hasFocus()) {

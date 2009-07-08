@@ -105,30 +105,11 @@ void ListingTracePane::setFont()
     }
 }
 
-void ListingTracePane::setButtonsDisabled(bool b)
+void ListingTracePane::setDebuggingState(bool b)
 {
-    m_ui->listingResumePushButton->setDisabled(b);
-    m_ui->listingSingleStepPushButton->setDisabled(b);
-}
-
-void ListingTracePane::beginExecution()
-{
-    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
-    }
-    if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-        int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-        m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-        m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
-    }
-}
-
-void ListingTracePane::singleStep()
-{
-    Sim::vonNeumannStep();
-    emit updateCpuAndMemoryTrace();
-    if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
+    m_ui->listingResumePushButton->setDisabled(!b);
+    m_ui->listingSingleStepPushButton->setDisabled(!b);
+    if (b) {
         for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
             m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
             m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
@@ -140,12 +121,37 @@ void ListingTracePane::singleStep()
         }
     }
     else {
-        m_ui->listingResumePushButton->setDisabled(true);
-        m_ui->listingSingleStepPushButton->setDisabled(true);
         for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
             m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
             m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
         }
+    }
+}
+
+void ListingTracePane::singleStep()
+{
+    if (Sim::vonNeumannStep()) {
+        emit updateCpuAndMemoryTrace();
+        if (Sim::outputBuffer.length() == 1) {
+            emit appendOutput(Sim::outputBuffer);
+            Sim::outputBuffer = "";
+        }
+        if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
+            for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+                m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+                m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+            }
+            if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
+                int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+                m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+                m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+            }
+        }
+        else {
+            emit executionComplete();
+        }
+    }
+    else {
         emit executionComplete();
     }
 }
@@ -156,3 +162,4 @@ void ListingTracePane::resumeExecution()
         Sim::vonNeumannStep();
     }
 }
+
