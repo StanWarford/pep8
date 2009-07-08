@@ -142,25 +142,25 @@ void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
         // illegal
         break;
     case Enu::D:
-        writeByte(readWord(operandSpecifier), value);
+        writeByte(operandSpecifier, value);
         break;
     case Enu::N:
-        writeByte(readWord(readWord(operandSpecifier)), value);
+        writeByte(readWord(operandSpecifier), value);
         break;
     case Enu::S:
-        writeByte(readWord(add(stackPointer, operandSpecifier)), value);
+        writeByte(add(stackPointer, operandSpecifier), value);
         break;
     case Enu::SF:
-        writeByte(readWord(readWord(add(stackPointer, operandSpecifier))), value);
+        writeByte(readWord(add(stackPointer, operandSpecifier)), value);
         break;
     case Enu::X:
-        writeByte(readWord(add(operandSpecifier, indexRegister)), value);
+        writeByte(add(operandSpecifier, indexRegister), value);
         break;
     case Enu::SX:
-        writeByte(readWord(add(add(stackPointer, operandSpecifier), indexRegister)), value);
+        writeByte(add(add(stackPointer, operandSpecifier), indexRegister), value);
         break;
     case Enu::SXF:
-        writeByte(readWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister)), value);
+        writeByte(add(readWord(add(stackPointer, operandSpecifier)), indexRegister), value);
         break;
     case Enu::ALL:
         break;
@@ -201,7 +201,7 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
     }
 }
 
-bool Sim::vonNeumannStep()
+bool Sim::vonNeumannStep(QString &errorString)
 {
     EMnemonic mnemonic;
     int operand;
@@ -219,8 +219,9 @@ bool Sim::vonNeumannStep()
         programCounter = add(programCounter, 2);
     }
     // Execute
-    // qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
-    if (!(Pep::addrModesMap.value(mnemonic) & addrMode)) {
+    //qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
+    if (!Pep::isUnaryMap[mnemonic] && !(Pep::addrModesMap.value(mnemonic) & addrMode)) {
+        errorString = "Invalid Addressing Mode.";
         return false;
     }
 
@@ -360,10 +361,9 @@ bool Sim::vonNeumannStep()
             QString ch = Sim::inputBuffer.left(1);
             Sim::inputBuffer.remove(0, 1);
             Sim::writeByteOprnd(addrMode, QChar(ch[0]).toAscii());
-            qDebug() << QChar(ch[0]).toAscii();
         }
         else {
-            QMessageBox::warning(0, "Pep/8", "Error: CHARI executed past end of input.");
+            errorString = "Error: CHARI executed past end of input.";
             return false;
         }
         return true;

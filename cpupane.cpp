@@ -54,6 +54,34 @@ void CpuPane::updateCpu() {
     }
 }
 
+void CpuPane::clearCpu()
+{
+    m_ui->cpuNLabel->setText("");
+    m_ui->cpuZLabel->setText("");
+    m_ui->cpuVLabel->setText("");
+    m_ui->cpuCLabel->setText("");
+
+    m_ui->cpuAHexLabel->setText("");
+    m_ui->cpuADecLabel->setText("");
+
+    m_ui->cpuXHexLabel->setText("");
+    m_ui->cpuXDecLabel->setText("");
+
+    m_ui->cpuSPHexLabel->setText("");
+    m_ui->cpuSPDecLabel->setText("");
+
+    m_ui->cpuPCHexLabel->setText("");
+    m_ui->cpuPCDecLabel->setText("");
+
+    m_ui->cpuInstrSpecBinLabel->setText("");
+    m_ui->cpuInstrSpecMnemonLabel->setText("");
+
+    m_ui->cpuOprndSpecHexLabel->setText("");
+    m_ui->cpuOprndSpecDecLabel->setText("");
+    m_ui->cpuOprndHexLabel->setText("");
+    m_ui->cpuOprndDecLabel->setText("");
+}
+
 void CpuPane::runClicked() {
     m_ui->pepTraceLoadCheckBox->setChecked(false);
     m_ui->pepTraceProgramCheckBox->setChecked(false);

@@ -788,8 +788,22 @@ void MainWindow::on_actionBuild_Execute_triggered()
 
 void MainWindow::on_actionBuild_Run_triggered()
 {
+    Sim::stackPointer = Sim::readWord(0xFFF8);
+    Sim::programCounter = 0x0000;
+
+    on_actionBuild_Load_triggered();
     cpuPane->runClicked();
-    Sim::inputBuffer = inputPane->toPlainText();
+    cpuPane->clearCpu();
+
+    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+        Sim::inputBuffer = inputPane->toPlainText();
+        listingTracePane->runWithBatch();
+    }
+    else { // terminal input
+        ui->pepInputOutputTab->setTabEnabled(0, false);
+        listingTracePane->runWithTerminal();
+    }
+
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
@@ -817,6 +831,7 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     }
 
     on_actionBuild_Load_triggered();
+    cpuPane->startDebuggingClicked();
     cpuPane->setExecutionState(true);
     cpuPane->updateCpu();
     listingTracePane->setDebuggingState(true);

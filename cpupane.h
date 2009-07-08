@@ -17,6 +17,9 @@ public:
     void updateCpu();
     // Post: Updates CPU pane labels
 
+    void clearCpu();
+    // Post: The CPU pane labels are blanked
+
     void runClicked();
     // Post: All of the debug checkboxes are unclicked
 

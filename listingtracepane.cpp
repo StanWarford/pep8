@@ -1,4 +1,5 @@
 #include <QFontDialog>
+#include <QMessageBox>
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
 #include "sim.h"
@@ -15,7 +16,6 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     connect(m_ui->listingSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStep()));
 
     connect(m_ui->listingResumePushButton, SIGNAL(clicked()), this, SLOT(resumeExecution()));
-
 }
 
 ListingTracePane::~ListingTracePane()
@@ -128,9 +128,57 @@ void ListingTracePane::setDebuggingState(bool b)
     }
 }
 
+void ListingTracePane::runWithBatch()
+{
+    QString errorString;
+    do {
+        if (Sim::vonNeumannStep(errorString)) {
+            if (Sim::outputBuffer.length() == 1) {
+                emit appendOutput(Sim::outputBuffer);
+                Sim::outputBuffer = "";
+            }
+        }
+        else {
+            QMessageBox::warning(0, "Pep/8", errorString);
+            emit executionComplete();
+            return;
+        }
+    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
+    emit executionComplete();
+    return;
+
+}
+
+void ListingTracePane::runWithTerminal()
+{
+    QString errorString;
+    do {
+        if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
+            // we are waiting for input
+            return;
+    }
+        else {
+            if (Sim::vonNeumannStep(errorString)) {
+                if (Sim::outputBuffer.length() == 1) {
+                    emit appendOutput(Sim::outputBuffer);
+                    Sim::outputBuffer = "";
+                }
+            }
+            else {
+                QMessageBox::warning(0, "Pep/8", errorString);
+                emit executionComplete();
+                return;
+            }
+        }
+    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
+    emit executionComplete();
+    return;
+}
+
 void ListingTracePane::singleStep()
 {
-    if (Sim::vonNeumannStep()) {
+    QString errorString;
+    if (Sim::vonNeumannStep(errorString)) {
         emit updateCpuAndMemoryTrace();
         if (Sim::outputBuffer.length() == 1) {
             emit appendOutput(Sim::outputBuffer);
@@ -152,14 +200,13 @@ void ListingTracePane::singleStep()
         }
     }
     else {
+        QMessageBox::warning(0, "Pep/8", errorString);
         emit executionComplete();
     }
 }
 
 void ListingTracePane::resumeExecution()
 {
-    while (Sim::instructionSpecifier) {
-        Sim::vonNeumannStep();
-    }
+
 }
 

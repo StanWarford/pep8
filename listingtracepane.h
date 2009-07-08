@@ -47,8 +47,11 @@ public:
     // Post: resume and single step buttons clickability is set to b
     // Also clears the selection
 
-    void beginExecution();
-    // Sets up the trace pane for execution (selects first instruction)
+    void runWithBatch();
+    // Runs the simulator through with batch input
+
+    void runWithTerminal();
+    // Runs the simulator through with terminal i/o
 
 private:
     Ui::ListingTracePane *m_ui;
