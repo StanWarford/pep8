@@ -2,6 +2,7 @@
 
 #include "code.h"
 #include "argument.h"
+#include "pep.h"
 
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
@@ -101,8 +102,7 @@ void BlankLine::appendObjectCode(QList<int> &)
     // Does not generate code.
 }
 
-void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                        QMap<int, int> &memAddrssToAssemblerListing)
+void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();;
@@ -120,14 +120,14 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(mnemonStr, -8, QLatin1Char(' '))
                       .arg("            " + comment);
-    memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
+    Pep::memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
+    Pep::listingRowChecked.insert(assemblerListingList.size(), Qt::Unchecked);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(true);
 }
 
-void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                           QMap<int, int> &memAddrssToAssemblerListing)
+void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     int temp = Pep::opCodeMap.value(mnemonic);
@@ -158,14 +158,14 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
                       .arg(mnemonStr, -8, QLatin1Char(' '))
                       .arg(oprndStr, -12)
                       .arg(comment);
-    memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
+    Pep::memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
+    Pep::listingRowChecked.insert(assemblerListingList.size(), Qt::Unchecked);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(true);
 }
 
-void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                 QMap<int, int> &)
+void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     int symbolValue = Pep::symbolTable.value(argument->getArgumentString());
@@ -191,8 +191,7 @@ void DotAddrss::appendSourceLine(QStringList &assemblerListingList, QStringList 
     hasCheckBox.append(false);
 }
 
-void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                QMap<int, int> &)
+void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString str = argument->getArgumentString();
@@ -238,8 +237,7 @@ void DotAscii::appendSourceLine(QStringList &assemblerListingList, QStringList &
     }
 }
 
-void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                QMap<int, int> &)
+void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     int numBytes = argument->getArgumentValue();
@@ -282,8 +280,7 @@ void DotBlock::appendSourceLine(QStringList &assemblerListingList, QStringList &
     }
 }
 
-void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                               QMap<int, int> &)
+void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString symbolStr = symbolDef;
@@ -303,8 +300,7 @@ void DotBurn::appendSourceLine(QStringList &assemblerListingList, QStringList &l
     hasCheckBox.append(false);
 }
 
-void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                               QMap<int, int> &)
+void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString codeStr = QString("%1").arg(argument->getArgumentValue(), 2, 16, QLatin1Char('0')).toUpper();
@@ -329,8 +325,7 @@ void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &l
     hasCheckBox.append(false);
 }
 
-void DotEnd::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                              QMap<int, int> &)
+void DotEnd::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString symbolStr = symbolDef;
@@ -348,8 +343,7 @@ void DotEnd::appendSourceLine(QStringList &assemblerListingList, QStringList &li
     hasCheckBox.append(false);
 }
 
-void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                 QMap<int, int> &)
+void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString symbolStr = symbolDef;
     if (symbolStr.length() > 0) {
@@ -367,8 +361,7 @@ void DotEquate::appendSourceLine(QStringList &assemblerListingList, QStringList 
     hasCheckBox.append(false);
 }
 
-void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                               QMap<int, int> &)
+void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
     QString codeStr = QString("%1").arg(argument->getArgumentValue(), 4, 16, QLatin1Char('0')).toUpper();
@@ -393,16 +386,14 @@ void DotWord::appendSourceLine(QStringList &assemblerListingList, QStringList &l
     hasCheckBox.append(false);
 }
 
-void CommentOnly::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                   QMap<int, int> &)
+void CommentOnly::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     assemblerListingList.append("             " + comment);
     listingTraceList.append("             " + comment);
     hasCheckBox.append(false);
 }
 
-void BlankLine::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                 QMap<int, int> &)
+void BlankLine::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     assemblerListingList.append("");
     listingTraceList.append("");

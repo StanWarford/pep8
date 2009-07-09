@@ -97,7 +97,7 @@ QStringList SourceCodePane::getAssemblerListingList()
     listingTraceList.clear();
     hasCheckBox.clear();
     for (int i = 0; i < codeList.length(); i++) {
-        codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox, Pep::memAddrssToAssemblerListing);
+        codeList[i]->appendSourceLine(assemblerListingList, listingTraceList, hasCheckBox);
     }
     return assemblerListingList;
 }

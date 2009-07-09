@@ -102,11 +102,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Simulator signals
     connect(cpuPane, SIGNAL(updateSimulationView()), this, SLOT(updateSimulationView()));
-
     connect(cpuPane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
-
     connect(cpuPane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
-
+    connect(cpuPane, SIGNAL(resumeButtonClicked()), this, SLOT(resumeButtonClicked()));
+    connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -853,7 +852,6 @@ void MainWindow::on_actionBuild_Stop_Execution_triggered()
     ui->pepInputOutputTab->setTabEnabled(0, true);
     ui->pepInputOutputTab->setTabEnabled(1, true);
 
-
     mainWindowUtilities(this, this);
 }
 
@@ -1293,4 +1291,23 @@ void MainWindow::openRecentFile()
         loadFile(action->data().toString());
 }
 
+void MainWindow::resumeButtonClicked()
+{
+    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+        cpuPane->resumeWithBatch();
+    }
+    else { // terminal input
+        cpuPane->resumeWithTerminal();
+    }
+}
+
+void MainWindow::singleStepButtonClicked()
+{
+    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+        cpuPane->singleStepWithBatch();
+    }
+    else { // terminal input
+        cpuPane->singleStepWithTerminal();
+    }
+}
 

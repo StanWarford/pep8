@@ -13,8 +13,7 @@ class Code
 public:
     virtual ~Code() { }
     virtual void appendObjectCode(QList<int> &objectCode) = 0;
-    virtual void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                                  QMap<int, int> &memAddrssToAssemblerListing) = 0;
+    virtual void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox) = 0;
     void adjustMemAddress(int addressDelta) { memAddress += addressDelta; }
 
 protected:
@@ -31,8 +30,7 @@ private:
     Enu::EMnemonic mnemonic;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class NonUnaryInstruction: public Code
@@ -44,8 +42,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotAddrss: public Code
@@ -55,8 +52,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotAscii: public Code
@@ -66,8 +62,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotBlock: public Code
@@ -77,8 +72,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotBurn: public Code
@@ -88,8 +82,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotByte: public Code
@@ -99,8 +92,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotEnd: public Code
@@ -108,8 +100,7 @@ class DotEnd: public Code
     friend class Asm;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotEquate: public Code
@@ -119,8 +110,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class DotWord: public Code
@@ -130,8 +120,7 @@ private:
     Argument *argument;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class CommentOnly: public Code
@@ -139,8 +128,7 @@ class CommentOnly: public Code
     friend class Asm;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 class BlankLine: public Code
@@ -148,8 +136,7 @@ class BlankLine: public Code
     friend class Asm;
 public:
     void appendObjectCode(QList<int> &objectCode);
-    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox,
-                          QMap<int, int> &memAddrssToAssemblerListing);
+    void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
 };
 
 #endif // CODE_H

@@ -35,6 +35,18 @@ public:
     void runWithTerminal();
     // Runs the simulator through with terminal i/o
 
+    void resumeWithBatch();
+    // Resumes the simulator with batch input
+
+    void resumeWithTerminal();
+    // Resumes the simulator with terminal input
+
+    void singleStepWithBatch();
+    // Single steps the simulator with batch input
+
+    void singleStepWithTerminal();
+    // Single steps the simulator with terminal input
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
@@ -59,11 +71,9 @@ public:
 private:
     Ui::CpuPane *m_ui;
 
-private slots:
-    void singleStep();
-    void resumeExecution();
-
 signals:
+    void resumeButtonClicked();
+    void singleStepButtonClicked();
     void updateSimulationView();
     void executionComplete();
     void appendOutput(QString);
