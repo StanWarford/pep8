@@ -118,9 +118,6 @@ MainWindow::MainWindow(QWidget *parent)
         ui->menu_File->addAction(recentFileActs[i]);
     updateRecentFileActions();
 
-    // Mac toolbar
-    setUnifiedTitleAndToolBarOnMac(true);
-
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
 }
@@ -977,7 +974,6 @@ void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
 {
 
 }
-
 
 // Help MainWindow triggers
 void MainWindow::on_actionHelp_triggered()
