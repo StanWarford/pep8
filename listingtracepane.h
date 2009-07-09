@@ -2,6 +2,7 @@
 #define LISTINGTRACEPANE_H
 
 #include <QtGui/QWidget>
+#include <QTableWidgetItem>
 
 namespace Ui {
     class ListingTracePane;
@@ -18,6 +19,13 @@ public:
     // Post: Populate listingTraceTable from assemblerListingList and hasCheckBox
 
     void clearListingTrace();
+
+    void updateListingTrace();
+    // Post: the listing trace pane selection is updated
+
+    void setDebuggingState(bool b);
+    // Post: resume and single step buttons clickability is set to b
+    // Also clears the selection
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -43,27 +51,12 @@ public:
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
-    void setDebuggingState(bool b);
-    // Post: resume and single step buttons clickability is set to b
-    // Also clears the selection
-
-    void runWithBatch();
-    // Runs the simulator through with batch input
-
-    void runWithTerminal();
-    // Runs the simulator through with terminal i/o
-
 private:
     Ui::ListingTracePane *m_ui;
 
 private slots:
-    void singleStep();
-    void resumeExecution();
+    void updateIsCheckedTable(QTableWidgetItem *item);
 
-signals:
-    void updateCpuAndMemoryTrace();
-    void executionComplete();
-    void appendOutput(QString);
 };
 
 #endif // LISTINGTRACEPANE_H

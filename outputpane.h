@@ -17,6 +17,9 @@ public:
     void appendOutput(QString str);
     // Post: str is appended to the text edit
 
+    void clearOutput();
+    // Post: the output is cleared
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 

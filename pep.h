@@ -91,6 +91,7 @@ public:
 
     // Map from instruction memory address to assembler listing line
     static QMap<int, int> memAddrssToAssemblerListing;
+    static QMap<int, Qt::CheckState> listingRowChecked;
 
     // Decoder tables
     static QVector<Enu::EMnemonic> decodeMnemonic;

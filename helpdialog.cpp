@@ -146,18 +146,21 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             }
             else if (row == eFIG503) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0503.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0432.peph"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.03</b><code>  </code> An assembly-language program to output <code>Hi</code>. It is the assembly-language version of Figure 4.32.");
-                m_ui->helpRightTextEdit->hide();
+                m_ui->helpRightTextEdit->show();
             }
             else if (row == eFIG506) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0506.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0434.peph"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.06</b><code>  </code> An assembly language program to input two characters and output them in reverse order. It is the assembly language version of Figure 4.34.");
-                m_ui->helpRightTextEdit->hide();
+                m_ui->helpRightTextEdit->show();
             }
             else if (row == eFIG507) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0507.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0435.peph"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.07</b><code>  </code> An assembly language program to add 3 and 5 and output the single-character result. It is the assembly language version of Figure 4.35.");
-                m_ui->helpRightTextEdit->hide();
+                m_ui->helpRightTextEdit->show();
             }
             else if (row == eFIG510) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0510.pep"));
@@ -191,8 +194,9 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             }
             else if (row == eFIG515) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0515.pep"));
+                m_ui->helpRightTextEdit->setText(Pep::resToString(":/help/figures/fig0512.pep"));
                 m_ui->helpFigureLabel->setText("<b>Figure 5.15</b><code>  </code> A program that adds 1 to a decimal value. It is identical to Figure 5.12 except that it uses symbols.");
-                m_ui->helpRightTextEdit->hide();
+                m_ui->helpRightTextEdit->show();
             }
             else if (row == eFIG516) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0516.pep"));

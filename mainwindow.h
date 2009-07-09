@@ -173,7 +173,7 @@ private slots:
     void setRedoability(bool b);
 
     // For updating the CPU and Memory trace from listing trace pane
-    void updateCpuAndMemoryTrace();
+    void updateSimulationView();
     void appendOutput(QString str);
 
     // Recent files

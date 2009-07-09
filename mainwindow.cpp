@@ -101,11 +101,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(terminalPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
     // Simulator signals
-    connect(listingTracePane, SIGNAL(updateCpuAndMemoryTrace()), this, SLOT(updateCpuAndMemoryTrace()));
+    connect(cpuPane, SIGNAL(updateSimulationView()), this, SLOT(updateSimulationView()));
 
-    connect(listingTracePane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
+    connect(cpuPane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
 
-    connect(listingTracePane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
+    connect(cpuPane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -781,6 +781,19 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
     Sim::inputBuffer = inputPane->toPlainText();
+    outputPane->clearOutput();
+    cpuPane->runClicked();
+    cpuPane->clearCpu();
+    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+        outputPane->clearOutput();
+        Sim::inputBuffer = inputPane->toPlainText();
+        cpuPane->runWithBatch();
+    }
+    else { // terminal input
+        ui->pepInputOutputTab->setTabEnabled(0, false);
+        cpuPane->runWithTerminal();
+    }
+
     // Other things go here.
 }
 
@@ -788,18 +801,7 @@ void MainWindow::on_actionBuild_Run_triggered()
 {
     on_actionBuild_Assemble_triggered(); // Assemble
     on_actionBuild_Load_triggered(); // Load
-    Sim::stackPointer = Sim::readWord(0xFFF8); // Execute...
-    Sim::programCounter = 0x0000;
-    cpuPane->runClicked();
-    cpuPane->clearCpu();
-    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
-        Sim::inputBuffer = inputPane->toPlainText();
-        listingTracePane->runWithBatch();
-    }
-    else { // terminal input
-        ui->pepInputOutputTab->setTabEnabled(0, false);
-        listingTracePane->runWithTerminal();
-    }
+    on_actionBuild_Execute_triggered(); // Execute
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
@@ -821,6 +823,7 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
     if (ui->pepInputOutputTab->currentIndex() == 0) {
         ui->pepInputOutputTab->setTabEnabled(1, false);
+        outputPane->clearOutput();
     }
     else {
         ui->pepInputOutputTab->setTabEnabled(0, false);
@@ -1267,9 +1270,9 @@ void MainWindow::setRedoability(bool b)
     }
 }
 
-void MainWindow::updateCpuAndMemoryTrace()
+void MainWindow::updateSimulationView()
 {
-    cpuPane->updateCpu();
+    listingTracePane->updateListingTrace();
 }
 
 void MainWindow::appendOutput(QString str)

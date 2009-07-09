@@ -29,6 +29,12 @@ public:
     void setExecutionState(bool b);
     // Post: if b is true, checkboxes are set to disabled, and vice versa
 
+    void runWithBatch();
+    // Runs the simulator through with batch input
+
+    void runWithTerminal();
+    // Runs the simulator through with terminal i/o
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
@@ -52,6 +58,15 @@ public:
 
 private:
     Ui::CpuPane *m_ui;
+
+private slots:
+    void singleStep();
+    void resumeExecution();
+
+signals:
+    void updateSimulationView();
+    void executionComplete();
+    void appendOutput(QString);
 };
 
 #endif // CPUPANE_H

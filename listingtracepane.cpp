@@ -1,5 +1,4 @@
 #include <QFontDialog>
-#include <QMessageBox>
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
 #include "sim.h"
@@ -13,9 +12,7 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    connect(m_ui->listingSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStep()));
-
-    connect(m_ui->listingResumePushButton, SIGNAL(clicked()), this, SLOT(resumeExecution()));
+    connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 }
 
 ListingTracePane::~ListingTracePane()
@@ -54,6 +51,40 @@ void ListingTracePane::clearListingTrace()
         delete m_ui->listingTraceTableWidget->itemAt(i, 1);
     }
     m_ui->listingTraceTableWidget->setRowCount(0);
+}
+
+void ListingTracePane::updateListingTrace()
+{
+    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+    }
+    if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
+        int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+        m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+        m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+    }
+}
+
+void ListingTracePane::setDebuggingState(bool b)
+{
+    if (b) {
+        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+        }
+        if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
+            int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
+            m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
+            m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+        }
+    }
+    else {
+        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+        }
+    }
 }
 
 void ListingTracePane::highlightOnFocus()
@@ -105,108 +136,7 @@ void ListingTracePane::setFont()
     }
 }
 
-void ListingTracePane::setDebuggingState(bool b)
+void ListingTracePane::updateIsCheckedTable(QTableWidgetItem *item)
 {
-    m_ui->listingResumePushButton->setDisabled(!b);
-    m_ui->listingSingleStepPushButton->setDisabled(!b);
-    if (b) {
-        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
-        }
-        if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-            int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-            m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-            m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
-        }
-    }
-    else {
-        for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-            m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-            m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
-        }
-    }
+    Pep::listingRowChecked.insert(item->row(), item->checkState());
 }
-
-void ListingTracePane::runWithBatch()
-{
-    QString errorString;
-    do {
-        if (Sim::vonNeumannStep(errorString)) {
-            if (Sim::outputBuffer.length() == 1) {
-                emit appendOutput(Sim::outputBuffer);
-                Sim::outputBuffer = "";
-            }
-        }
-        else {
-            QMessageBox::warning(0, "Pep/8", errorString);
-            emit executionComplete();
-            return;
-        }
-    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
-    emit executionComplete();
-    return;
-
-}
-
-void ListingTracePane::runWithTerminal()
-{
-    QString errorString;
-    do {
-        if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
-            // we are waiting for input
-            return;
-    }
-        else {
-            if (Sim::vonNeumannStep(errorString)) {
-                if (Sim::outputBuffer.length() == 1) {
-                    emit appendOutput(Sim::outputBuffer);
-                    Sim::outputBuffer = "";
-                }
-            }
-            else {
-                QMessageBox::warning(0, "Pep/8", errorString);
-                emit executionComplete();
-                return;
-            }
-        }
-    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
-    emit executionComplete();
-    return;
-}
-
-void ListingTracePane::singleStep()
-{
-    QString errorString;
-    if (Sim::vonNeumannStep(errorString)) {
-        emit updateCpuAndMemoryTrace();
-        if (Sim::outputBuffer.length() == 1) {
-            emit appendOutput(Sim::outputBuffer);
-            Sim::outputBuffer = "";
-        }
-        if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
-            for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-                m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-                m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
-            }
-            if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-                int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-                m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-                m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
-            }
-        }
-        else {
-            emit executionComplete();
-        }
-    }
-    else {
-        QMessageBox::warning(0, "Pep/8", errorString);
-        emit executionComplete();
-    }
-}
-
-void ListingTracePane::resumeExecution()
-{
-
-}
-

@@ -345,6 +345,7 @@ QMap<QString, bool> Pep::adjustSymbolValueForBurn;
 
 // Map from instruction memory address to assembler listing line
 QMap<int, int> Pep::memAddrssToAssemblerListing;
+QMap<int, Qt::CheckState> Pep::listingRowChecked;
 
 // Decoder tables
 QVector<Enu::EMnemonic> Pep::decodeMnemonic(256);

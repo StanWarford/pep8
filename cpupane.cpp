@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "cpupane.h"
 #include "ui_cpupane.h"
 #include "sim.h"
@@ -9,6 +10,11 @@ CpuPane::CpuPane(QWidget *parent) :
         m_ui(new Ui::CpuPane)
 {
     m_ui->setupUi(this);
+
+    connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStep()));
+
+    connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SLOT(resumeExecution()));
+
 }
 
 CpuPane::~CpuPane()
@@ -101,6 +107,56 @@ void CpuPane::setExecutionState(bool b)
     m_ui->pepTraceLoadCheckBox->setDisabled(b);
     m_ui->pepTraceProgramCheckBox->setDisabled(b);
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
+
+    m_ui->cpuResumePushButton->setDisabled(!b);
+    m_ui->cpuSingleStepPushButton->setDisabled(!b);
+}
+
+void CpuPane::runWithBatch()
+{
+    QString errorString;
+    do {
+        if (Sim::vonNeumannStep(errorString)) {
+            if (Sim::outputBuffer.length() == 1) {
+                emit appendOutput(Sim::outputBuffer);
+                Sim::outputBuffer = "";
+            }
+        }
+        else {
+            QMessageBox::warning(0, "Pep/8", errorString);
+            emit executionComplete();
+            return;
+        }
+    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
+    emit executionComplete();
+    return;
+
+}
+
+void CpuPane::runWithTerminal()
+{
+    QString errorString;
+    do {
+        if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
+            // we are waiting for input
+            return;
+    }
+        else {
+            if (Sim::vonNeumannStep(errorString)) {
+                if (Sim::outputBuffer.length() == 1) {
+                    emit appendOutput(Sim::outputBuffer);
+                    Sim::outputBuffer = "";
+                }
+            }
+            else {
+                QMessageBox::warning(0, "Pep/8", errorString);
+                emit executionComplete();
+                return;
+            }
+        }
+    } while (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP);
+    emit executionComplete();
+    return;
 }
 
 void CpuPane::highlightOnFocus()
@@ -143,3 +199,29 @@ void CpuPane::paste()
     // does nothing with our current implementation
 }
 
+void CpuPane::singleStep()
+{
+    QString errorString;
+    if (Sim::vonNeumannStep(errorString)) {
+        emit updateSimulationView();
+        if (Sim::outputBuffer.length() == 1) {
+            emit appendOutput(Sim::outputBuffer);
+            Sim::outputBuffer = "";
+        }
+        if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
+            updateCpu();
+        }
+        else {
+            emit executionComplete();
+        }
+    }
+    else {
+        QMessageBox::warning(0, "Pep/8", errorString);
+        emit executionComplete();
+    }
+}
+
+void CpuPane::resumeExecution()
+{
+
+}
