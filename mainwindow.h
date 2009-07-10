@@ -97,6 +97,13 @@ private:
     QAction *recentFileActs[MaxRecentFiles];
     QAction *separatorAct;
 
+    bool assemble();
+    bool load();
+
+    void setDebugState(bool b);
+
+    bool eventFilter(QObject *, QEvent *event);
+
 private slots:
     // File
     void on_actionFile_New_triggered();
@@ -118,6 +125,7 @@ private slots:
     void on_actionEdit_Paste_triggered();
     void on_actionEdit_Format_From_Listing_triggered();
     void on_actionEdit_Font_triggered();
+    void on_actionEdit_Remove_Error_Messages_triggered();
 
     // Build
     void on_actionBuild_Assemble_triggered();
@@ -126,7 +134,6 @@ private slots:
     void on_actionBuild_Run_triggered();
     void on_actionBuild_Start_Debugging_triggered();
     void on_actionBuild_Stop_Execution_triggered();
-    void on_actionBuild_Remove_Error_Messages_triggered();
 
     // View
     void on_actionView_Code_Only_triggered();
@@ -141,7 +148,6 @@ private slots:
     void on_actionSystem_Redefine_Mnemonics_triggered();
     void on_actionSystem_Assemble_Install_New_OS_triggered();
     void on_actionSystem_Reinstall_Default_OS_triggered();
-    void on_actionSystem_Set_Execution_Limits_triggered();
 
     // Help
     void on_actionHelp_triggered();

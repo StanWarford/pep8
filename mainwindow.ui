@@ -210,6 +210,9 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="fileToolBar">
+   <property name="windowTitle">
+    <string>File</string>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -230,6 +233,9 @@
    <addaction name="actionFile_Save_Source"/>
   </widget>
   <widget class="QToolBar" name="editToolBar">
+   <property name="windowTitle">
+    <string>Edit</string>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -256,6 +262,9 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
+   <property name="windowTitle">
+    <string>Build</string>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -277,6 +286,9 @@
    <addaction name="actionBuild_Stop_Execution"/>
   </widget>
   <widget class="QToolBar" name="viewToolBar">
+   <property name="windowTitle">
+    <string>View</string>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>
@@ -297,6 +309,9 @@
    <addaction name="actionView_Code_CPU_Memory"/>
   </widget>
   <widget class="QToolBar" name="byteConverterToolBar">
+   <property name="windowTitle">
+    <string>Byte Converter</string>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
@@ -326,6 +341,9 @@
     </rect>
    </property>
    <widget class="QMenu" name="menu_Edit">
+    <property name="toolTip">
+     <string/>
+    </property>
     <property name="title">
      <string>&amp;Edit</string>
     </property>
@@ -337,10 +355,14 @@
     <addaction name="actionEdit_Paste"/>
     <addaction name="separator"/>
     <addaction name="actionEdit_Format_From_Listing"/>
+    <addaction name="actionEdit_Remove_Error_Messages"/>
     <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
    </widget>
    <widget class="QMenu" name="menu_File">
+    <property name="toolTip">
+     <string/>
+    </property>
     <property name="title">
      <string>&amp;File</string>
     </property>
@@ -368,9 +390,11 @@
     <addaction name="separator"/>
     <addaction name="actionBuild_Run"/>
     <addaction name="actionBuild_Start_Debugging"/>
-    <addaction name="actionBuild_Stop_Execution"/>
     <addaction name="separator"/>
-    <addaction name="actionBuild_Remove_Error_Messages"/>
+    <addaction name="actionBuild_Run_Object"/>
+    <addaction name="actionBuild_Start_Debugging_Object"/>
+    <addaction name="separator"/>
+    <addaction name="actionBuild_Stop_Execution"/>
    </widget>
    <widget class="QMenu" name="menu_System">
     <property name="title">
@@ -380,8 +404,6 @@
     <addaction name="separator"/>
     <addaction name="actionSystem_Assemble_Install_New_OS"/>
     <addaction name="actionSystem_Reinstall_Default_OS"/>
-    <addaction name="separator"/>
-    <addaction name="actionSystem_Set_Execution_Limits"/>
    </widget>
    <widget class="QMenu" name="menu_View">
     <property name="title">
@@ -631,7 +653,7 @@
      <normaloff>:/images/run.png</normaloff>:/images/run.png</iconset>
    </property>
    <property name="text">
-    <string>Run</string>
+    <string>Run Source</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -646,7 +668,7 @@
      <normaloff>:/images/debugger_start.png</normaloff>:/images/debugger_start.png</iconset>
    </property>
    <property name="text">
-    <string>Start Debugging</string>
+    <string>Start Debugging Source</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+R</string>
@@ -655,7 +677,7 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionBuild_Remove_Error_Messages">
+  <action name="actionEdit_Remove_Error_Messages">
    <property name="text">
     <string>Remove Error Messages</string>
    </property>
@@ -673,11 +695,6 @@
   <action name="actionSystem_Reinstall_Default_OS">
    <property name="text">
     <string>Reinstall Default OS</string>
-   </property>
-  </action>
-  <action name="actionSystem_Set_Execution_Limits">
-   <property name="text">
-    <string>Set Execution Limits...</string>
    </property>
   </action>
   <action name="actionHelp_Writing_Interrupt_Handlers">
@@ -907,6 +924,16 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionBuild_Start_Debugging_Object">
+   <property name="text">
+    <string>Start Debugging Object</string>
+   </property>
+  </action>
+  <action name="actionBuild_Run_Object">
+   <property name="text">
+    <string>Run Object</string>
    </property>
   </action>
  </widget>

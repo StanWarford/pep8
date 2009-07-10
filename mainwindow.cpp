@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->statusbar->showMessage("OS assembly failed", 4000);
 
     // Focus highlighting, actions enable/disable
-    connect(QApplication::instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
+    connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
 
     connect(objectCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(objectCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
@@ -116,6 +116,8 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 0; i < MaxRecentFiles; ++i)
         ui->menu_File->addAction(recentFileActs[i]);
     updateRecentFileActions();
+
+    qApp->installEventFilter(this);
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
@@ -395,6 +397,70 @@ void MainWindow::updateRecentFileActions()
     separatorAct->setVisible(numRecentFiles > 0);
 }
 
+bool MainWindow::assemble()
+{
+    Pep::burnCount = 0;
+    if (sourceCodePane->assemble()) {
+        if (Pep::burnCount > 0) {
+            QString errorString = ";ERROR: .BURN not allowed in program unless installing OS.";
+            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString);
+            assemblerListingPane->clearAssemblerListing();
+            objectCodePane->clearObjectCode();
+            listingTracePane->clearListingTrace();
+            ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
+            return false;
+        }
+        else {
+            objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
+            assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
+            listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+            return true;
+        }
+    }
+    assemblerListingPane->clearAssemblerListing();
+    objectCodePane->clearObjectCode();
+    listingTracePane->clearListingTrace();
+    ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
+    return false;
+}
+
+bool MainWindow::load()
+{
+    QList<int> objectCodeList;
+    if (objectCodePane->getObjectCode(objectCodeList)) {
+        Sim::loadMem(objectCodeList);
+        return true;
+    }    
+    return false;
+}
+
+void MainWindow::setDebugState(bool b)
+{
+    ui->actionBuild_Assemble->setDisabled(b);
+    ui->actionBuild_Execute->setDisabled(b);
+    ui->actionBuild_Load->setDisabled(b);
+    ui->actionBuild_Run->setDisabled(b);
+    ui->actionBuild_Start_Debugging->setDisabled(b);
+    ui->actionBuild_Stop_Execution->setDisabled(!b);
+    ui->actionEdit_Remove_Error_Messages->setDisabled(b);
+    inputPane->setReadOnly(b);
+    sourceCodePane->setReadOnly(b);
+    objectCodePane->setReadOnly(b);
+    listingTracePane->setDebuggingState(b);
+    cpuPane->setDebugState(b);
+}
+
+bool MainWindow::eventFilter(QObject *, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if ((keyEvent->modifiers() & Qt::ControlModifier) && (keyEvent->key() == Qt::Key_Period)) {
+            cpuPane->interruptExecution();
+            return true;
+        }
+    }
+    return false;
+}
 
 // File MainWindow triggers
 void MainWindow::on_actionFile_New_triggered()
@@ -404,6 +470,7 @@ void MainWindow::on_actionFile_New_triggered()
         setCurrentFile("", "Source");
     }
 }
+
 void MainWindow::on_actionFile_Open_triggered()
 {
     if (maybeSaveSource()) {
@@ -733,41 +800,25 @@ void MainWindow::on_actionEdit_Font_triggered()
     }
 }
 
+void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()
+{
+    sourceCodePane->removeErrorMessages();
+}
+
 // Build MainWindow triggers
 void MainWindow::on_actionBuild_Assemble_triggered()
 {
-    Pep::burnCount = 0;
-    if (sourceCodePane->assemble()) {
-        if (Pep::burnCount > 0) {
-            QString errorString = ";ERROR: .BURN not allowed in program unless installing OS.";
-            sourceCodePane->appendMessageInSourceCodePaneAt(0, errorString);
-            assemblerListingPane->clearAssemblerListing();
-            objectCodePane->clearObjectCode();
-            listingTracePane->clearListingTrace();
-            ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
-            ui->statusbar->showMessage("Assembly failed", 4000);
-        }
-        else {
-            objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
-            assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
-            listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
-            ui->statusbar->showMessage("Assembly succeeded", 4000);
-        }
+    if (assemble()) {
+        ui->statusbar->showMessage("Assembly succeeded", 4000);
     }
     else {
-        assemblerListingPane->clearAssemblerListing();
-        objectCodePane->clearObjectCode();
-        listingTracePane->clearListingTrace();
-        ui->pepCodeTraceTab->setCurrentIndex(0); // Make source code pane visible
         ui->statusbar->showMessage("Assembly failed", 4000);
     }
 }
 
 void MainWindow::on_actionBuild_Load_triggered()
 {
-    QList<int> objectCodeList;
-    if (objectCodePane->getObjectCode(objectCodeList)) {
-        Sim::loadMem(objectCodeList);
+    if (load()) {
         ui->statusbar->showMessage("Load succeeded", 4000);
     }
     else {
@@ -783,6 +834,8 @@ void MainWindow::on_actionBuild_Execute_triggered()
     outputPane->clearOutput();
     cpuPane->runClicked();
     cpuPane->clearCpu();
+    sourceCodePane->setReadOnly(true);
+    objectCodePane->setReadOnly(true);
     if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
         outputPane->clearOutput();
         Sim::inputBuffer = inputPane->toPlainText();
@@ -792,15 +845,15 @@ void MainWindow::on_actionBuild_Execute_triggered()
         ui->pepInputOutputTab->setTabEnabled(0, false);
         cpuPane->runWithTerminal();
     }
-
-    // Other things go here.
+    // Other things may go here.
 }
 
 void MainWindow::on_actionBuild_Run_triggered()
 {
-    on_actionBuild_Assemble_triggered(); // Assemble
-    on_actionBuild_Load_triggered(); // Load
-    on_actionBuild_Execute_triggered(); // Execute
+    if (assemble() && load()) {
+        on_actionBuild_Execute_triggered();
+    }
+
 }
 
 void MainWindow::on_actionBuild_Start_Debugging_triggered()
@@ -809,17 +862,10 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     Sim::programCounter = 0x0000;
     Sim::inputBuffer = inputPane->toPlainText();
 
-    ui->actionBuild_Assemble->setDisabled(true);
-    ui->actionBuild_Execute->setDisabled(true);
-    ui->actionBuild_Load->setDisabled(true);
-    ui->actionBuild_Run->setDisabled(true);
-    ui->actionBuild_Start_Debugging->setDisabled(true);
-    ui->actionBuild_Stop_Execution->setDisabled(false);
-    ui->actionBuild_Remove_Error_Messages->setDisabled(true);
-    inputPane->setReadOnly(true);
-    sourceCodePane->setReadOnly(true);
-    objectCodePane->setReadOnly(true);
+    setDebugState(true);
+
     ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
+
     if (ui->pepInputOutputTab->currentIndex() == 0) {
         ui->pepInputOutputTab->setTabEnabled(1, false);
         outputPane->clearOutput();
@@ -830,34 +876,18 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
 
     on_actionBuild_Load_triggered();
     cpuPane->startDebuggingClicked();
-    cpuPane->setExecutionState(true);
     cpuPane->updateCpu();
     listingTracePane->setDebuggingState(true);
 }
 
 void MainWindow::on_actionBuild_Stop_Execution_triggered()
 {
-    ui->actionBuild_Assemble->setDisabled(false);
-    ui->actionBuild_Execute->setDisabled(false);
-    ui->actionBuild_Load->setDisabled(false);
-    ui->actionBuild_Run->setDisabled(false);
-    ui->actionBuild_Start_Debugging->setDisabled(false);
-    ui->actionBuild_Stop_Execution->setDisabled(true);
-    ui->actionBuild_Remove_Error_Messages->setDisabled(false);
-    inputPane->setReadOnly(false);
-    sourceCodePane->setReadOnly(false);
-    objectCodePane->setReadOnly(false);
-    listingTracePane->setDebuggingState(false);
-    cpuPane->setExecutionState(false);
+    setDebugState(false);
+
     ui->pepInputOutputTab->setTabEnabled(0, true);
     ui->pepInputOutputTab->setTabEnabled(1, true);
 
     mainWindowUtilities(this, this);
-}
-
-void MainWindow::on_actionBuild_Remove_Error_Messages_triggered()
-{
-    sourceCodePane->removeErrorMessages();
 }
 
 // View MainWindow triggers
@@ -969,11 +999,6 @@ void MainWindow::on_actionSystem_Reinstall_Default_OS_triggered()
         ui->statusbar->showMessage("OS installed", 4000);
     else
         ui->statusbar->showMessage("OS assembly failed", 4000);
-}
-
-void MainWindow::on_actionSystem_Set_Execution_Limits_triggered()
-{
-
 }
 
 // Help MainWindow triggers

@@ -26,7 +26,7 @@ public:
     void startDebuggingClicked();
     // Post: If no checkboxes are clicked, click the trace program checkbox
 
-    void setExecutionState(bool b);
+    void setDebugState(bool b);
     // Post: if b is true, checkboxes are set to disabled, and vice versa
 
     void runWithBatch();
@@ -46,6 +46,9 @@ public:
 
     void singleStepWithTerminal();
     // Single steps the simulator with terminal input
+
+    void interruptExecution();
+    // Post: interruptExecutionFlag is set to true
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -70,6 +73,8 @@ public:
 
 private:
     Ui::CpuPane *m_ui;
+
+    bool interruptExecutionFlag; // Used to interrupt execution by the user
 
 signals:
     void resumeButtonClicked();

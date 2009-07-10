@@ -39,8 +39,9 @@ private:
     Ui::HelpDialog *m_ui;
 
     void selectItem(QString string);
-    PepHighlighter *pepHighlighter;
-    CppHighlighter *cppHighlighter;
+    PepHighlighter *leftHighlighter;
+    CppHighlighter *rightCppHighlighter;
+    PepHighlighter *rightPepHighlighter;
 
     enum Row {
         eWRITING = 0,

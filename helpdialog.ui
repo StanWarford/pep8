@@ -35,9 +35,6 @@
    <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="spacing">
-    <number>-1</number>
-   </property>
    <item>
     <widget class="QSplitter" name="splitter_3">
      <property name="orientation">
@@ -446,11 +443,8 @@
         </url>
        </property>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="">
        <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>5</number>
-        </property>
         <item>
          <widget class="QSplitter" name="splitter">
           <property name="orientation">
@@ -470,7 +464,7 @@
             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="helpRightTextEdit">
+          <widget class="QTextEdit" name="helpRightCppTextEdit">
            <property name="font">
             <font>
              <family>Courier</family>
@@ -479,6 +473,23 @@
            </property>
            <property name="lineWrapMode">
             <enum>QTextEdit::NoWrap</enum>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="helpRightPepTextEdit">
+           <property name="font">
+            <font>
+             <family>Courier</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="lineWrapMode">
+            <enum>QTextEdit::NoWrap</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
            <property name="textInteractionFlags">
             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

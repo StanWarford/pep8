@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QKeyEvent>
 #include "cpupane.h"
 #include "ui_cpupane.h"
 #include "sim.h"
@@ -104,7 +105,7 @@ void CpuPane::startDebuggingClicked() {
     }
 }
 
-void CpuPane::setExecutionState(bool b)
+void CpuPane::setDebugState(bool b)
 {
     m_ui->pepTraceLoadCheckBox->setDisabled(b);
     m_ui->pepTraceProgramCheckBox->setDisabled(b);
@@ -117,7 +118,9 @@ void CpuPane::setExecutionState(bool b)
 void CpuPane::runWithBatch()
 {
     QString errorString;
+    interruptExecutionFlag = false;
     while (true) {
+        qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
             if (Sim::outputBuffer.length() == 1) {
                 emit appendOutput(Sim::outputBuffer);
@@ -133,6 +136,9 @@ void CpuPane::runWithBatch()
             emit executionComplete();
             return;
         }
+        if (interruptExecutionFlag) {
+            return;
+        }
     }
 }
 
@@ -140,6 +146,7 @@ void CpuPane::runWithTerminal()
 {
     QString errorString;
     while (true) {
+        qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
             return;
@@ -160,6 +167,9 @@ void CpuPane::runWithTerminal()
                 emit executionComplete();
                 return;
             }
+            if (interruptExecutionFlag) {
+                return;
+            }
         }
     }
 }
@@ -168,6 +178,7 @@ void CpuPane::resumeWithBatch()
 {
     QString errorString;
     while (true) {
+        qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
             if (Sim::outputBuffer.length() == 1) {
                 emit appendOutput(Sim::outputBuffer);
@@ -189,6 +200,9 @@ void CpuPane::resumeWithBatch()
             updateCpu();
             emit executionComplete();
         }
+        if (interruptExecutionFlag) {
+            return;
+        }
     }
 }
 
@@ -196,6 +210,7 @@ void CpuPane::resumeWithTerminal()
 {
     QString errorString;
     while (true) {
+        qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
             return;
@@ -222,6 +237,9 @@ void CpuPane::resumeWithTerminal()
                 updateCpu();
                 emit executionComplete();
             }
+        }
+        if (interruptExecutionFlag) {
+            return;
         }
     }
 }
@@ -273,6 +291,11 @@ void CpuPane::singleStepWithTerminal()
         QMessageBox::warning(0, "Pep/8", errorString);
         emit executionComplete();
     }
+}
+
+void CpuPane::interruptExecution()
+{
+    interruptExecutionFlag = true;
 }
 
 void CpuPane::highlightOnFocus()
