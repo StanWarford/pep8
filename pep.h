@@ -89,6 +89,11 @@ public:
     static QMap<QString, int> symbolTable;
     static QMap<QString, bool> adjustSymbolValueForBurn;
 
+    // The trace tag tables
+    static QMap<QString, Enu::ESymbolFormat> symbolFormat;
+    static QMap<QString, int> symbolFormatMultiplier;
+    static QMap<int, QStringList> symbolTraceList;
+
     // Map from instruction memory address to assembler listing line
     static QMap<int, int> memAddrssToAssemblerListing;
     static QMap<int, Qt::CheckState> listingRowChecked;

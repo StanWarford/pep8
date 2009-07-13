@@ -343,6 +343,11 @@ void Pep::initAddrModesMap()
 QMap<QString, int> Pep::symbolTable;
 QMap<QString, bool> Pep::adjustSymbolValueForBurn;
 
+// The trace tag tables
+QMap<QString, Enu::ESymbolFormat> Pep::symbolFormat;
+QMap<QString, int> Pep::symbolFormatMultiplier;
+QMap<int, QStringList> Pep::symbolTraceList; // Key is memory address
+
 // Map from instruction memory address to assembler listing line
 QMap<int, int> Pep::memAddrssToAssemblerListing;
 QMap<int, Qt::CheckState> Pep::listingRowChecked;

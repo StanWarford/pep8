@@ -43,9 +43,13 @@ bool SourceCodePane::assemble()
 
     removeErrorMessages();
     Asm::listOfReferencedSymbols.clear();
+    Asm::listOfReferencedSymbolLineNums.clear();
     Pep::memAddrssToAssemblerListing.clear();
     Pep::symbolTable.clear();
     Pep::adjustSymbolValueForBurn.clear();
+    Pep::symbolFormat.clear();
+    Pep::symbolFormatMultiplier.clear();;
+    Pep::symbolTraceList.clear(); // Does this clear the lists within the map?
     while (!codeList.isEmpty()) {
         delete codeList.takeFirst();
     }

@@ -3,7 +3,7 @@
 
 namespace Enu
 {
-    // Instruction mnemonics
+   // Instruction mnemonics
    enum EMnemonic
    {
         ADDA, ADDSP, ADDX, ANDA, ANDX, ASLA, ASLX, ASRA, ASRX,
@@ -31,6 +31,12 @@ namespace Enu
         SX = 64,
         SXF = 128,
         ALL = 255
+    };
+
+    // Format for symbols
+    enum ESymbolFormat
+    {
+        F_NONE, F_1C, F_1D, F_2D, F_1H, F_2H
     };
 
     enum EExecState
