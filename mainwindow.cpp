@@ -102,10 +102,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Simulator signals
     connect(cpuPane, SIGNAL(updateSimulationView()), this, SLOT(updateSimulationView()));
-    connect(cpuPane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Execution_triggered()));
+    connect(cpuPane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Debugging_triggered()));
     connect(cpuPane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
     connect(cpuPane, SIGNAL(resumeButtonClicked()), this, SLOT(resumeButtonClicked()));
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
+
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -439,9 +440,9 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Assemble->setDisabled(b);
     ui->actionBuild_Execute->setDisabled(b);
     ui->actionBuild_Load->setDisabled(b);
-    ui->actionBuild_Run->setDisabled(b);
-    ui->actionBuild_Start_Debugging->setDisabled(b);
-    ui->actionBuild_Stop_Execution->setDisabled(!b);
+    ui->actionBuild_Run_Source->setDisabled(b);
+    ui->actionBuild_Start_Debugging_Source->setDisabled(b);
+    ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionEdit_Remove_Error_Messages->setDisabled(b);
     inputPane->setReadOnly(b);
     sourceCodePane->setReadOnly(b);
@@ -455,7 +456,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if ((keyEvent->modifiers() & Qt::ControlModifier) && (keyEvent->key() == Qt::Key_Period)) {
-            cpuPane->interruptExecution();
+            on_actionBuild_Interrupt_Execution_triggered();
             return true;
         }
     }
@@ -848,15 +849,46 @@ void MainWindow::on_actionBuild_Execute_triggered()
     // Other things may go here.
 }
 
-void MainWindow::on_actionBuild_Run_triggered()
+void MainWindow::on_actionBuild_Run_Source_triggered()
 {
     if (assemble() && load()) {
         on_actionBuild_Execute_triggered();
     }
-
 }
 
-void MainWindow::on_actionBuild_Start_Debugging_triggered()
+void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
+{
+    if (assemble() && load()) {
+        Sim::stackPointer = Sim::readWord(0xFFF8);
+        Sim::programCounter = 0x0000;
+        Sim::inputBuffer = inputPane->toPlainText();
+
+        setDebugState(true);
+
+        ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
+
+        if (ui->pepInputOutputTab->currentIndex() == 0) {
+            ui->pepInputOutputTab->setTabEnabled(1, false);
+            outputPane->clearOutput();
+        }
+        else {
+            ui->pepInputOutputTab->setTabEnabled(0, false);
+        }
+
+        cpuPane->startDebuggingClicked();
+        cpuPane->updateCpu();
+        listingTracePane->setDebuggingState(true);
+    }
+}
+
+void MainWindow::on_actionBuild_Run_Object_triggered()
+{
+    if (load()) {
+        on_actionBuild_Execute_triggered();
+    }
+}
+
+void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
 {
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
@@ -880,7 +912,7 @@ void MainWindow::on_actionBuild_Start_Debugging_triggered()
     listingTracePane->setDebuggingState(true);
 }
 
-void MainWindow::on_actionBuild_Stop_Execution_triggered()
+void MainWindow::on_actionBuild_Stop_Debugging_triggered()
 {
     setDebugState(false);
 
@@ -888,6 +920,12 @@ void MainWindow::on_actionBuild_Stop_Execution_triggered()
     ui->pepInputOutputTab->setTabEnabled(1, true);
 
     mainWindowUtilities(this, this);
+}
+
+void MainWindow::on_actionBuild_Interrupt_Execution_triggered()
+{
+    cpuPane->interruptExecution();
+    // Other things need to happen here.
 }
 
 // View MainWindow triggers
@@ -1087,7 +1125,7 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 void MainWindow::helpCopyToSourceButtonClicked()
 {
     helpDialog->hide();
-    if (ui->actionBuild_Stop_Execution->isEnabled()) {
+    if (ui->actionBuild_Stop_Debugging->isEnabled()) {
         ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
     }
     QString loc;
@@ -1190,18 +1228,18 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     memoryDumpPane->highlightOnFocus();
 
     if (sourceCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !sourceCodePane->isUndoable());
-        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !sourceCodePane->isRedoable());
-        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !sourceCodePane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !sourceCodePane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
     }
     else if (objectCodePane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !objectCodePane->isUndoable());
-        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !objectCodePane->isRedoable());
-        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !objectCodePane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !objectCodePane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
     }
     else if (assemblerListingPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
@@ -1225,11 +1263,11 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (inputPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !inputPane->isUndoable());
-        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Execution->isEnabled() || !inputPane->isRedoable());
-        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !inputPane->isUndoable());
+        ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !inputPane->isRedoable());
+        ui->actionEdit_Cut->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Execution->isEnabled());
+        ui->actionEdit_Paste->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled());
     }
     else if (outputPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);

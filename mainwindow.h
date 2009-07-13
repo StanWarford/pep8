@@ -131,9 +131,12 @@ private slots:
     void on_actionBuild_Assemble_triggered();
     void on_actionBuild_Load_triggered();
     void on_actionBuild_Execute_triggered();
-    void on_actionBuild_Run_triggered();
-    void on_actionBuild_Start_Debugging_triggered();
-    void on_actionBuild_Stop_Execution_triggered();
+    void on_actionBuild_Run_Source_triggered();
+    void on_actionBuild_Start_Debugging_Source_triggered();
+    void on_actionBuild_Run_Object_triggered();
+    void on_actionBuild_Start_Debugging_Object_triggered();
+    void on_actionBuild_Stop_Debugging_triggered();
+    void on_actionBuild_Interrupt_Execution_triggered();
 
     // View
     void on_actionView_Code_Only_triggered();
