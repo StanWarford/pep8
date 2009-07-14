@@ -3,6 +3,7 @@
 #include "code.h"
 #include "argument.h"
 #include "pep.h"
+#include "asm.h"
 
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
