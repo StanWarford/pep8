@@ -182,7 +182,6 @@ void CpuPane::resumeWithBatch()
     interruptExecutionFlag = false;
     QString errorString;
     while (true) {
-        qDebug() << "this executes";
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
             if (Sim::outputBuffer.length() == 1) {
@@ -190,7 +189,6 @@ void CpuPane::resumeWithBatch()
                 Sim::outputBuffer = "";
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
-                qDebug() << "shtop!";
                 emit executionComplete();
                 return;
             }
@@ -207,7 +205,6 @@ void CpuPane::resumeWithBatch()
             emit executionComplete();
         }
         if (interruptExecutionFlag) {
-            qDebug() << "interrupted!";
             return;
         }
     }

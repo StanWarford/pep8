@@ -16,7 +16,17 @@ public:
     virtual ~MemoryDumpPane();
 
     void refreshMemory();
-    int memDumpPaneWidth();
+    // Post: the entire memory pane is refreshed
+
+    void refreshMemoryLines(int firstByte, int lastByte);
+    // Post: The memory dump is refresed from the line containing startByte to the line
+    // containing endByte
+
+    void refreshMemoryByte(int byte);
+    // Post: The byte is refreshed, and the ascii char corresponding
+
+    void updateMemory();
+    // Post: The current program counter is highlighted, and everything else is unhighlighted
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -44,6 +54,12 @@ public:
 
 private:
     Ui::MemoryDumpPane *m_ui;
+
+    void highlightByte(int memAddr, QColor foreground, QColor background);
+
+    QList<int> highlightedInstruction;
+
+    QList<int> highlightedData;
 
 private slots:
     void on_pepMemRefreshButton_clicked();

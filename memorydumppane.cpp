@@ -2,6 +2,11 @@
 #include "memorydumppane.h"
 #include "ui_memorydumppane.h"
 #include "sim.h"
+#include "pep.h"
+#include "enu.h"
+
+#include <QTextCharFormat>
+#include <QDebug>
 
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
@@ -42,13 +47,78 @@ void MemoryDumpPane::refreshMemory()
     m_ui->pepMemoryDumpTextEdit->setText(memoryDump.join("\n"));
 }
 
-int MemoryDumpPane::memDumpPaneWidth()
+void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
 {
-    return 300;
-//    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
-//    cursor.setPosition(0);
-//    cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-//    m_ui->pepMemoryDumpTextEdit->lineWidth()
+    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < firstByte / 8; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+
+    QString memoryDumpLine;
+    QChar ch;
+    int byteNum = firstByte / 8;
+    for (int i = firstByte / 8; i <= lastByte / 8; i++) {
+        memoryDumpLine = "";
+        memoryDumpLine.append(QString("%1 | ").arg(byteNum, 4, 16, QLatin1Char('0')).toUpper());
+        for (int j = 0; j < 8; j++) {
+            memoryDumpLine.append(QString("%1 ").arg(Sim::Mem[byteNum + j], 2, 16, QLatin1Char('0')).toUpper());
+        }
+        memoryDumpLine.append("|");
+        for (int j = 0; j < 8; j++) {
+            ch = QChar(Sim::Mem[byteNum + j]);
+            if (ch.isPrint()) {
+                memoryDumpLine.append(ch);
+            } else {
+                memoryDumpLine.append(".");
+            }
+        }
+        byteNum += 8;
+//        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+        m_ui->pepMemoryDumpTextEdit->setOverwriteMode(true);
+        m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
+        m_ui->pepMemoryDumpTextEdit->setOverwriteMode(false);
+    }
+
+}
+
+void MemoryDumpPane::refreshMemoryByte(int byte)
+{
+
+}
+
+void MemoryDumpPane::updateMemory()
+{
+    while (!highlightedInstruction.isEmpty()) {
+        highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
+    }
+
+    highlightByte(Sim::programCounter, Qt::white, Qt::blue);
+    highlightedInstruction.append(Sim::programCounter);
+    if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::instructionSpecifier))) {
+        highlightByte(Sim::programCounter + 1, Qt::white, Qt::blue);
+        highlightedInstruction.append(Sim::programCounter + 1);
+        highlightByte(Sim::programCounter + 2, Qt::white, Qt::blue);
+        highlightedInstruction.append(Sim::programCounter + 2);
+    }
+}
+
+void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)
+{
+    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < memAddr / 8; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+    for (int i = 0; i < 7 + 3 * (memAddr % 8); i++) {
+        cursor.movePosition(QTextCursor::NextCharacter);
+    }
+    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+    QTextCharFormat format;
+    format.setBackground(background);
+    format.setForeground(foreground);
+    cursor.mergeCharFormat(format);
 }
 
 void MemoryDumpPane::highlightOnFocus()

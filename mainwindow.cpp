@@ -77,7 +77,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
-    ui->horizontalSplitter->widget(2)->resize(QSize(memoryDumpPane->memDumpPaneWidth(), 1));
 
     // Save system setup
     readSettings();
@@ -117,6 +116,8 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 0; i < MaxRecentFiles; ++i)
         ui->menu_File->addAction(recentFileActs[i]);
     updateRecentFileActions();
+
+    memoryDumpPane->refreshMemory();
 
     qApp->installEventFilter(this);
 
@@ -430,6 +431,7 @@ bool MainWindow::load()
     QList<int> objectCodeList;
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
+        memoryDumpPane->refreshMemory();
         return true;
     }    
     return false;
@@ -956,7 +958,6 @@ void MainWindow::on_actionView_Code_CPU_triggered()
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
-    memoryDumpPane->refreshMemory();
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
@@ -1344,6 +1345,7 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
+    memoryDumpPane->updateMemory();
 }
 
 void MainWindow::appendOutput(QString str)
