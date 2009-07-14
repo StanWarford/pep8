@@ -23,7 +23,7 @@ public:
         PS_INSTRUCTION, PS_START, PS_STRING, PS_SYMBOL_DEF
     };
 
-    // Regular expressions
+    // Regular expressions for lexical analysis
     static QRegExp rxAddrMode;
     static QRegExp rxCharConst;
     static QRegExp rxComment;
@@ -32,6 +32,11 @@ public:
     static QRegExp rxHexConst;
     static QRegExp rxIdentifier;
     static QRegExp rxStringConst;
+
+    // Regular expressions for trace tag analysis
+    static QRegExp rxFormatTag;
+    static QRegExp rxSymbolTag;
+    static QRegExp rxArrayMultiplier;
 
     static bool getToken(QString &sourceLine, ELexicalToken &token, QString &tokenString);
     // Pre: sourceLine has one line of source code.
