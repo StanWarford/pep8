@@ -374,6 +374,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 blankLine = new BlankLine;
                 code = blankLine;
                 code->memAddress = Pep::byteCount;
+                code->sourceCodeLine = lineNum;
                 state = Asm::PS_FINISH;
             }
             else {
@@ -552,6 +553,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     state = Asm::PS_COMMENT;
                 }
                 else if (token == Asm::LT_EMPTY) {
+                    code->sourceCodeLine = lineNum;
                     state = Asm::PS_FINISH;
                 }
                 else {
@@ -693,10 +695,12 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
         case Asm::PS_DOT_END:
             if (token == Asm::LT_COMMENT) {
                 dotEnd->comment = tokenString;
+                code->sourceCodeLine = lineNum;
                 state = Asm::PS_FINISH;
             }
             else if (token == Asm::LT_EMPTY) {
                 dotEnd->comment = "";
+                code->sourceCodeLine = lineNum;
                 state = Asm::PS_FINISH;
             }
             else {
@@ -799,6 +803,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
 
         case Asm::PS_CLOSE:
             if (token == Asm::LT_EMPTY) {
+                code->sourceCodeLine = lineNum;
                 state = Asm::PS_FINISH;
             }
             else if (token == Asm::LT_COMMENT) {
@@ -813,6 +818,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
 
         case Asm::PS_COMMENT:
             if (token == Asm::LT_EMPTY) {
+                code->sourceCodeLine = lineNum;
                 state = Asm::PS_FINISH;
             }
             else {

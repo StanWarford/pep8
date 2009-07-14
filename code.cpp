@@ -399,3 +399,45 @@ void BlankLine::appendSourceLine(QStringList &assemblerListingList, QStringList 
     listingTraceList.append("");
     hasCheckBox.append(false);
 }
+
+bool DotBlock::processFormatTraceTags(int &sourceLine, QString &errorString) {
+    errorString = ";WARNING: This is a test.";
+    sourceLine = sourceCodeLine;
+    return true;
+}
+
+bool DotEquate::processFormatTraceTags(int &sourceLine, QString &errorString) {
+    errorString = ";WARNING: This is a test.";
+    sourceLine = sourceCodeLine;
+    return true;
+}
+
+bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
+    switch (mnemonic) {
+    case Enu::ADDSP:
+        errorString = ";WARNING: This is a test.";
+        sourceLine = sourceCodeLine;
+        return false;
+    case Enu::SUBSP:
+        errorString = ";WARNING: This is a test.";
+        sourceLine = sourceCodeLine;
+        return false;
+    case Enu::RET0:
+        break;
+    case Enu::RET1:
+        break;
+    case Enu::RET2:
+        break;
+    case Enu::RET3:
+        break;
+    case Enu::RET4:
+        break;
+    case Enu::RET5:
+        break;
+    case Enu::RET6:
+        break;
+    case Enu::RET7:
+        break;
+    }
+    return true;
+}

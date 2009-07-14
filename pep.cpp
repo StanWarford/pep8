@@ -651,3 +651,6 @@ int Pep::byteCount;
 int Pep::burnCount;
 int Pep::dotBurnArgument;
 int Pep::romStartAddress;
+
+// Memory trace state
+bool Pep::traceTagWarning;

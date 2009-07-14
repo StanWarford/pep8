@@ -83,6 +83,21 @@ bool SourceCodePane::assemble()
             return false;
         }
     }
+    Pep::traceTagWarning = false;
+    for (int i = 0; i < codeList.size(); i++) {
+        if (!codeList[i]->processFormatTraceTags(lineNum, errorString)) {
+            appendMessageInSourceCodePaneAt(lineNum, errorString);
+            Pep::traceTagWarning = true;
+        }
+    }
+    if (!Pep::traceTagWarning) {
+        for (int i = 0; i < codeList.size(); i++) {
+            if (!codeList[i]->processSymbolTraceTags(lineNum, errorString)) {
+                appendMessageInSourceCodePaneAt(lineNum, errorString);
+                Pep::traceTagWarning = true;
+            }
+        }
+    }
     return true;
 }
 

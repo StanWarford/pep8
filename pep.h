@@ -108,6 +108,9 @@ public:
     static int burnCount;
     static int dotBurnArgument;
     static int romStartAddress;
+
+    // Memory trace state
+    static bool traceTagWarning;
 };
 
 #endif // PEP_H

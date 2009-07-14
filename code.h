@@ -15,9 +15,12 @@ public:
     virtual void appendObjectCode(QList<int> &objectCode) = 0;
     virtual void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox) = 0;
     void adjustMemAddress(int addressDelta) { memAddress += addressDelta; }
+    virtual bool processFormatTraceTags(int &, QString &) { return true; }
+    virtual bool processSymbolTraceTags(int &, QString &) { return true; }
 
 protected:
     int memAddress;
+    int sourceCodeLine;
     QString symbolDef;
     QString comment;
 };
@@ -41,8 +44,10 @@ private:
     Enu::EAddrMode addressingMode;
     Argument *argument;
 public:
+    // ~NonUnaryInstruction() { delete argument; }
     void appendObjectCode(QList<int> &objectCode);
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
+    bool processSymbolTraceTags(int &sourceCodeLine, QString &errorString);
 };
 
 class DotAddrss: public Code
@@ -73,6 +78,7 @@ private:
 public:
     void appendObjectCode(QList<int> &objectCode);
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
+    bool processFormatTraceTags(int &sourceCodeLine, QString &errorString);
 };
 
 class DotBurn: public Code
@@ -111,6 +117,7 @@ private:
 public:
     void appendObjectCode(QList<int> &objectCode);
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
+    bool processFormatTraceTags(int &sourceCodeLine, QString &errorString);
 };
 
 class DotWord: public Code
