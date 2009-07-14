@@ -444,11 +444,26 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Start_Debugging_Source->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionEdit_Remove_Error_Messages->setDisabled(b);
+    ui->actionBuild_Interrupt_Execution->setDisabled(!b);
     inputPane->setReadOnly(b);
     sourceCodePane->setReadOnly(b);
     objectCodePane->setReadOnly(b);
     listingTracePane->setDebuggingState(b);
     cpuPane->setDebugState(b);
+    cpuPane->setButtonsEnabled(b);
+    if (b) {
+        if (ui->pepInputOutputTab->currentIndex() == 0) {
+            ui->pepInputOutputTab->setTabEnabled(1, false);
+            outputPane->clearOutput();
+        }
+        else {
+            ui->pepInputOutputTab->setTabEnabled(0, false);
+        }
+    }
+    else {
+        ui->pepInputOutputTab->setTabEnabled(1, true);
+        ui->pepInputOutputTab->setTabEnabled(0, true);
+    }
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -833,17 +848,18 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::programCounter = 0x0000;
     Sim::inputBuffer = inputPane->toPlainText();
     outputPane->clearOutput();
+    setDebugState(true);
+    listingTracePane->setDebuggingState(false);
+    cpuPane->setButtonsEnabled(false);
     cpuPane->runClicked();
     cpuPane->clearCpu();
     sourceCodePane->setReadOnly(true);
     objectCodePane->setReadOnly(true);
     if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
-        outputPane->clearOutput();
         Sim::inputBuffer = inputPane->toPlainText();
         cpuPane->runWithBatch();
     }
     else { // terminal input
-        ui->pepInputOutputTab->setTabEnabled(0, false);
         cpuPane->runWithTerminal();
     }
     // Other things may go here.
@@ -858,7 +874,8 @@ void MainWindow::on_actionBuild_Run_Source_triggered()
 
 void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 {
-    if (assemble() && load()) {
+    if (load()) {
+        ui->statusbar->showMessage("Load succeeded", 4000);
         Sim::stackPointer = Sim::readWord(0xFFF8);
         Sim::programCounter = 0x0000;
         Sim::inputBuffer = inputPane->toPlainText();
@@ -867,17 +884,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 
         ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
 
-        if (ui->pepInputOutputTab->currentIndex() == 0) {
-            ui->pepInputOutputTab->setTabEnabled(1, false);
-            outputPane->clearOutput();
-        }
-        else {
-            ui->pepInputOutputTab->setTabEnabled(0, false);
-        }
-
         cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
+    }
+    else {
+        ui->statusbar->showMessage("Load failed", 4000);
     }
 }
 
@@ -898,26 +910,21 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
 
     ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
 
-    if (ui->pepInputOutputTab->currentIndex() == 0) {
-        ui->pepInputOutputTab->setTabEnabled(1, false);
-        outputPane->clearOutput();
+    if (load()) {
+        ui->statusbar->showMessage("Load succeeded", 4000);
+        cpuPane->startDebuggingClicked();
+        cpuPane->updateCpu();
+        listingTracePane->setDebuggingState(true);
     }
     else {
-        ui->pepInputOutputTab->setTabEnabled(0, false);
+        ui->statusbar->showMessage("Load failed", 4000);
     }
-
-    on_actionBuild_Load_triggered();
-    cpuPane->startDebuggingClicked();
-    cpuPane->updateCpu();
-    listingTracePane->setDebuggingState(true);
 }
 
 void MainWindow::on_actionBuild_Stop_Debugging_triggered()
 {
+    on_actionBuild_Interrupt_Execution_triggered();
     setDebugState(false);
-
-    ui->pepInputOutputTab->setTabEnabled(0, true);
-    ui->pepInputOutputTab->setTabEnabled(1, true);
 
     mainWindowUtilities(this, this);
 }
@@ -925,7 +932,10 @@ void MainWindow::on_actionBuild_Stop_Debugging_triggered()
 void MainWindow::on_actionBuild_Interrupt_Execution_triggered()
 {
     cpuPane->interruptExecution();
-    // Other things need to happen here.
+    setDebugState(true);
+    cpuPane->updateCpu();
+    listingTracePane->updateListingTrace();
+    // Other things need to happen here?
 }
 
 // View MainWindow triggers

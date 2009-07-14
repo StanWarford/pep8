@@ -220,7 +220,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     }
     // Execute
     //qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
-    if (!Pep::isUnaryMap[mnemonic] && !(Pep::addrModesMap.value(mnemonic) & addrMode)) {
+    if (!Pep::isUnaryMap[mnemonic] && !(Pep::addrModesMap.value(mnemonic) & addrMode)) { // I think there is a bug here
         errorString = "Invalid Addressing Mode.";
         return false;
     }

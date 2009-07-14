@@ -110,15 +110,17 @@ void CpuPane::setDebugState(bool b)
     m_ui->pepTraceLoadCheckBox->setDisabled(b);
     m_ui->pepTraceProgramCheckBox->setDisabled(b);
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
+}
 
+void CpuPane::setButtonsEnabled(bool b) {
     m_ui->cpuResumePushButton->setDisabled(!b);
     m_ui->cpuSingleStepPushButton->setDisabled(!b);
 }
 
 void CpuPane::runWithBatch()
 {
-    QString errorString;
     interruptExecutionFlag = false;
+    QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
@@ -144,6 +146,7 @@ void CpuPane::runWithBatch()
 
 void CpuPane::runWithTerminal()
 {
+    interruptExecutionFlag = false;
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
@@ -176,8 +179,10 @@ void CpuPane::runWithTerminal()
 
 void CpuPane::resumeWithBatch()
 {
+    interruptExecutionFlag = false;
     QString errorString;
     while (true) {
+        qDebug() << "this executes";
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
             if (Sim::outputBuffer.length() == 1) {
@@ -185,6 +190,7 @@ void CpuPane::resumeWithBatch()
                 Sim::outputBuffer = "";
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                qDebug() << "shtop!";
                 emit executionComplete();
                 return;
             }
@@ -201,6 +207,7 @@ void CpuPane::resumeWithBatch()
             emit executionComplete();
         }
         if (interruptExecutionFlag) {
+            qDebug() << "interrupted!";
             return;
         }
     }
@@ -208,6 +215,7 @@ void CpuPane::resumeWithBatch()
 
 void CpuPane::resumeWithTerminal()
 {
+    interruptExecutionFlag = false;
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run

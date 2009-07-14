@@ -29,6 +29,9 @@ public:
     void setDebugState(bool b);
     // Post: if b is true, checkboxes are set to disabled, and vice versa
 
+    void setButtonsEnabled(bool b);
+    // Post: if b is true, buttons are enabled, and vice versa
+
     void runWithBatch();
     // Runs the simulator through with batch input
 

@@ -58,6 +58,12 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
     rule.format = doubleQuotationFormat;
     highlightingRules.append(rule);
 
+    warningFormat.setForeground(Qt::white);
+    warningFormat.setBackground(Qt::blue);
+    rule.pattern = QRegExp(";WARNING:[\\s].*$");
+    rule.format = warningFormat;
+    highlightingRules.append(rule);
+
     commentStartExpression = QRegExp(";ERROR:[\\s]");
     commentEndExpression = QRegExp("$");
 }
