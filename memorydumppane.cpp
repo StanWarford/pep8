@@ -49,6 +49,9 @@ void MemoryDumpPane::refreshMemory()
 
 void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
 {
+    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
+
     QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
     cursor.setPosition(0);
     for (int i = 0; i < firstByte / 8; i++) {
@@ -74,18 +77,59 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
             }
         }
         byteNum += 8;
-//        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
         m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
-        m_ui->pepMemoryDumpTextEdit->setOverwriteMode(true);
         m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
-        m_ui->pepMemoryDumpTextEdit->setOverwriteMode(false);
+        cursor.movePosition(QTextCursor::NextBlock);
     }
 
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
+    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
 void MemoryDumpPane::refreshMemoryByte(int byte)
 {
+    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
 
+    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < byte / 8; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+    for (int i = 0; i < 7 + 3 * (byte % 8); i++) {
+        cursor.movePosition(QTextCursor::NextCharacter);
+    }
+    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+
+    QString string = "";
+    string.append(QString("%1").arg(Sim::Mem[byte], 2, 16, QLatin1Char('0')).toUpper());
+
+    m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+    m_ui->pepMemoryDumpTextEdit->insertPlainText(string);
+
+    cursor.clearSelection();
+    string.clear();
+
+    QChar ch;
+    ch = QChar(Sim::Mem[byte]);
+    if (ch.isPrint()) {
+        string.append(ch);
+    } else {
+        string.append(".");
+    }
+
+    cursor.movePosition(QTextCursor::StartOfLine);
+    for (int i = 0; i < 32 + (byte % 8); i++) {
+        cursor.movePosition(QTextCursor::NextCharacter);
+    }
+    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+
+    m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+    m_ui->pepMemoryDumpTextEdit->insertPlainText(string);
+
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
+    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
 void MemoryDumpPane::updateMemory()
@@ -94,13 +138,17 @@ void MemoryDumpPane::updateMemory()
         highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
     }
 
-    highlightByte(Sim::programCounter, Qt::white, Qt::blue);
-    highlightedInstruction.append(Sim::programCounter);
     if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::instructionSpecifier))) {
+        highlightByte(Sim::programCounter, Qt::white, Qt::blue);
+        highlightedInstruction.append(Sim::programCounter);
         highlightByte(Sim::programCounter + 1, Qt::white, Qt::blue);
         highlightedInstruction.append(Sim::programCounter + 1);
         highlightByte(Sim::programCounter + 2, Qt::white, Qt::blue);
         highlightedInstruction.append(Sim::programCounter + 2);
+    }
+    else {
+        highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
+        highlightedInstruction.append(Sim::programCounter);
     }
 }
 

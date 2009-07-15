@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initDecoderTables();
 
     // Adjust initial configuration
-    ui->horizontalSplitter->widget(2)->hide();
+//    ui->horizontalSplitter->widget(2)->hide();
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
@@ -123,6 +123,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
+
+//    Sim::writeByte(5, 5);
+//    memoryDumpPane->refreshMemoryByte(5);
 }
 
 MainWindow::~MainWindow()
@@ -431,7 +434,7 @@ bool MainWindow::load()
     QList<int> objectCodeList;
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
-        memoryDumpPane->refreshMemory();
+        memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
         return true;
     }    
     return false;
@@ -898,7 +901,11 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 void MainWindow::on_actionBuild_Run_Object_triggered()
 {
     if (load()) {
+        ui->statusbar->showMessage("Load succeeded", 4000);
         on_actionBuild_Execute_triggered();
+    }
+    else {
+        ui->statusbar->showMessage("Load failed", 4000);
     }
 }
 
