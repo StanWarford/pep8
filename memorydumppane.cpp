@@ -132,13 +132,13 @@ void MemoryDumpPane::refreshMemoryByte(int byte)
     m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
-void MemoryDumpPane::updateMemory()
+void MemoryDumpPane::highlightMemory()
 {
     while (!highlightedInstruction.isEmpty()) {
         highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
     }
 
-    if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::instructionSpecifier))) {
+    if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
         highlightByte(Sim::programCounter, Qt::white, Qt::blue);
         highlightedInstruction.append(Sim::programCounter);
         highlightByte(Sim::programCounter + 1, Qt::white, Qt::blue);

@@ -435,6 +435,7 @@ bool MainWindow::load()
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
         memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
+        memoryDumpPane->highlightMemory();
         return true;
     }    
     return false;
@@ -457,6 +458,7 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
     if (b) {
+         memoryDumpPane->highlightMemory();
         if (ui->pepInputOutputTab->currentIndex() == 0) {
             ui->pepInputOutputTab->setTabEnabled(1, false);
             outputPane->clearOutput();
@@ -1352,7 +1354,7 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-    memoryDumpPane->updateMemory();
+    memoryDumpPane->highlightMemory();
 }
 
 void MainWindow::appendOutput(QString str)

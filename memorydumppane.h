@@ -25,7 +25,7 @@ public:
     void refreshMemoryByte(int byte);
     // Post: The byte is refreshed, and the ascii char corresponding
 
-    void updateMemory();
+    void highlightMemory();
     // Post: The current program counter is highlighted, and everything else is unhighlighted
 
     void highlightOnFocus();
