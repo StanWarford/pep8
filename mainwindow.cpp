@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
 
-//    Sim::writeByte(5, 5);
+//    Sim::writeByte(0, 5);
 //    memoryDumpPane->refreshMemoryByte(5);
 }
 

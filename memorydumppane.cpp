@@ -137,7 +137,13 @@ void MemoryDumpPane::highlightMemory(bool b)
     while (!highlightedInstruction.isEmpty()) {
         highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
     }
+    while (!highlightedData.isEmpty()) {
+        highlightByte(highlightedData.takeFirst(), Qt::black, Qt::white);
+    }
+
     if (b) {
+        highlightByte(Sim::stackPointer, Qt::white, Qt::darkCyan);
+        highlightedInstruction.append(Sim::stackPointer);
         if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
             highlightByte(Sim::programCounter, Qt::white, Qt::blue);
             highlightedInstruction.append(Sim::programCounter);
@@ -150,6 +156,27 @@ void MemoryDumpPane::highlightMemory(bool b)
             highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
             highlightedInstruction.append(Sim::programCounter);
         }
+        Sim::instructionSpecifier = Sim::readByte(Sim::programCounter);
+        Sim::operandSpecifier = Sim::readWord(Sim::programCounter);
+
+        // MAYDAY MAYDAY !BUGS!
+//        qDebug() << "Program counter: " << Sim::programCounter << ", Addr mode: " << Pep::intToAddrMode(Pep::decodeAddrMode[Sim::instructionSpecifier]);
+//        qDebug() << "Mem addr of the operand: " << Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]);
+//        if (Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDA ||
+//            Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDX) {
+//
+//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]), Qt::white, Qt::darkMagenta);
+//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]));
+//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]) + 1, Qt::white, Qt::darkMagenta);
+//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]) + 1);
+//
+//        } else if (Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDBYTEA ||
+//                   Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDBYTEX ||
+//                   Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::CHARO) {
+//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]), Qt::white, Qt::darkMagenta);
+//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]));
+//        }
+
     }
 }
 

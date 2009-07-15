@@ -42,6 +42,8 @@ public:
     static int readByteOprnd(Enu::EAddrMode addrMode);
     static int readWordOprnd(Enu::EAddrMode addrMode);
 
+    static int memAddrOfOprnd(Enu::EAddrMode addrMode);
+
     static void writeByte(int memAddr, int value);
     // Pre: 0 <= value < 256
     // Post: Value is stored in Mem[memAddr]

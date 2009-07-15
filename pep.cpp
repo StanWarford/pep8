@@ -420,7 +420,7 @@ void Pep::initDecoderTables()
     decodeMnemonic[54] = DECI; decodeAddrMode[54] = NONE;
     decodeMnemonic[55] = DECI; decodeAddrMode[55] = NONE;
 
-    decodeMnemonic[56] = DECO; decodeAddrMode[56] = NONE;
+    decodeMnemonic[56] = DECO; decodeAddrMode[56] = NONE; // I think this is a bug...?
     decodeMnemonic[57] = DECO; decodeAddrMode[57] = NONE;
     decodeMnemonic[58] = DECO; decodeAddrMode[58] = NONE;
     decodeMnemonic[59] = DECO; decodeAddrMode[59] = NONE;
