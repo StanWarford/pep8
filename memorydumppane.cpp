@@ -132,41 +132,25 @@ void MemoryDumpPane::refreshMemoryByte(int byte)
     m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
-void MemoryDumpPane::highlightMemory()
+void MemoryDumpPane::highlightMemory(bool b)
 {
     while (!highlightedInstruction.isEmpty()) {
         highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
     }
-
-    if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
-        highlightByte(Sim::programCounter, Qt::white, Qt::blue);
-        highlightedInstruction.append(Sim::programCounter);
-        highlightByte(Sim::programCounter + 1, Qt::white, Qt::blue);
-        highlightedInstruction.append(Sim::programCounter + 1);
-        highlightByte(Sim::programCounter + 2, Qt::white, Qt::blue);
-        highlightedInstruction.append(Sim::programCounter + 2);
+    if (b) {
+        if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
+            highlightByte(Sim::programCounter, Qt::white, Qt::blue);
+            highlightedInstruction.append(Sim::programCounter);
+            highlightByte(Sim::programCounter + 1, Qt::white, Qt::blue);
+            highlightedInstruction.append(Sim::programCounter + 1);
+            highlightByte(Sim::programCounter + 2, Qt::white, Qt::blue);
+            highlightedInstruction.append(Sim::programCounter + 2);
+        }
+        else {
+            highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
+            highlightedInstruction.append(Sim::programCounter);
+        }
     }
-    else {
-        highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
-        highlightedInstruction.append(Sim::programCounter);
-    }
-}
-
-void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)
-{
-    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
-    cursor.setPosition(0);
-    for (int i = 0; i < memAddr / 8; i++) {
-        cursor.movePosition(QTextCursor::NextBlock);
-    }
-    for (int i = 0; i < 7 + 3 * (memAddr % 8); i++) {
-        cursor.movePosition(QTextCursor::NextCharacter);
-    }
-    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
-    QTextCharFormat format;
-    format.setBackground(background);
-    format.setForeground(foreground);
-    cursor.mergeCharFormat(format);
 }
 
 void MemoryDumpPane::highlightOnFocus()
@@ -216,6 +200,23 @@ void MemoryDumpPane::setFont()
     if (ok) {
         m_ui->pepMemoryDumpTextEdit->setFont(font);
     }
+}
+
+void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)
+{
+    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    cursor.setPosition(0);
+    for (int i = 0; i < memAddr / 8; i++) {
+        cursor.movePosition(QTextCursor::NextBlock);
+    }
+    for (int i = 0; i < 7 + 3 * (memAddr % 8); i++) {
+        cursor.movePosition(QTextCursor::NextCharacter);
+    }
+    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+    QTextCharFormat format;
+    format.setBackground(background);
+    format.setForeground(foreground);
+    cursor.mergeCharFormat(format);
 }
 
 void MemoryDumpPane::on_pepMemRefreshButton_clicked()

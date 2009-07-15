@@ -25,8 +25,8 @@ public:
     void refreshMemoryByte(int byte);
     // Post: The byte is refreshed, and the ascii char corresponding
 
-    void highlightMemory();
-    // Post: The current program counter is highlighted, and everything else is unhighlighted
+    void highlightMemory(bool b);
+    // Post: Everything is unhighlighted. If b, current program counter is highlighted.
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
