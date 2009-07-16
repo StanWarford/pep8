@@ -79,6 +79,15 @@ public:
     // Pre: str is a double quoted string.
     // Post: Returns the byte length of str accounting for possibly \ quoted characters.
 
+    static Enu::ESymbolFormat formatTagType(QString formatTag);
+    // Pre: formatTag is a valid format trace tag.
+    // Post: Returns the enumerated trace tag format type.
+
+    static int formatMultiplier(QString formatTag);
+    // Pre: format tag is a valid format trace tag.
+    // Post: If the format tag specifies an array, returns the array multiplier.
+    // Otherwise, returns 1.
+
 };
 
 #endif // ASM_H

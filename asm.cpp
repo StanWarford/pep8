@@ -15,9 +15,9 @@ QRegExp Asm::rxIdentifier("^((([A-Z|a-z]{1})(\\w*))(:){0,1})");
 QRegExp Asm::rxStringConst("^((\")((([^\"|\\\\])|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))*)(\"))");
 
 // Regular expressions for trace tag analysis
-QRegExp rxFormatTag("(#((1c)|(1d)|(1h)|(2d)|(2h))((\\d)+a)?(\\s|$))");
-QRegExp rxSymbolTag("#([a-zA-Z][a-zA-Z0-9]{0,7})");
-QRegExp rxArrayMultiplier("((\\d)+)a");
+QRegExp Asm::rxFormatTag("(#((1c)|(1d)|(1h)|(2d)|(2h))((\\d)+a)?(\\s|$))");
+QRegExp Asm::rxSymbolTag("#([a-zA-Z][a-zA-Z0-9]{0,7})");
+QRegExp Asm::rxArrayMultiplier("((\\d)+)a");
 
 bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenString)
 {
@@ -230,6 +230,22 @@ int Asm::byteStringLength(QString str)
         length++;
     }
     return length;
+}
+
+Enu::ESymbolFormat Asm::formatTagType(QString formatTag) {
+    return Enu::F_NONE;
+}
+
+int Asm::formatMultiplier(QString formatTag) {
+    int pos = Asm::rxArrayMultiplier.indexIn(formatTag);
+    if (pos > -1) {
+        QString multiplierTag = Asm::rxArrayMultiplier.cap(0);
+        multiplierTag.chop(1); // Remove the last character 'a' from the array tag.
+        return multiplierTag.toInt();
+    }
+    else {
+        return 1;
+    }
 }
 
 bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QString &errorString, bool &dotEndDetected)

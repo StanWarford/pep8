@@ -5,6 +5,9 @@
 #include "pep.h"
 #include "asm.h"
 
+#include <QDebug>
+#include <QRegExp>
+
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
 {
@@ -405,8 +408,15 @@ bool DotBlock::processFormatTraceTags(int &sourceLine, QString &errorString) {
     if (symbolDef.size() == 0) {
         return true;
     }
-    errorString = ";WARNING: This is a test.";
-    sourceLine = sourceCodeLine;
+    int pos = Asm::rxFormatTag.indexIn(comment);
+    if (pos > -1) {
+        QString formatTag = Asm::rxFormatTag.cap(0);
+        qDebug() << "formatTag: " << formatTag;
+        Enu::ESymbolFormat tagType = Asm::formatTagType(formatTag);
+        qDebug() << "tagType: " << tagType;
+        int multiplier = Asm::formatMultiplier(formatTag);
+        qDebug() << "multiplier: " << multiplier;
+    }
     return true;
 }
 
@@ -414,7 +424,7 @@ bool DotEquate::processFormatTraceTags(int &sourceLine, QString &errorString) {
     if (symbolDef.size() == 0) {
         return true;
     }
-    errorString = ";WARNING: This is a test.";
+    errorString = "";
     sourceLine = sourceCodeLine;
     return true;
 }
@@ -422,7 +432,7 @@ bool DotEquate::processFormatTraceTags(int &sourceLine, QString &errorString) {
 bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
     switch (mnemonic) {
     case Enu::ADDSP:
-        errorString = ";WARNING: This is a test.";
+        errorString = "";
         sourceLine = sourceCodeLine;
         return false;
     case Enu::SUBSP:
