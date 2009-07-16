@@ -87,51 +87,6 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
     m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
-void MemoryDumpPane::refreshMemoryByte(int byte)
-{
-    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
-    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
-
-    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
-    cursor.setPosition(0);
-    for (int i = 0; i < byte / 8; i++) {
-        cursor.movePosition(QTextCursor::NextBlock);
-    }
-    for (int i = 0; i < 7 + 3 * (byte % 8); i++) {
-        cursor.movePosition(QTextCursor::NextCharacter);
-    }
-    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
-
-    QString string = "";
-    string.append(QString("%1").arg(Sim::Mem[byte], 2, 16, QLatin1Char('0')).toUpper());
-
-    m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
-    m_ui->pepMemoryDumpTextEdit->insertPlainText(string);
-
-    cursor.clearSelection();
-    string.clear();
-
-    QChar ch;
-    ch = QChar(Sim::Mem[byte]);
-    if (ch.isPrint()) {
-        string.append(ch);
-    } else {
-        string.append(".");
-    }
-
-    cursor.movePosition(QTextCursor::StartOfLine);
-    for (int i = 0; i < 32 + (byte % 8); i++) {
-        cursor.movePosition(QTextCursor::NextCharacter);
-    }
-    cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-
-    m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
-    m_ui->pepMemoryDumpTextEdit->insertPlainText(string);
-
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
-    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
-}
-
 void MemoryDumpPane::highlightMemory(bool b)
 {
     while (!highlightedInstruction.isEmpty()) {
@@ -158,26 +113,14 @@ void MemoryDumpPane::highlightMemory(bool b)
         }
         Sim::instructionSpecifier = Sim::readByte(Sim::programCounter);
         Sim::operandSpecifier = Sim::readWord(Sim::programCounter);
-
-        // MAYDAY MAYDAY !BUGS!
-//        qDebug() << "Program counter: " << Sim::programCounter << ", Addr mode: " << Pep::intToAddrMode(Pep::decodeAddrMode[Sim::instructionSpecifier]);
-//        qDebug() << "Mem addr of the operand: " << Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]);
-//        if (Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDA ||
-//            Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDX) {
-//
-//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]), Qt::white, Qt::darkMagenta);
-//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]));
-//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]) + 1, Qt::white, Qt::darkMagenta);
-//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]) + 1);
-//
-//        } else if (Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDBYTEA ||
-//                   Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::LDBYTEX ||
-//                   Pep::decodeMnemonic.value(Sim::readByte(Sim::instructionSpecifier)) == Enu::CHARO) {
-//            highlightByte(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]), Qt::white, Qt::darkMagenta);
-//            highlightedData.append(Sim::memAddrOfOprnd(Pep::decodeAddrMode[Sim::instructionSpecifier]));
-//        }
-
     }
+}
+
+void MemoryDumpPane::updateMemory()
+{
+//    for (int i = 0; !Sim::changedMemAddrss.isEmpty(); i++) {
+////        refreshMemoryLines(Sim::changedMemAddrss.at(i), Sim::changedMemAddrss.at(i));
+//    }
 }
 
 void MemoryDumpPane::highlightOnFocus()

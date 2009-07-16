@@ -20,6 +20,8 @@ public:
     static QString inputBuffer;
     static QString outputBuffer;
 
+    static QList<int> changedMemAddrss;
+
     static Enu::EExecState executionState;
     // State for keeping track of what actions are possible for user and machine
 
@@ -41,8 +43,6 @@ public:
     static int readWord(int memAddr);
     static int readByteOprnd(Enu::EAddrMode addrMode);
     static int readWordOprnd(Enu::EAddrMode addrMode);
-
-    static int memAddrOfOprnd(Enu::EAddrMode addrMode);
 
     static void writeByte(int memAddr, int value);
     // Pre: 0 <= value < 256

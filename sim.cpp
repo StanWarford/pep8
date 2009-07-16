@@ -18,6 +18,8 @@ int Sim::operandSpecifier;
 QString Sim::inputBuffer;
 QString Sim::outputBuffer;
 
+QList<int> Sim::changedMemAddrss;
+
 Enu::EExecState Sim::executionState;
 
 int Sim::toSignedDecimal(int value)
@@ -122,42 +124,18 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
     return 0;
 }
 
-int Sim::memAddrOfOprnd(Enu::EAddrMode addrMode) // I think we may need this to look up the memory address the instruction references
-{
-    switch (addrMode) {
-    case Enu::NONE:
-        break;
-    case Enu::I:
-        // invalid?
-    case Enu::D:
-        return operandSpecifier;
-    case Enu::N:
-        return readWord(operandSpecifier);
-    case Enu::S:
-        return add(stackPointer, operandSpecifier);
-    case Enu::SF:
-        return readByte(add(stackPointer, operandSpecifier));
-    case Enu::X:
-        return add(operandSpecifier, indexRegister);
-    case Enu::SX:
-        return add(add(stackPointer, operandSpecifier), indexRegister);
-    case Enu::SXF:
-        return add(readByte(add(stackPointer, operandSpecifier)), indexRegister);
-    case Enu::ALL:
-        break;
-    }
-    return 0;
-}
-
 void Sim::writeByte(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value;
+    changedMemAddrss.append(memAddr % 65536);
 }
 
 void Sim::writeWord(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value / 256;
+    changedMemAddrss.append(memAddr % 65536);
     Mem[(memAddr + 1) % 65536] = value % 256;
+    changedMemAddrss.append((memAddr + 1) % 65536);
 }
 
 void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
@@ -230,6 +208,7 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
 
 bool Sim::vonNeumannStep(QString &errorString)
 {
+    changedMemAddrss.clear();
     EMnemonic mnemonic;
     int operand;
     EAddrMode addrMode;
@@ -247,7 +226,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     }
     // Execute
     //qDebug() << Pep::enumToMnemonMap[Pep::decodeMnemonic[instructionSpecifier]];
-    if (!Pep::isUnaryMap[mnemonic] && !(Pep::addrModesMap.value(mnemonic) & addrMode)) { // I think there is a bug here
+    if (!Pep::isUnaryMap[mnemonic] && !Pep::isTrapMap[mnemonic] && !(Pep::addrModesMap.value(mnemonic) & addrMode )) {
         errorString = "Invalid Addressing Mode.";
         return false;
     }

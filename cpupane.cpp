@@ -124,6 +124,7 @@ void CpuPane::runWithBatch()
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
+            emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
                 emit appendOutput(Sim::outputBuffer);
                 Sim::outputBuffer = "";
@@ -156,6 +157,7 @@ void CpuPane::runWithTerminal()
         }
         else {
             if (Sim::vonNeumannStep(errorString)) {
+                emit vonNeumannStepped();
                 if (Sim::outputBuffer.length() == 1) {
                     emit appendOutput(Sim::outputBuffer);
                     Sim::outputBuffer = "";
@@ -184,6 +186,7 @@ void CpuPane::resumeWithBatch()
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if (Sim::vonNeumannStep(errorString)) {
+            emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
                 emit appendOutput(Sim::outputBuffer);
                 Sim::outputBuffer = "";
@@ -222,6 +225,7 @@ void CpuPane::resumeWithTerminal()
         }
         else {
             if (Sim::vonNeumannStep(errorString)) {
+                emit vonNeumannStepped();
                 if (Sim::outputBuffer.length() == 1) {
                     emit appendOutput(Sim::outputBuffer);
                     Sim::outputBuffer = "";
@@ -253,6 +257,7 @@ void CpuPane::singleStepWithBatch()
 {
     QString errorString;
     if (Sim::vonNeumannStep(errorString)) {
+        emit vonNeumannStepped();
         emit updateSimulationView();
         if (Sim::outputBuffer.length() == 1) {
             emit appendOutput(Sim::outputBuffer);
@@ -279,6 +284,7 @@ void CpuPane::singleStepWithTerminal()
         m_ui->cpuResumePushButton->setDisabled(true);
     }
     if (Sim::vonNeumannStep(errorString)) {
+        emit vonNeumannStepped();
         emit updateSimulationView();
         if (Sim::outputBuffer.length() == 1) {
             emit appendOutput(Sim::outputBuffer);

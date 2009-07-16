@@ -105,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
     connect(cpuPane, SIGNAL(resumeButtonClicked()), this, SLOT(resumeButtonClicked()));
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
+    connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(updateMemoryDisplays()));
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -123,9 +124,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
-
-//    Sim::writeByte(0, 5);
-//    memoryDumpPane->refreshMemoryByte(5);
 }
 
 MainWindow::~MainWindow()
@@ -1355,6 +1353,11 @@ void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
     memoryDumpPane->highlightMemory(true);
+}
+
+void MainWindow::updateMemoryDisplays()
+{
+
 }
 
 void MainWindow::appendOutput(QString str)

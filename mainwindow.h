@@ -183,6 +183,7 @@ private slots:
 
     // For updating the CPU and Memory trace from listing trace pane
     void updateSimulationView();
+    void updateMemoryDisplays();
     void appendOutput(QString str);
 
     void resumeButtonClicked();

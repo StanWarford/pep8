@@ -85,6 +85,7 @@ signals:
     void updateSimulationView();
     void executionComplete();
     void appendOutput(QString);
+    void vonNeumannStepped();
 };
 
 #endif // CPUPANE_H

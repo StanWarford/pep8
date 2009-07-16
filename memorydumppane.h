@@ -22,11 +22,12 @@ public:
     // Post: The memory dump is refresed from the line containing startByte to the line
     // containing endByte
 
-    void refreshMemoryByte(int byte);
-    // Post: The byte is refreshed, and the ascii char corresponding
-
     void highlightMemory(bool b);
     // Post: Everything is unhighlighted. If b, current program counter is highlighted.
+
+    void updateMemory();
+    // Post: Memory displays are updated using the changedMemoryAddrss qlist in sim
+    // Also, that memory is highlighted
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
