@@ -124,6 +124,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
+
+//    Sim::writeByte(5,5);
+//    memoryDumpPane->refreshMemoryLines(0,0);
 }
 
 MainWindow::~MainWindow()
@@ -1357,7 +1360,7 @@ void MainWindow::updateSimulationView()
 
 void MainWindow::updateMemoryDisplays()
 {
-
+    memoryDumpPane->updateMemory();
 }
 
 void MainWindow::appendOutput(QString str)

@@ -111,16 +111,29 @@ void MemoryDumpPane::highlightMemory(bool b)
             highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
             highlightedInstruction.append(Sim::programCounter);
         }
-        Sim::instructionSpecifier = Sim::readByte(Sim::programCounter);
-        Sim::operandSpecifier = Sim::readWord(Sim::programCounter);
+        for (int i = 0; !byteWritten.isEmpty(); i++) {
+            highlightByte(byteWritten.at(0), Qt::white, Qt::red);
+            highlightedData.append(byteWritten.takeFirst());
+        }
+        for (int i = 0; !byteRead.isEmpty(); i++) {
+            highlightByte(byteRead.at(0), Qt::white, Qt::green);
+            highlightedData.append(byteRead.takeFirst());
+        }
     }
 }
 
 void MemoryDumpPane::updateMemory()
 {
-//    for (int i = 0; !Sim::changedMemAddrss.isEmpty(); i++) {
-////        refreshMemoryLines(Sim::changedMemAddrss.at(i), Sim::changedMemAddrss.at(i));
-//    }
+    for (int i = 0; i < Sim::byteWritten.size(); i++) {
+        refreshMemoryLines(Sim::byteWritten.at(i), Sim::byteWritten.at(i));
+        byteWritten.append(Sim::byteWritten.at(i));
+    }
+    for (int i = 0; i < Sim::byteRead.size(); i++) {
+        byteRead.append(Sim::byteRead.at(i));
+    }
+    qDebug() << "Byte written: " << byteWritten;
+    qDebug() << "Byte read: " << byteRead;
+
 }
 
 void MemoryDumpPane::highlightOnFocus()

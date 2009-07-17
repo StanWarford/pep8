@@ -20,7 +20,8 @@ public:
     static QString inputBuffer;
     static QString outputBuffer;
 
-    static QList<int> changedMemAddrss;
+    static QList<int> byteRead;
+    static QList<int> byteWritten;
 
     static Enu::EExecState executionState;
     // State for keeping track of what actions are possible for user and machine
