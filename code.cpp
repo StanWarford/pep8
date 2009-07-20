@@ -411,52 +411,122 @@ bool DotBlock::processFormatTraceTags(int &sourceLine, QString &errorString) {
     int pos = Asm::rxFormatTag.indexIn(comment);
     if (pos > -1) {
         QString formatTag = Asm::rxFormatTag.cap(0);
-        qDebug() << "formatTag: " << formatTag;
         Enu::ESymbolFormat tagType = Asm::formatTagType(formatTag);
-        qDebug() << "tagType: " << tagType;
         int multiplier = Asm::formatMultiplier(formatTag);
-        qDebug() << "multiplier: " << multiplier;
+        if (argument->getArgumentValue() != Asm::tagNumBytes(tagType) * multiplier) {
+            errorString = ";WARNING: Format tag does not match number of bytes allocated by .BLOCK.";
+            sourceLine = sourceCodeLine;
+            return false;
+        }
+        Pep::symbolFormat.insert(symbolDef, tagType);
+        Pep::symbolFormatMultiplier.insert(symbolDef, multiplier);
+        Pep::blockSymbols.append(symbolDef);
     }
     return true;
 }
 
-bool DotEquate::processFormatTraceTags(int &sourceLine, QString &errorString) {
+bool DotEquate::processFormatTraceTags(int &, QString &) {
     if (symbolDef.size() == 0) {
         return true;
     }
-    errorString = "";
-    sourceLine = sourceCodeLine;
+    int pos = Asm::rxFormatTag.indexIn(comment);
+    if (pos > -1) {
+        QString formatTag = Asm::rxFormatTag.cap(0);
+        Pep::symbolFormat.insert(symbolDef, Asm::formatTagType(formatTag));
+        Pep::symbolFormatMultiplier.insert(symbolDef, Asm::formatMultiplier(formatTag));
+        Pep::equateSymbols.append(symbolDef);
+   }
     return true;
 }
 
-bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
+bool UnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
+    int numBytesDeallocated;
     switch (mnemonic) {
-    case Enu::ADDSP:
-        errorString = "";
-        sourceLine = sourceCodeLine;
-        return false;
-    case Enu::SUBSP:
-        errorString = ";WARNING: This is a test.";
-        sourceLine = sourceCodeLine;
-        return false;
-    case Enu::RET0:
-        break;
     case Enu::RET1:
+        numBytesDeallocated = 1;
         break;
     case Enu::RET2:
+        numBytesDeallocated = 2;
         break;
     case Enu::RET3:
+        numBytesDeallocated = 3;
         break;
     case Enu::RET4:
+        numBytesDeallocated = 4;
         break;
     case Enu::RET5:
+        numBytesDeallocated = 5;
         break;
     case Enu::RET6:
+        numBytesDeallocated = 6;
         break;
     case Enu::RET7:
+        numBytesDeallocated = 7;
         break;
     default:
         return true;
     }
+    QString symbol;
+    QStringList list;
+    int numBytesListed = 0;
+    int pos = 0;
+    while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
+        symbol = Asm::rxSymbolTag.cap(1);
+        if (!Pep::equateSymbols.contains(symbol)) {
+            errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+            sourceLine = sourceCodeLine;
+            return false;
+        }
+        numBytesListed += Asm::tagNumBytes(Pep::symbolFormat.value(symbol)) * Pep::symbolFormatMultiplier.value(symbol);
+        list.append(symbol);
+        pos += Asm::rxSymbolTag.matchedLength();
+    }
+    if (numBytesDeallocated != numBytesListed) {
+        errorString = ";WARNING: Number of bytes deallocated (" + QString("%1").arg(numBytesDeallocated) +
+                      ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
+        sourceLine = sourceCodeLine;
+        return false;
+    }
+    Pep::symbolTraceList.insert(memAddress, list);
+    return true;
+}
+
+bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
+    int numBytesAllocated;
+    switch (mnemonic) {
+    case Enu::ADDSP: case Enu::SUBSP:
+        if (addressingMode != Enu::I) {
+            errorString = ";WARNING: Stack trace not possible unless immediate addressing is specified.";
+            sourceLine = sourceCodeLine;
+            return false;
+        }
+        numBytesAllocated = argument->getArgumentValue();
+        break;
+    default:
+        return true;
+    }
+    QString symbol;
+    QStringList list;
+    int numBytesListed = 0;
+    int pos = 0;
+    while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
+        symbol = Asm::rxSymbolTag.cap(1);
+        if (!Pep::equateSymbols.contains(symbol)) {
+            errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+            sourceLine = sourceCodeLine;
+            return false;
+        }
+        numBytesListed += Asm::tagNumBytes(Pep::symbolFormat.value(symbol)) * Pep::symbolFormatMultiplier.value(symbol);
+        list.append(symbol);
+        pos += Asm::rxSymbolTag.matchedLength();
+    }
+    if (numBytesAllocated != numBytesListed) {
+        QString message = (mnemonic == Enu::ADDSP) ? "allocated" : "deallocated";
+        errorString = ";WARNING: Number of bytes " + message + " (" + QString("%1").arg(numBytesAllocated) +
+                      ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
+        sourceLine = sourceCodeLine;
+        return false;
+    }
+    Pep::symbolTraceList.insert(memAddress, list);
     return true;
 }

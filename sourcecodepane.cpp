@@ -50,6 +50,9 @@ bool SourceCodePane::assemble()
     Pep::symbolFormat.clear();
     Pep::symbolFormatMultiplier.clear();;
     Pep::symbolTraceList.clear(); // Does this clear the lists within the map?
+    Pep::blockSymbols.clear();
+    Pep::equateSymbols.clear();
+    Pep::newSymbols.clear();
     while (!codeList.isEmpty()) {
         delete codeList.takeFirst();
     }
@@ -90,7 +93,7 @@ bool SourceCodePane::assemble()
             Pep::traceTagWarning = true;
         }
     }
-    if (!Pep::traceTagWarning) {
+    if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty() && Pep::equateSymbols.isEmpty() && Pep::newSymbols.isEmpty())) {
         for (int i = 0; i < codeList.size(); i++) {
             if (!codeList[i]->processSymbolTraceTags(lineNum, errorString)) {
                 appendMessageInSourceCodePaneAt(lineNum, errorString);

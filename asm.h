@@ -83,6 +83,10 @@ public:
     // Pre: formatTag is a valid format trace tag.
     // Post: Returns the enumerated trace tag format type.
 
+    static int tagNumBytes(Enu::ESymbolFormat symbolFormat);
+    // Pre: symbolFormat is a valid format trace tag type.
+    // Post: Returns the corresponding integer number of bytes.
+
     static int formatMultiplier(QString formatTag);
     // Pre: format tag is a valid format trace tag.
     // Post: If the format tag specifies an array, returns the array multiplier.

@@ -233,7 +233,24 @@ int Asm::byteStringLength(QString str)
 }
 
 Enu::ESymbolFormat Asm::formatTagType(QString formatTag) {
-    return Enu::F_NONE;
+    if (formatTag.startsWith("#1c")) return Enu::F_1C;
+    if (formatTag.startsWith("#1d")) return Enu::F_1D;
+    if (formatTag.startsWith("#2d")) return Enu::F_2D;
+    if (formatTag.startsWith("#1h")) return Enu::F_1H;
+    if (formatTag.startsWith("#2h")) return Enu::F_2H;
+    return Enu::F_NONE; // Should not occur
+}
+
+int Asm::tagNumBytes(Enu::ESymbolFormat symbolFormat) {
+    switch (symbolFormat) {
+    case Enu::F_1C: return 1;
+    case Enu::F_1D: return 1;
+    case Enu::F_2D: return 2;
+    case Enu::F_1H: return 1;
+    case Enu::F_2H: return 2;
+    case Enu::F_NONE: return 0;
+    default: return -1; // Should not occur.
+    }
 }
 
 int Asm::formatMultiplier(QString formatTag) {

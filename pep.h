@@ -93,6 +93,9 @@ public:
     static QMap<QString, Enu::ESymbolFormat> symbolFormat;
     static QMap<QString, int> symbolFormatMultiplier;
     static QMap<int, QStringList> symbolTraceList;
+    static QStringList blockSymbols;
+    static QStringList equateSymbols;
+    static QStringList newSymbols;
 
     // Map from instruction memory address to assembler listing line
     static QMap<int, int> memAddrssToAssemblerListing;
