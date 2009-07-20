@@ -524,7 +524,7 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         pos += Asm::rxSymbolTag.matchedLength();
     }
     if (numBytesAllocated != numBytesListed) {
-        QString message = (mnemonic == Enu::ADDSP) ? "allocated" : "deallocated";
+        QString message = (mnemonic == Enu::ADDSP) ? "deallocated" : "allocated";
         errorString = ";WARNING: Number of bytes " + message + " (" + QString("%1").arg(numBytesAllocated) +
                       ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
         sourceLine = sourceCodeLine;
