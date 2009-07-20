@@ -14,6 +14,7 @@ int Sim::stackPointer;
 int Sim::programCounter;
 int Sim::instructionSpecifier;
 int Sim::operandSpecifier;
+int Sim::operand;
 
 QString Sim::inputBuffer;
 QString Sim::outputBuffer;
@@ -31,6 +32,16 @@ int Sim::toSignedDecimal(int value)
 int Sim::fromSignedDecimal(int value)
 {
     return value < 0 ? value + 65536 : value;
+}
+
+int Sim::nzvcToInt()
+{
+    int i = 0;
+    if (nBit) i |= 8;
+    if (zBit) i |= 4;
+    if (vBit) i |= 2;
+    if (cBit) i |= 1;
+    return i;
 }
 
 void Sim::loadMem(QList<int> objectCodeList) {
@@ -230,9 +241,8 @@ bool Sim::vonNeumannStep(QString &errorString)
     byteWritten.clear();
     byteRead.clear();
     EMnemonic mnemonic;
-    int operand;
     EAddrMode addrMode;
-//    int result;
+    int temp;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment
@@ -265,12 +275,14 @@ bool Sim::vonNeumannStep(QString &errorString)
         indexRegister = addAndSetNZVC(indexRegister, operand);
         return true;
     case ANDA:
-        accumulator = accumulator & operandSpecifier;
+        operand = readWordOprnd(addrMode);
+        accumulator = accumulator & operand;
         nBit = accumulator > 32768;
         zBit = accumulator == 0;
         return true;
     case ANDX:
-        indexRegister = indexRegister & operandSpecifier;
+        operand = readWordOprnd(addrMode);
+        indexRegister = indexRegister & operand;
         nBit = accumulator > 32768;
         zBit = accumulator == 0;
         return true;
@@ -387,6 +399,7 @@ bool Sim::vonNeumannStep(QString &errorString)
             QString ch = Sim::inputBuffer.left(1);
             Sim::inputBuffer.remove(0, 1);
             Sim::writeByteOprnd(addrMode, QChar(ch[0]).toAscii());
+            operand = readByteOprnd(addrMode);
         }
         else {
             errorString = "Error: CHARI executed past end of input.";
@@ -395,15 +408,27 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case CHARO:
         operand = readByteOprnd(addrMode);
-        Sim::outputBuffer = QString(operand);
+        Sim::outputBuffer = QString(operand); // Why isn't this appended? jsw
         return true;
     case CPA:
+        operand = readWordOprnd(addrMode);
+        addAndSetNZVC(accumulator, (~operand + 1) & 0xFFFF);
         return true;
     case CPX:
+        operand = readWordOprnd(addrMode);
+        addAndSetNZVC(indexRegister, (~operand + 1) & 0xFFFF);
         return true;
-    case DECI:
-        return true;
-    case DECO:
+    case DECI: case DECO: case STRO:
+    case NOP: case NOP0: case NOP1: case NOP2: case NOP3:
+        temp = readWord(0xfffa);
+        writeByte(temp - 1, instructionSpecifier);
+        writeWord(temp - 3, stackPointer);
+        writeWord(temp - 5, programCounter);
+        writeWord(temp - 7, indexRegister);
+        writeWord(temp - 9, accumulator);
+        writeByte(temp - 10, nzvcToInt());
+        stackPointer = temp - 10;
+        programCounter = readWord(0xfffe);
         return true;
     case LDA:
         operand = readWordOprnd(addrMode);
@@ -433,10 +458,10 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case MOVFLGA:
         accumulator = 0;
-        accumulator += cBit ? 1 : 0;
-        accumulator += vBit ? 2 : 0;
-        accumulator += zBit ? 4 : 0;
-        accumulator += nBit ? 8 : 0;
+        accumulator |= cBit ? 1 : 0;
+        accumulator |= vBit ? 2 : 0;
+        accumulator |= zBit ? 4 : 0;
+        accumulator |= nBit ? 8 : 0;
         return true;
     case MOVSPA:
         stackPointer = accumulator;
@@ -450,13 +475,6 @@ bool Sim::vonNeumannStep(QString &errorString)
         indexRegister = (~indexRegister + 1) & 65535;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
-        return true;
-    case NOP:
-    case NOP0:
-    case NOP1:
-    case NOP2:
-    case NOP3:
-
         return true;
     case NOTA:
         accumulator = ~accumulator & 65535;
@@ -518,6 +536,15 @@ bool Sim::vonNeumannStep(QString &errorString)
         stackPointer = add(stackPointer, 2); // SP <- SP + 2
         return true;
     case RETTR:
+        temp = readByte(stackPointer);
+        nBit = (temp & 8) != 0;
+        zBit = (temp & 4) != 0;
+        vBit = (temp & 2) != 0;
+        cBit = (temp & 1) != 0;
+        accumulator = readWord(stackPointer + 1);
+        indexRegister = readWord(stackPointer + 3);
+        programCounter = readWord(stackPointer + 5);
+        stackPointer = readWord(stackPointer + 7);
         return true;
     case ROLA:
         return true;
@@ -529,24 +556,21 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case STA:
         writeWordOprnd(addrMode, accumulator);
+        operand = readWordOprnd(addrMode);
         return true;
     case STBYTEA:
+        writeByteOprnd(addrMode, accumulator & 0x00ff);
         operand = readByteOprnd(addrMode);
-        accumulator = accumulator & 0xFF00;
-        accumulator |= operand;
         return true;
     case STBYTEX:
+        writeByteOprnd(addrMode, indexRegister & 0x00ff);
         operand = readByteOprnd(addrMode);
-        indexRegister = indexRegister & 0xFF00;
-        indexRegister |= operand;
         return true;
     case STOP:
         return true;
-    case STRO:
-        return true;
     case STX:
+        writeWordOprnd(addrMode, indexRegister);
         operand = readWordOprnd(addrMode);
-        indexRegister = operand;
         return true;
     case SUBA:
         operand = readWordOprnd(addrMode);
@@ -565,7 +589,3 @@ bool Sim::vonNeumannStep(QString &errorString)
     }
     return false;
 }
-
-
-
-

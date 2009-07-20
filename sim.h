@@ -16,6 +16,7 @@ public:
     static int programCounter;
     static int instructionSpecifier;
     static int operandSpecifier;
+    static int operand;
 
     static QString inputBuffer;
     static QString outputBuffer;
@@ -28,11 +29,14 @@ public:
 
     static int toSignedDecimal(int value);
     // Pre: 0 <= value < 65536
-    // Post: -32768 <= value < 32768
+    // Post: -32768 <= value < 32768 is returned
 
     static int fromSignedDecimal(int value);
     // Pre: -32768 <= value < 32768
-    // Post: 0 <= value < 65536
+    // Post: 0 <= value < 65536 is returned
+
+    static int nzvcToInt();
+    // Post: NZVC is returned in postions <4..7> of the one-byte int
 
     static int add(int lhs, int rhs);
 
