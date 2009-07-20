@@ -317,6 +317,9 @@ void DotByte::appendSourceLine(QStringList &assemblerListingList, QStringList &l
     }
     QString dotStr = ".BYTE";
     QString oprndStr = argument->getArgumentString();
+    if (oprndStr.startsWith("0x")) {
+        oprndStr.remove(2, 2); // Display only the last two hex characters
+    }
     QString lineStr = QString("%1%2%3%4%5%6")
                       .arg(memStr, -6, QLatin1Char(' '))
                       .arg(codeStr, -7, QLatin1Char(' '))

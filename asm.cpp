@@ -700,9 +700,9 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             }
             else if (token == Asm::LT_HEX_CONSTANT) {
                 tokenString.remove(0, 2); // Remove "0x" prefix.
-                if (tokenString.length() <= 2) {
-                    bool ok;
-                    int value = tokenString.toInt(&ok, 16);
+                bool ok;
+                int value = tokenString.toInt(&ok, 16);
+                if (value < 256) {
                     dotByte->argument = new HexArgument(value);
                     Pep::byteCount += 1;
                     state = Asm::PS_CLOSE;
@@ -800,7 +800,7 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             else if (token == Asm::LT_DEC_CONSTANT) {
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
-                if ((-32768 <= value) && (value <= 65535)) {
+                if ((-32768 <= value) && (value < 65536)) {
                     if (value < 0) {
                         value += 65536; // value stored as two-byte unsigned.
                     }
@@ -817,9 +817,15 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
                 int value = tokenString.toInt(&ok, 16);
-                dotWord->argument = new HexArgument(value);
-                Pep::byteCount += 2;
-                state = Asm::PS_CLOSE;
+                if (value < 65536) {
+                    dotWord->argument = new HexArgument(value);
+                    Pep::byteCount += 2;
+                    state = Asm::PS_CLOSE;
+                }
+                else {
+                    errorString = ";ERROR: Hexidecimal constant is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
             }
             else if (token == Asm::LT_STRING_CONSTANT) {
                 if (Asm::byteStringLength(tokenString) > 2) {
