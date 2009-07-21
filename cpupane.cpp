@@ -291,7 +291,6 @@ void CpuPane::singleStepWithTerminal()
             Sim::outputBuffer = "";
         }
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
-            qDebug() << "This executes!";
             updateCpu();
         }
         else {

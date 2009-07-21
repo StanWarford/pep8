@@ -125,8 +125,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
 
-//    Sim::writeByte(5,5);
-//    memoryDumpPane->refreshMemoryLines(0,0);
 }
 
 MainWindow::~MainWindow()
@@ -459,16 +457,7 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
     memoryDumpPane->highlightMemory(b);
-    if (b) {
-        if (ui->pepInputOutputTab->currentIndex() == 0) {
-            ui->pepInputOutputTab->setTabEnabled(1, false);
-            outputPane->clearOutput();
-        }
-        else {
-            ui->pepInputOutputTab->setTabEnabled(0, false);
-        }
-    }
-    else {
+    if (!b) {
         ui->pepInputOutputTab->setTabEnabled(1, true);
         ui->pepInputOutputTab->setTabEnabled(0, true);
     }
@@ -855,7 +844,6 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
     Sim::inputBuffer = inputPane->toPlainText();
-    outputPane->clearOutput();
     setDebugState(true);
     listingTracePane->setDebuggingState(false);
     cpuPane->setButtonsEnabled(false);
@@ -863,6 +851,13 @@ void MainWindow::on_actionBuild_Execute_triggered()
     cpuPane->clearCpu();
     sourceCodePane->setReadOnly(true);
     objectCodePane->setReadOnly(true);
+    if (ui->pepInputOutputTab->currentIndex() == 0) {
+        ui->pepInputOutputTab->setTabEnabled(1, false);
+        outputPane->clearOutput();
+    }
+    else {
+        ui->pepInputOutputTab->setTabEnabled(0, false);
+    }
     if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
         Sim::inputBuffer = inputPane->toPlainText();
         cpuPane->runWithBatch();
@@ -889,6 +884,14 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         Sim::inputBuffer = inputPane->toPlainText();
 
         setDebugState(true);
+
+        if (ui->pepInputOutputTab->currentIndex() == 0) {
+            ui->pepInputOutputTab->setTabEnabled(1, false);
+            outputPane->clearOutput();
+        }
+        else {
+            ui->pepInputOutputTab->setTabEnabled(0, false);
+        }
 
         ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
 
@@ -917,6 +920,14 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
     Sim::inputBuffer = inputPane->toPlainText();
+
+    if (ui->pepInputOutputTab->currentIndex() == 0) {
+        ui->pepInputOutputTab->setTabEnabled(1, false);
+        outputPane->clearOutput();
+    }
+    else {
+        ui->pepInputOutputTab->setTabEnabled(0, false);
+    }
 
     setDebugState(true);
 
@@ -1356,6 +1367,7 @@ void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
     memoryDumpPane->highlightMemory(true);
+    memoryDumpPane->updateMemory();
 }
 
 void MainWindow::updateMemoryDisplays()
