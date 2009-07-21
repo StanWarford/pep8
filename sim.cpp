@@ -19,7 +19,6 @@ int Sim::operand;
 QString Sim::inputBuffer;
 QString Sim::outputBuffer;
 
-QList<int> Sim::byteRead;
 QList<int> Sim::byteWritten;
 
 Enu::EExecState Sim::executionState;
@@ -139,12 +138,15 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 void Sim::writeByte(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value;
+    byteWritten.append(memAddr % 65536);
 }
 
 void Sim::writeWord(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value / 256;
     Mem[(memAddr + 1) % 65536] = value % 256;
+    byteWritten.append(memAddr % 65536);
+    byteWritten.append((memAddr + 1) % 65536);
 }
 
 void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
@@ -157,31 +159,24 @@ void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
         break;
     case Enu::D:
         writeByte(operandSpecifier, value);
-        byteWritten.append(operandSpecifier);
         break;
     case Enu::N:
         writeByte(readWord(operandSpecifier), value);
-        byteWritten.append(readWord(operandSpecifier));
         break;
     case Enu::S:
         writeByte(add(stackPointer, operandSpecifier), value);
-        byteWritten.append(add(stackPointer, operandSpecifier));
         break;
     case Enu::SF:
         writeByte(readWord(add(stackPointer, operandSpecifier)), value);
-        byteWritten.append(readWord(add(stackPointer, operandSpecifier)));
         break;
     case Enu::X:
         writeByte(add(operandSpecifier, indexRegister), value);
-        byteWritten.append(add(operandSpecifier, indexRegister));
         break;
     case Enu::SX:
         writeByte(add(add(stackPointer, operandSpecifier), indexRegister), value);
-        byteWritten.append(add(add(stackPointer, operandSpecifier), indexRegister));
         break;
     case Enu::SXF:
         writeByte(add(readWord(add(stackPointer, operandSpecifier)), indexRegister), value);
-        byteWritten.append(add(readWord(add(stackPointer, operandSpecifier)), indexRegister));
         break;
     case Enu::ALL:
         break;
@@ -198,38 +193,24 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
         break;
     case Enu::D:
         writeWord(operandSpecifier, value);
-        byteWritten.append(operandSpecifier);
-        byteWritten.append(add(operandSpecifier, 1));
         break;
     case Enu::N:
         writeWord(readWord(operandSpecifier), value);
-        byteWritten.append(readWord(operandSpecifier));
-        byteWritten.append(readWord(add(operandSpecifier, 1)));
         break;
     case Enu::S:
         writeWord(add(stackPointer, operandSpecifier), value);
-        byteWritten.append(add(stackPointer, operandSpecifier));
-        byteWritten.append(add(add(stackPointer, operandSpecifier), 1));
         break;
     case Enu::SF:
         writeWord(readWord(add(stackPointer, operandSpecifier)), value);
-        byteWritten.append(readWord(add(stackPointer, operandSpecifier)));
-        byteWritten.append(add(readWord(add(stackPointer, operandSpecifier)), 1));
         break;
     case Enu::X:
         writeWord(add(operandSpecifier, indexRegister), value);
-        byteWritten.append(add(operandSpecifier, indexRegister));
-        byteWritten.append(add(add(operandSpecifier, indexRegister), 1));
         break;
     case Enu::SX:
         writeWord(add(add(stackPointer, operandSpecifier), indexRegister), value);
-        byteWritten.append(add(add(stackPointer, operandSpecifier), indexRegister));
-        byteWritten.append(add(add(add(stackPointer, operandSpecifier), indexRegister), 1));
         break;
     case Enu::SXF:
         writeWord(add(readWord(add(stackPointer, operandSpecifier)), indexRegister), value);
-        byteWritten.append(add(readWord(add(stackPointer, operandSpecifier)), indexRegister));
-        byteWritten.append(add(add(readWord(add(stackPointer, operandSpecifier)), indexRegister), 1));
         break;
     case Enu::ALL:
         break;
@@ -239,7 +220,6 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
 bool Sim::vonNeumannStep(QString &errorString)
 {
     byteWritten.clear();
-    byteRead.clear();
     EMnemonic mnemonic;
     EAddrMode addrMode;
     int temp;
@@ -554,7 +534,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case RORX:
         return true;
-    case STA:
+    case STA: // This seems wrong. What are we doing with operand?
         writeWordOprnd(addrMode, accumulator);
         operand = readWordOprnd(addrMode);
         return true;

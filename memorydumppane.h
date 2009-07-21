@@ -60,7 +60,6 @@ private:
 
     QList<int> highlightedInstruction;
     QList<int> highlightedData;
-    QList<int> byteRead;
     QList<int> byteWritten;
 
 private slots:

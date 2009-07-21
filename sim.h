@@ -21,7 +21,6 @@ public:
     static QString inputBuffer;
     static QString outputBuffer;
 
-    static QList<int> byteRead;
     static QList<int> byteWritten;
 
     static Enu::EExecState executionState;
