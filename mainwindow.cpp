@@ -1162,6 +1162,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
     }
     QString loc;
     QString code = helpDialog->getCode(loc);
+    ui->pepCodeTraceTab->setCurrentIndex(0);
     if (loc == "Source") {
         if (maybeSaveSource()) {
             setCurrentFile("untitled.pep", "Source");
