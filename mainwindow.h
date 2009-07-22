@@ -186,6 +186,9 @@ private slots:
     void updateMemoryDisplays();
     void appendOutput(QString str);
 
+    void waitingForInput();
+    void inputReceived();
+
     void resumeButtonClicked();
     void singleStepButtonClicked();
 

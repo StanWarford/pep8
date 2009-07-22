@@ -46,6 +46,13 @@ namespace Enu
         EDebugAwaitIO, EDebugAwaitClick, EDebugRunToBP, EDebugSingleStep
     };
 
+    enum EWaiting
+    {
+        ERunWaiting,
+        EDebugSSWaiting,
+        EDebugResumeWaiting,
+    };
+
 }
 
 #endif // ENU_H

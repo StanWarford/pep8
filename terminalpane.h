@@ -2,6 +2,7 @@
 #define TERMINALPANE_H
 
 #include <QtGui/QWidget>
+#include <QKeyEvent>
 
 namespace Ui {
     class TerminalPane;
@@ -16,6 +17,12 @@ public:
 
     void appendOutput(QString str);
     // Post: str is appended to the text edit
+
+    void waitingForInput();
+    // Post: Sets the writability of the text edit to true, and prevents previously entered text from being modified
+
+    void clearTerminal();
+    // Post: Clears the terminal
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -50,9 +57,20 @@ public:
 private:
     Ui::TerminalPane *m_ui;
 
+    bool waiting;
+
+    QString strokeString;
+    QString retString;
+
+    void displayTerminal();
+
+private slots:
+    void keyPressEvent(QKeyEvent *e);
+
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);
+    void inputReceived();
 
 };
 

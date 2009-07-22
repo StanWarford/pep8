@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
     helpDialog = new HelpDialog(this);
+
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
 
     // Byte converter setup
@@ -73,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initDecoderTables();
 
     // Adjust initial configuration
-//    ui->horizontalSplitter->widget(2)->hide();
+    ui->horizontalSplitter->widget(2)->hide();
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
@@ -107,6 +108,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
     connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(updateMemoryDisplays()));
 
+    connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
+    connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
+
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
@@ -124,7 +128,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
-
 }
 
 MainWindow::~MainWindow()
@@ -863,6 +866,7 @@ void MainWindow::on_actionBuild_Execute_triggered()
         cpuPane->runWithBatch();
     }
     else { // terminal input
+        terminalPane->clearTerminal();
         cpuPane->runWithTerminal();
     }
     // Other things may go here.
@@ -898,6 +902,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
+        if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+            Sim::inputBuffer = inputPane->toPlainText();
+        }
+        else { // terminal input
+            terminalPane->clearTerminal();
+        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);
@@ -938,6 +948,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
         cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
+        if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
+            Sim::inputBuffer = inputPane->toPlainText();
+        }
+        else { // terminal input
+            terminalPane->clearTerminal();
+        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);
@@ -949,7 +965,7 @@ void MainWindow::on_actionBuild_Stop_Debugging_triggered()
     on_actionBuild_Interrupt_Execution_triggered();
     setDebugState(false);
 
-    mainWindowUtilities(this, this);
+    mainWindowUtilities(0, 0);
 }
 
 void MainWindow::on_actionBuild_Interrupt_Execution_triggered()
@@ -1392,6 +1408,28 @@ void MainWindow::openRecentFile()
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
         loadFile(action->data().toString());
+}
+
+void MainWindow::waitingForInput()
+{
+    terminalPane->waitingForInput();
+    mainWindowUtilities(0, 0);
+}
+
+void MainWindow::inputReceived()
+{
+    if (cpuPane->waitingState() == Enu::EDebugSSWaiting) {
+        qDebug() << "single stepping...";
+        cpuPane->singleStepWithTerminal();
+    }
+    else if (cpuPane->waitingState() == Enu::EDebugResumeWaiting) {
+        qDebug() << "resuming...";
+        cpuPane->resumeWithTerminal();
+    }
+    else if (cpuPane->waitingState() == Enu::ERunWaiting) {
+        qDebug() << "running...";
+        cpuPane->runWithTerminal();
+    }
 }
 
 void MainWindow::resumeButtonClicked()

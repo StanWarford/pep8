@@ -22,6 +22,7 @@ private:
 
 private slots:
     void restoreDefaults();
+    void setNonUnaryAllowedModes();
 };
 
 #endif // REDEFINEMNEMONICSDIALOG_H

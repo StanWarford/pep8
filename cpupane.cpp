@@ -4,8 +4,6 @@
 #include "ui_cpupane.h"
 #include "sim.h"
 #include "pep.h"
-#include "enu.h"
-
 #include <QDebug>
 
 CpuPane::CpuPane(QWidget *parent) :
@@ -153,12 +151,14 @@ void CpuPane::runWithBatch()
 
 void CpuPane::runWithTerminal()
 {
+    waiting = Enu::ERunWaiting;
     interruptExecutionFlag = false;
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
+            emit waitingForInput();
             return;
         }
         else {
@@ -221,12 +221,14 @@ void CpuPane::resumeWithBatch()
 
 void CpuPane::resumeWithTerminal()
 {
+    waiting = Enu::EDebugResumeWaiting;
     interruptExecutionFlag = false;
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
+            emit waitingForInput();
             return;
         }
         else {
@@ -284,28 +286,39 @@ void CpuPane::singleStepWithBatch()
 
 void CpuPane::singleStepWithTerminal()
 {
+    waiting = Enu::EDebugSSWaiting;
     QString errorString;
-    if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CHARI) {
-        m_ui->cpuSingleStepPushButton->setDisabled(true);
+    if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
+//  if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CHARI ) { // We used to do this, hopefully we didn't have
+        m_ui->cpuSingleStepPushButton->setDisabled(true);                // we didn't have a good reason to.
         m_ui->cpuResumePushButton->setDisabled(true);
+        emit waitingForInput();
     }
-    if (Sim::vonNeumannStep(errorString)) {
-        emit vonNeumannStepped();
-        emit updateSimulationView();
-        if (Sim::outputBuffer.length() == 1) {
-            emit appendOutput(Sim::outputBuffer);
-            Sim::outputBuffer = "";
+    else {
+        if (Sim::vonNeumannStep(errorString)) {
+            emit vonNeumannStepped();
+            emit updateSimulationView();
+            if (Sim::outputBuffer.length() == 1) {
+                emit appendOutput(Sim::outputBuffer);
+                Sim::outputBuffer = "";
+            }
+            if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
+                updateCpu();
+            }
+            else {
+                emit executionComplete();
+            }
         }
+//<<<<<<< .mine
+//=======
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
             updateCpu();
         }
+//>>>>>>> .r221
         else {
+            QMessageBox::warning(0, "Pep/8", errorString);
             emit executionComplete();
         }
-    }
-    else {
-        QMessageBox::warning(0, "Pep/8", errorString);
-        emit executionComplete();
     }
 }
 
@@ -322,6 +335,11 @@ void CpuPane::highlightOnFocus()
     else {
         m_ui->pepCpuLabel->setAutoFillBackground(false);
     }
+}
+
+Enu::EWaiting CpuPane::waitingState()
+{
+    return waiting;
 }
 
 bool CpuPane::hasFocus()

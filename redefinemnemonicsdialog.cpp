@@ -1,6 +1,8 @@
 #include "redefinemnemonicsdialog.h"
 #include "ui_redefinemnemonicsdialog.h"
 
+using namespace Enu;
+
 RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::RedefineMnemonicsDialog)
@@ -9,6 +11,42 @@ RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
     restoreDefaults();
 
     connect(m_ui->defaultMnemonicsButton, SIGNAL(clicked()), this, SLOT(restoreDefaults()));
+
+    connect(m_ui->mnemon0iCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0dCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0nCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0sCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0sfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0xCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0sxCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon0sxfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+
+    connect(m_ui->mnemon1iCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1dCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1nCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1sCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1sfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1xCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1sxCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon1sxfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+
+    connect(m_ui->mnemon2iCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2dCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2nCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2sCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2sfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2xCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2sxCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon2sxfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+
+    connect(m_ui->mnemon3iCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3dCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3nCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3sCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3sfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3xCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3sxCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
+    connect(m_ui->mnemon3sxfCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
 }
 
 RedefineMnemonicsDialog::~RedefineMnemonicsDialog()
@@ -58,5 +96,51 @@ void RedefineMnemonicsDialog::restoreDefaults()
     m_ui->mnemon3xCheckBox->setChecked(Pep::defaultMnemon3x);
     m_ui->mnemon3sxCheckBox->setChecked(Pep::defaultMnemon3sx);
     m_ui->mnemon3sxfCheckBox->setChecked(Pep::defaultMnemon3sxf);
+
+    setNonUnaryAllowedModes();
 }
 
+void RedefineMnemonicsDialog::setNonUnaryAllowedModes()
+{
+    int addrMode;
+    addrMode = 0;
+    if (m_ui->mnemon0iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon0dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon0nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon0sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon0sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon0xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon0sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon0sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(NOP, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon1iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon1dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon1nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon1sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon1sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon1xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon1sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon1sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(DECI, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon2iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon2dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon2nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon2sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon2sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon2xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon2sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon2sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(DECO, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon3iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon3dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon3nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon3sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon3sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon3xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon3sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon3sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(STRO, addrMode);
+}

@@ -2,6 +2,7 @@
 #define CPUPANE_H
 
 #include <QtGui/QWidget>
+#include "enu.h"
 
 namespace Ui {
     class CpuPane;
@@ -56,6 +57,9 @@ public:
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
+    Enu::EWaiting waitingState();
+    // Post: Returns the waiting state of the simulation (for terminal io)
+
     bool hasFocus();
     // Post: returns if the pane has focus
 
@@ -79,6 +83,8 @@ private:
 
     bool interruptExecutionFlag; // Used to interrupt execution by the user
 
+    Enu::EWaiting waiting; // Used to store terminal IO waiting for input state
+
 signals:
     void resumeButtonClicked();
     void singleStepButtonClicked();
@@ -86,6 +92,7 @@ signals:
     void executionComplete();
     void appendOutput(QString);
     void vonNeumannStepped();
+    void waitingForInput();
 };
 
 #endif // CPUPANE_H
