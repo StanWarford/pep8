@@ -17,6 +17,9 @@ public:
     QString toPlainText();
     // Post: input text edit text is returned
 
+    void setText(QString input);
+    // Post: the input pane text edit text is set to string
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 

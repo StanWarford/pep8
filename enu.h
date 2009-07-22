@@ -53,6 +53,13 @@ namespace Enu
         EDebugResumeWaiting,
     };
 
+    enum EPane
+    {
+        ESource,
+        EObject,
+        EListing,
+    };
+
 }
 
 #endif // ENU_H

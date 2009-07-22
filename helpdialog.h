@@ -5,6 +5,8 @@
 #include <QTreeWidgetItem>
 #include "pephighlighter.h" // For syntax highlighting
 #include "cpphighlighter.h"
+#include "enu.h"
+
 namespace Ui {
     class HelpDialog;
 }
@@ -27,7 +29,7 @@ public:
     void addressingModesClicked();
     void examplesClicked();
     void operatingSystemClicked();
-    QString getCode(QString &loc);
+    QString getCode(Enu::EPane &loc, QString &input);
 
     bool hasFocus();
     // Post: returns true if either of the text edits have focus

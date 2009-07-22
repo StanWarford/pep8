@@ -227,21 +227,21 @@ void MainWindow::loadFile(const QString &fileName)
     QTextStream in(&file);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QRegExp rx(".*.pepo");
-    QString pane = "";
+    Enu::EPane pane;
     if (rx.exactMatch(strippedName(fileName))) {
         // Set object code pane text
         objectCodePane->setObjectCodePaneText(in.readAll());
         sourceCodePane->clearSourceCode();
         assemblerListingPane->clearAssemblerListing();
         listingTracePane->clearListingTrace();
-        pane = "Object";
+        pane = Enu::EObject;
     } else {
         // Set source code pane text
         sourceCodePane->setSourceCodePaneText(in.readAll());
         objectCodePane->clearObjectCode();
         assemblerListingPane->clearAssemblerListing();
         listingTracePane->clearListingTrace();
-        pane = "Source";
+        pane = Enu::ESource;
     }
     QApplication::restoreOverrideCursor();
 
@@ -265,7 +265,7 @@ bool MainWindow::saveFileSource(const QString &fileName)
     out << sourceCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName, "Source");
+    setCurrentFile(fileName, Enu::ESource);
     statusBar()->showMessage("Source saved", 4000);
     return true;
 }
@@ -286,7 +286,7 @@ bool MainWindow::saveFileObject(const QString &fileName) // Copied and pasted, c
     out << objectCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName, "Object");
+    setCurrentFile(fileName, Enu::EObject);
     statusBar()->showMessage("Object code saved", 4000);
     return true;
 }
@@ -307,25 +307,25 @@ bool MainWindow::saveFileListing(const QString &fileName)
     out << assemblerListingPane->toPlainText();
     QApplication::restoreOverrideCursor();
 
-    setCurrentFile(fileName, "Listing");
+    setCurrentFile(fileName, Enu::EListing);
     statusBar()->showMessage("Assembler listing saved", 4000);
     return true;
 }
 
-void MainWindow::setCurrentFile(const QString &fileName, QString pane)
+void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
 {
-    if (pane == "Source") {
+    if (pane == Enu::ESource) {
         curSourceFile = fileName;
         sourceCodePane->setModifiedFalse();
-    } else if (pane == "Object") {
+    } else if (pane == Enu::EObject) {
         curObjectFile = fileName;
         objectCodePane->setModifiedFalse();
-    } else if (pane == "Listing") {
+    } else if (pane == Enu::EListing) {
         curListingFile = fileName;
     }
 
     QString shownName;
-    if (pane == "Source") {
+    if (pane == Enu::ESource) {
         if (curSourceFile.isEmpty()) {
             shownName = "untitled.pep";
         } else {
@@ -351,7 +351,7 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
             // 1) We don't want to overwrite a file by the same name as the curSourceFile sans extension by accident
             // 2) We want all dialogs to open to the same directory
         }
-    } else if (pane == "Object") {
+    } else if (pane == Enu::EObject) {
         if (curObjectFile.isEmpty()) {
             shownName = "untitled.pepo";
         } else {
@@ -361,7 +361,7 @@ void MainWindow::setCurrentFile(const QString &fileName, QString pane)
     }
 
     // For recent files:
-    if (pane != "Listing") {
+    if (pane != Enu::EListing) {
         QSettings settings("Pep/8", "Recent Files");
         QStringList files = settings.value("recentFileList").toStringList();
         files.removeAll(fileName);
@@ -483,7 +483,7 @@ void MainWindow::on_actionFile_New_triggered()
 {
     if (maybeSaveSource()) {
         sourceCodePane->clearSourceCode();
-        setCurrentFile("", "Source");
+        setCurrentFile("untitled.pep", Enu::ESource);
     }
 }
 
@@ -1176,12 +1176,13 @@ void MainWindow::helpCopyToSourceButtonClicked()
     if (ui->actionBuild_Stop_Debugging->isEnabled()) {
         ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
     }
-    QString loc;
-    QString code = helpDialog->getCode(loc);
+    Enu::EPane loc;
+    QString input = "";
+    QString code = helpDialog->getCode(loc, input);
     ui->pepCodeTraceTab->setCurrentIndex(0);
-    if (loc == "Source") {
+    if (loc == Enu::ESource) {
         if (maybeSaveSource()) {
-            setCurrentFile("untitled.pep", "Source");
+            setCurrentFile("untitled.pep", Enu::ESource);
             sourceCodePane->setSourceCodePaneText(code);
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
@@ -1189,12 +1190,16 @@ void MainWindow::helpCopyToSourceButtonClicked()
             statusBar()->showMessage("Copied to source", 4000);
         }
     } else if (maybeSaveObject()) {
-        setCurrentFile("untitled.pep", "Source");
+        setCurrentFile("untitled.pep", Enu::EObject);
         objectCodePane->setObjectCodePaneText(code);
         sourceCodePane->clearSourceCode();
         assemblerListingPane->clearAssemblerListing();
         listingTracePane->clearListingTrace();
         statusBar()->showMessage("Copied to object", 4000);
+    }
+    if (!input.isEmpty()) {
+        inputPane->setText(input);
+        ui->pepInputOutputTab->setCurrentIndex(0);
     }
 }
 

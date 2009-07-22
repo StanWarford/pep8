@@ -289,8 +289,7 @@ void CpuPane::singleStepWithTerminal()
     waiting = Enu::EDebugSSWaiting;
     QString errorString;
     if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
-//  if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CHARI ) { // We used to do this, hopefully we didn't have
-        m_ui->cpuSingleStepPushButton->setDisabled(true);                // we didn't have a good reason to.
+        m_ui->cpuSingleStepPushButton->setDisabled(true);
         m_ui->cpuResumePushButton->setDisabled(true);
         emit waitingForInput();
     }
@@ -309,12 +308,9 @@ void CpuPane::singleStepWithTerminal()
                 emit executionComplete();
             }
         }
-//<<<<<<< .mine
-//=======
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] != Enu::STOP) {
             updateCpu();
         }
-//>>>>>>> .r221
         else {
             QMessageBox::warning(0, "Pep/8", errorString);
             emit executionComplete();

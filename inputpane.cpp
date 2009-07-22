@@ -33,6 +33,11 @@ QString InputPane::toPlainText()
     return m_ui->pepInputTextEdit->toPlainText();
 }
 
+void InputPane::setText(QString input)
+{
+    m_ui->pepInputTextEdit->setText(input);
+}
+
 bool InputPane::hasFocus()
 {
     return m_ui->pepInputTextEdit->hasFocus();

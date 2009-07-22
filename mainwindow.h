@@ -84,7 +84,7 @@ private:
     bool saveFileSource(const QString &fileName);
     bool saveFileObject(const QString &fileName);
     bool saveFileListing(const QString &fileName);
-    void setCurrentFile(const QString &fileName, QString pane);
+    void setCurrentFile(const QString &fileName, Enu::EPane pane);
     QString strippedName(const QString &fullFileName);
 
     QString curSourceFile;

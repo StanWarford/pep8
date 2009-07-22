@@ -460,30 +460,61 @@ void HelpDialog::operatingSystemClicked() {
 }
 
 // Helper Functions
-QString HelpDialog::getCode(QString &loc) {
+QString HelpDialog::getCode(Enu::EPane &loc, QString &input) {
     bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
     int row = m_ui->helpTreeWidget->currentIndex().row();
     if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
-        loc = "Source";
+        loc = Enu::ESource;
         return m_ui->helpLeftTextEdit->toPlainText();
     }
     if (row == eFIG432) {
-        loc = "Object";
+        loc = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0432.pepo");
     }
     else if (row == eFIG434) {
-        loc = "Object";
+        loc = Enu::EObject;
+        input = "up";
         return Pep::resToString(":/help/figures/fig0434.pepo");
     }
     else if (row == eFIG435) {
-        loc = "Object";
+        loc = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0435.pepo");
     }
     else if (row == eFIG436) {
-        loc = "Object";
+        loc = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0436.pepo");
     }
-    loc = "Source";
+    else if (row == eFIG506) {
+        input = "up";
+    }
+    else if (row == eFIG511) {
+        input = "-479";
+    }
+    else if (row == eFIG512) {
+        input = "-479";
+    }
+    else if (row == eFIG515) {
+        input = "-479";
+    }
+    else if (row == eFIG521) {
+        input = "M 419";
+    }
+    else if (row == eFIG526) {
+        input = "68 84";
+    }
+    else if (row == eFIG634) {
+        input = "60 70 80 90";
+    }
+    else if (row == eFIG638) {
+        input = "5  40 50 60 70 80"; // The book appears to have two spaces there...I'm not sure if that is correct.
+    }
+    else if (row == eFIG645) {
+        input = "bj 32 m";
+    }
+    else if (row == eFIG647) {
+        input = "10 20 30 40 -9999";
+    }
+    loc = Enu::ESource;
     return m_ui->helpLeftTextEdit->toPlainText();
 }
 
