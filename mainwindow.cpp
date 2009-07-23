@@ -436,7 +436,7 @@ bool MainWindow::load()
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
         memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
-        memoryDumpPane->highlightMemory(true);
+//        memoryDumpPane->highlightMemory(true);
         return true;
     }    
     return false;
@@ -458,7 +458,7 @@ void MainWindow::setDebugState(bool b)
     listingTracePane->setDebuggingState(b);
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
-    memoryDumpPane->highlightMemory(b);
+//    memoryDumpPane->highlightMemory(b);
     if (!b) {
         ui->pepInputOutputTab->setTabEnabled(1, true);
         ui->pepInputOutputTab->setTabEnabled(0, true);
@@ -1020,7 +1020,7 @@ void MainWindow::on_actionView_Code_CPU_triggered()
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
     memoryDumpPane->refreshMemory();
-    memoryDumpPane->highlightMemory(true);
+//    memoryDumpPane->highlightMemory(true);
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
@@ -1414,15 +1414,15 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-    if (!memoryDumpPane->isHidden()) {
-        memoryDumpPane->updateMemory();
-        memoryDumpPane->highlightMemory(true);
-    }
+//    if (!memoryDumpPane->isHidden()) {
+//        memoryDumpPane->updateMemory();
+//        memoryDumpPane->highlightMemory(true);
+//    }
 }
 
 void MainWindow::vonNeumannStepped()
 {
-    memoryDumpPane->cacheModifiedBytes();
+//    memoryDumpPane->cacheModifiedBytes();
 }
 
 void MainWindow::appendOutput(QString str)

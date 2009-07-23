@@ -139,16 +139,20 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 
 void Sim::writeByte(int memAddr, int value)
 {
-    Mem[memAddr % 65536] = value;
-    modifiedBytes.insert(memAddr % 65536);
+    if (memAddr < Pep::romStartAddress) {
+        Mem[memAddr % 65536] = value;
+        modifiedBytes.insert(memAddr % 65536);
+    }
 }
 
 void Sim::writeWord(int memAddr, int value)
 {
-    Mem[memAddr % 65536] = value / 256;
-    Mem[(memAddr + 1) % 65536] = value % 256;
-    modifiedBytes.insert(memAddr % 65536);
-    modifiedBytes.insert((memAddr + 1) % 65536);
+    if (memAddr < Pep::romStartAddress) { // There is an intentional inaccuracy here (it is possible to overwrite the first byte of ROM).
+        Mem[memAddr % 65536] = value / 256;
+        Mem[(memAddr + 1) % 65536] = value % 256;
+        modifiedBytes.insert(memAddr % 65536);
+        modifiedBytes.insert((memAddr + 1) % 65536);
+    }
 }
 
 void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
@@ -422,7 +426,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case DECI: case DECO: case STRO:
     case NOP: case NOP0: case NOP1: case NOP2: case NOP3:
-        temp = readWord(0xfffa);
+        temp = readWord(0xFFFA);
         writeByte(temp - 1, instructionSpecifier);
         writeWord(temp - 3, stackPointer);
         writeWord(temp - 5, programCounter);
@@ -430,7 +434,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         writeWord(temp - 9, accumulator);
         writeByte(temp - 10, nzvcToInt());
         stackPointer = temp - 10;
-        programCounter = readWord(0xfffe);
+        programCounter = readWord(0xFFFE);
         return true;
     case LDA:
         operand = readWordOprnd(addrMode);
@@ -470,7 +474,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         accumulator |= nBit ? 8 : 0;
         return true;
     case MOVSPA:
-        stackPointer = accumulator;
+        accumulator = stackPointer;
         return true;
     case NEGA:
         accumulator = (~accumulator + 1) & 65535;

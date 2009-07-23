@@ -94,13 +94,13 @@ private:
         eFIG621 = 27,
         eFIG623 = 28,
         eFIG625 = 29,
-        eFIG627 = 30,
-        eFIG629 = 31,
+        eFIG627 = 30, // Interactive input
+        eFIG629 = 31, // Interactive input
         eFIG632 = 32,
         eFIG634 = 33,
         eFIG636 = 34,
         eFIG638 = 35,
-        eFIG640 = 36,
+        eFIG640 = 36, // Interactive input
         eFIG641 = 37,
         eFIG643 = 38,
         eFIG645 = 39,

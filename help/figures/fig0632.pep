@@ -10,8 +10,8 @@ LOWER:   .EQUATE 21          ;const int
 UPPER:   .EQUATE 65          ;const int
 ;
 ;******* bool inRange (int a)
-retVal:  .EQUATE 2           ;returned value #2d
-a:       .EQUATE 0           ;formal parameter #2d
+retVal:  .EQUATE 4           ;returned value #2d
+a:       .EQUATE 2           ;formal parameter #2d
 inRange: LDA     LOWER,i     ;if ((LOWER <= a)
 if:      CPA     a,s         
          BRGT    else        

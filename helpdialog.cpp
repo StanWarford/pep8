@@ -499,14 +499,35 @@ QString HelpDialog::getCode(Enu::EPane &loc, QString &input) {
     else if (row == eFIG521) {
         input = "M 419";
     }
-    else if (row == eFIG526) {
+    else if (row == eFIG526 || row == eFIG604) {
         input = "68 84";
+    }
+    else if (row == eFIG606) {
+        input = "-25";
+    }
+    else if (row == eFIG608) {
+        input = "75";
+    }
+    else if (row == eFIG610) {
+        input = "happy*";
+    }
+    else if (row == eFIG616) {
+        input = "3 -15 25";
+    }
+    else if (row == eFIG621 || row == eFIG623) {
+        input = "12  3 13 17 34 27 23 25 29 16 10 0 2";
+    }
+    else if (row == eFIG632) {
+        input = "25";
     }
     else if (row == eFIG634) {
         input = "60 70 80 90";
     }
+    else if (row == eFIG636) {
+        input = "2 26 -3 9";
+    }
     else if (row == eFIG638) {
-        input = "5  40 50 60 70 80"; // The book appears to have two spaces there...I'm not sure if that is correct.
+        input = "5  40 50 60 70 80";
     }
     else if (row == eFIG645) {
         input = "bj 32 m";
