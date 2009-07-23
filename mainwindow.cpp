@@ -317,10 +317,12 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     if (pane == Enu::ESource) {
         curSourceFile = fileName;
         sourceCodePane->setModifiedFalse();
-    } else if (pane == Enu::EObject) {
+    }
+    else if (pane == Enu::EObject) {
         curObjectFile = fileName;
         objectCodePane->setModifiedFalse();
-    } else if (pane == Enu::EListing) {
+    }
+    else if (pane == Enu::EListing) {
         curListingFile = fileName;
     }
 
@@ -332,26 +334,8 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
             shownName = strippedName(curSourceFile);
         }
         sourceCodePane->setCurrentFile(shownName);
-        if (curListingFile.isEmpty()) {
-            if (curSourceFile.isEmpty()) {
-                curListingFile = "untitled.pepl";
-            }
-            else {
-                QString temp = curSourceFile;
-                if (temp.endsWith(".pep", Qt::CaseInsensitive) || temp.endsWith(".txt", Qt::CaseInsensitive)) {
-                    temp.chop(4);
-                }
-                temp.append(".pepl");
-                curListingFile = temp;
-            }
-        }
-        if (curObjectFile.isEmpty()) {
-            // Set curObjectFile name here.
-            // Things to watch out for:
-            // 1) We don't want to overwrite a file by the same name as the curSourceFile sans extension by accident
-            // 2) We want all dialogs to open to the same directory
-        }
-    } else if (pane == Enu::EObject) {
+    }
+    else if (pane == Enu::EObject) {
         if (curObjectFile.isEmpty()) {
             shownName = "untitled.pepo";
         } else {
@@ -359,6 +343,15 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
         }
         objectCodePane->setCurrentFile(shownName);
     }
+    else if (pane == Enu::EListing) {
+        if (curListingFile.isEmpty()) {
+            shownName = "untitled.pepl";
+        } else {
+            shownName = strippedName(curListingFile);
+        }
+        assemblerListingPane->setCurrentFile(shownName);
+    }
+
 
     // For recent files:
     if (pane != Enu::EListing) {
@@ -421,6 +414,18 @@ bool MainWindow::assemble()
             objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
             assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
             listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+
+            QString temp = curSourceFile;
+            if (temp.endsWith(".pep", Qt::CaseInsensitive) || temp.endsWith(".txt", Qt::CaseInsensitive)) {
+                temp.chop(4);
+            }
+            temp.append(".pepo");
+            curObjectFile = temp;
+            setCurrentFile(curObjectFile, Enu::EObject);
+            temp.chop(5);
+            temp.append(".pepl");
+            curListingFile = temp;
+            setCurrentFile(curListingFile, Enu::EListing);
             return true;
         }
     }
@@ -437,7 +442,7 @@ bool MainWindow::load()
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
         memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
-        memoryDumpPane->highlightMemory(true);
+//        memoryDumpPane->highlightMemory(true);
         return true;
     }    
     return false;
@@ -459,7 +464,7 @@ void MainWindow::setDebugState(bool b)
     listingTracePane->setDebuggingState(b);
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
-    memoryDumpPane->highlightMemory(b);
+//    memoryDumpPane->highlightMemory(b);
     if (!b) {
         ui->pepInputOutputTab->setTabEnabled(1, true);
         ui->pepInputOutputTab->setTabEnabled(0, true);
@@ -506,15 +511,6 @@ bool MainWindow::on_actionFile_Save_Source_triggered()
         return on_actionFile_Save_Source_As_triggered();
     } else {
         return saveFileSource(curSourceFile);
-    }
-}
-
-bool MainWindow::on_actionFile_Save_Object_triggered()
-{
-    if (curObjectFile.isEmpty()) {
-        return on_actionFile_Save_Object_As_triggered();
-    } else {
-        return saveFileObject(curObjectFile);
     }
 }
 
@@ -780,7 +776,9 @@ void MainWindow::on_actionEdit_Format_From_Listing_triggered()
     QStringList assemblerListingList = sourceCodePane->getAssemblerListingList();
     assemblerListingList.replaceInStrings(QRegExp("^............."), "");
     assemblerListingList.removeAll("");
-    sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
+	if (!assemblerListingList.isEmpty()) {
+		sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
+	}
 }
 
 void MainWindow::on_actionEdit_Font_triggered()
@@ -1182,7 +1180,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
     ui->pepCodeTraceTab->setCurrentIndex(0);
     if (loc == Enu::ESource) {
         if (maybeSaveSource()) {
-            setCurrentFile("untitled.pep", Enu::ESource);
+            setCurrentFile("", Enu::ESource);
             sourceCodePane->setSourceCodePaneText(code);
             assemblerListingPane->clearAssemblerListing();
             objectCodePane->clearObjectCode();
@@ -1190,7 +1188,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
             statusBar()->showMessage("Copied to source", 4000);
         }
     } else if (maybeSaveObject()) {
-        setCurrentFile("untitled.pep", Enu::EObject);
+        setCurrentFile("", Enu::EObject);
         objectCodePane->setObjectCodePaneText(code);
         sourceCodePane->clearSourceCode();
         assemblerListingPane->clearAssemblerListing();
@@ -1388,13 +1386,13 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-    memoryDumpPane->highlightMemory(true);
-    memoryDumpPane->updateMemory();
+//    memoryDumpPane->highlightMemory(true);
+//    memoryDumpPane->updateMemory();
 }
 
 void MainWindow::updateMemoryDisplays()
 {
-    memoryDumpPane->updateMemory();
+//    memoryDumpPane->updateMemory();
 }
 
 void MainWindow::appendOutput(QString str)

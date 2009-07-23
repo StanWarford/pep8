@@ -64,7 +64,6 @@ void ObjectCodePane::ObjectCodePane::clearObjectCode()
     m_ui->pepObjectCodeTextEdit->clear();
 }
 
-
 bool ObjectCodePane::isModified()
 {
     return m_ui->pepObjectCodeTextEdit->document()->isModified();

@@ -71,6 +71,11 @@ QString AssemblerListingPane::toPlainText()
     return m_ui->assemblerListingTextEdit->toPlainText();
 }
 
+void AssemblerListingPane::setCurrentFile(QString string)
+{
+    m_ui->assemblerListingLabel->setText("Assembler Listing - " + string);
+}
+
 void AssemblerListingPane::highlightOnFocus()
 {
     if (m_ui->assemblerListingTextEdit->hasFocus()) {

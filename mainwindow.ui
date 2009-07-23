@@ -370,7 +370,6 @@
     <addaction name="actionFile_Open"/>
     <addaction name="separator"/>
     <addaction name="actionFile_Save_Source"/>
-    <addaction name="actionFile_Save_Object"/>
     <addaction name="separator"/>
     <addaction name="actionFile_Save_Source_As"/>
     <addaction name="actionFile_Save_Object_As"/>

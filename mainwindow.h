@@ -109,7 +109,6 @@ private slots:
     void on_actionFile_New_triggered();
     void on_actionFile_Open_triggered();
     bool on_actionFile_Save_Source_triggered();
-    bool on_actionFile_Save_Object_triggered();
     bool on_actionFile_Save_Source_As_triggered();
     bool on_actionFile_Save_Object_As_triggered();
     bool on_actionFile_Save_Listing_As_triggered();

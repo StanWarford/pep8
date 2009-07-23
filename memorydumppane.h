@@ -3,6 +3,7 @@
 
 #include <QtGui/QWidget>
 #include <QScrollBar>
+#include <QSet>
 
 namespace Ui {
     class MemoryDumpPane;
