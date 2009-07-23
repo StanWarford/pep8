@@ -14,7 +14,7 @@ PepHighlighter::PepHighlighter(QTextDocument *parent)
             << "\\bDEC(I|O)\\b" << "\\bLD(A|X|BYTEA|BYTEX)\\b" << "\\bMOV(FLGA|SPA)\\b"
             << "\\bNEG(A|X)\\b" << "\\bNOP\\b" << "\\bNOP(0|1|2|3)\\b"
             << "\\bNOT(A|X)\\b" << "\\bOR(A|X)\\b" << "\\bRET(0|1|2|3|4|5|6|7|TR)\\b"
-            << "\\bRO|LA|LX|RA|RX)\\b" << "\\bST(A|X|BYTEA|BYTEX)\\b" << "\\bSTOP\\b"
+            << "\\bROL(A|X)\\b" << "\\bROR(A|X)\\b" << "\\bST(A|X|BYTEA|BYTEX)\\b" << "\\bSTOP\\b"
             << "\\bSTRO\\b" << "\\bSTX\\b" << "\\bSUB(A|X|SP)\\b";
     foreach (const QString &pattern, oprndPatterns) {
         rule.pattern = QRegExp(pattern);

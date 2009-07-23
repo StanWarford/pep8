@@ -224,6 +224,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     EMnemonic mnemonic;
     EAddrMode addrMode;
     int temp;
+    bool bTemp;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment
@@ -555,12 +556,28 @@ bool Sim::vonNeumannStep(QString &errorString)
         stackPointer = readWord(stackPointer + 7);
         return true;
     case ROLA:
+        bTemp = accumulator >= 32768;
+        accumulator = (accumulator * 2) % 65536;
+        accumulator |= cBit ? 1 : 0;
+        cBit = bTemp;
         return true;
     case ROLX:
+        bTemp = indexRegister >= 32768;
+        indexRegister = (indexRegister * 2) % 65536;
+        indexRegister |= cBit ? 1 : 0;
+        cBit = bTemp;
         return true;
     case RORA:
+        bTemp = accumulator % 2 == 1;
+        accumulator = (accumulator / 2);
+        accumulator |= cBit ? 0x8000 : 0;
+        cBit = bTemp;
         return true;
     case RORX:
+        bTemp = indexRegister % 2 == 1;
+        indexRegister = (indexRegister / 2);
+        indexRegister |= cBit ? 0x8000 : 0;
+        cBit = bTemp;
         return true;
     case STA:
         writeWordOprnd(addrMode, accumulator);
