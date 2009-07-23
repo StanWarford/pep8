@@ -22,7 +22,7 @@ public:
     static QString inputBuffer;
     static QString outputBuffer;
 
-    static QList<int> byteWritten;
+    static QSet<int> modifiedBytes;
 
     static Enu::EExecState executionState;
     // State for keeping track of what actions are possible for user and machine

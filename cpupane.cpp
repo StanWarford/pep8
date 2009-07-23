@@ -136,14 +136,17 @@ void CpuPane::runWithBatch()
         }
         else {
             QMessageBox::warning(0, "Pep/8", errorString);
+            emit updateSimulationView();
             emit executionComplete();
             return;
         }
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+            emit updateSimulationView();
             emit executionComplete();
             return;
         }
         if (interruptExecutionFlag) {
+            emit updateSimulationView();
             return;
         }
     }
@@ -171,14 +174,17 @@ void CpuPane::runWithTerminal()
             }
             else {
                 QMessageBox::warning(0, "Pep/8", errorString);
+                emit updateSimulationView();
                 emit executionComplete();
                 return;
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                emit updateSimulationView();
                 emit executionComplete();
                 return;
             }
             if (interruptExecutionFlag) {
+                emit updateSimulationView();
                 return;
             }
         }
@@ -198,6 +204,7 @@ void CpuPane::resumeWithBatch()
                 Sim::outputBuffer = "";
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                emit updateSimulationView();
                 emit executionComplete();
                 return;
             }
@@ -211,9 +218,11 @@ void CpuPane::resumeWithBatch()
         else {
             QMessageBox::warning(0, "Pep/8", errorString);
             updateCpu();
+            emit updateSimulationView();
             emit executionComplete();
         }
         if (interruptExecutionFlag) {
+            emit updateSimulationView();
             return;
         }
     }
@@ -239,6 +248,7 @@ void CpuPane::resumeWithTerminal()
                     Sim::outputBuffer = "";
                 }
                 if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                    emit updateSimulationView(); // Finish updating the memory before we're done executing
                     emit executionComplete();
                     return;
                 }
@@ -252,6 +262,7 @@ void CpuPane::resumeWithTerminal()
             else {
                 QMessageBox::warning(0, "Pep/8", errorString);
                 updateCpu();
+                emit updateSimulationView();
                 emit executionComplete();
             }
         }

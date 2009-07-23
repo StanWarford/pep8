@@ -2,6 +2,7 @@
 #include "pep.h"
 #include <QMessageBox>
 #include <QDebug>
+#include <QSet>
 
 using namespace Enu;
 
@@ -20,7 +21,7 @@ bool Sim::isByteOperand;
 QString Sim::inputBuffer;
 QString Sim::outputBuffer;
 
-QList<int> Sim::byteWritten;
+QSet<int> Sim::modifiedBytes;
 
 Enu::EExecState Sim::executionState;
 
@@ -139,15 +140,15 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 void Sim::writeByte(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value;
-    byteWritten.append(memAddr % 65536);
+    modifiedBytes.insert(memAddr % 65536);
 }
 
 void Sim::writeWord(int memAddr, int value)
 {
     Mem[memAddr % 65536] = value / 256;
     Mem[(memAddr + 1) % 65536] = value % 256;
-    byteWritten.append(memAddr % 65536);
-    byteWritten.append((memAddr + 1) % 65536);
+    modifiedBytes.insert(memAddr % 65536);
+    modifiedBytes.insert((memAddr + 1) % 65536);
 }
 
 void Sim::writeByteOprnd(Enu::EAddrMode addrMode, int value)
@@ -220,7 +221,7 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
 
 bool Sim::vonNeumannStep(QString &errorString)
 {
-    byteWritten.clear();
+    modifiedBytes.clear();
     EMnemonic mnemonic;
     EAddrMode addrMode;
     int temp;

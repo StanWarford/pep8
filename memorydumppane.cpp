@@ -120,12 +120,22 @@ void MemoryDumpPane::highlightMemory(bool b)
     }
 }
 
+void MemoryDumpPane::cacheModifiedBytes()
+{
+    modifiedBytes.unite(Sim::modifiedBytes);
+}
+
 void MemoryDumpPane::updateMemory()
 {
-    for (int i = 0; i < Sim::byteWritten.size(); i++) {
-        refreshMemoryLines(Sim::byteWritten.at(i), Sim::byteWritten.at(i));
-        byteWritten.append(Sim::byteWritten.at(i));
+    modifiedBytes.unite(Sim::modifiedBytes);
+    QList<int> modifiedBytesList = modifiedBytes.toList();
+    if (!modifiedBytesList.isEmpty()) {
+        refreshMemoryLines(modifiedBytesList.first(), modifiedBytesList.last());
+        for (int i = 0; i < modifiedBytesList.size(); i++) {
+            byteWritten.append(modifiedBytesList.at(i));
+        }
     }
+    modifiedBytes.clear();
 }
 
 void MemoryDumpPane::highlightOnFocus()

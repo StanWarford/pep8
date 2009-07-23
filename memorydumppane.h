@@ -26,9 +26,11 @@ public:
     void highlightMemory(bool b);
     // Post: Everything is unhighlighted. If b, current program counter is highlighted.
 
+    void cacheModifiedBytes();
+    // Post: Changed bytes from Sim are added to the QSet modifiedBytes
+
     void updateMemory();
     // Post: Memory displays are updated using the changedMemoryAddrss qlist in sim
-    // Also, that memory is highlighted
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -62,6 +64,7 @@ private:
     QList<int> highlightedInstruction;
     QList<int> highlightedData;
     QList<int> byteWritten;
+    QSet<int> modifiedBytes;
 
 private slots:
     void on_pepMemRefreshButton_clicked();

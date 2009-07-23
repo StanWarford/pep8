@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(appendOutput(QString)), this, SLOT(appendOutput(QString)));
     connect(cpuPane, SIGNAL(resumeButtonClicked()), this, SLOT(resumeButtonClicked()));
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
-    connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(updateMemoryDisplays()));
+    connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(vonNeumannStepped()));
 
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
@@ -435,7 +435,7 @@ bool MainWindow::load()
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
         memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
-//        memoryDumpPane->highlightMemory(true);
+        memoryDumpPane->highlightMemory(true);
         return true;
     }    
     return false;
@@ -457,7 +457,7 @@ void MainWindow::setDebugState(bool b)
     listingTracePane->setDebuggingState(b);
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
-//    memoryDumpPane->highlightMemory(b);
+    memoryDumpPane->highlightMemory(b);
     if (!b) {
         ui->pepInputOutputTab->setTabEnabled(1, true);
         ui->pepInputOutputTab->setTabEnabled(0, true);
@@ -1417,13 +1417,13 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-//    memoryDumpPane->highlightMemory(true);
-//    memoryDumpPane->updateMemory();
+    memoryDumpPane->highlightMemory(true);
+    memoryDumpPane->updateMemory();
 }
 
-void MainWindow::updateMemoryDisplays()
+void MainWindow::vonNeumannStepped()
 {
-//    memoryDumpPane->updateMemory();
+    memoryDumpPane->cacheModifiedBytes();
 }
 
 void MainWindow::appendOutput(QString str)
