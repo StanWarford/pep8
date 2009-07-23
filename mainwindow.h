@@ -185,6 +185,7 @@ private slots:
     void vonNeumannStepped();
     void appendOutput(QString str);
 
+    // Terminal IO:
     void waitingForInput();
     void inputReceived();
 

@@ -61,7 +61,6 @@ private:
 
     void highlightByte(int memAddr, QColor foreground, QColor background);
 
-    QList<int> highlightedInstruction;
     QList<int> highlightedData;
     QList<int> byteWritten;
     QSet<int> modifiedBytes;

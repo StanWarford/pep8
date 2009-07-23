@@ -107,6 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(resumeButtonClicked()), this, SLOT(resumeButtonClicked()));
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
     connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(vonNeumannStepped()));
+    connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
 
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
@@ -875,7 +876,6 @@ void MainWindow::on_actionBuild_Execute_triggered()
 {
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
-    Sim::inputBuffer = inputPane->toPlainText();
     setDebugState(true);
     listingTracePane->setDebuggingState(false);
     cpuPane->setButtonsEnabled(false);
@@ -886,15 +886,15 @@ void MainWindow::on_actionBuild_Execute_triggered()
     if (ui->pepInputOutputTab->currentIndex() == 0) {
         ui->pepInputOutputTab->setTabEnabled(1, false);
         outputPane->clearOutput();
+        QString s = inputPane->toPlainText();
+        if (!s.endsWith("\n")) {
+            s.append("\n");
+        }
+        Sim::inputBuffer = s;
+        cpuPane->runWithBatch();
     }
     else {
         ui->pepInputOutputTab->setTabEnabled(0, false);
-    }
-    if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
-        Sim::inputBuffer = inputPane->toPlainText();
-        cpuPane->runWithBatch();
-    }
-    else { // terminal input
         terminalPane->clearTerminal();
         cpuPane->runWithTerminal();
     }
@@ -914,16 +914,21 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         ui->statusbar->showMessage("Load succeeded", 4000);
         Sim::stackPointer = Sim::readWord(0xFFF8);
         Sim::programCounter = 0x0000;
-        Sim::inputBuffer = inputPane->toPlainText();
 
         setDebugState(true);
 
         if (ui->pepInputOutputTab->currentIndex() == 0) {
             ui->pepInputOutputTab->setTabEnabled(1, false);
             outputPane->clearOutput();
+            QString s = inputPane->toPlainText();
+            if (!s.endsWith("\n")) {
+                s.append("\n");
+            }
+            Sim::inputBuffer = s;
         }
         else {
             ui->pepInputOutputTab->setTabEnabled(0, false);
+            terminalPane->clearTerminal();
         }
 
         ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
@@ -931,12 +936,6 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
-        if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
-            Sim::inputBuffer = inputPane->toPlainText();
-        }
-        else { // terminal input
-            terminalPane->clearTerminal();
-        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);
@@ -956,31 +955,27 @@ void MainWindow::on_actionBuild_Run_Object_triggered()
 
 void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
 {
-    Sim::stackPointer = Sim::readWord(0xFFF8);
-    Sim::programCounter = 0x0000;
-    Sim::inputBuffer = inputPane->toPlainText();
-
-    if (ui->pepInputOutputTab->currentIndex() == 0) {
-        ui->pepInputOutputTab->setTabEnabled(1, false);
-        outputPane->clearOutput();
-    }
-    else {
-        ui->pepInputOutputTab->setTabEnabled(0, false);
-    }
-
-    setDebugState(true);
-
-    ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
-
     if (load()) {
+        Sim::stackPointer = Sim::readWord(0xFFF8);
+        Sim::programCounter = 0x0000;
+
+        setDebugState(true);
+
         ui->statusbar->showMessage("Load succeeded", 4000);
         cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
-        if (ui->pepInputOutputTab->currentIndex() == 0) { // batch input
-            Sim::inputBuffer = inputPane->toPlainText();
+        if (ui->pepInputOutputTab->currentIndex() == 0) {
+            ui->pepInputOutputTab->setTabEnabled(1, false);
+            outputPane->clearOutput();
+            QString s = inputPane->toPlainText();
+            if (!s.endsWith("\n")) {
+                s.append("\n");
+            }
+            Sim::inputBuffer = s;
         }
-        else { // terminal input
+        else {
+            ui->pepInputOutputTab->setTabEnabled(0, false);
             terminalPane->clearTerminal();
         }
     }
@@ -1024,6 +1019,8 @@ void MainWindow::on_actionView_Code_CPU_triggered()
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
+    memoryDumpPane->refreshMemory();
+    memoryDumpPane->highlightMemory(true);
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
@@ -1417,8 +1414,10 @@ void MainWindow::setRedoability(bool b)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-    memoryDumpPane->highlightMemory(true);
-    memoryDumpPane->updateMemory();
+    if (!memoryDumpPane->isHidden()) {
+        memoryDumpPane->updateMemory();
+        memoryDumpPane->highlightMemory(true);
+    }
 }
 
 void MainWindow::vonNeumannStepped()
@@ -1453,15 +1452,12 @@ void MainWindow::waitingForInput()
 void MainWindow::inputReceived()
 {
     if (cpuPane->waitingState() == Enu::EDebugSSWaiting) {
-        qDebug() << "single stepping...";
         cpuPane->singleStepWithTerminal();
     }
     else if (cpuPane->waitingState() == Enu::EDebugResumeWaiting) {
-        qDebug() << "resuming...";
         cpuPane->resumeWithTerminal();
     }
     else if (cpuPane->waitingState() == Enu::ERunWaiting) {
-        qDebug() << "running...";
         cpuPane->runWithTerminal();
     }
 }

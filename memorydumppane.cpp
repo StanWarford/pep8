@@ -52,24 +52,29 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
     int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
     int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
 
+    int firstLine = firstByte / 8;
+    int lastLine = lastByte / 8;
+
     QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
     cursor.setPosition(0);
-    for (int i = 0; i < firstByte / 8; i++) {
+    for (int i = 0; i < firstLine; i++) {
         cursor.movePosition(QTextCursor::NextBlock);
     }
 
     QString memoryDumpLine;
     QChar ch;
-    int byteNum = firstByte / 8;
-    for (int i = firstByte / 8; i <= lastByte / 8; i++) {
+    int byteNum;
+    for (int i = firstLine; i <= lastLine; i++) {
         memoryDumpLine = "";
+        byteNum = i * 8;
         memoryDumpLine.append(QString("%1 | ").arg(byteNum, 4, 16, QLatin1Char('0')).toUpper());
         for (int j = 0; j < 8; j++) {
-            memoryDumpLine.append(QString("%1 ").arg(Sim::Mem[byteNum + j], 2, 16, QLatin1Char('0')).toUpper());
+            memoryDumpLine.append(QString("%1 ").arg(Sim::Mem[byteNum++], 2, 16, QLatin1Char('0')).toUpper());
         }
         memoryDumpLine.append("|");
+        byteNum = i * 8;
         for (int j = 0; j < 8; j++) {
-            ch = QChar(Sim::Mem[byteNum + j]);
+            ch = QChar(Sim::Mem[byteNum++]);
             if (ch.isPrint()) {
                 memoryDumpLine.append(ch);
             } else {
@@ -80,7 +85,6 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
         m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
         m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
         cursor.movePosition(QTextCursor::NextBlock);
-        byteNum += 8;
     }
 
     m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
@@ -89,34 +93,31 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
 
 void MemoryDumpPane::highlightMemory(bool b)
 {
-    while (!highlightedInstruction.isEmpty()) {
-        highlightByte(highlightedInstruction.takeFirst(), Qt::black, Qt::white);
-    }
     while (!highlightedData.isEmpty()) {
         highlightByte(highlightedData.takeFirst(), Qt::black, Qt::white);
     }
 
     if (b) {
         highlightByte(Sim::stackPointer, Qt::white, Qt::darkCyan);
-        highlightedInstruction.append(Sim::stackPointer);
+        highlightedData.append(Sim::stackPointer);
         
         if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
             highlightByte(Sim::programCounter, Qt::white, Qt::blue);
-            highlightedInstruction.append(Sim::programCounter);
+            highlightedData.append(Sim::programCounter);
             highlightByte(Sim::add(Sim::programCounter, 1), Qt::white, Qt::blue);
-            highlightedInstruction.append(Sim::add(Sim::programCounter, 1));
+            highlightedData.append(Sim::add(Sim::programCounter, 1));
             highlightByte(Sim::add(Sim::programCounter, 2), Qt::white, Qt::blue);
-            highlightedInstruction.append(Sim::add(Sim::programCounter, 2));
+            highlightedData.append(Sim::add(Sim::programCounter, 2));
         }
         else {
             highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
-            highlightedInstruction.append(Sim::programCounter);
+            highlightedData.append(Sim::programCounter);
         }
 
-        while (!byteWritten.isEmpty()) {
-            highlightByte(byteWritten.at(0), Qt::white, Qt::red);
-            highlightedData.append(byteWritten.takeFirst());
-        }
+//        while (!byteWritten.isEmpty()) {
+//            highlightByte(byteWritten.at(0), Qt::white, Qt::red);
+//            highlightedData.append(byteWritten.takeFirst());
+//        }
     }
 }
 
