@@ -73,7 +73,12 @@ QString AssemblerListingPane::toPlainText()
 
 void AssemblerListingPane::setCurrentFile(QString string)
 {
-    m_ui->assemblerListingLabel->setText("Assembler Listing - " + string);
+    if (!string.isEmpty()) {
+        m_ui->assemblerListingLabel->setText("Assembler Listing - " + string);
+    }
+    else {
+        m_ui->assemblerListingLabel->setText("Assembler Listing - untitled.pepl");
+    }
 }
 
 void AssemblerListingPane::highlightOnFocus()

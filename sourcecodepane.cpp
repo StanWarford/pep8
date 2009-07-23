@@ -254,7 +254,7 @@ void SourceCodePane::setSourceCodePaneText(QString string)
 void SourceCodePane::clearSourceCode()
 {
     m_ui->pepSourceCodeTextEdit->clear();
-	assemblerListingList.clear(); // This may cause issues with "format from listing" - but this needs to be cleared regardless.
+    codeList.clear(); // This may cause issues with "format from listing" - but this needs to be cleared regardless.
 }
 
 bool SourceCodePane::isModified()

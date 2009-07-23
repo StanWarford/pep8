@@ -128,6 +128,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
+
 }
 
 MainWindow::~MainWindow()
@@ -355,20 +356,6 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
 
     // For recent files:
     if (pane != Enu::EListing) {
-        QSettings settings("Pep/8", "Recent Files");
-        QStringList files = settings.value("recentFileList").toStringList();
-        files.removeAll(fileName);
-        files.prepend(fileName);
-        while (files.size() > MaxRecentFiles)
-            files.removeLast();
-
-        settings.setValue("recentFileList", files);
-
-        foreach (QWidget *widget, QApplication::topLevelWidgets()) {
-            MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
-            if (mainWin)
-                mainWin->updateRecentFileActions();
-        }
     }
 }
 
@@ -416,16 +403,22 @@ bool MainWindow::assemble()
             listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
 
             QString temp = curSourceFile;
-            if (temp.endsWith(".pep", Qt::CaseInsensitive) || temp.endsWith(".txt", Qt::CaseInsensitive)) {
-                temp.chop(4);
+            if (!curSourceFile.isEmpty()) {
+                if (temp.endsWith(".pep", Qt::CaseInsensitive) || temp.endsWith(".txt", Qt::CaseInsensitive)) {
+                    temp.chop(4);
+                }
+                temp.append(".pepo");
+                curObjectFile = temp;
+                setCurrentFile(curObjectFile, Enu::EObject);
+                temp.chop(5);
+                temp.append(".pepl");
+                curListingFile = temp;
+                setCurrentFile(curListingFile, Enu::EListing);
             }
-            temp.append(".pepo");
-            curObjectFile = temp;
-            setCurrentFile(curObjectFile, Enu::EObject);
-            temp.chop(5);
-            temp.append(".pepl");
-            curListingFile = temp;
-            setCurrentFile(curListingFile, Enu::EListing);
+            else {
+                setCurrentFile("", Enu::EObject);
+                setCurrentFile("", Enu::EListing);
+            }
             return true;
         }
     }
@@ -486,9 +479,17 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 // File MainWindow triggers
 void MainWindow::on_actionFile_New_triggered()
 {
-    if (maybeSaveSource()) {
+    if (maybeSaveSource() && maybeSaveObject()) {
         sourceCodePane->clearSourceCode();
-        setCurrentFile("untitled.pep", Enu::ESource);
+        objectCodePane->clearObjectCode();
+        assemblerListingPane->clearAssemblerListing();
+        listingTracePane->clearListingTrace();
+        cpuPane->clearCpu();
+        outputPane->clearOutput();
+        // Do we want to clear input as well?
+        setCurrentFile("", Enu::ESource);
+        setCurrentFile("", Enu::EObject);
+        setCurrentFile("", Enu::EListing);
     }
 }
 
@@ -524,6 +525,21 @@ bool MainWindow::on_actionFile_Save_Source_As_triggered()
     if (fileName.isEmpty())
         return false;
 
+    QSettings settings("Pep/8", "Recent Files");
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(fileName);
+    files.prepend(fileName);
+    while (files.size() > MaxRecentFiles)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+        MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
+        if (mainWin)
+            mainWin->updateRecentFileActions();
+    }
+
     return saveFileSource(fileName);
 }
 
@@ -536,6 +552,21 @@ bool MainWindow::on_actionFile_Save_Object_As_triggered()
             "Pep8 Object (*.pepo *.txt)");
     if (fileName.isEmpty())
         return false;
+
+    QSettings settings("Pep/8", "Recent Files");
+    QStringList files = settings.value("recentFileList").toStringList();
+    files.removeAll(fileName);
+    files.prepend(fileName);
+    while (files.size() > MaxRecentFiles)
+        files.removeLast();
+
+    settings.setValue("recentFileList", files);
+
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+        MainWindow *mainWin = qobject_cast<MainWindow *>(widget);
+        if (mainWin)
+            mainWin->updateRecentFileActions();
+    }
 
     return saveFileObject(fileName);
 }

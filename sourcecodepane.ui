@@ -98,7 +98,7 @@
         <number>0</number>
        </property>
        <property name="text">
-        <string>Source Code</string>
+        <string>Source Code - untitled.pep</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
