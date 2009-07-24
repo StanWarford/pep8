@@ -109,6 +109,7 @@ QMap<Enu::EMnemonic, QString> Pep::enumToMnemonMap;
 QMap<QString, Enu::EMnemonic> Pep::mnemonToEnumMap;
 void Pep::initEnumMnemonMaps()
 {
+    enumToMnemonMap.clear(); mnemonToEnumMap.clear(); // Can be called from Redefine Mnemonics
     enumToMnemonMap.insert(ADDA, "ADDA"); mnemonToEnumMap.insert("ADDA", ADDA);
     enumToMnemonMap.insert(ADDSP, "ADDSP"); mnemonToEnumMap.insert("ADDSP", ADDSP);
     enumToMnemonMap.insert(ADDX, "ADDX"); mnemonToEnumMap.insert("ADDX", ADDX);
@@ -132,8 +133,8 @@ void Pep::initEnumMnemonMaps()
     enumToMnemonMap.insert(CHARO, "CHARO"); mnemonToEnumMap.insert("CHARO", CHARO);
     enumToMnemonMap.insert(CPA, "CPA"); mnemonToEnumMap.insert("CPA", CPA);
     enumToMnemonMap.insert(CPX, "CPX"); mnemonToEnumMap.insert("CPX", CPX);
-    enumToMnemonMap.insert(DECI, "DECI"); mnemonToEnumMap.insert("DECI", DECI);
-    enumToMnemonMap.insert(DECO, "DECO"); mnemonToEnumMap.insert("DECO", DECO);
+    enumToMnemonMap.insert(DECI, defaultNonUnaryMnemonic1); mnemonToEnumMap.insert(defaultNonUnaryMnemonic1, DECI);
+    enumToMnemonMap.insert(DECO, defaultNonUnaryMnemonic2); mnemonToEnumMap.insert(defaultNonUnaryMnemonic2, DECO);
     enumToMnemonMap.insert(LDA, "LDA"); mnemonToEnumMap.insert("LDA", LDA);
     enumToMnemonMap.insert(LDBYTEA, "LDBYTEA"); mnemonToEnumMap.insert("LDBYTEA", LDBYTEA);
     enumToMnemonMap.insert(LDBYTEX, "LDBYTEX"); mnemonToEnumMap.insert("LDBYTEX", LDBYTEX);
@@ -142,11 +143,11 @@ void Pep::initEnumMnemonMaps()
     enumToMnemonMap.insert(MOVSPA, "MOVSPA"); mnemonToEnumMap.insert("MOVSPA", MOVSPA);
     enumToMnemonMap.insert(NEGA, "NEGA"); mnemonToEnumMap.insert("NEGA", NEGA);
     enumToMnemonMap.insert(NEGX, "NEGX"); mnemonToEnumMap.insert("NEGX", NEGX);
-    enumToMnemonMap.insert(NOP, "NOP"); mnemonToEnumMap.insert("NOP", NOP);
-    enumToMnemonMap.insert(NOP0, "NOP0"); mnemonToEnumMap.insert("NOP0", NOP0);
-    enumToMnemonMap.insert(NOP1, "NOP1"); mnemonToEnumMap.insert("NOP1", NOP1);
-    enumToMnemonMap.insert(NOP2, "NOP2"); mnemonToEnumMap.insert("NOP2", NOP2);
-    enumToMnemonMap.insert(NOP3, "NOP3"); mnemonToEnumMap.insert("NOP3", NOP3);
+    enumToMnemonMap.insert(NOP, defaultNonUnaryMnemonic0); mnemonToEnumMap.insert(defaultNonUnaryMnemonic0, NOP);
+    enumToMnemonMap.insert(NOP0, defaultUnaryMnemonic0); mnemonToEnumMap.insert(defaultUnaryMnemonic0, NOP0);
+    enumToMnemonMap.insert(NOP1, defaultUnaryMnemonic1); mnemonToEnumMap.insert(defaultUnaryMnemonic1, NOP1);
+    enumToMnemonMap.insert(NOP2, defaultUnaryMnemonic2); mnemonToEnumMap.insert(defaultUnaryMnemonic2, NOP2);
+    enumToMnemonMap.insert(NOP3, defaultUnaryMnemonic3); mnemonToEnumMap.insert(defaultUnaryMnemonic3, NOP3);
     enumToMnemonMap.insert(NOTA, "NOTA"); mnemonToEnumMap.insert("NOTA", NOTA);
     enumToMnemonMap.insert(NOTX, "NOTX"); mnemonToEnumMap.insert("NOTX", NOTX);
     enumToMnemonMap.insert(ORA, "ORA"); mnemonToEnumMap.insert("ORA", ORA);
@@ -168,7 +169,7 @@ void Pep::initEnumMnemonMaps()
     enumToMnemonMap.insert(STBYTEA, "STBYTEA"); mnemonToEnumMap.insert("STBYTEA", STBYTEA);
     enumToMnemonMap.insert(STBYTEX, "STBYTEX"); mnemonToEnumMap.insert("STBYTEX", STBYTEX);
     enumToMnemonMap.insert(STOP, "STOP"); mnemonToEnumMap.insert("STOP", STOP);
-    enumToMnemonMap.insert(STRO, "STRO"); mnemonToEnumMap.insert("STRO", STRO);
+    enumToMnemonMap.insert(STRO, defaultNonUnaryMnemonic3); mnemonToEnumMap.insert(defaultNonUnaryMnemonic3, STRO);
     enumToMnemonMap.insert(STX, "STX"); mnemonToEnumMap.insert("STX", STX);
     enumToMnemonMap.insert(SUBA, "SUBA"); mnemonToEnumMap.insert("SUBA", SUBA);
     enumToMnemonMap.insert(SUBSP, "SUBSP"); mnemonToEnumMap.insert("SUBSP", SUBSP);

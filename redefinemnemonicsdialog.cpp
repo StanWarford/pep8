@@ -120,54 +120,49 @@ void RedefineMnemonicsDialog::restoreDefaults()
     m_ui->mnemon3sxCheckBox->setChecked(Pep::defaultMnemon3sx);
     m_ui->mnemon3sxfCheckBox->setChecked(Pep::defaultMnemon3sxf);
 
-    setNonUnaryAllowedModes();
-}
-
-void RedefineMnemonicsDialog::setNonUnaryAllowedModes()
-{
-    int addrMode;
-    addrMode = 0;
-    if (m_ui->mnemon0iCheckBox->isChecked()) addrMode |= I;
-    if (m_ui->mnemon0dCheckBox->isChecked()) addrMode |= D;
-    if (m_ui->mnemon0nCheckBox->isChecked()) addrMode |= N;
-    if (m_ui->mnemon0sCheckBox->isChecked()) addrMode |= S;
-    if (m_ui->mnemon0sfCheckBox->isChecked()) addrMode |= SF;
-    if (m_ui->mnemon0xCheckBox->isChecked()) addrMode |= X;
-    if (m_ui->mnemon0sxCheckBox->isChecked()) addrMode |= SX;
-    if (m_ui->mnemon0sxfCheckBox->isChecked()) addrMode |= SXF;
+    int addrMode = 0;
+    if (Pep::defaultMnemon0i) addrMode |= I;
+    if (Pep::defaultMnemon0d) addrMode |= D;
+    if (Pep::defaultMnemon0n) addrMode |= N;
+    if (Pep::defaultMnemon0s) addrMode |= S;
+    if (Pep::defaultMnemon0sf) addrMode |= SF;
+    if (Pep::defaultMnemon0x) addrMode |= X;
+    if (Pep::defaultMnemon0sx) addrMode |= SX;
+    if (Pep::defaultMnemon0sxf) addrMode |= SXF;
     Pep::addrModesMap.insert(NOP, addrMode);
     addrMode = 0;
-    if (m_ui->mnemon1iCheckBox->isChecked()) addrMode |= I;
-    if (m_ui->mnemon1dCheckBox->isChecked()) addrMode |= D;
-    if (m_ui->mnemon1nCheckBox->isChecked()) addrMode |= N;
-    if (m_ui->mnemon1sCheckBox->isChecked()) addrMode |= S;
-    if (m_ui->mnemon1sfCheckBox->isChecked()) addrMode |= SF;
-    if (m_ui->mnemon1xCheckBox->isChecked()) addrMode |= X;
-    if (m_ui->mnemon1sxCheckBox->isChecked()) addrMode |= SX;
-    if (m_ui->mnemon1sxfCheckBox->isChecked()) addrMode |= SXF;
+    if (Pep::defaultMnemon1i) addrMode |= I;
+    if (Pep::defaultMnemon1d) addrMode |= D;
+    if (Pep::defaultMnemon1n) addrMode |= N;
+    if (Pep::defaultMnemon1s) addrMode |= S;
+    if (Pep::defaultMnemon1sf) addrMode |= SF;
+    if (Pep::defaultMnemon1x) addrMode |= X;
+    if (Pep::defaultMnemon1sx) addrMode |= SX;
+    if (Pep::defaultMnemon1sxf) addrMode |= SXF;
     Pep::addrModesMap.insert(DECI, addrMode);
     addrMode = 0;
-    if (m_ui->mnemon2iCheckBox->isChecked()) addrMode |= I;
-    if (m_ui->mnemon2dCheckBox->isChecked()) addrMode |= D;
-    if (m_ui->mnemon2nCheckBox->isChecked()) addrMode |= N;
-    if (m_ui->mnemon2sCheckBox->isChecked()) addrMode |= S;
-    if (m_ui->mnemon2sfCheckBox->isChecked()) addrMode |= SF;
-    if (m_ui->mnemon2xCheckBox->isChecked()) addrMode |= X;
-    if (m_ui->mnemon2sxCheckBox->isChecked()) addrMode |= SX;
-    if (m_ui->mnemon2sxfCheckBox->isChecked()) addrMode |= SXF;
+    if (Pep::defaultMnemon2i) addrMode |= I;
+    if (Pep::defaultMnemon2d) addrMode |= D;
+    if (Pep::defaultMnemon2n) addrMode |= N;
+    if (Pep::defaultMnemon2s) addrMode |= S;
+    if (Pep::defaultMnemon2sf) addrMode |= SF;
+    if (Pep::defaultMnemon2x) addrMode |= X;
+    if (Pep::defaultMnemon2sx) addrMode |= SX;
+    if (Pep::defaultMnemon2sxf) addrMode |= SXF;
     Pep::addrModesMap.insert(DECO, addrMode);
     addrMode = 0;
-    if (m_ui->mnemon3iCheckBox->isChecked()) addrMode |= I;
-    if (m_ui->mnemon3dCheckBox->isChecked()) addrMode |= D;
-    if (m_ui->mnemon3nCheckBox->isChecked()) addrMode |= N;
-    if (m_ui->mnemon3sCheckBox->isChecked()) addrMode |= S;
-    if (m_ui->mnemon3sfCheckBox->isChecked()) addrMode |= SF;
-    if (m_ui->mnemon3xCheckBox->isChecked()) addrMode |= X;
-    if (m_ui->mnemon3sxCheckBox->isChecked()) addrMode |= SX;
-    if (m_ui->mnemon3sxfCheckBox->isChecked()) addrMode |= SXF;
+    if (Pep::defaultMnemon3i) addrMode |= I;
+    if (Pep::defaultMnemon3d) addrMode |= D;
+    if (Pep::defaultMnemon3n) addrMode |= N;
+    if (Pep::defaultMnemon3s) addrMode |= S;
+    if (Pep::defaultMnemon3sf) addrMode |= SF;
+    if (Pep::defaultMnemon3x) addrMode |= X;
+    if (Pep::defaultMnemon3sx) addrMode |= SX;
+    if (Pep::defaultMnemon3sxf) addrMode |= SXF;
     Pep::addrModesMap.insert(STRO, addrMode);
-}
 
+    Pep::initEnumMnemonMaps();
+}
 
 void RedefineMnemonicsDialog::redefineNonUnaryMnemonic0(QString string)
 {    
@@ -313,3 +308,46 @@ void RedefineMnemonicsDialog::redefineUnaryMnemonic3(QString string)
     }
 }
 
+void RedefineMnemonicsDialog::setNonUnaryAllowedModes()
+{
+    int addrMode = 0;
+    if (m_ui->mnemon0iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon0dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon0nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon0sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon0sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon0xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon0sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon0sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(NOP, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon1iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon1dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon1nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon1sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon1sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon1xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon1sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon1sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(DECI, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon2iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon2dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon2nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon2sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon2sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon2xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon2sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon2sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(DECO, addrMode);
+    addrMode = 0;
+    if (m_ui->mnemon3iCheckBox->isChecked()) addrMode |= I;
+    if (m_ui->mnemon3dCheckBox->isChecked()) addrMode |= D;
+    if (m_ui->mnemon3nCheckBox->isChecked()) addrMode |= N;
+    if (m_ui->mnemon3sCheckBox->isChecked()) addrMode |= S;
+    if (m_ui->mnemon3sfCheckBox->isChecked()) addrMode |= SF;
+    if (m_ui->mnemon3xCheckBox->isChecked()) addrMode |= X;
+    if (m_ui->mnemon3sxCheckBox->isChecked()) addrMode |= SX;
+    if (m_ui->mnemon3sxfCheckBox->isChecked()) addrMode |= SXF;
+    Pep::addrModesMap.insert(STRO, addrMode);
+}
