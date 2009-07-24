@@ -20,6 +20,7 @@ public:
 
     void machineLanguageClicked();
     void assemblyLanguageClicked();
+    void memoryDumpClicked();
     void breakPointsClicked();
     void symbolicTraceClicked();
     void byteConverterClicked();

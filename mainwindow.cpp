@@ -1137,6 +1137,12 @@ void MainWindow::on_actionHelp_Machine_Language_triggered()
     helpDialog->machineLanguageClicked();
 }
 
+void MainWindow::on_actionHelp_Memory_Dump_triggered()
+{
+    helpDialog->show();
+    helpDialog->memoryDumpClicked();
+}
+
 void MainWindow::on_actionHelp_Break_Points_triggered()
 {
     helpDialog->show();

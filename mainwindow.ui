@@ -442,6 +442,7 @@
      <property name="title">
       <string>Debugging Programs</string>
      </property>
+     <addaction name="actionHelp_Memory_Dump"/>
      <addaction name="actionHelp_Break_Points"/>
      <addaction name="actionHelp_Symbolic_Trace"/>
      <addaction name="actionHelp_Byte_Converter"/>
@@ -948,6 +949,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actionHelp_Memory_Dump">
+   <property name="text">
+    <string>Memory Dump</string>
    </property>
   </action>
  </widget>

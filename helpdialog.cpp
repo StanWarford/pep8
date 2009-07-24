@@ -418,52 +418,69 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 
 // Public functions called by main window help menu items:
 
-void HelpDialog::machineLanguageClicked() {
+void HelpDialog::machineLanguageClicked()
+{
     selectItem("Machine Language");
 }
 
-void HelpDialog::assemblyLanguageClicked() {
+void HelpDialog::assemblyLanguageClicked()
+{
     selectItem("Assembly Language");
 }
 
-void HelpDialog::breakPointsClicked() {
+void HelpDialog::memoryDumpClicked()
+{
+    selectItem("Memory Dump");
+}
+
+void HelpDialog::breakPointsClicked()
+{
     selectItem("Break Points");
 }
 
-void HelpDialog::symbolicTraceClicked() {
+void HelpDialog::symbolicTraceClicked()
+{
     selectItem("Symbolic Trace");
 }
 
-void HelpDialog::byteConverterClicked() {
+void HelpDialog::byteConverterClicked()
+{
     selectItem("Byte Converter");
 }
 
-void HelpDialog::interruptHandlersClicked() {
+void HelpDialog::interruptHandlersClicked()
+{
     selectItem("Writing Interrupt Handlers");
 }
 
-void HelpDialog::instructionSetClicked() {
+void HelpDialog::instructionSetClicked()
+{
     selectItem("Instruction Set");
 }
 
-void HelpDialog::dotCommandsClicked() {
+void HelpDialog::dotCommandsClicked()
+{
     selectItem("Dot Commands");
 }
 
-void HelpDialog::addressingModesClicked() {
+void HelpDialog::addressingModesClicked()
+{
     selectItem("Addressing Modes");
 }
 
-void HelpDialog::examplesClicked() {
+void HelpDialog::examplesClicked()
+{
     selectItem("Examples");
 }
 
-void HelpDialog::operatingSystemClicked() {
+void HelpDialog::operatingSystemClicked()
+{
     selectItem("Pep/8 Operating System");
 }
 
 // Helper Functions
-QString HelpDialog::getCode(Enu::EPane &loc, QString &input) {
+QString HelpDialog::getCode(Enu::EPane &loc, QString &input)
+{
     bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
     int row = m_ui->helpTreeWidget->currentIndex().row();
     if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System

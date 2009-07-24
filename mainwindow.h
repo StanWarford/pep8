@@ -155,6 +155,7 @@ private slots:
     void on_actionHelp_triggered();
     void on_actionHelp_Assembly_Language_triggered();
     void on_actionHelp_Machine_Language_triggered();
+    void on_actionHelp_Memory_Dump_triggered();
     void on_actionHelp_Break_Points_triggered();
     void on_actionHelp_Symbolic_Trace_triggered();
     void on_actionHelp_Byte_Converter_triggered();
