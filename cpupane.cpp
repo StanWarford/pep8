@@ -56,13 +56,7 @@ void CpuPane::updateCpu() {
     else {
         m_ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
         m_ui->cpuOprndSpecDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operandSpecifier)));
-        if (Sim::isByteOperand) {
-            m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, 2, 16, QLatin1Char('0')).toUpper());
-        }
-        else {
-            m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, 4, 16, QLatin1Char('0')).toUpper());
-        }
-        m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, 4, 16, QLatin1Char('0')).toUpper());
+        m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, Sim::operandDisplayFieldWidth, 16, QLatin1Char('0')).toUpper());
         m_ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operand)));
     }
 }

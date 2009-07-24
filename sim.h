@@ -17,7 +17,7 @@ public:
     static int instructionSpecifier;
     static int operandSpecifier;
     static int operand;
-    static bool isByteOperand;
+    static int operandDisplayFieldWidth;
 
     static QString inputBuffer;
     static QString outputBuffer;
