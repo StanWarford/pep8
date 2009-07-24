@@ -23,6 +23,16 @@ private:
 private slots:
     void restoreDefaults();
     void setNonUnaryAllowedModes();
+
+    void redefineNonUnaryMnemonic0(QString);
+    void redefineNonUnaryMnemonic1(QString);
+    void redefineNonUnaryMnemonic2(QString);
+    void redefineNonUnaryMnemonic3(QString);
+
+    void redefineUnaryMnemonic0(QString);
+    void redefineUnaryMnemonic1(QString);
+    void redefineUnaryMnemonic2(QString);
+    void redefineUnaryMnemonic3(QString);
 };
 
 #endif // REDEFINEMNEMONICSDIALOG_H

@@ -4,13 +4,36 @@
 using namespace Enu;
 
 RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::RedefineMnemonicsDialog)
+        QDialog(parent),
+        m_ui(new Ui::RedefineMnemonicsDialog)
 {
     m_ui->setupUi(this);
     restoreDefaults();
 
     connect(m_ui->defaultMnemonicsButton, SIGNAL(clicked()), this, SLOT(restoreDefaults()));
+
+    QRegExp rx("^[A-Za-z][A-Za-z0-9]{0,7}");
+    QValidator *validator = new QRegExpValidator(rx, this);
+
+    m_ui->nonUnaryMnemonic0LineEdit->setValidator(validator);
+    m_ui->nonUnaryMnemonic1LineEdit->setValidator(validator);
+    m_ui->nonUnaryMnemonic2LineEdit->setValidator(validator);
+    m_ui->nonUnaryMnemonic3LineEdit->setValidator(validator);
+
+    m_ui->unaryMnemonic0LineEdit->setValidator(validator);
+    m_ui->unaryMnemonic1LineEdit->setValidator(validator);
+    m_ui->unaryMnemonic2LineEdit->setValidator(validator);
+    m_ui->unaryMnemonic3LineEdit->setValidator(validator);
+
+    connect(m_ui->nonUnaryMnemonic0LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineNonUnaryMnemonic0(QString)));
+    connect(m_ui->nonUnaryMnemonic1LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineNonUnaryMnemonic1(QString)));
+    connect(m_ui->nonUnaryMnemonic2LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineNonUnaryMnemonic2(QString)));
+    connect(m_ui->nonUnaryMnemonic3LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineNonUnaryMnemonic3(QString)));
+
+    connect(m_ui->unaryMnemonic0LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineUnaryMnemonic0(QString)));
+    connect(m_ui->unaryMnemonic1LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineUnaryMnemonic1(QString)));
+    connect(m_ui->unaryMnemonic2LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineUnaryMnemonic2(QString)));
+    connect(m_ui->unaryMnemonic3LineEdit, SIGNAL(textEdited(QString)), this, SLOT(redefineUnaryMnemonic3(QString)));
 
     connect(m_ui->mnemon0iCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
     connect(m_ui->mnemon0dCheckBox, SIGNAL(clicked()), this, SLOT(setNonUnaryAllowedModes()));
@@ -144,3 +167,125 @@ void RedefineMnemonicsDialog::setNonUnaryAllowedModes()
     if (m_ui->mnemon3sxfCheckBox->isChecked()) addrMode |= SXF;
     Pep::addrModesMap.insert(STRO, addrMode);
 }
+
+
+void RedefineMnemonicsDialog::redefineNonUnaryMnemonic0(QString string)
+{    
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->nonUnaryMnemonic0LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::NOP));
+        Pep::enumToMnemonMap.insert(Enu::NOP, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::NOP);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 00101.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineNonUnaryMnemonic1(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->nonUnaryMnemonic1LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::DECI));
+        Pep::enumToMnemonMap.insert(Enu::DECI, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::DECI);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 00110.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineNonUnaryMnemonic2(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->nonUnaryMnemonic2LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::DECO));
+        Pep::enumToMnemonMap.insert(Enu::DECO, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::DECO);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 00111.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineNonUnaryMnemonic3(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->nonUnaryMnemonic3LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::STRO));
+        Pep::enumToMnemonMap.insert(Enu::STRO, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::STRO);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 01000.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineUnaryMnemonic0(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->unaryMnemonic0LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::NOP0));
+        Pep::enumToMnemonMap.insert(Enu::NOP0, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::NOP0);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 0010 0010.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineUnaryMnemonic1(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->unaryMnemonic1LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::NOP1));
+        Pep::enumToMnemonMap.insert(Enu::NOP1, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::NOP1);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 0010 0101.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineUnaryMnemonic2(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->unaryMnemonic2LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::NOP2));
+        Pep::enumToMnemonMap.insert(Enu::NOP2, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::NOP2);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 0010 0110.");
+    }
+}
+
+void RedefineMnemonicsDialog::redefineUnaryMnemonic3(QString string)
+{
+    string = string.toUpper();
+    if (!Pep::mnemonToEnumMap.contains(string)) {
+        m_ui->unaryMnemonic3LineEdit->setText(string);
+        Pep::mnemonToEnumMap.remove(Pep::enumToMnemonMap.value(Enu::NOP3));
+        Pep::enumToMnemonMap.insert(Enu::NOP3, string);
+        Pep::mnemonToEnumMap.insert(string, Enu::NOP3);
+        m_ui->warningLabel->clear();
+    }
+    else {
+        m_ui->warningLabel->setText("Duplicate not stored for 0010 0111.");
+    }
+}
+

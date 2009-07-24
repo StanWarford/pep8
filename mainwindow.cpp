@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
 
     // Save system setup
-    readSettings();
+//    readSettings();
 
     // Install OS into memory
     if (sourceCodePane->installDefaultOs())
@@ -808,9 +808,9 @@ void MainWindow::on_actionEdit_Format_From_Listing_triggered()
     QStringList assemblerListingList = sourceCodePane->getAssemblerListingList();
     assemblerListingList.replaceInStrings(QRegExp("^............."), "");
     assemblerListingList.removeAll("");
-	if (!assemblerListingList.isEmpty()) {
-		sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
-	}
+    if (!assemblerListingList.isEmpty()) {
+        sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
+    }
 }
 
 void MainWindow::on_actionEdit_Font_triggered()
