@@ -1,11 +1,11 @@
 #include <QFontDialog>
+#include <QTextCharFormat>
 #include "memorydumppane.h"
 #include "ui_memorydumppane.h"
 #include "sim.h"
 #include "pep.h"
 #include "enu.h"
 
-#include <QTextCharFormat>
 #include <QDebug>
 
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
@@ -114,29 +114,76 @@ void MemoryDumpPane::highlightMemory(bool b)
             highlightedData.append(Sim::programCounter);
         }
 
-//        while (!byteWritten.isEmpty()) {
-//            highlightByte(byteWritten.at(0), Qt::white, Qt::red);
-//            highlightedData.append(byteWritten.takeFirst());
-//        }
+        while (!bytesWrittenLastStep.isEmpty()) {
+            highlightByte(bytesWrittenLastStep.at(0), Qt::white, Qt::red);
+            highlightedData.append(bytesWrittenLastStep.takeFirst());
+        }
     }
 }
 
 void MemoryDumpPane::cacheModifiedBytes()
 {
+    bytesWrittenLastStep.clear();
     modifiedBytes.unite(Sim::modifiedBytes);
+    bytesWrittenLastStep = Sim::modifiedBytes.toList();
 }
 
 void MemoryDumpPane::updateMemory()
 {
+    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
+
+    QList<int> list;
+    QSet<int> linesToBeUpdated;
+    QString memoryDumpLine;
+    QChar ch;
+    int byteNum;
+    int lineNum;
+
     modifiedBytes.unite(Sim::modifiedBytes);
-    QList<int> modifiedBytesList = modifiedBytes.toList();
-    if (!modifiedBytesList.isEmpty()) {
-        refreshMemoryLines(modifiedBytesList.first(), modifiedBytesList.last());
-        for (int i = 0; i < modifiedBytesList.size(); i++) {
-            byteWritten.append(modifiedBytesList.at(i));
+    list = modifiedBytes.toList();
+    while(!list.isEmpty()) {
+        linesToBeUpdated.insert(list.takeFirst() / 8);
+    }
+    list = linesToBeUpdated.toList();
+    qSort(list.begin(), list.end());
+    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    cursor.setPosition(0);
+    lineNum = 0;
+    while (!list.isEmpty()) {
+        while (lineNum < list.first()) {
+            cursor.movePosition(QTextCursor::NextBlock);
+            lineNum++;
         }
+
+        memoryDumpLine = "";
+        byteNum = lineNum * 8;
+        memoryDumpLine.append(QString("%1 | ").arg(byteNum, 4, 16, QLatin1Char('0')).toUpper());
+        for (int j = 0; j < 8; j++) {
+            memoryDumpLine.append(QString("%1 ").arg(Sim::Mem[byteNum++], 2, 16, QLatin1Char('0')).toUpper());
+        }
+        memoryDumpLine.append("|");
+        byteNum = lineNum * 8;
+        for (int j = 0; j < 8; j++) {
+            ch = QChar(Sim::Mem[byteNum++]);
+            if (ch.isPrint()) {
+                memoryDumpLine.append(ch);
+            } else {
+                memoryDumpLine.append(".");
+            }
+        }
+        cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+        m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
+        cursor.movePosition(QTextCursor::NextBlock);
+        lineNum++;
+        list.removeFirst();
     }
     modifiedBytes.clear();
+
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
+    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
+
 }
 
 void MemoryDumpPane::highlightOnFocus()
@@ -211,7 +258,4 @@ void MemoryDumpPane::on_pepMemRefreshButton_clicked()
     refreshMemory();
     m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(scrollBarPosition);
 }
-
-
-
 

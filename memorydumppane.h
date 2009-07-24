@@ -21,7 +21,7 @@ public:
 
     void refreshMemoryLines(int firstByte, int lastByte);
     // Post: The memory dump is refresed from the line containing startByte to the line
-    // containing endByte
+    // containing endByte. Called by load().
 
     void highlightMemory(bool b);
     // Post: Everything is unhighlighted. If b, current program counter is highlighted.
@@ -62,8 +62,8 @@ private:
     void highlightByte(int memAddr, QColor foreground, QColor background);
 
     QList<int> highlightedData;
-    QList<int> byteWritten;
     QSet<int> modifiedBytes;
+    QList<int> bytesWrittenLastStep;
 
 private slots:
     void on_pepMemRefreshButton_clicked();
