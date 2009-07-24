@@ -102,14 +102,50 @@ void MemoryDumpPane::highlightMemory(bool b)
         highlightedData.append(Sim::stackPointer);
         
         if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
-            highlightByte(Sim::programCounter, Qt::white, Qt::blue);
+            QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+            QTextCharFormat format;
+            format.setBackground(Qt::blue);
+            format.setForeground(Qt::white);
+            cursor.setPosition(0);
+            for (int i = 0; i < Sim::programCounter / 8; i++) {
+                cursor.movePosition(QTextCursor::NextBlock);
+            }
+            for (int i = 0; i < 7 + 3 * (Sim::programCounter % 8); i++) {
+                cursor.movePosition(QTextCursor::NextCharacter);
+            }
+            cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+            cursor.mergeCharFormat(format);
             highlightedData.append(Sim::programCounter);
-            highlightByte(Sim::add(Sim::programCounter, 1), Qt::white, Qt::blue);
+            if (Sim::programCounter / 8 == (Sim::programCounter + 1) / 8) {
+                cursor.clearSelection();
+                cursor.movePosition(QTextCursor::NextCharacter);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+                cursor.mergeCharFormat(format);
+            }
+            else {
+                cursor.clearSelection();
+                cursor.movePosition(QTextCursor::NextBlock);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, 7);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+                cursor.mergeCharFormat(format);
+            }
             highlightedData.append(Sim::add(Sim::programCounter, 1));
-            highlightByte(Sim::add(Sim::programCounter, 2), Qt::white, Qt::blue);
+            if ((Sim::programCounter + 1) / 8 == (Sim::programCounter + 2) / 8) {
+                cursor.clearSelection();
+                cursor.movePosition(QTextCursor::NextCharacter);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+                cursor.mergeCharFormat(format);
+            }
+            else {
+                cursor.clearSelection();
+                cursor.movePosition(QTextCursor::NextBlock);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, 7);
+                cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+                cursor.mergeCharFormat(format);
+            }
             highlightedData.append(Sim::add(Sim::programCounter, 2));
         }
-        else {
+        else { // unary.
             highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
             highlightedData.append(Sim::programCounter);
         }
