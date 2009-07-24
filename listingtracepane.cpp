@@ -12,6 +12,8 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
+    m_ui->listingPepOsTraceTableWidget->hide();
+
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 }
 
@@ -60,9 +62,10 @@ void ListingTracePane::updateListingTrace()
         m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
     }
     if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-        int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-        m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-        m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing.value(Sim::programCounter), 1);
+        highlightedItem->setBackgroundColor(QColor(56, 117, 215));
+        highlightedItem->setTextColor(Qt::white);
+        m_ui->listingTraceTableWidget->scrollToItem(highlightedItem);
     }
 }
 
@@ -73,9 +76,10 @@ void ListingTracePane::setDebuggingState(bool b)
         m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
     }
     if (b && Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-        int row = Pep::memAddrssToAssemblerListing.value(Sim::programCounter);
-        m_ui->listingTraceTableWidget->item(row, 1)->setBackgroundColor(QColor(56, 117, 215));
-        m_ui->listingTraceTableWidget->item(row, 1)->setTextColor(Qt::white);
+        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing.value(Sim::programCounter), 1);
+        highlightedItem->setBackgroundColor(QColor(56, 117, 215));
+        highlightedItem->setTextColor(Qt::white);
+        m_ui->listingTraceTableWidget->scrollToItem(highlightedItem);
     }
 }
 
