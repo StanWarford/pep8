@@ -76,6 +76,9 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         if (!isHelpSubCat) {                          // Debugging Programs
             m_ui->helpTopWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
         }
+        else if (row == eMEMORYDUMP) {
+            m_ui->helpTopWebView->load(QUrl("qrc:/help/memorydump.html"));
+        }
         else if (row == eBREAK) {             // Debugging Programs > Break Points
             m_ui->helpTopWebView->load(QUrl("qrc:/help/breakpoints.html"));
         }

@@ -129,6 +129,11 @@
        </property>
        <item>
         <property name="text">
+         <string>Memory Dump</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Break Points</string>
         </property>
         <property name="flags">
@@ -443,7 +448,7 @@
         </url>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QSplitter" name="splitter">

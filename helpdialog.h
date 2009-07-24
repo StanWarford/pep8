@@ -56,9 +56,10 @@ private:
         eASSEMBLY = 1,
         eMACHINE = 0,
 
-        eBREAK = 0,
-        eSYMTRACE = 1,
-        eBYTECONVERTER = 2,
+        eMEMORYDUMP = 0,
+        eBREAK = 1,
+        eSYMTRACE = 2,
+        eBYTECONVERTER = 3,
 
         eINSTRUCTION = 0,
         eDOTCMD = 1,

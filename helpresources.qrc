@@ -89,5 +89,6 @@
         <file>help/figures/fig0514b.pep</file>
         <file>help/figures/fig0515.pep</file>
         <file>help/figures/fig0516.pep</file>
+        <file>help/memorydump.html</file>
     </qresource>
 </RCC>
