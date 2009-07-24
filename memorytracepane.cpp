@@ -31,31 +31,6 @@ bool MemoryTracePane::hasFocus()
     return m_ui->pepStackTraceGraphicsView->hasFocus();
 }
 
-void MemoryTracePane::undo()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryTracePane::redo()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryTracePane::cut()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryTracePane::copy()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryTracePane::paste()
-{
-    // does nothing with our current implementation
-}
-
 void MemoryTracePane::setFont()
 {
     bool ok = false;

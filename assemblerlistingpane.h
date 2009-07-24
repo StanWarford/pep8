@@ -32,20 +32,8 @@ public:
     bool hasFocus();
     // Post: returns if the pane has focus
 
-    void undo();
-    // Post: does nothing in this pane
-
-    void redo();
-    // Post: does nothing in this pane
-
-    void cut();
-    // Does nothing in our implementation of the assembler listing
-
     void copy();
-    // Does nothing in our implementation of the assembler listing
-
-    void paste();
-    // Does nothing in our implementation of the assembler listing
+    // Copies selected text to the clipboard
 
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog

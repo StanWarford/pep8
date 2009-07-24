@@ -38,20 +38,8 @@ public:
     bool hasFocus();
     // Post: returns if the pane has focus
 
-    void undo();
-    // Post: does nothing in this pane
-
-    void redo();
-    // Post: does nothing in this pane
-
-    void cut();
-    // Read only text, not allowed
-
     void copy();
     // Post: selected text in the text edit is copied to the clipboard
-
-    void paste();
-    // Read only text, not allowed
 
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog

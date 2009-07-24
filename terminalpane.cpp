@@ -56,40 +56,9 @@ bool TerminalPane::hasFocus()
     return m_ui->pepTerminalTextEdit->hasFocus();
 }
 
-void TerminalPane::undo()
-{
-    m_ui->pepTerminalTextEdit->undo();
-}
-
-void TerminalPane::redo()
-{
-    m_ui->pepTerminalTextEdit->redo();
-}
-
-bool TerminalPane::isUndoable()
-{
-    return m_ui->pepTerminalTextEdit->document()->isUndoAvailable();
-}
-
-bool TerminalPane::isRedoable()
-{
-    return m_ui->pepTerminalTextEdit->document()->isRedoAvailable();
-}
-
-void TerminalPane::cut()
-{
-    // not allowed in interactive i/o
-}
-
 void TerminalPane::copy()
 {
     m_ui->pepTerminalTextEdit->copy();
-}
-
-void TerminalPane::paste()
-{
-    m_ui->pepTerminalTextEdit->moveCursor(QTextCursor::End);
-    m_ui->pepTerminalTextEdit->paste();
 }
 
 void TerminalPane::setFont()
@@ -143,9 +112,9 @@ void TerminalPane::keyPressEvent(QKeyEvent* e)
             else {
                 retString.append(e->text());
             }
+            displayTerminal();
         }
 
-        displayTerminal();
     }
     else
     {

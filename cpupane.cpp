@@ -349,33 +349,3 @@ Enu::EWaiting CpuPane::waitingState()
     return waiting;
 }
 
-bool CpuPane::hasFocus()
-{
-    return m_ui->pepCpuLabel->hasFocus();
-}
-
-void CpuPane::undo()
-{
-    // does nothing with our current implementation
-}
-
-void CpuPane::redo()
-{
-    // does nothing with our current implementation
-}
-
-void CpuPane::cut()
-{
-    // does nothing with our current implementation
-}
-
-void CpuPane::copy()
-{
-    // does nothing with our current implementation
-}
-
-void CpuPane::paste()
-{
-    // does nothing with our current implementation
-}
-

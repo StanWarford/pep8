@@ -237,29 +237,9 @@ bool MemoryDumpPane::hasFocus()
     return m_ui->pepMemoryDumpTextEdit->hasFocus();
 }
 
-void MemoryDumpPane::undo()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryDumpPane::redo()
-{
-    // does nothing with our current implementation
-}
-
-void MemoryDumpPane::cut()
-{
-    // read only pane, not allowed
-}
-
 void MemoryDumpPane::copy()
 {
     m_ui->pepMemoryDumpTextEdit->copy();
-}
-
-void MemoryDumpPane::paste()
-{
-    // does nothing with our current implementation
 }
 
 void MemoryDumpPane::setFont()

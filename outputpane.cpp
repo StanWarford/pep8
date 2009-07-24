@@ -39,29 +39,9 @@ bool OutputPane::hasFocus()
     return m_ui->pepOutputTextEdit->hasFocus();
 }
 
-void OutputPane::undo()
-{
-    m_ui->pepOutputTextEdit->undo();
-}
-
-void OutputPane::redo()
-{
-    m_ui->pepOutputTextEdit->redo();
-}
-
-void OutputPane::cut()
-{
-    // not allowed, read only
-}
-
 void OutputPane::copy()
 {
     m_ui->pepOutputTextEdit->copy();
-}
-
-void OutputPane::paste()
-{
-    // not allowed, read only
 }
 
 void OutputPane::setFont()

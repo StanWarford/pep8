@@ -96,29 +96,9 @@ bool AssemblerListingPane::hasFocus()
     return m_ui->assemblerListingTextEdit->hasFocus();
 }
 
-void AssemblerListingPane::undo()
-{
-    // does nothing with our current implementation
-}
-
-void AssemblerListingPane::redo()
-{
-    // does nothing with our current implementation
-}
-
-void AssemblerListingPane::cut()
-{
-    // does nothing with our current implementation
-}
-
 void AssemblerListingPane::copy()
 {
     m_ui->assemblerListingTextEdit->copy();
-}
-
-void AssemblerListingPane::paste()
-{
-    // does nothing with our current implementation
 }
 
 void AssemblerListingPane::setFont()

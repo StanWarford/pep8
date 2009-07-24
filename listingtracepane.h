@@ -33,21 +33,6 @@ public:
     bool hasFocus();
     // Post: returns if the pane has focus
 
-    void undo();
-    // Post: does nothing in this pane
-
-    void redo();
-    // Post: does nothing in this pane
-
-    void cut();
-    // Does nothing in our implementation of the listing trace
-
-    void copy();
-    // Does nothing in our implementation of the listing trace
-
-    void paste();
-    // Does nothing in our implementation of the listing trace
-
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 

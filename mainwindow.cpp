@@ -638,29 +638,8 @@ void MainWindow::on_actionEdit_Undo_triggered()
     else if (objectCodePane->hasFocus()) {
         objectCodePane->undo();
     }
-    else if (assemblerListingPane->hasFocus()) {
-        assemblerListingPane->undo();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->undo();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->undo();
-    }
-    else if (cpuPane->hasFocus()) {
-        cpuPane->undo();
-    }
     else if (inputPane->hasFocus()) {
         inputPane->undo();
-    }
-    else if (outputPane->hasFocus()) {
-        outputPane->undo();
-    }
-    else if (terminalPane->hasFocus()) {
-        terminalPane->undo();
-    }
-    else if (memoryDumpPane->hasFocus()) {
-        memoryDumpPane->undo();
     }
 }
 
@@ -672,29 +651,8 @@ void MainWindow::on_actionEdit_Redo_triggered()
     else if (objectCodePane->hasFocus()) {
         objectCodePane->redo();
     }
-    else if (assemblerListingPane->hasFocus()) {
-        assemblerListingPane->redo();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->redo();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->redo();
-    }
-    else if (cpuPane->hasFocus()) {
-        cpuPane->redo();
-    }
     else if (inputPane->hasFocus()) {
         inputPane->redo();
-    }
-    else if (outputPane->hasFocus()) {
-        outputPane->redo();
-    }
-    else if (terminalPane->hasFocus()) {
-        terminalPane->redo();
-    }
-    else if (memoryDumpPane->hasFocus()) {
-        memoryDumpPane->redo();
     }
 }
 
@@ -706,29 +664,8 @@ void MainWindow::on_actionEdit_Cut_triggered()
     else if (objectCodePane->hasFocus()) {
         objectCodePane->cut();
     }
-    else if (assemblerListingPane->hasFocus()) {
-        assemblerListingPane->cut();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->cut();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->cut();
-    }
-    else if (cpuPane->hasFocus()) {
-        cpuPane->cut();
-    }
     else if (inputPane->hasFocus()) {
         inputPane->cut();
-    }
-    else if (outputPane->hasFocus()) {
-        outputPane->cut();
-    }
-    else if (terminalPane->hasFocus()) {
-        terminalPane->cut();
-    }
-    else if (memoryDumpPane->hasFocus()) {
-        memoryDumpPane->cut();
     }
 }
 
@@ -742,15 +679,6 @@ void MainWindow::on_actionEdit_Copy_triggered()
     }
     else if (assemblerListingPane->hasFocus()) {
         assemblerListingPane->copy();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->copy();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->copy();
-    }
-    else if (cpuPane->hasFocus()) {
-        cpuPane->copy();
     }
     else if (inputPane->hasFocus()) {
         inputPane->copy();
@@ -777,29 +705,8 @@ void MainWindow::on_actionEdit_Paste_triggered()
     else if (objectCodePane->hasFocus()) {
         objectCodePane->paste();
     }
-    else if (assemblerListingPane->hasFocus()) {
-        assemblerListingPane->paste();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->paste();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->paste();
-    }
-    else if (cpuPane->hasFocus()) {
-        cpuPane->paste();
-    }
     else if (inputPane->hasFocus()) {
         inputPane->paste();
-    }
-    else if (outputPane->hasFocus()) {
-        outputPane->paste();
-    }
-    else if (terminalPane->hasFocus()) {
-        terminalPane->paste();
-    }
-    else if (memoryDumpPane->hasFocus()) {
-        memoryDumpPane->paste();
     }
 }
 
@@ -1363,11 +1270,11 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (terminalPane->hasFocus()) {
-        ui->actionEdit_Undo->setDisabled(!terminalPane->isUndoable());
-        ui->actionEdit_Redo->setDisabled(!terminalPane->isRedoable());
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
         ui->actionEdit_Cut->setDisabled(true);
         ui->actionEdit_Copy->setDisabled(false);
-        ui->actionEdit_Paste->setDisabled(false);
+        ui->actionEdit_Paste->setDisabled(true);
     }
     else if (memoryDumpPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);

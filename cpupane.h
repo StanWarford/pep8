@@ -60,24 +60,6 @@ public:
     Enu::EWaiting waitingState();
     // Post: Returns the waiting state of the simulation (for terminal io)
 
-    bool hasFocus();
-    // Post: returns if the pane has focus
-
-    void undo();
-    // Post: does nothing in this pane
-
-    void redo();
-    // Post: does nothing in this pane
-
-    void cut();
-    // Does nothing in our implementation of the cpu pane
-
-    void copy();
-    // Does nothing in our implementation of the cpu pane
-
-    void paste();
-    // Does nothing in our implementation of the cpu pane
-
 private:
     Ui::CpuPane *m_ui;
 

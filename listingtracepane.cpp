@@ -98,31 +98,6 @@ bool ListingTracePane::hasFocus()
     return m_ui->listingTraceTableWidget->hasFocus();
 }
 
-void ListingTracePane::undo()
-{
-    // does nothing with our current implementation
-}
-
-void ListingTracePane::redo()
-{
-    // does nothing with our current implementation
-}
-
-void ListingTracePane::cut()
-{
-    // does nothing with our current implementation
-}
-
-void ListingTracePane::copy()
-{
-    // does nothing with our current implementation
-}
-
-void ListingTracePane::paste()
-{
-    // does nothing with our current implementation
-}
-
 void ListingTracePane::setFont()
 {
     bool ok = false;

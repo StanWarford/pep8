@@ -26,20 +26,8 @@ public:
     bool hasFocus();
     // Post: returns if the pane has focus
 
-    void undo();
-    // Post: the last action in the text edit is undone
-
-    void redo();
-    // Post: the last undo in the text edit is redone
-
-    void cut();
-    // Not allowed in this pane (read only)
-
     void copy();
     // Post: selected text in the text edit is copied to the clipboard
-
-    void paste();
-    // Not allowed in this pane (read only)
 
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
