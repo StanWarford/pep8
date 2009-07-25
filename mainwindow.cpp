@@ -140,10 +140,11 @@ MainWindow::~MainWindow()
 // Protected closeEvent
  void MainWindow::closeEvent(QCloseEvent *event)
  {
-     if (maybeSaveSource() || maybeSaveObject()) {
+     if (maybeSaveSource() && maybeSaveObject()) {
          writeSettings();
          event->accept();
-     } else {
+     }
+     else {
          event->ignore();
      }
  }
@@ -153,7 +154,8 @@ bool MainWindow::saveSource()
 {
     if (curSourceFile.isEmpty()) {
         return on_actionFile_Save_Source_As_triggered();
-    } else {
+    }
+    else {
         return saveFileSource(curSourceFile);
     }
 }
@@ -162,7 +164,8 @@ bool MainWindow::saveObject()
 {
     if (curObjectFile.isEmpty()) {
         return on_actionFile_Save_Object_As_triggered();
-    } else {
+    }
+    else {
         return saveFileObject(curObjectFile);
     }
 }
@@ -231,24 +234,22 @@ void MainWindow::loadFile(const QString &fileName)
     QRegExp rx(".*.pepo");
     Enu::EPane pane;
     if (rx.exactMatch(strippedName(fileName))) {
-        // Set object code pane text
-        objectCodePane->setObjectCodePaneText(in.readAll());
-        sourceCodePane->clearSourceCode();
-        assemblerListingPane->clearAssemblerListing();
-        listingTracePane->clearListingTrace();
-        pane = Enu::EObject;
-    } else {
+        if (maybeSaveObject()) {
+            // Set object code pane text
+            objectCodePane->setObjectCodePaneText(in.readAll());
+            pane = Enu::EObject;
+            setCurrentFile(fileName, pane);
+            statusBar()->showMessage(tr("File loaded"), 4000);
+        }
+    }
+    else if (maybeSaveSource()) {
         // Set source code pane text
         sourceCodePane->setSourceCodePaneText(in.readAll());
-        objectCodePane->clearObjectCode();
-        assemblerListingPane->clearAssemblerListing();
-        listingTracePane->clearListingTrace();
         pane = Enu::ESource;
+        setCurrentFile(fileName, pane);
+        statusBar()->showMessage(tr("File loaded"), 4000);
     }
     QApplication::restoreOverrideCursor();
-
-    setCurrentFile(fileName, pane);
-    statusBar()->showMessage(tr("File loaded"), 4000);
 }
 
 bool MainWindow::saveFileSource(const QString &fileName)
@@ -332,7 +333,8 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     if (pane == Enu::ESource) {
         if (curSourceFile.isEmpty()) {
             shownName = "untitled.pep";
-        } else {
+        }
+        else {
             shownName = strippedName(curSourceFile);
         }
         sourceCodePane->setCurrentFile(shownName);
@@ -340,7 +342,8 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     else if (pane == Enu::EObject) {
         if (curObjectFile.isEmpty()) {
             shownName = "untitled.pepo";
-        } else {
+        }
+        else {
             shownName = strippedName(curObjectFile);
         }
         objectCodePane->setCurrentFile(shownName);
@@ -348,15 +351,11 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     else if (pane == Enu::EListing) {
         if (curListingFile.isEmpty()) {
             shownName = "untitled.pepl";
-        } else {
+        }
+        else {
             shownName = strippedName(curListingFile);
         }
         assemblerListingPane->setCurrentFile(shownName);
-    }
-
-
-    // For recent files:
-    if (pane != Enu::EListing) {
     }
 }
 
@@ -474,6 +473,10 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             return true;
         }
     }
+    else if (event->type() == QEvent::FileOpen) {
+        loadFile(static_cast<QFileOpenEvent *>(event)->file());
+        return true;
+    }
     return false;
 }
 
@@ -511,7 +514,8 @@ bool MainWindow::on_actionFile_Save_Source_triggered()
 {
     if (curSourceFile.isEmpty()) {
         return on_actionFile_Save_Source_As_triggered();
-    } else {
+    }
+    else {
         return saveFileSource(curSourceFile);
     }
 }

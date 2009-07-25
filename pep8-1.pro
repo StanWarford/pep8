@@ -8,8 +8,8 @@ INCLUDEPATH += .
 
 # Mac icon
 ICON = icon.icns
+QMAKE_INFO_PLIST = app.plist
 
-# Help system support for html files
 QT += webkit
 
 # Input
