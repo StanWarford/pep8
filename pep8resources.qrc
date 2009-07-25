@@ -18,5 +18,6 @@
         <file>images/debugger_start.png</file>
         <file>images/help.png</file>
         <file>images/stop.png</file>
+        <file>CourDKn.ttf</file>
     </qresource>
 </RCC>

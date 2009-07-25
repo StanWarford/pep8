@@ -8,12 +8,14 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>pep</string>
+				<string>txt</string>
+				<string>text</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>docicon.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>text</string>
+				<string>text/plain</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Pep/8 Source File</string>
@@ -33,7 +35,7 @@
 			<string>docicon.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>text</string>
+				<string>text/plain</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Pep/8 Object File</string>
