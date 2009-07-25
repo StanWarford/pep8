@@ -104,6 +104,25 @@ QString Pep::resToString(QString fileName) {
     return inString;
 }
 
+QString Pep::getSystem() {
+    #ifdef Q_WS_X11
+    return QString("Linux");
+    #endif
+
+    #ifdef Q_WS_MAC
+    return QString("Mac");
+    #endif
+
+    #ifdef Q_WS_QWS
+    return QString("Embedded Linux");
+    #endif
+
+    #ifdef Q_WS_WIN
+    return QString("Windows");
+    #endif
+}
+
+
 // Maps between mnemonic enums and strings
 QMap<Enu::EMnemonic, QString> Pep::enumToMnemonMap;
 QMap<QString, Enu::EMnemonic> Pep::mnemonToEnumMap;

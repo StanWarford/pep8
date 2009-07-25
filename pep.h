@@ -68,6 +68,8 @@ public:
 
     // Function to read text from a resource file
     static QString resToString(QString fileName);
+    // Function for getting the system we're running on
+    static QString getSystem();
 
     // Maps between mnemonic enums and strings
     static QMap<Enu::EMnemonic, QString> enumToMnemonMap;

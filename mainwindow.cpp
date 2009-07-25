@@ -130,6 +130,14 @@ MainWindow::MainWindow(QWidget *parent)
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
 
+    QMenu *dockMenu = new QMenu;
+    // This is an example action. Implementing it for when I think of what we ought to do with this menu.
+    // I think I may have to fix window modality before it's especially useful (bring all to front item).
+    dockMenu->addAction("Assemble");
+    connect(dockMenu, SIGNAL(triggered(QAction*)), this, SLOT(on_actionBuild_Assemble_triggered()));
+
+    extern void qt_mac_set_dock_menu(QMenu *);
+    qt_mac_set_dock_menu(dockMenu);
 }
 
 MainWindow::~MainWindow()
