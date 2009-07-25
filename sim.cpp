@@ -275,8 +275,8 @@ bool Sim::vonNeumannStep(QString &errorString)
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
         indexRegister = indexRegister & operand;
-        nBit = accumulator > 32768;
-        zBit = accumulator == 0;
+        nBit = indexRegister > 32768;
+        zBit = indexRegister == 0;
         return true;
     case ASLA:
         vBit = (accumulator >= 0x4000 && accumulator < 0x8000) || // prefix is 01 (bin)
