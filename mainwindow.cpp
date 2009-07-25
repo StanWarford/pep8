@@ -1127,11 +1127,12 @@ void MainWindow::helpCopyToSourceButtonClicked()
     if (ui->actionBuild_Stop_Debugging->isEnabled()) {
         ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
     }
-    Enu::EPane loc;
+    Enu::EPane destPane;
+    Enu::EPane inputDest;
     QString input = "";
-    QString code = helpDialog->getCode(loc, input);
+    QString code = helpDialog->getCode(destPane, inputDest, input);
     ui->pepCodeTraceTab->setCurrentIndex(0);
-    if (loc == Enu::ESource) {
+    if (destPane == Enu::ESource) {
         if (maybeSaveSource()) {
             setCurrentFile("", Enu::ESource);
             sourceCodePane->setSourceCodePaneText(code);
@@ -1140,7 +1141,8 @@ void MainWindow::helpCopyToSourceButtonClicked()
             listingTracePane->clearListingTrace();
             statusBar()->showMessage("Copied to source", 4000);
         }
-    } else if (maybeSaveObject()) {
+    }
+    else if (maybeSaveObject()) {
         setCurrentFile("", Enu::EObject);
         objectCodePane->setObjectCodePaneText(code);
         sourceCodePane->clearSourceCode();
@@ -1148,9 +1150,14 @@ void MainWindow::helpCopyToSourceButtonClicked()
         listingTracePane->clearListingTrace();
         statusBar()->showMessage("Copied to object", 4000);
     }
-    if (!input.isEmpty()) {
-        inputPane->setText(input);
-        ui->pepInputOutputTab->setCurrentIndex(0);
+    if (inputDest == Enu::ETerminal) {
+        ui->pepInputOutputTab->setCurrentIndex(1);
+    }
+    else {
+        if (!input.isEmpty()) {
+            inputPane->setText(input);
+            ui->pepInputOutputTab->setCurrentIndex(0);
+        }
     }
 }
 

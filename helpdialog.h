@@ -30,7 +30,7 @@ public:
     void addressingModesClicked();
     void examplesClicked();
     void operatingSystemClicked();
-    QString getCode(Enu::EPane &loc, QString &input);
+    QString getCode(Enu::EPane &destPane, Enu::EPane &inputDest, QString &input);
 
     bool hasFocus();
     // Post: returns true if either of the text edits have focus

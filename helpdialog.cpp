@@ -479,29 +479,29 @@ void HelpDialog::operatingSystemClicked()
 }
 
 // Helper Functions
-QString HelpDialog::getCode(Enu::EPane &loc, QString &input)
+QString HelpDialog::getCode(Enu::EPane &destPane, Enu::EPane &inputDest, QString &input)
 {
     bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
     int row = m_ui->helpTreeWidget->currentIndex().row();
     if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
-        loc = Enu::ESource;
+        destPane = Enu::ESource;
         return m_ui->helpLeftTextEdit->toPlainText();
     }
     if (row == eFIG432) {
-        loc = Enu::EObject;
+        destPane = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0432.pepo");
     }
     else if (row == eFIG434) {
-        loc = Enu::EObject;
+        destPane = Enu::EObject;
         input = "up";
         return Pep::resToString(":/help/figures/fig0434.pepo");
     }
     else if (row == eFIG435) {
-        loc = Enu::EObject;
+        destPane = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0435.pepo");
     }
     else if (row == eFIG436) {
-        loc = Enu::EObject;
+        destPane = Enu::EObject;
         return Pep::resToString(":/help/figures/fig0436.pepo");
     }
     else if (row == eFIG506) {
@@ -555,7 +555,10 @@ QString HelpDialog::getCode(Enu::EPane &loc, QString &input)
     else if (row == eFIG647) {
         input = "10 20 30 40 -9999";
     }
-    loc = Enu::ESource;
+    else if (row == eFIG627 || row == eFIG629 || row == eFIG640) {
+        inputDest = Enu::ETerminal;
+    }
+    destPane = Enu::ESource;
     return m_ui->helpLeftTextEdit->toPlainText();
 }
 
