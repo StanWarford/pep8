@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
 
     // Save system setup
-//    readSettings();
+    readSettings();
 
     // Install OS into memory
     if (sourceCodePane->installDefaultOs())
@@ -455,7 +455,9 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Execute->setDisabled(b);
     ui->actionBuild_Load->setDisabled(b);
     ui->actionBuild_Run_Source->setDisabled(b);
+    ui->actionBuild_Run_Object->setDisabled(b);
     ui->actionBuild_Start_Debugging_Source->setDisabled(b);
+    ui->actionBuild_Start_Debugging_Object->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionEdit_Remove_Error_Messages->setDisabled(b);
     ui->actionBuild_Interrupt_Execution->setDisabled(!b);
