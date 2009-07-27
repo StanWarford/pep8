@@ -10,15 +10,46 @@
 Writing Programs
 </font></td></tr></table></center>
 <p>
-Welcome to the Pep/8 help system.
-<p>
 Pep/8 is a virtual machine for writing machine language and assembly language programs.
 It is designed to be used with the textbook, <i>Computer Systems</i>, J. Stanley Warford, Fourth edition, Jones and Bartlett, Publishers, 2010.
 The goal of the book is to teach the fundamentals of the classic von Neumann machine.
 You should use the Pep/8 system in conjunction with the textbook to write machine language and assembly language programs.
-<p>
- The next section, Machine Language, shows how to write a Pep/8 machine language program, load it, and execute it.
- The following section, Assembly Language, shows how to do the same with a Pep/8 assembly language program.
 
+<h3>Viewing panels</h3>
+
+The Pep/8 system has three panels -- the code panel, the CPU panel, and the memory dump panel.
+You can change which of these panels is visible by making the appropriate selection from the View menu or clicking the corresponding
+icon on the tool bar.
+<p>
+<i>Screenshot here of View menu selections and tool bar buttons.</i>
+ <p>
+<img src=":/help/images/writingprograms01.png" alt="writingprograms01">
+<img src=":/help/images/writingprograms02.png" alt="writingprograms02">
+<p>
+
+<h3>Input and output</h3>
+
+The top part of the CPU panel shows the content of the Pep/8 central processing unit.
+The bottom part of the panel shows the input and output of your machine language or assembly language program.
+The Pep/8 system supports both batch and interactive I/O, which you can select by clicking the appropriate tab.
+<p>
+<i>Screenshot here of I/O tab.</i>
+<p>
+When you execute in batch mode, you must enter the input in the Input pane before you run your program.
+The output will appear in the Output pane as the program executes.
+<p>
+Your program executes in interactive mode when you select the Terminal I/O tab.
+In this mode, executing an input statement in your program will make the program pause and wait
+for you to enter the input in the Input/Output pane.
+The executing program accepts your input and continues executing when you press the enter or return key.
+
+<h3>Endless loops</h3>
+
+If you execute a program with an endless loop, you can terminate it by pressing command-. on a
+Mac or control-. on a Windows computer.
+Alternatively, you can select Build->Interrupt Execution from the menu or press the Stop icon in the tool bar.
+<p>
+<i>Screenshots here of the menu item and Stop icon.</i>
+<p>
 </body>
 </html>

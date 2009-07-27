@@ -1083,7 +1083,7 @@ void MainWindow::on_actionHelp_Byte_Converter_triggered()
 void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 {
     helpDialog->show();
-    helpDialog->interruptHandlersClicked();
+    helpDialog->trapHandlersClicked();
 }
 
 void MainWindow::on_actionHelp_Instruction_Set_triggered()

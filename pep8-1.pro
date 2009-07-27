@@ -9,7 +9,6 @@ INCLUDEPATH += .
 # Mac icon
 ICON = icon.icns
 QMAKE_INFO_PLIST = app.plist
-
 QT += webkit
 
 # Input
@@ -109,7 +108,9 @@ OTHER_FILES += images/update.png \
     images/assembler.xpm \
     images/assembler.png \
     help/figures/fig0432.pepb \
-    help/figures/fig0432.pepb
+    help/figures/fig0432.pepb \
+    help/images/writingprograms02.png \
+    help/images/writingprograms01.png
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
 

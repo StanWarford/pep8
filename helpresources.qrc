@@ -90,5 +90,7 @@
         <file>help/figures/fig0515.pep</file>
         <file>help/figures/fig0516.pep</file>
         <file>help/memorydump.html</file>
+        <file>help/images/writingprograms01.png</file>
+        <file>help/images/writingprograms02.png</file>
     </qresource>
 </RCC>

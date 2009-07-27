@@ -24,7 +24,7 @@ public:
     void breakPointsClicked();
     void symbolicTraceClicked();
     void byteConverterClicked();
-    void interruptHandlersClicked();
+    void trapHandlersClicked();
     void instructionSetClicked();
     void dotCommandsClicked();
     void addressingModesClicked();

@@ -448,9 +448,9 @@ void HelpDialog::byteConverterClicked()
     selectItem("Byte Converter");
 }
 
-void HelpDialog::interruptHandlersClicked()
+void HelpDialog::trapHandlersClicked()
 {
-    selectItem("Writing Interrupt Handlers");
+    selectItem("Writing Trap Handlers");
 }
 
 void HelpDialog::instructionSetClicked()

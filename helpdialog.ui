@@ -159,7 +159,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Writing Interrupt Handlers</string>
+        <string>Writing Trap Handlers</string>
        </property>
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
