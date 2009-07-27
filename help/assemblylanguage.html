@@ -25,62 +25,31 @@ Step 1.<br>
 With this Pep/8 application, you write the assembly language program using the built-in text editor in the Source Code pane.
 The following figure shows the source program after entering the program from Figure 5.18 of the textbook.
 <p>
-<i>Screenshot here of</i>
-<pre>
-;File: fig0518.pep
-;Computer Systems, Fourth Edition
-;Figure 5.18
-;
-         STRO    msg,d
-         CHARO   '\n',i
-         STOP
-msg:     .ASCII  "Love\x00
-         .END
-</pre>
+<img src="qrc:/help/images/assemblylanguage01.png" alt="assemblylanguage01" hspace=10 vspace=10>
+<p>
 Strict formatting is not required as long as there is one instruction or dot command per line,
 and at least one space between a mnemonic and an operand specifier.
 For example, the above program could be entered as follows.
 <p>
- <i>Screenshot here of</i>
-<pre>
-     ;File: fig0518.pep
-;Computer Systems, Fourth Edition
-;Figure 5.18
-;
-stro msg,d
-charo '\n'      , i
-STop
-msg:.ASCII  "Love\x00
-.ENd
-</pre>
+<img src="qrc:/help/images/assemblylanguage02.png" alt="assemblylanguage02" hspace=10 vspace=10>
 <p>
 Step 2.<br>
 After writing the assembly language program, assemble it by selecting Build->Assemble from the menu
 or clicking on the hammer icon in the tool bar.
 <p>
-<i>Screenshots here of menu selection and hammer icon.</i>
+<img src="qrc:/help/images/assemblylanguage03.png" alt="assemblylanguage03" hspace=10 vspace=10>
 <p>
 If there are no errors, the translated program will appear in the Object Code pane,
 and a formatted listing will appear in the Assembler Listing pane.
 <p>
-<i>Screenshots here of Object Code pane and Assembler Listing pane.</i>
+<img src="qrc:/help/images/assemblylanguage04.png" alt="assemblylanguage04" hspace=10 vspace=10>
 <p>
 If there is an error in your program, an error message will appear in the source code pane.
 The following screen shot shows what would happen if you fail to supply the addressing mode for
 the <code>STRO</code> instruction.
 <P>
-<i>Screenshot here of the following program.</i>
-<pre>
-;File: fig0518.pep
-;Computer Systems, Fourth Edition
-;Figure 5.18
-;
-         STRO    msg;ERROR: Addressing mode required for this instruction.
-         CHARO   '\n',i
-         STOP
-msg:     .ASCII  "Love\x00"
-         .END
-</pre>
+<img src="qrc:/help/images/assemblylanguage05.png" alt="assemblylanguage05" hspace=10 vspace=10>
+<p>
 If you would like, you can select Build->Remove Error Messages from the menu to delete the error message.
 Then, you can correct your error and try to assemble your program again.
 It is not necessary to remove the error message before correcting your program, as error messages
@@ -90,38 +59,25 @@ Once you assemble your program so that a formatted listing appears in the Assemb
 you can select Edit->Format From Listing from the menu.
 Your source code will be replaced with the standard formatted source code extracted from the Assembler Listing pane.
 <p>
-<i>Screenshot here of the menu selection.</i>
+<img src="qrc:/help/images/assemblylanguage06.png" alt="assemblylanguage06" hspace=10 vspace=10>
 <p>
 Step 3.<br>
 Load your program by selecting Build -> Load from the menu.
 <p>
-<i>Screenshot here of the menu selection.</i>
+<img src="qrc:/help/images/assemblylanguage07.png" alt="assemblylanguage07" hspace=10 vspace=10>
 <p>
 Step 4.<br>
 To execute the program select Build -> Execute from the menu.
 <p>
-<i>Screenshot here of the menu selection.</i>
+<img src="qrc:/help/images/assemblylanguage08.png" alt="assemblylanguage08" hspace=10 vspace=10>
 
 <h3>Trace tag warnings</h3>
 
 If your program assembles correctly but there is an error in your trace tags, a trace tag warning is displayed.
 For example, here is what happens if you make an error in one of the trace tags in the program from Figure 5.26.
 <p>
-<i>Screenshot here of the following warning.</i>
-
-<pre>
- ;File: fig0526.pep
-;Computer Systems, Fourth edition
-;Figure 5.26
-;
-         BR      main
-bonus:   .EQUATE 5           ;constant
-exam1:   .BLOCK  2           ;global variable #2d
-exam2:   .BLOCK  2           ;global variable #1c;WARNING: Format tag does not match number of bytes allocated by .BLOCK.
-score:   .BLOCK  2           ;global variable #2d
-;
-</pre>
-
+<img src="qrc:/help/images/assemblylanguage09.png" alt="assemblylanguage09" hspace=10 vspace=10>
+<p>
 Programs with trace tag warnings have assembled correctly and will still run.
 In the debugger, you can still single step through the program, set break points, and trace memory in the Memory Dump pane.
 However, the symbolic trace feature that shows the C++ memory model graphically in the Memory Trace pane is disabled until
@@ -132,7 +88,7 @@ you fix the trace tag error and reassemble your program.
 The three steps -- Assemble, Load, Execute -- are combined in the single option called Run.
 You can initiate a run by selecting Build->Run from the menu or by clicking on the Run icon in the tool bar.
 <p>
-<i>Screenshots here of menu selection and run icon.</i>
+<img src="qrc:/help/images/assemblylanguage10.png" alt="assemblylanguage10" hspace=10 vspace=10>
 
 </body>
 </html>

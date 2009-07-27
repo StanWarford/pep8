@@ -92,5 +92,21 @@
         <file>help/images/writingprograms01.png</file>
         <file>help/images/writingprograms02.png</file>
         <file>help/images/writingprograms03.png</file>
+        <file>help/images/writingprograms04.png</file>
+        <file>help/images/machinelanguage01.png</file>
+        <file>help/images/machinelanguage02.png</file>
+        <file>help/images/machinelanguage03.png</file>
+        <file>help/images/machinelanguage04.png</file>
+        <file>help/images/machinelanguage05.png</file>
+        <file>help/images/assemblylanguage01.png</file>
+        <file>help/images/assemblylanguage02.png</file>
+        <file>help/images/assemblylanguage03.png</file>
+        <file>help/images/assemblylanguage04.png</file>
+        <file>help/images/assemblylanguage05.png</file>
+        <file>help/images/assemblylanguage06.png</file>
+        <file>help/images/assemblylanguage07.png</file>
+        <file>help/images/assemblylanguage08.png</file>
+        <file>help/images/assemblylanguage09.png</file>
+        <file>help/images/assemblylanguage10.png</file>
     </qresource>
 </RCC>
