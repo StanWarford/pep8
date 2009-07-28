@@ -12,9 +12,10 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-//    m_ui->listingPepOsTraceTableWidget->hide();
+    m_ui->listingPepOsTraceTableWidget->hide();
 
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
+    connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 }
 
 ListingTracePane::~ListingTracePane()
@@ -67,11 +68,15 @@ void ListingTracePane::updateListingTrace()
 {
     // tableWidget depends on whether we are in the OS or a program
     QTableWidget *tableWidget;
-    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
-        tableWidget = m_ui->listingTraceTableWidget;
+    if (Sim::trapped) {
+        tableWidget = m_ui->listingPepOsTraceTableWidget;
+        m_ui->listingPepOsTraceTableWidget->show();
+        m_ui->listingTraceTableWidget->hide();
     }
     else {
-        tableWidget = m_ui->listingPepOsTraceTableWidget;
+        tableWidget = m_ui->listingTraceTableWidget;
+        m_ui->listingPepOsTraceTableWidget->hide();
+        m_ui->listingTraceTableWidget->show();
     }
 
     for (int i = 0; i < tableWidget->rowCount(); i++) {

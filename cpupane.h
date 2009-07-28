@@ -24,9 +24,6 @@ public:
     void runClicked();
     // Post: All of the debug checkboxes are unclicked
 
-    void startDebuggingClicked();
-    // Post: If no checkboxes are clicked, click the trace program checkbox
-
     void setDebugState(bool b);
     // Post: if b is true, checkboxes are set to disabled, and vice versa
 
@@ -50,6 +47,9 @@ public:
 
     void singleStepWithTerminal();
     // Single steps the simulator with terminal input
+
+    void trapLookahead();
+    // Looks ahead to the next instruction to determine if we are trapping
 
     void interruptExecution();
     // Post: interruptExecutionFlag is set to true

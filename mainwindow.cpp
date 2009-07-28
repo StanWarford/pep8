@@ -480,6 +480,7 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
     memoryDumpPane->highlightMemory(b);
+    Sim::trapped = false;
     if (b) {
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -832,6 +833,7 @@ void MainWindow::on_actionBuild_Execute_triggered()
     }
     else {
         ui->pepInputOutputTab->setTabEnabled(0, false);
+        Sim::inputBuffer.clear();
         terminalPane->clearTerminal();
         cpuPane->runWithTerminal();
     }
@@ -865,12 +867,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         }
         else {
             ui->pepInputOutputTab->setTabEnabled(0, false);
+            Sim::inputBuffer.clear();
             terminalPane->clearTerminal();
         }
 
         ui->pepCodeTraceTab->setCurrentIndex(1); // Make listing trace pane visible
 
-        cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
     }
@@ -899,7 +901,6 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
         setDebugState(true);
 
         ui->statusbar->showMessage("Load succeeded", 4000);
-        cpuPane->startDebuggingClicked();
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
         if (ui->pepInputOutputTab->currentIndex() == 0) {
@@ -913,6 +914,7 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
         }
         else {
             ui->pepInputOutputTab->setTabEnabled(0, false);
+            Sim::inputBuffer.clear();
             terminalPane->clearTerminal();
         }
     }

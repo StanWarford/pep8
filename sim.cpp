@@ -22,6 +22,7 @@ QString Sim::inputBuffer;
 QString Sim::outputBuffer;
 
 QSet<int> Sim::modifiedBytes;
+bool Sim::trapped;
 
 Enu::EExecState Sim::executionState;
 

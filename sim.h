@@ -23,6 +23,7 @@ public:
     static QString outputBuffer;
 
     static QSet<int> modifiedBytes;
+    static bool trapped;
 
     static Enu::EExecState executionState;
     // State for keeping track of what actions are possible for user and machine

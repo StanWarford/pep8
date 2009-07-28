@@ -91,22 +91,12 @@ void CpuPane::clearCpu()
 
 void CpuPane::runClicked() {
     m_ui->pepTraceLoadCheckBox->setChecked(false);
-    m_ui->pepTraceProgramCheckBox->setChecked(false);
     m_ui->pepTraceTrapsCheckBox->setChecked(false);
-}
-
-void CpuPane::startDebuggingClicked() {
-    if (m_ui->pepTraceLoadCheckBox->isChecked() || m_ui->pepTraceProgramCheckBox->isChecked() || m_ui->pepTraceTrapsCheckBox->isChecked()) {
-        // do nothing
-    } else {
-        m_ui->pepTraceProgramCheckBox->setChecked(true);
-    }
 }
 
 void CpuPane::setDebugState(bool b)
 {
     m_ui->pepTraceLoadCheckBox->setDisabled(b);
-    m_ui->pepTraceProgramCheckBox->setDisabled(b);
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
 }
 
@@ -191,6 +181,7 @@ void CpuPane::resumeWithBatch()
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
+        trapLookahead();
         if (Sim::vonNeumannStep(errorString)) {
             emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
@@ -229,6 +220,7 @@ void CpuPane::resumeWithTerminal()
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
+        trapLookahead();
         if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
             emit waitingForInput();
@@ -269,6 +261,7 @@ void CpuPane::resumeWithTerminal()
 void CpuPane::singleStepWithBatch()
 {
     QString errorString;
+    trapLookahead();
     if (Sim::vonNeumannStep(errorString)) {
         emit vonNeumannStepped();
         emit updateSimulationView();
@@ -291,8 +284,9 @@ void CpuPane::singleStepWithBatch()
 
 void CpuPane::singleStepWithTerminal()
 {
-    waiting = Enu::EDebugSSWaiting;
     QString errorString;
+    waiting = Enu::EDebugSSWaiting;
+    trapLookahead();
     if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
         m_ui->cpuSingleStepPushButton->setDisabled(true);
         m_ui->cpuResumePushButton->setDisabled(true);
@@ -319,6 +313,24 @@ void CpuPane::singleStepWithTerminal()
         else {
             QMessageBox::warning(0, "Pep/8", errorString);
             emit executionComplete();
+        }
+    }
+}
+
+void CpuPane::trapLookahead()
+{
+    if (m_ui->pepTraceTrapsCheckBox->isChecked()) {
+        if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
+            qDebug() << "It's a trap!";
+            Sim::trapped = true;
+            Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+            Pep::listingRowChecked = &Pep::listingRowCheckedOS;
+        }
+        else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
+            qDebug() << "Move the fleet away from the Death Star!";
+            Sim::trapped = false;
+            Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
+            Pep::listingRowChecked = &Pep::listingRowCheckedProg;
         }
     }
 }
