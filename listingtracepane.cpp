@@ -12,7 +12,7 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    m_ui->listingPepOsTraceTableWidget->hide();
+//    m_ui->listingPepOsTraceTableWidget->hide();
 
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 }
@@ -24,12 +24,20 @@ ListingTracePane::~ListingTracePane()
 
 void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool> hasCheckBox)
 {
+    // tableWidget depends on whether we are assembling the OS or a program
+    QTableWidget *tableWidget;
+    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
+        tableWidget = m_ui->listingTraceTableWidget;
+    }
+    else {
+        tableWidget = m_ui->listingPepOsTraceTableWidget;
+    }
     QTableWidgetItem *item;
     int numRows = listingTraceList.size();
-    m_ui->listingTraceTableWidget->setRowCount(numRows);
+    tableWidget->setRowCount(numRows);
     for (int i = 0; i < numRows; i++) {
         item = new QTableWidgetItem(listingTraceList[i]);
-        m_ui->listingTraceTableWidget->setItem(i, 1, item);
+        tableWidget->setItem(i, 1, item);
     }
     for (int i = 0; i < numRows; i++) {
         item = new QTableWidgetItem();
@@ -40,10 +48,10 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         else {
             item->setFlags(Qt::NoItemFlags);
         }
-        m_ui->listingTraceTableWidget->setItem(i, 0, item);
+        tableWidget->setItem(i, 0, item);
     }
-    m_ui->listingTraceTableWidget->resizeColumnsToContents();
-    m_ui->listingTraceTableWidget->resizeRowsToContents();
+    tableWidget->resizeColumnsToContents();
+    tableWidget->resizeRowsToContents();
 }
 
 void ListingTracePane::clearListingTrace()
@@ -57,15 +65,24 @@ void ListingTracePane::clearListingTrace()
 
 void ListingTracePane::updateListingTrace()
 {
-    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+    // tableWidget depends on whether we are in the OS or a program
+    QTableWidget *tableWidget;
+    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
+        tableWidget = m_ui->listingTraceTableWidget;
     }
-    if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing.value(Sim::programCounter), 1);
+    else {
+        tableWidget = m_ui->listingPepOsTraceTableWidget;
+    }
+
+    for (int i = 0; i < tableWidget->rowCount(); i++) {
+        tableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+        tableWidget->item(i, 1)->setTextColor(Qt::black);
+    }
+    if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter)) {
+        QTableWidgetItem *highlightedItem = tableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
         highlightedItem->setBackgroundColor(QColor(56, 117, 215));
         highlightedItem->setTextColor(Qt::white);
-        m_ui->listingTraceTableWidget->scrollToItem(highlightedItem);
+        tableWidget->scrollToItem(highlightedItem);
     }
 }
 
@@ -75,8 +92,8 @@ void ListingTracePane::setDebuggingState(bool b)
         m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
         m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
     }
-    if (b && Pep::memAddrssToAssemblerListing.contains(Sim::programCounter)) {
-        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing.value(Sim::programCounter), 1);
+    if (b && Pep::memAddrssToAssemblerListing->contains(Sim::programCounter)) {
+        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
         highlightedItem->setBackgroundColor(QColor(56, 117, 215));
         highlightedItem->setTextColor(Qt::white);
         m_ui->listingTraceTableWidget->scrollToItem(highlightedItem);
@@ -85,7 +102,7 @@ void ListingTracePane::setDebuggingState(bool b)
 
 void ListingTracePane::highlightOnFocus()
 {
-    if (m_ui->listingTraceTableWidget->hasFocus()) {
+    if (m_ui->listingTraceTableWidget->hasFocus() || m_ui->listingPepOsTraceTableWidget->hasFocus()) {
         m_ui->listingTraceLabel->setAutoFillBackground(true);
     }
     else {
@@ -109,5 +126,5 @@ void ListingTracePane::setFont()
 
 void ListingTracePane::updateIsCheckedTable(QTableWidgetItem *item)
 {
-    Pep::listingRowChecked.insert(item->row(), item->checkState());
+    Pep::listingRowChecked->insert(item->row(), item->checkState());
 }

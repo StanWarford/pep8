@@ -100,8 +100,16 @@ public:
     static QStringList newSymbols;
 
     // Map from instruction memory address to assembler listing line
-    static QMap<int, int> memAddrssToAssemblerListing;
-    static QMap<int, Qt::CheckState> listingRowChecked;
+    // These pointers are set to the addresses of the program or OS maps
+    // depending on whether the program or OS is being assembled
+    static QMap<int, int> *memAddrssToAssemblerListing;
+    static QMap<int, Qt::CheckState> *listingRowChecked;
+
+    static QMap<int, int> memAddrssToAssemblerListingProg;
+    static QMap<int, Qt::CheckState> listingRowCheckedProg;
+
+    static QMap<int, int> memAddrssToAssemblerListingOS;
+    static QMap<int, Qt::CheckState> listingRowCheckedOS;
 
     // Decoder tables
     static QVector<Enu::EMnemonic> decodeMnemonic;

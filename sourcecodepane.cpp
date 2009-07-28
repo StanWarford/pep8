@@ -44,7 +44,7 @@ bool SourceCodePane::assemble()
     removeErrorMessages();
     Asm::listOfReferencedSymbols.clear();
     Asm::listOfReferencedSymbolLineNums.clear();
-    Pep::memAddrssToAssemblerListing.clear();
+    Pep::memAddrssToAssemblerListing->clear();
     Pep::symbolTable.clear();
     Pep::adjustSymbolValueForBurn.clear();
     Pep::symbolFormat.clear();
@@ -162,7 +162,7 @@ bool SourceCodePane::installDefaultOs()
     bool dotEndDetected = false;
 
     Asm::listOfReferencedSymbols.clear();
-    Pep::memAddrssToAssemblerListing.clear();
+    Pep::memAddrssToAssemblerListing->clear();
     Pep::symbolTable.clear();
     Pep::adjustSymbolValueForBurn.clear();
     while (!codeList.isEmpty()) {
@@ -210,10 +210,6 @@ bool SourceCodePane::installDefaultOs()
     Pep::romStartAddress += addressDelta;
     getObjectCode();
     installOS();
-
-    while (!codeList.isEmpty()) {
-        delete codeList.takeFirst();
-    }
 
     return true;
 }

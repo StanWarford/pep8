@@ -83,10 +83,16 @@ MainWindow::MainWindow(QWidget *parent)
     readSettings();
 
     // Install OS into memory
-    if (sourceCodePane->installDefaultOs())
+    Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+    Pep::listingRowChecked = &Pep::listingRowCheckedOS;
+    if (sourceCodePane->installDefaultOs()) {
+        sourceCodePane->getAssemblerListingList();
+        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
         ui->statusbar->showMessage("OS installed", 4000);
-    else
+    }
+    else {
         ui->statusbar->showMessage("OS assembly failed", 4000);
+    }
 
     // Focus highlighting, actions enable/disable
     connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
@@ -150,6 +156,7 @@ MainWindow::~MainWindow()
  {
      if (maybeSaveSource() && maybeSaveObject()) {
          writeSettings();
+         cpuPane->interruptExecution();
          event->accept();
      }
      else {
@@ -394,6 +401,8 @@ void MainWindow::updateRecentFileActions()
 
 bool MainWindow::assemble()
 {
+    Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
+    Pep::listingRowChecked = &Pep::listingRowCheckedProg;
     Pep::burnCount = 0;
     if (sourceCodePane->assemble()) {
         if (Pep::burnCount > 0) {
@@ -427,6 +436,7 @@ bool MainWindow::assemble()
                 setCurrentFile("", Enu::EObject);
                 setCurrentFile("", Enu::EListing);
             }
+            ui->actionEdit_Format_From_Listing->setEnabled(true);
             return true;
         }
     }
@@ -470,7 +480,11 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
     memoryDumpPane->highlightMemory(b);
-    if (!b) {
+    if (b) {
+        Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
+        Pep::listingRowChecked = &Pep::listingRowCheckedProg;
+    }
+    else {
         ui->pepInputOutputTab->setTabEnabled(1, true);
         ui->pepInputOutputTab->setTabEnabled(0, true);
     }
@@ -984,6 +998,8 @@ void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
 {
     Pep::burnCount = 0;
+    Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+    Pep::listingRowChecked = &Pep::listingRowCheckedOS;
     if (sourceCodePane->assemble()) {
         if (Pep::burnCount == 0) {
             QString errorString = ";ERROR: .BURN required to install OS.";
@@ -1030,10 +1046,16 @@ void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
 
 void MainWindow::on_actionSystem_Reinstall_Default_OS_triggered()
 {
-    if (sourceCodePane->installDefaultOs())
+    Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+    Pep::listingRowChecked = &Pep::listingRowCheckedOS;
+    if (sourceCodePane->installDefaultOs()) {
+        sourceCodePane->getAssemblerListingList();
+        listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
         ui->statusbar->showMessage("OS installed", 4000);
-    else
+    }
+    else {
         ui->statusbar->showMessage("OS assembly failed", 4000);
+    }
 }
 
 // Help MainWindow triggers

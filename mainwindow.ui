@@ -867,6 +867,9 @@
    </property>
   </action>
   <action name="actionEdit_Format_From_Listing">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Format From Listing</string>
    </property>

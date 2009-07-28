@@ -202,8 +202,8 @@ void CpuPane::resumeWithBatch()
                 emit executionComplete();
                 return;
             }
-            if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter) &&
-                Pep::listingRowChecked.value(Pep::memAddrssToAssemblerListing.value(Sim::programCounter)) == Qt::Checked) {
+            if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter) &&
+                Pep::listingRowChecked->value(Pep::memAddrssToAssemblerListing->value(Sim::programCounter)) == Qt::Checked) {
                 updateCpu();
                 emit updateSimulationView();
                 return;
@@ -246,8 +246,8 @@ void CpuPane::resumeWithTerminal()
                     emit executionComplete();
                     return;
                 }
-                if (Pep::memAddrssToAssemblerListing.contains(Sim::programCounter) &&
-                    Pep::listingRowChecked.value(Pep::memAddrssToAssemblerListing.value(Sim::programCounter)) == Qt::Checked) {
+                if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter) &&
+                    Pep::listingRowChecked->value(Pep::memAddrssToAssemblerListing->value(Sim::programCounter)) == Qt::Checked) {
                     updateCpu();
                     emit updateSimulationView();
                     return;

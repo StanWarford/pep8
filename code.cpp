@@ -124,8 +124,8 @@ void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStri
                       .arg(symbolStr, -9, QLatin1Char(' '))
                       .arg(mnemonStr, -8, QLatin1Char(' '))
                       .arg("            " + comment);
-    Pep::memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
-    Pep::listingRowChecked.insert(assemblerListingList.size(), Qt::Unchecked);
+    Pep::memAddrssToAssemblerListing->insert(memAddress, assemblerListingList.size());
+    Pep::listingRowChecked->insert(assemblerListingList.size(), Qt::Unchecked);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(true);
@@ -162,8 +162,8 @@ void NonUnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QS
                       .arg(mnemonStr, -8, QLatin1Char(' '))
                       .arg(oprndStr, -12)
                       .arg(comment);
-    Pep::memAddrssToAssemblerListing.insert(memAddress, assemblerListingList.size());
-    Pep::listingRowChecked.insert(assemblerListingList.size(), Qt::Unchecked);
+    Pep::memAddrssToAssemblerListing->insert(memAddress, assemblerListingList.size());
+    Pep::listingRowChecked->insert(assemblerListingList.size(), Qt::Unchecked);
     assemblerListingList.append(lineStr);
     listingTraceList.append(lineStr);
     hasCheckBox.append(true);
