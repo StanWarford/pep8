@@ -10,40 +10,108 @@
 Pep/8 Reference THIS IS A BAD NAME
 </font></td></tr></table></center>
 
-<h3>This is a placeholder title.</h3>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat ultricies lacus ac consequat. Proin vel sem lectus, non tristique lorem. Vivamus fringilla iaculis nunc id luctus. Etiam pharetra ullamcorper metus sit amet volutpat. Quisque cursus viverra elit ut volutpat. Morbi nec nisi nec risus dapibus adipiscing eget vehicula eros. Aenean lobortis, sapien at imperdiet fringilla, mi erat malesuada lectus, ut tincidunt enim orci sit amet sem. Integer gravida placerat varius. Nunc augue est, imperdiet laoreet rutrum at, posuere pretium ante. Pellentesque venenatis imperdiet est quis scelerisque. Etiam odio nulla, posuere eget bibendum ut, vehicula a mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Mauris lectus purus, feugiat sit amet molestie a, tincidunt quis nisl.<br><br>
+<p>
+ Topics:
+ <a href="#Instruction">Instruction set</a>,
+ <a href="#Dot">Dot commands</a>,
+ <a href="#Addressing">Addressing modes</a>.
 
-<pre>
-<b>Dot Command			Description</b>
-.ADDRESS symbol	 	The address of a symbol (two bytes)
-.ASCII "string"	 	A string of ASCII bytes
-.BLOCK n	 		A block of n bytes
-.BURN 0xFFFF	 	Initiate ROM burn ending at 0xFFFF
-.BYTE constant	 	A byte value (one byte)
-.END	 			The sentinel for the assembler
-.EQUATE constant 	Equate a symbol to a constant value
-.WORD constant	 	A word value (two bytes)
-<pre>
-<pre>
-<b>Instruction Specifier	Mnemonic	Instruction				Addressing Modes	Status Bits</b>
-0000 0000	 			STOP	 	Stop execution	 		U	
-0000 0001	 			RETTR	 	Return from trap		U	
-0000 0010	 			MOVSPA	 	Move SP to A			U	
-0000 0011	 			MOVFLGA	 	Move NZVC flags to A	U	
-</pre>
-<pre>
-<b>Addressing Mode				aaa		Letters		Operand</b>
-Immediate	 				0	 	i	 		OprndSpec
-Direct	 					1	 	d	 		Mem (OprndSpec )
-Indirect	 				10	 	n	 		Mem [Mem (OprndSpec ))
-Stack-relative	 			11	 	s	 		Mem (SP + OprndSpec )
-Stack-relative deferred	 	100	 	sf	 		Mem (Mem (SP + OprndSpec ))
-Indexed	 					101	 	x	 		Mem (OprndSpec + X )
-Stack-indexed	 			110	 	sx	 		Mem (SP + OprndSpec + X )
-Stack-indexed deferred	 	111	 	sxf	 		Mem ( Mem (SP + OprndSpec ) + X )
-</pre><br>
+<h3><a name="Instruction">Instruction set</a></h3>
 
-Suspendisse accumsan, tellus in fermentum lobortis, tortor est vulputate eros, ac auctor neque ipsum suscipit nisi. Praesent justo odio, rutrum luctus imperdiet ut, egestas in eros. Fusce vestibulum, nunc ut sollicitudin auctor, sapien ipsum interdum tortor, eget pulvinar mi mauris lacinia dui. Suspendisse auctor imperdiet euismod. Aliquam erat volutpat.<br>
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>Instruction Specifier</th> <th>Mnemonic</th> <th>Instruction</th> <th>Addressing Modes</th> <th>Status Bits</th>
+ </tr>
+ <tr>
+  <td>0000 0000</td> <td>STOP</td> <td>Stop execution</td> <td>U</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 0001</td> <td>RETTR</td> <td>Return from trap</td> <td>U</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 0010</td> <td>MOVSPA</td> <td>Move SP to A</td> <td>U</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 0011</td> <td>MOVFLGA</td> <td>Move NZVC flags to A</td> <td>U</td> <td></td>
+ </tr>
+</table>
+
+<h3><a name="Dot">Dot commands</a></h3>
+
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>Dot Command</th> <th>Description</th>
+ </tr>
+ <tr>
+  <td>.ADDRESS symbol</td> <td>The address of a symbol (two bytes)</td>
+ </tr>
+ <tr>
+  <td>.ASCII "string"</td> <td>A string of ASCII bytes</td>
+ </tr>
+ <tr>
+  <td>.BLOCK n</td> <td>A block of n bytes</td>
+ </tr>
+ <tr>
+  <td>.BURN 0xFFFF</td> <td>Initiate ROM burn ending at 0xFFFF</td>
+ </tr>
+ <tr>
+  <td>.BYTE constant</td> <td>A byte value (one byte)</td>
+ </tr>
+ <tr>
+  <td>.END</td> <td>The sentinel for the assembler</td>
+ </tr>
+ <tr>
+  <td>.EQUATE constant</td> <td>Equate a symbol to a constant value</td>
+ </tr>
+ <tr>
+  <td>.WORD constant</td> <td>A word value (two bytes)</td>
+ </tr>
+</table>
+
+<h3><a name="Addressing">Addressing modes</a></h3>
+
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>Addressing Mode</th> <th>aaa-field</th> <th>Letters</th> <th>Operand</th>
+ </tr>
+ <tr>
+  <td>Immediate</td> <td>000</td> <td>i</td> <td>OprndSpec</td>
+ </tr>
+ <tr>
+  <td>Direct</td> <td>001</td> <td>d</td> <td>Mem [OprndSpec ]</td>
+ </tr>
+ <tr>
+  <td>Indirect</td> <td>010</td> <td>n</td> <td>Mem [Mem [OprndSpec ] ]</td>
+ </tr>
+ <tr>
+  <td>Stack-relative</td> <td>011</td> <td>s</td> <td>Mem [SP + OprndSpec ]</td>
+ </tr>
+ <tr>
+  <td>Stack-relative deferred</td> <td>100</td> <td>sf</td> <td>Mem [Mem [SP + OprndSpec ] ]</td>
+ </tr>
+ <tr>
+  <td>Indexed</td> <td>101</td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
+ </tr>
+ <tr>
+  <td>Stack-indexed</td> <td>110</td> <td>sx</td> <td>Mem [SP + OprndSpec + X ]</td>
+ </tr>
+ <tr>
+  <td>Stack-indexed deferred</td> <td>111</td> <td>sxf</td> <td>Mem [Mem [SP + OprndSpec ] + X ]</td>
+ </tr>
+</table>
+
+<p>
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>Addressing Mode</th> <th>a-field</th> <th>Letters</th> <th>Operand</th>
+ </tr>
+ <tr>
+  <td>Immediate</td> <td>0</td> <td>i</td> <td>OprndSpec</td>
+ </tr>
+ <tr>
+  <td>Indexed</td> <td>1</td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
+ </tr>
+</table>
 
 </body>
 </html>
