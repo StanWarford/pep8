@@ -451,6 +451,8 @@ bool MainWindow::load()
 
 void MainWindow::setDebugState(bool b)
 {
+    ui->actionFile_New->setDisabled(b);
+    ui->actionFile_Open->setDisabled(b);
     ui->actionBuild_Assemble->setDisabled(b);
     ui->actionBuild_Execute->setDisabled(b);
     ui->actionBuild_Load->setDisabled(b);
