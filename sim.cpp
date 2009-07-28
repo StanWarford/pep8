@@ -53,7 +53,7 @@ void Sim::loadMem(QList<int> objectCodeList) {
 
 int Sim::add(int lhs, int rhs)
 {
-    return (lhs + rhs) % 65536;
+    return (lhs + rhs) & 0xffff;
 }
 
 int Sim::addAndSetNZVC(int lhs, int rhs)
@@ -61,7 +61,7 @@ int Sim::addAndSetNZVC(int lhs, int rhs)
     int result = lhs + rhs;    
     if (result >= 65536) {
         Sim::cBit = 1;
-        result = result % 65536;
+        result = result & 0xffff;
     }
     else {
         Sim::cBit = 0;
@@ -69,18 +69,18 @@ int Sim::addAndSetNZVC(int lhs, int rhs)
     Sim::nBit = result < 32768 ?  false : true;
     Sim::zBit = result == 0 ? true : false;
     Sim::vBit = (lhs < 32768 && rhs < 32768 && result >= 32768) ||
-                (lhs >= 32768 && rhs <= 32768 && result < 32768);
+                (lhs >= 32768 && rhs >= 32768 && result < 32768);
     return result;
 }
 
 int Sim::readByte(int memAddr)
 {
-    return Mem[memAddr % 65536];
+    return Mem[memAddr & 0xffff];
 }
 
 int Sim::readWord(int memAddr)
 {
-     return 256 * Mem[memAddr % 65536] + Mem[(memAddr + 1) % 65536];
+     return 256 * Mem[memAddr & 0xffff] + Mem[(memAddr + 1) & 0xffff];
 }
 
 int Sim::readByteOprnd(Enu::EAddrMode addrMode)
@@ -140,18 +140,18 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 void Sim::writeByte(int memAddr, int value)
 {
     if (memAddr < Pep::romStartAddress) {
-        Mem[memAddr % 65536] = value;
-        modifiedBytes.insert(memAddr % 65536);
+        Mem[memAddr & 0xffff] = value;
+        modifiedBytes.insert(memAddr & 0xffff);
     }
 }
 
 void Sim::writeWord(int memAddr, int value)
 {
     if (memAddr < Pep::romStartAddress) { // There is an intentional inaccuracy here (it is possible to overwrite the first byte of ROM).
-        Mem[memAddr % 65536] = value / 256;
-        Mem[(memAddr + 1) % 65536] = value % 256;
-        modifiedBytes.insert(memAddr % 65536);
-        modifiedBytes.insert((memAddr + 1) % 65536);
+        Mem[memAddr & 0xffff] = value / 256;
+        Mem[(memAddr + 1) & 0xffff] = value % 256;
+        modifiedBytes.insert(memAddr & 0xffff);
+        modifiedBytes.insert((memAddr + 1) & 0xffff);
     }
 }
 
@@ -284,7 +284,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         accumulator *= 2;
         if (accumulator >= 65536) {
             cBit = 1;
-            accumulator = accumulator % 65536;
+            accumulator = accumulator & 0xffff;
         }
         else {
             cBit = 0;
@@ -298,7 +298,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         indexRegister *= 2;
         if (indexRegister >= 65536) {
             cBit = 1;
-            indexRegister = indexRegister % 65536;
+            indexRegister = indexRegister & 0xffff;
         }
         else {
             cBit = 0;
@@ -417,16 +417,16 @@ bool Sim::vonNeumannStep(QString &errorString)
     case CPA:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        addAndSetNZVC(accumulator, (~operand + 1) & 0xFFFF);
+        addAndSetNZVC(accumulator, (~operand + 1) & 0xffff);
         return true;
     case CPX:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        addAndSetNZVC(indexRegister, (~operand + 1) & 0xFFFF);
+        addAndSetNZVC(indexRegister, (~operand + 1) & 0xffff);
         return true;
     case DECI: case DECO: case STRO:
     case NOP: case NOP0: case NOP1: case NOP2: case NOP3:
-        temp = readWord(0xFFFA);
+        temp = readWord(0xfffa);
         writeByte(temp - 1, instructionSpecifier);
         writeWord(temp - 3, stackPointer);
         writeWord(temp - 5, programCounter);
@@ -434,19 +434,19 @@ bool Sim::vonNeumannStep(QString &errorString)
         writeWord(temp - 9, accumulator);
         writeByte(temp - 10, nzvcToInt());
         stackPointer = temp - 10;
-        programCounter = readWord(0xFFFE);
+        programCounter = readWord(0xfffe);
         return true;
     case LDA:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        accumulator = operand % 65536;
+        accumulator = operand & 0xffff;
         nBit = accumulator >= 32768;
         zBit = accumulator == 0;
         return true;
     case LDBYTEA:
         operand = readByteOprnd(addrMode);
         operandDisplayFieldWidth = 2;
-        accumulator = accumulator & 0xFF00;
+        accumulator = accumulator & 0xff00;
         accumulator |= operand;
         nBit = accumulator >= 32768;
         zBit = accumulator == 0;
@@ -454,7 +454,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     case LDBYTEX:
         operand = readByteOprnd(addrMode);
         operandDisplayFieldWidth = 2;
-        indexRegister = indexRegister & 0xFF00;
+        indexRegister = indexRegister & 0xff00;
         indexRegister |= operand;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
@@ -462,7 +462,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     case LDX:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        indexRegister = operand % 65536;
+        indexRegister = operand & 0xffff;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
         return true;
@@ -477,22 +477,24 @@ bool Sim::vonNeumannStep(QString &errorString)
         accumulator = stackPointer;
         return true;
     case NEGA:
-        accumulator = (~accumulator + 1) & 65535;
+        accumulator = (~accumulator + 1) & 0xffff;
         nBit = accumulator >= 32768;
         zBit = accumulator == 0;
+        vBit = accumulator == 32768;
         return true;
     case NEGX:
-        indexRegister = (~indexRegister + 1) & 65535;
+        indexRegister = (~indexRegister + 1) & 0xffff;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
+        vBit = indexRegister == 32768;
         return true;
     case NOTA:
-        accumulator = ~accumulator & 65535;
+        accumulator = ~accumulator & 0xffff;
         nBit = accumulator >= 32768;
         zBit = accumulator == 0;
         return true;
     case NOTX:
-        indexRegister = ~indexRegister & 65535;
+        indexRegister = ~indexRegister & 0xffff;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
         return true;
@@ -562,13 +564,13 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case ROLA:
         bTemp = accumulator >= 32768;
-        accumulator = (accumulator * 2) % 65536;
+        accumulator = (accumulator * 2) & 0xffff;
         accumulator |= cBit ? 1 : 0;
         cBit = bTemp;
         return true;
     case ROLX:
         bTemp = indexRegister >= 32768;
-        indexRegister = (indexRegister * 2) % 65536;
+        indexRegister = (indexRegister * 2) & 0xffff;
         indexRegister |= cBit ? 1 : 0;
         cBit = bTemp;
         return true;
@@ -609,17 +611,17 @@ bool Sim::vonNeumannStep(QString &errorString)
     case SUBA:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        accumulator = addAndSetNZVC(accumulator, (~operand + 1) & 0xFFFF);
+        accumulator = addAndSetNZVC(accumulator, (~operand + 1) & 0xffff);
         return true;
     case SUBSP:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        stackPointer = addAndSetNZVC(stackPointer, (~operand + 1) & 0xFFFF);
+        stackPointer = addAndSetNZVC(stackPointer, (~operand + 1) & 0xffff);
         return true;
     case SUBX:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
-        indexRegister = addAndSetNZVC(indexRegister, (~operand + 1) & 0xFFFF);
+        indexRegister = addAndSetNZVC(indexRegister, (~operand + 1) & 0xffff);
         return true;
     default:
         qDebug() << "Invalid instruction?!";
