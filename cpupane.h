@@ -51,8 +51,11 @@ public:
     void trapLookahead();
     // Looks ahead to the next instruction to determine if we are trapping
 
-    void resumeThroughTrap();
-    // Resumes through the trap to continue tracing the program
+    void resumeThroughTrapBatch();
+    // Resumes through the trap to continue tracing the program with batch IO
+
+    void resumeThroughTrapTerminal();
+    // Resumes through the trap to continue tracing the program with terminal IO
 
     void interruptExecution();
     // Post: interruptExecutionFlag is set to true
