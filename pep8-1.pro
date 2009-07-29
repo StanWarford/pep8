@@ -79,42 +79,6 @@ SOURCES += main.cpp \
     sim.cpp \
     pephighlighter.cpp \
     cpphighlighter.cpp
-OTHER_FILES += images/update.png \
-    images/undo.png \
-    images/ShowMemoryPane.png \
-    images/save.png \
-    images/RESET2edit.png \
-    images/RESET2.XPM \
-    images/redo.png \
-    images/query.png \
-    images/print.png \
-    images/paste.png \
-    images/open.png \
-    images/new.png \
-    images/MEMORY.XPM \
-    images/LOAD.png \
-    images/EXPAND.XPM \
-    images/EXECUTE.XPM \
-    images/EXECUTE.png \
-    images/DefaultView.png \
-    images/cut.png \
-    images/copy.png \
-    images/config.png \
-    images/CodeOnly.xpm \
-    images/CodeMemory.xpm \
-    images/CodeCPUMemory.xpm \
-    images/CodeCPU.xpm \
-    images/CodeCPU.png \
-    images/assembler.xpm \
-    images/assembler.png \
-    help/figures/fig0432.pepb \
-    help/figures/fig0432.pepb \
-    help/images/writingprograms02.png \
-    help/images/writingprograms01.png \
-    help/images/writingprograms03.png \
-    help/figures/prob0832.pep \
-    help/figures/prob0829.pep \
-    help/figures/exer0804.pep
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
 
