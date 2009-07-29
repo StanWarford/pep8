@@ -153,18 +153,13 @@ private slots:
 
     // Help
     void on_actionHelp_triggered();
-    void on_actionHelp_Assembly_Language_triggered();
     void on_actionHelp_Machine_Language_triggered();
-    void on_actionHelp_Memory_Dump_triggered();
-    void on_actionHelp_Break_Points_triggered();
-    void on_actionHelp_Symbolic_Trace_triggered();
-    void on_actionHelp_Byte_Converter_triggered();
+    void on_actionHelp_Assembly_Language_triggered();
+    void on_actionHelp_Debugging_Programs_triggered();
     void on_actionHelp_Writing_Interrupt_Handlers_triggered();
-    void on_actionHelp_Instruction_Set_triggered();
-    void on_actionHelp_Dot_Commands_triggered();
-    void on_actionHelp_Addressing_Modes_triggered();
+    void on_actionHelp_Pep_8_Reference_triggered();
     void on_actionHelp_Examples_triggered();
-    void on_actionPep_8_Operating_System_triggered();
+    void on_actionHelp_Pep_8_Operating_System_triggered();
     void on_actionAbout_Pep8_triggered();
     void on_actionAbout_Qt_triggered();
 

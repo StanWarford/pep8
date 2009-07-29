@@ -127,35 +127,6 @@
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
-       <item>
-        <property name="text">
-         <string>Memory Dump</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Break Points</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Symbolic Trace</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Byte Converter</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
       </item>
       <item>
        <property name="text">
@@ -172,30 +143,6 @@
        <property name="flags">
         <set>ItemIsSelectable|ItemIsEnabled</set>
        </property>
-       <item>
-        <property name="text">
-         <string>Instruction Set</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Dot Commands</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Addressing Modes</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsSelectable|ItemIsEnabled</set>
-        </property>
-       </item>
       </item>
       <item>
        <property name="text">
@@ -407,6 +354,21 @@
        <item>
         <property name="text">
          <string>Figure 6.47</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Excercise 8.4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Problem 8.29</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Problem 8.32</string>
         </property>
        </item>
       </item>

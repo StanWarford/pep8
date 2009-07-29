@@ -70,45 +70,20 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             m_ui->helpTopWebView->load(QUrl("qrc:/help/assemblylanguage.html"));
         }
     }
-    else if ((!isHelpSubCat && row == eDEBUGGING) || parentRow == eDEBUGGING) {
+    else if (!isHelpSubCat && row == eDEBUGGING) {
         m_ui->helpSplitter->widget(1)->hide();
         m_ui->helpTopWebView->show();
-        if (!isHelpSubCat) {                          // Debugging Programs
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
-        }
-        else if (row == eMEMORYDUMP) {
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/memorydump.html"));
-        }
-        else if (row == eBREAK) {             // Debugging Programs > Break Points
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/breakpoints.html"));
-        }
-        else if (row == eSYMTRACE) {          // Debugging Programs > Symbolic Trace
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/symbolictrace.html"));
-        }
-        else if (row == eBYTECONVERTER) {     // Debugging Programs > Byte Converter
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/byteconverter.html"));
-        }
+        m_ui->helpTopWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
     }
     else if (!isHelpSubCat && row == eINTERRUPT) {  // Writing Interrupt Handlers
         m_ui->helpSplitter->widget(1)->hide();
         m_ui->helpTopWebView->show();
         m_ui->helpTopWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
     }
-    else if ((!isHelpSubCat && row == eREFERENCE) || parentRow == eREFERENCE) {
+    else if ((!isHelpSubCat && row == eREFERENCE)) {
         m_ui->helpSplitter->widget(1)->hide();
         m_ui->helpTopWebView->show();
-        if (!isHelpSubCat) {                          // Pep/8 Reference
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/pep8reference.html"));
-        }
-        else if (row == eINSTRUCTION) {       // Pep/8 Reference > Instruction Set
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/instructionset.html"));
-        }
-        else if (row == eDOTCMD) {            // Pep/8 Reference > Dot Commands
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/dotcommands.html"));
-        }
-        else if (row == eADDRMODE) {          // Pep/8 Reference > Addressing Modes
-            m_ui->helpTopWebView->load(QUrl("qrc:/help/addressingmodes.html"));
-        }
+        m_ui->helpTopWebView->load(QUrl("qrc:/help/pep8reference.html"));
     }
     else if ((!isHelpSubCat && row == eEXAMPLES) || parentRow == eEXAMPLES) {
         if (!isHelpSubCat) {
@@ -403,6 +378,25 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
                 m_ui->helpRightCppTextEdit->show();
                 m_ui->helpRightPepTextEdit->hide();
             }
+            else if (row == eEXER804) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/exer0804.pep"));
+                m_ui->helpFigureLabel->setText("<b>Exercise 8.4</b><code>  </code> An excercise for the <code>DECI</code> trap.");
+                m_ui->helpRightCppTextEdit->hide();
+                m_ui->helpRightPepTextEdit->hide();
+            }
+            else if (row == ePROB829) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/prob0829.pep"));
+                m_ui->helpFigureLabel->setText("<b>Problem 8.29</b><code>  </code> A test driver for the <code>STADI</code> instruction.");
+                m_ui->helpRightCppTextEdit->hide();
+                m_ui->helpRightPepTextEdit->hide();
+            }
+            else if (row == ePROB832) {
+                m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/prob0832.pep"));
+                m_ui->helpFigureLabel->setText("<b>Problem 8.32</b><code>  </code> A test driver for the <code>STACKADD</code> instruction.");
+                m_ui->helpRightCppTextEdit->hide();
+                m_ui->helpRightPepTextEdit->hide();
+            }
+
         }
     }
     else if (!isHelpSubCat && row == eOS) {         // Pep/8 Operating System
@@ -428,44 +422,19 @@ void HelpDialog::assemblyLanguageClicked()
     selectItem("Assembly Language");
 }
 
-void HelpDialog::memoryDumpClicked()
+void HelpDialog::debuggingProgramsClicked()
 {
-    selectItem("Memory Dump");
+    selectItem("Debugging Programs");
 }
 
-void HelpDialog::breakPointsClicked()
-{
-    selectItem("Break Points");
-}
-
-void HelpDialog::symbolicTraceClicked()
-{
-    selectItem("Symbolic Trace");
-}
-
-void HelpDialog::byteConverterClicked()
-{
-    selectItem("Byte Converter");
-}
-
-void HelpDialog::trapHandlersClicked()
+void HelpDialog::writingTrapHandlersClicked()
 {
     selectItem("Writing Trap Handlers");
 }
 
-void HelpDialog::instructionSetClicked()
+void HelpDialog::pep8ReferenceClicked()
 {
-    selectItem("Instruction Set");
-}
-
-void HelpDialog::dotCommandsClicked()
-{
-    selectItem("Dot Commands");
-}
-
-void HelpDialog::addressingModesClicked()
-{
-    selectItem("Addressing Modes");
+    selectItem("Pep/8 Reference");
 }
 
 void HelpDialog::examplesClicked()
@@ -557,6 +526,9 @@ QString HelpDialog::getCode(Enu::EPane &destPane, Enu::EPane &inputDest, QString
     }
     else if (row == eFIG627 || row == eFIG629 || row == eFIG640) {
         inputDest = Enu::ETerminal;
+    }
+    else if (row == eEXER804) {
+        input = "37";
     }
     destPane = Enu::ESource;
     return m_ui->helpLeftTextEdit->toPlainText();

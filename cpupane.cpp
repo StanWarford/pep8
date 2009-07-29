@@ -266,6 +266,7 @@ void CpuPane::singleStepWithBatch()
     trapLookahead();
     if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
         resumeThroughTrap();
+        updateCpu();
     }
     else if (Sim::vonNeumannStep(errorString)) {
         emit vonNeumannStepped();
@@ -325,13 +326,13 @@ void CpuPane::singleStepWithTerminal()
 void CpuPane::trapLookahead()
 {
     if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
-        qDebug() << "It's a trap!";
+//        qDebug() << "It's a trap!";
         Sim::trapped = true;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
         Pep::listingRowChecked = &Pep::listingRowCheckedOS;
     }
     else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
-        qDebug() << "Bravely Sir Robin ran away - away!";
+//        qDebug() << "Bravely Sir Robin ran away - away!";
         Sim::trapped = false;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -360,7 +361,6 @@ void CpuPane::resumeThroughTrap()
             emit executionComplete();
         }
     } while (Sim::trapped);
-    qDebug() << "Updating sim view!";
     emit updateSimulationView();
 }
 

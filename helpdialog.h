@@ -20,14 +20,9 @@ public:
 
     void machineLanguageClicked();
     void assemblyLanguageClicked();
-    void memoryDumpClicked();
-    void breakPointsClicked();
-    void symbolicTraceClicked();
-    void byteConverterClicked();
-    void trapHandlersClicked();
-    void instructionSetClicked();
-    void dotCommandsClicked();
-    void addressingModesClicked();
+    void debuggingProgramsClicked();
+    void writingTrapHandlersClicked();
+    void pep8ReferenceClicked();
     void examplesClicked();
     void operatingSystemClicked();
     QString getCode(Enu::EPane &destPane, Enu::EPane &inputDest, QString &input);
@@ -56,15 +51,6 @@ private:
 
         eASSEMBLY = 1,
         eMACHINE = 0,
-
-        eMEMORYDUMP = 0,
-        eBREAK = 1,
-        eSYMTRACE = 2,
-        eBYTECONVERTER = 3,
-
-        eINSTRUCTION = 0,
-        eDOTCMD = 1,
-        eADDRMODE = 2,
 
         eFIG432 = 0,
         eFIG434 = 1,
@@ -107,6 +93,9 @@ private:
         eFIG643 = 38,
         eFIG645 = 39,
         eFIG647 = 40,
+        eEXER804 = 41,
+        ePROB829 = 42,
+        ePROB832 = 43,
     };
 
 private slots:

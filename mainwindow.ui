@@ -423,36 +423,19 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <widget class="QMenu" name="menuPep_8_Reference">
-     <property name="title">
-      <string>Pep/8 Reference</string>
-     </property>
-     <addaction name="actionHelp_Instruction_Set"/>
-     <addaction name="actionHelp_Dot_Commands"/>
-     <addaction name="actionHelp_Addressing_Modes"/>
-    </widget>
-    <widget class="QMenu" name="menuWriting_Programs">
+    <widget class="QMenu" name="menuHelp_Writing_Programs">
      <property name="title">
       <string>Writing Programs</string>
      </property>
      <addaction name="actionHelp_Machine_Language"/>
      <addaction name="actionHelp_Assembly_Language"/>
     </widget>
-    <widget class="QMenu" name="menuDebugging_programs">
-     <property name="title">
-      <string>Debugging Programs</string>
-     </property>
-     <addaction name="actionHelp_Memory_Dump"/>
-     <addaction name="actionHelp_Break_Points"/>
-     <addaction name="actionHelp_Symbolic_Trace"/>
-     <addaction name="actionHelp_Byte_Converter"/>
-    </widget>
-    <addaction name="menuWriting_Programs"/>
-    <addaction name="menuDebugging_programs"/>
+    <addaction name="menuHelp_Writing_Programs"/>
+    <addaction name="actionHelp_Debugging_Programs"/>
     <addaction name="actionHelp_Writing_Interrupt_Handlers"/>
-    <addaction name="menuPep_8_Reference"/>
+    <addaction name="actionHelp_Pep_8_Reference"/>
     <addaction name="actionHelp_Examples"/>
-    <addaction name="actionPep_8_Operating_System"/>
+    <addaction name="actionHelp_Pep_8_Operating_System"/>
     <addaction name="separator"/>
     <addaction name="actionAbout_Pep8"/>
     <addaction name="actionAbout_Qt"/>
@@ -818,7 +801,7 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionPep_8_Operating_System">
+  <action name="actionHelp_Pep_8_Operating_System">
    <property name="text">
     <string>Pep/8 Operating System</string>
    </property>
@@ -957,6 +940,16 @@
   <action name="actionHelp_Memory_Dump">
    <property name="text">
     <string>Memory Dump</string>
+   </property>
+  </action>
+  <action name="actionHelp_Debugging_Programs">
+   <property name="text">
+    <string>Debugging Programs</string>
+   </property>
+  </action>
+  <action name="actionHelp_Pep_8_Reference">
+   <property name="text">
+    <string>Pep/8 Reference</string>
    </property>
   </action>
  </widget>

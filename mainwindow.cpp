@@ -1074,64 +1074,34 @@ void MainWindow::on_actionHelp_triggered()
     }
  }
 
-void MainWindow::on_actionHelp_Assembly_Language_triggered()
-{
-    helpDialog->show();
-    helpDialog->assemblyLanguageClicked();
-}
-
 void MainWindow::on_actionHelp_Machine_Language_triggered()
 {
     helpDialog->show();
     helpDialog->machineLanguageClicked();
 }
 
-void MainWindow::on_actionHelp_Memory_Dump_triggered()
+void MainWindow::on_actionHelp_Assembly_Language_triggered()
 {
     helpDialog->show();
-    helpDialog->memoryDumpClicked();
+    helpDialog->assemblyLanguageClicked();
 }
 
-void MainWindow::on_actionHelp_Break_Points_triggered()
+void MainWindow::on_actionHelp_Debugging_Programs_triggered()
 {
     helpDialog->show();
-    helpDialog->breakPointsClicked();
-}
-
-void MainWindow::on_actionHelp_Symbolic_Trace_triggered()
-{
-    helpDialog->show();
-    helpDialog->symbolicTraceClicked();
-}
-
-void MainWindow::on_actionHelp_Byte_Converter_triggered()
-{
-    helpDialog->show();
-    helpDialog->byteConverterClicked();
+    helpDialog->debuggingProgramsClicked();
 }
 
 void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
 {
     helpDialog->show();
-    helpDialog->trapHandlersClicked();
+    helpDialog->writingTrapHandlersClicked();
 }
 
-void MainWindow::on_actionHelp_Instruction_Set_triggered()
+void MainWindow::on_actionHelp_Pep_8_Reference_triggered()
 {
     helpDialog->show();
-    helpDialog->instructionSetClicked();
-}
-
-void MainWindow::on_actionHelp_Dot_Commands_triggered()
-{
-    helpDialog->show();
-    helpDialog->dotCommandsClicked();
-}
-
-void MainWindow::on_actionHelp_Addressing_Modes_triggered()
-{
-    helpDialog->show();
-    helpDialog->addressingModesClicked();
+    helpDialog->pep8ReferenceClicked();
 }
 
 void MainWindow::on_actionHelp_Examples_triggered()
@@ -1140,7 +1110,7 @@ void MainWindow::on_actionHelp_Examples_triggered()
     helpDialog->examplesClicked();
 }
 
-void MainWindow::on_actionPep_8_Operating_System_triggered()
+void MainWindow::on_actionHelp_Pep_8_Operating_System_triggered()
 {
     helpDialog->show();
     helpDialog->operatingSystemClicked();
