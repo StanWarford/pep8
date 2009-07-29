@@ -4,15 +4,9 @@
         <file>help/machinelanguage.html</file>
         <file>help/assemblylanguage.html</file>
         <file>help/debuggingprograms.html</file>
-        <file>help/addressingmodes.html</file>
-        <file>help/breakpoints.html</file>
-        <file>help/byteconverter.html</file>
-        <file>help/dotcommands.html</file>
         <file>help/examples.html</file>
-        <file>help/instructionset.html</file>
         <file>help/interrupthandlers.html</file>
         <file>help/pep8reference.html</file>
-        <file>help/symbolictrace.html</file>
         <file>help/figures/fig0518.cpp</file>
         <file>help/figures/fig0518.pep</file>
         <file>help/figures/fig0521.cpp</file>
@@ -88,7 +82,6 @@
         <file>help/figures/fig0514b.pep</file>
         <file>help/figures/fig0515.pep</file>
         <file>help/figures/fig0516.pep</file>
-        <file>help/memorydump.html</file>
         <file>help/images/writingprograms01.png</file>
         <file>help/images/writingprograms02.png</file>
         <file>help/images/writingprograms03.png</file>
