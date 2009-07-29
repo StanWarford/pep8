@@ -342,6 +342,7 @@ void CpuPane::resumeThroughTrap()
 {
     QString errorString;
     do {
+        trapLookahead();
         if (Sim::vonNeumannStep(errorString)) {
             emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
@@ -358,8 +359,8 @@ void CpuPane::resumeThroughTrap()
             emit updateSimulationView();
             emit executionComplete();
         }
-        trapLookahead();
     } while (Sim::trapped);
+    qDebug() << "Updating sim view!";
     emit updateSimulationView();
 }
 
