@@ -111,7 +111,10 @@ OTHER_FILES += images/update.png \
     help/figures/fig0432.pepb \
     help/images/writingprograms02.png \
     help/images/writingprograms01.png \
-    help/images/writingprograms03.png
+    help/images/writingprograms03.png \
+    help/figures/prob0832.pep \
+    help/figures/prob0829.pep \
+    help/figures/exer0804.pep
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
 
