@@ -1,6 +1,6 @@
-;File: exer0804
+;File: exer0804.pep
 ;Computer Systems, Fourth edition
-;Chapter 8, Exercise 4
+;Exercise 8.4
 ;
          BR      main        ;Branch around data
 num:     .BLOCK  2           ;Global variable

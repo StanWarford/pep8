@@ -1,20 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: Reference Documentation </title></head>
+<head>
+ <title> Pep/8: Reference Documentation </title>
+  <style type="text/css" media="all">
+   th { background-color:yellow }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <center>
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
 <p align="center">
 <font FACE="Geneva,Helvetica,Arial" size="3">
-Pep/8 Reference THIS IS A BAD NAME
+Pep/8 Reference
 </font></td></tr></table></center>
 
 <p>
  Topics:
  <a href="#Instruction">Instruction set</a>,
  <a href="#Dot">Dot commands</a>,
- <a href="#Addressing">Addressing modes</a>.
+ <a href="#Addressing">Addressing modes</a>,
+ <a href="#Register">Register field</a>.
 
 <h3><a name="Instruction">Instruction set</a></h3>
 
@@ -34,7 +40,113 @@ Pep/8 Reference THIS IS A BAD NAME
  <tr>
   <td>0000 0011</td> <td>MOVFLGA</td> <td>Move NZVC flags to A</td> <td>U</td> <td></td>
  </tr>
+ <tr>
+  <td>0000 010a</td> <td>BR</td> <td>Branch unconditional</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 011a</td> <td>BRLE</td> <td>Branch if less than or equal to</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 100a</td> <td>BRLT</td> <td>Branch if less than</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 101a</td> <td>BREQ</td> <td>Branch if equal to</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 110a</td> <td>BRNE</td> <td>Branch if not equal to</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0000 111a</td> <td>BRGE</td> <td>Branch if greater than or equal to</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0001 000a</td> <td>BRGT</td> <td>Branch if greater than</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0001 001a</td> <td>BRV</td> <td>Branch if V</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0001 010a</td> <td>BRC</td> <td>Branch if C</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0001 011a</td> <td>CALL</td> <td>Call subroutine</td> <td>i, x</td> <td></td>
+ </tr>
+ <tr>
+  <td>0001 100r</td> <td>NOTr</td> <td>Bitwise invert r</td> <td>U</td> <td>N Z</td>
+ </tr>
+ <tr>
+  <td>0001 101r</td> <td>NEGr</td> <td>Negate r</td> <td>U</td> <td>N Z V</td>
+ </tr>
+ <tr>
+  <td>0001 110r</td> <td>ASLr</td> <td>Arithmetic shift left r</td> <td>U</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>0001 111r</td> <td>ASRr</td> <td>Arithmetic shift right r</td> <td>U</td> <td>N Z C</td>
+ </tr>
+ <tr>
+  <td>0010 000r</td> <td>ROLr</td> <td>Rotate left r</td> <td>U</td> <td>C</td>
+ </tr>
+ <tr>
+  <td>0010 001r</td> <td>RORr</td> <td>Rotate right r</td> <td>U</td> <td>C</td>
+ </tr>
+ <tr>
+  <td>0010 01nn</td> <td>NOPn</td> <td>Unary no operation trap</td> <td>U</td> <td></td>
+ </tr>
+ <tr>
+  <td>0010 1aaa</td> <td>NOP</td> <td>Nonunary no operation trap</td> <td>i</td> <td></td>
+ </tr>
+ <tr>
+  <td>0011 0aaa</td> <td>DECI</td> <td>Decimal input trap</td> <td>d, n, s, sf, x, sx, sxf</td> <td>N Z V</td>
+ </tr>
+ <tr>
+  <td>0011 1aaa</td> <td>DECO</td> <td>Decimal output trap</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
+ </tr>
+ <tr>
+  <td>0100 0aaa</td> <td>STRO</td> <td>String output trap</td> <td>d, n, sf</td> <td></td>
+ </tr>
+ <tr>
+  <td>0100 1aaa</td> <td>CHARI</td> <td>Character input</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+ </tr>
+ <tr>
+  <td>0101 0aaa</td> <td>CHARO</td> <td>Character output</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
+ </tr>
+ <tr>
+  <td>0101 1nnn</td> <td>RETn</td> <td>Return from call with n local bytes</td> <td>U</td> <td></td>
+ </tr>
+ <tr>
+  <td>0110 0aaa</td> <td>ADDSP</td> <td>Add to stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>0110 1aaa</td> <td>SUBSP</td> <td>Subtract from stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>0111 raaa</td> <td>ADDr</td> <td>Add to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>1000 raaa</td> <td>SUBr</td> <td>Subtract from r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>1001 raaa</td> <td>ANDr</td> <td>Bitwise AND to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+ </tr>
+ <tr>
+  <td>1010 raaa</td> <td>ORr</td> <td>Bitwise OR to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+ </tr>
+ <tr>
+  <td>1011 raaa</td> <td>CPr</td> <td>Compare r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+ </tr>
+ <tr>
+  <td>1100 raaa</td> <td>LDr</td> <td>Load r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+ </tr>
+ <tr>
+  <td>1101 raaa</td> <td>LDBYTEr</td> <td>Load byte r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+ </tr>
+ <tr>
+  <td>1110 raaa</td> <td>STr</td> <td>Store r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+ </tr>
+ <tr>
+  <td>1111 raaa</td> <td>STBYTEr</td> <td>Store byte r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+ </tr>
 </table>
+
 
 <h3><a name="Dot">Dot commands</a></h3>
 
@@ -43,7 +155,7 @@ Pep/8 Reference THIS IS A BAD NAME
   <th>Dot Command</th> <th>Description</th>
  </tr>
  <tr>
-  <td>.ADDRESS symbol</td> <td>The address of a symbol (two bytes)</td>
+  <td>.ADDRSS symbol</td> <td>The address of a symbol (two bytes)</td>
  </tr>
  <tr>
   <td>.ASCII "string"</td> <td>A string of ASCII bytes</td>
@@ -110,6 +222,21 @@ Pep/8 Reference THIS IS A BAD NAME
  </tr>
  <tr>
   <td>Indexed</td> <td>1</td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
+ </tr>
+</table>
+
+<h3><a name="Register">Register field</a></h3>
+
+<p>
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>r-field</th> <th>Register</th>
+ </tr>
+ <tr>
+  <td>0</td> <td>Accumulator, A</td>
+ </tr>
+ <tr>
+  <td>1</td> <td>Index register, X</td>
  </tr>
 </table>
 
