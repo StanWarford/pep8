@@ -90,13 +90,11 @@ void CpuPane::clearCpu()
 }
 
 void CpuPane::runClicked() {
-    m_ui->pepTraceLoadCheckBox->setChecked(false);
     m_ui->pepTraceTrapsCheckBox->setChecked(false);
 }
 
 void CpuPane::setDebugState(bool b)
 {
-    m_ui->pepTraceLoadCheckBox->setDisabled(b);
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
 }
 

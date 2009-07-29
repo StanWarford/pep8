@@ -995,6 +995,13 @@ void MainWindow::on_actionView_Terminal_Tab_triggered()
 }
 
 // System MainWindow triggers
+
+void MainWindow::on_actionSystem_Trace_Load_triggered()
+{
+    Sim::inputBuffer = objectCodePane->toPlainText();
+
+}
+
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 {
     redefineMnemonicsDialog->show();

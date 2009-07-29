@@ -147,6 +147,7 @@ private slots:
     void on_actionView_Terminal_Tab_triggered();
 
     // System
+    void on_actionSystem_Trace_Load_triggered();
     void on_actionSystem_Redefine_Mnemonics_triggered();
     void on_actionSystem_Assemble_Install_New_OS_triggered();
     void on_actionSystem_Reinstall_Default_OS_triggered();

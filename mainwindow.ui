@@ -400,6 +400,8 @@
     <property name="title">
      <string>&amp;System</string>
     </property>
+    <addaction name="actionSystem_Trace_Load"/>
+    <addaction name="separator"/>
     <addaction name="actionSystem_Redefine_Mnemonics"/>
     <addaction name="separator"/>
     <addaction name="actionSystem_Assemble_Install_New_OS"/>
@@ -950,6 +952,11 @@
   <action name="actionHelp_Pep_8_Reference">
    <property name="text">
     <string>Pep/8 Reference</string>
+   </property>
+  </action>
+  <action name="actionSystem_Trace_Load">
+   <property name="text">
+    <string>Trace Load</string>
    </property>
   </action>
  </widget>
