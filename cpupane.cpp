@@ -181,7 +181,9 @@ void CpuPane::resumeWithBatch()
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
-        trapLookahead();
+        if (m_ui->pepTraceTrapsCheckBox->isChecked()) {
+            trapLookahead();
+        }
         if (Sim::vonNeumannStep(errorString)) {
             emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
@@ -262,7 +264,10 @@ void CpuPane::singleStepWithBatch()
 {
     QString errorString;
     trapLookahead();
-    if (Sim::vonNeumannStep(errorString)) {
+    if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
+        resumeThroughTrap();
+    }
+    else if (Sim::vonNeumannStep(errorString)) {
         emit vonNeumannStepped();
         emit updateSimulationView();
         if (Sim::outputBuffer.length() == 1) {
@@ -319,20 +324,43 @@ void CpuPane::singleStepWithTerminal()
 
 void CpuPane::trapLookahead()
 {
-    if (m_ui->pepTraceTrapsCheckBox->isChecked()) {
-        if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
-            qDebug() << "It's a trap!";
-            Sim::trapped = true;
-            Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
-            Pep::listingRowChecked = &Pep::listingRowCheckedOS;
-        }
-        else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
-            qDebug() << "Move the fleet away from the Death Star!";
-            Sim::trapped = false;
-            Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
-            Pep::listingRowChecked = &Pep::listingRowCheckedProg;
-        }
+    if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
+        qDebug() << "It's a trap!";
+        Sim::trapped = true;
+        Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+        Pep::listingRowChecked = &Pep::listingRowCheckedOS;
     }
+    else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
+        qDebug() << "Bravely Sir Robin ran away - away!";
+        Sim::trapped = false;
+        Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
+        Pep::listingRowChecked = &Pep::listingRowCheckedProg;
+    }
+}
+
+void CpuPane::resumeThroughTrap()
+{
+    QString errorString;
+    do {
+        if (Sim::vonNeumannStep(errorString)) {
+            emit vonNeumannStepped();
+            if (Sim::outputBuffer.length() == 1) {
+                emit appendOutput(Sim::outputBuffer);
+                Sim::outputBuffer = "";
+            }
+            if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                emit updateSimulationView();
+                emit executionComplete();
+            }
+        }
+        else {
+            QMessageBox::warning(0, "Pep/8", errorString);
+            emit updateSimulationView();
+            emit executionComplete();
+        }
+        trapLookahead();
+    } while (Sim::trapped);
+    emit updateSimulationView();
 }
 
 void CpuPane::interruptExecution()

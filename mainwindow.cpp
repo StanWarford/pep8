@@ -480,7 +480,6 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     cpuPane->setButtonsEnabled(b);
     memoryDumpPane->highlightMemory(b);
-    Sim::trapped = false;
     if (b) {
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -815,6 +814,7 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::stackPointer = Sim::readWord(0xFFF8);
     Sim::programCounter = 0x0000;
     setDebugState(true);
+    Sim::trapped = false;
     listingTracePane->setDebuggingState(false);
     cpuPane->setButtonsEnabled(false);
     cpuPane->runClicked();
@@ -855,6 +855,7 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         Sim::programCounter = 0x0000;
 
         setDebugState(true);
+        Sim::trapped = false;
 
         if (ui->pepInputOutputTab->currentIndex() == 0) {
             ui->pepInputOutputTab->setTabEnabled(1, false);
@@ -899,6 +900,7 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
         Sim::programCounter = 0x0000;
 
         setDebugState(true);
+        Sim::trapped = false;
 
         ui->statusbar->showMessage("Load succeeded", 4000);
         cpuPane->updateCpu();
