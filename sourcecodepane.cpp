@@ -238,9 +238,15 @@ void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mes
         cursor.movePosition(QTextCursor::NextBlock);
     }
     cursor.movePosition(QTextCursor::EndOfLine);
-    m_ui->pepSourceCodeTextEdit->setTextCursor(cursor);
-    m_ui->pepSourceCodeTextEdit->textCursor().insertText(" ");
-    m_ui->pepSourceCodeTextEdit->textCursor().insertText(message);
+    cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 1);
+    if (cursor.selectedText() == " ") {
+        cursor.setPosition(cursor.anchor());
+    }
+    else {
+        cursor.setPosition(cursor.anchor());
+        cursor.insertText(" ");
+    }
+    cursor.insertText(message);
 }
 
 void SourceCodePane::setSourceCodePaneText(QString string)
