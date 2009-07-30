@@ -115,7 +115,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(vonNeumannStepped()));
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
 
-    connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
     // Recent files
@@ -1433,9 +1432,11 @@ void MainWindow::waitingForInput()
 void MainWindow::inputReceived()
 {
     if (cpuPane->waitingState() == Enu::EDebugSSWaiting) {
+        cpuPane->setButtonsEnabled(true);
         cpuPane->singleStepWithTerminal();
     }
     else if (cpuPane->waitingState() == Enu::EDebugResumeWaiting) {
+        cpuPane->setButtonsEnabled(true);
         cpuPane->resumeWithTerminal();
     }
     else if (cpuPane->waitingState() == Enu::ERunWaiting) {
