@@ -9,8 +9,6 @@
 			<array>
 				<string>pep</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>docicon.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>text/plain</string>
@@ -29,8 +27,6 @@
 			<array>
 				<string>pepo</string>
 			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>docicon.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>text/plain</string>
@@ -93,8 +89,6 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Pep8 Document</string>
-			<key>UTTypeIconFile</key>
-			<string>docicon.icns</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.pepcsdept.pep</string>
 			<key>UTTypeTagSpecification</key>

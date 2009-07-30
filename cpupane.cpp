@@ -98,6 +98,11 @@ void CpuPane::setDebugState(bool b)
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
 }
 
+void CpuPane::traceTraps(bool b)
+{
+    m_ui->pepTraceTrapsCheckBox->setChecked(b);
+}
+
 void CpuPane::setButtonsEnabled(bool b) {
     m_ui->cpuResumePushButton->setDisabled(!b);
     m_ui->cpuSingleStepPushButton->setDisabled(!b);

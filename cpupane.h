@@ -27,6 +27,9 @@ public:
     void setDebugState(bool b);
     // Post: if b is true, checkboxes are set to disabled, and vice versa
 
+    void traceTraps(bool b);
+    // Post: Trace traps checkbox is checked if b, unchecked else
+
     void setButtonsEnabled(bool b);
     // Post: if b is true, buttons are enabled, and vice versa
 

@@ -14,6 +14,11 @@ MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
+    m_ui->pepMemRefreshButton->hide();
+    m_ui->refreshBlock->setParent(0);
+    // We no longer need the 'refresh' button, but we'll leave it there for debugging purposes.
+    // Comment the previous two lines to show the refresh button.
+
     QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
 }
 

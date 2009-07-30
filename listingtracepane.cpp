@@ -93,15 +93,27 @@ void ListingTracePane::updateListingTrace()
 
 void ListingTracePane::setDebuggingState(bool b)
 {
+    QTableWidget *tableWidget;
+    if (Sim::trapped) {
+        tableWidget = m_ui->listingPepOsTraceTableWidget;
+        m_ui->listingPepOsTraceTableWidget->show();
+        m_ui->listingTraceTableWidget->hide();
+    }
+    else {
+        tableWidget = m_ui->listingTraceTableWidget;
+        m_ui->listingPepOsTraceTableWidget->hide();
+        m_ui->listingTraceTableWidget->show();
+    }
+
     for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-        m_ui->listingTraceTableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-        m_ui->listingTraceTableWidget->item(i, 1)->setTextColor(Qt::black);
+        tableWidget->item(i, 1)->setBackgroundColor(Qt::white);
+        tableWidget->item(i, 1)->setTextColor(Qt::black);
     }
     if (b && Pep::memAddrssToAssemblerListing->contains(Sim::programCounter)) {
-        QTableWidgetItem *highlightedItem = m_ui->listingTraceTableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
+        QTableWidgetItem *highlightedItem = tableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
         highlightedItem->setBackgroundColor(QColor(56, 117, 215));
         highlightedItem->setTextColor(Qt::white);
-        m_ui->listingTraceTableWidget->scrollToItem(highlightedItem);
+        tableWidget->scrollToItem(highlightedItem);
     }
 }
 

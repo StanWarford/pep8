@@ -151,7 +151,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout">
+      <layout class="QHBoxLayout" name="refreshBlock">
        <property name="spacing">
         <number>0</number>
        </property>

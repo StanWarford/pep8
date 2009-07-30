@@ -393,6 +393,8 @@
     <addaction name="actionBuild_Run_Object"/>
     <addaction name="actionBuild_Start_Debugging_Object"/>
     <addaction name="separator"/>
+    <addaction name="actionBuild_Start_Debugging_Loader"/>
+    <addaction name="separator"/>
     <addaction name="actionBuild_Stop_Debugging"/>
     <addaction name="actionBuild_Interrupt_Execution"/>
    </widget>
@@ -400,8 +402,6 @@
     <property name="title">
      <string>&amp;System</string>
     </property>
-    <addaction name="actionSystem_Trace_Load"/>
-    <addaction name="separator"/>
     <addaction name="actionSystem_Redefine_Mnemonics"/>
     <addaction name="separator"/>
     <addaction name="actionSystem_Assemble_Install_New_OS"/>
@@ -957,6 +957,11 @@
   <action name="actionSystem_Trace_Load">
    <property name="text">
     <string>Trace Load</string>
+   </property>
+  </action>
+  <action name="actionBuild_Start_Debugging_Loader">
+   <property name="text">
+    <string>Start Debugging Loader</string>
    </property>
   </action>
  </widget>

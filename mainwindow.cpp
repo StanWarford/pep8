@@ -136,14 +136,16 @@ MainWindow::MainWindow(QWidget *parent)
     // Hide memory trace pane, because nothing is implemented there (for now!)
     memoryTracePane->hide();
 
-    QMenu *dockMenu = new QMenu;
-    // This is an example action. Implementing it for when I think of what we ought to do with this menu.
-    // I think I may have to fix window modality before it's especially useful (bring all to front item).
-    dockMenu->addAction("Assemble");
-    connect(dockMenu, SIGNAL(triggered(QAction*)), this, SLOT(on_actionBuild_Assemble_triggered()));
+    if (Pep::getSystem() == "Mac") {
+        QMenu *dockMenu = new QMenu;
+        // This is an example action. Implementing it for when I think of what we ought to do with this menu.
+        // I think I may have to fix window modality before it's especially useful (bring all to front item).
+        dockMenu->addAction("Assemble");
+        connect(dockMenu, SIGNAL(triggered(QAction*)), this, SLOT(on_actionBuild_Assemble_triggered()));
 
-    extern void qt_mac_set_dock_menu(QMenu *);
-    qt_mac_set_dock_menu(dockMenu);
+        extern void qt_mac_set_dock_menu(QMenu *);
+        qt_mac_set_dock_menu(dockMenu);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -465,15 +467,16 @@ void MainWindow::setDebugState(bool b)
     ui->actionFile_Open->setDisabled(b);
     ui->actionEdit_Format_From_Listing->setDisabled(b);
     ui->actionBuild_Assemble->setDisabled(b);
-    ui->actionBuild_Execute->setDisabled(b);
     ui->actionBuild_Load->setDisabled(b);
+    ui->actionBuild_Execute->setDisabled(b);
     ui->actionBuild_Run_Source->setDisabled(b);
-    ui->actionBuild_Run_Object->setDisabled(b);
     ui->actionBuild_Start_Debugging_Source->setDisabled(b);
+    ui->actionBuild_Run_Object->setDisabled(b);
     ui->actionBuild_Start_Debugging_Object->setDisabled(b);
+    ui->actionBuild_Start_Debugging_Loader->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
-    ui->actionEdit_Remove_Error_Messages->setDisabled(b);
     ui->actionBuild_Interrupt_Execution->setDisabled(!b);
+    ui->actionEdit_Remove_Error_Messages->setDisabled(b);
     inputPane->setReadOnly(b);
     sourceCodePane->setReadOnly(b);
     objectCodePane->setReadOnly(b);
@@ -812,7 +815,7 @@ void MainWindow::on_actionBuild_Load_triggered()
 
 void MainWindow::on_actionBuild_Execute_triggered()
 {
-    Sim::stackPointer = Sim::readWord(0xFFF8);
+    Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
     Sim::programCounter = 0x0000;
     setDebugState(true);
     Sim::trapped = false;
@@ -852,7 +855,7 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 {
     if (load()) {
         ui->statusbar->showMessage("Load succeeded", 4000);
-        Sim::stackPointer = Sim::readWord(0xFFF8);
+        Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
         Sim::programCounter = 0x0000;
 
         setDebugState(true);
@@ -897,7 +900,7 @@ void MainWindow::on_actionBuild_Run_Object_triggered()
 void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
 {
     if (load()) {
-        Sim::stackPointer = Sim::readWord(0xFFF8);
+        Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
         Sim::programCounter = 0x0000;
 
         setDebugState(true);
@@ -924,6 +927,48 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
     else {
         ui->statusbar->showMessage("Load failed", 4000);
     }
+}
+
+void MainWindow::on_actionBuild_Start_Debugging_Loader_triggered()
+{
+    Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 5);
+    // 5 is the vector offset from the last byte of the OS for the System stack pointer
+    Sim::programCounter = Sim::readWord(Pep::dotBurnArgument - 3);
+    // 3 is the vector offset from the last byte of the OS for the Loader program counter
+
+    Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
+    Pep::listingRowChecked = &Pep::listingRowCheckedOS;
+    Sim::trapped = true;
+
+    Sim::inputBuffer = objectCodePane->toPlainText();
+    inputPane->setText(objectCodePane->toPlainText());
+    ui->pepInputOutputTab->setCurrentIndex(0);
+    ui->pepCodeTraceTab->setCurrentIndex(1);
+
+    ui->actionFile_New->setDisabled(true);
+    ui->actionFile_Open->setDisabled(true);
+    ui->actionEdit_Format_From_Listing->setDisabled(true);
+    ui->actionBuild_Assemble->setDisabled(true);
+    ui->actionBuild_Load->setDisabled(true);
+    ui->actionBuild_Execute->setDisabled(true);
+    ui->actionBuild_Run_Source->setDisabled(true);
+    ui->actionBuild_Start_Debugging_Source->setDisabled(true);
+    ui->actionBuild_Run_Object->setDisabled(true);
+    ui->actionBuild_Start_Debugging_Object->setDisabled(true);
+    ui->actionBuild_Start_Debugging_Loader->setDisabled(true);
+    ui->actionBuild_Stop_Debugging->setDisabled(false);
+    ui->actionBuild_Interrupt_Execution->setDisabled(false);
+    ui->actionEdit_Remove_Error_Messages->setDisabled(true);
+    inputPane->setReadOnly(true);
+    sourceCodePane->setReadOnly(true);
+    objectCodePane->setReadOnly(true);
+    cpuPane->traceTraps(true);
+    cpuPane->setDebugState(true);
+    cpuPane->setButtonsEnabled(true);
+    memoryDumpPane->highlightMemory(true);
+    listingTracePane->setDebuggingState(true);
+
+    cpuPane->updateCpu();
 }
 
 void MainWindow::on_actionBuild_Stop_Debugging_triggered()
@@ -996,12 +1041,6 @@ void MainWindow::on_actionView_Terminal_Tab_triggered()
 
 // System MainWindow triggers
 
-void MainWindow::on_actionSystem_Trace_Load_triggered()
-{
-    Sim::inputBuffer = objectCodePane->toPlainText();
-
-}
-
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 {
     redefineMnemonicsDialog->show();
@@ -1045,6 +1084,7 @@ void MainWindow::on_actionSystem_Assemble_Install_New_OS_triggered()
             assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
             listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
             sourceCodePane->installOS();
+            memoryDumpPane->refreshMemory();
             ui->statusbar->showMessage("Assembly succeeded, OS installed", 4000);
         }
     }
