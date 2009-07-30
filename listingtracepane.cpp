@@ -105,7 +105,7 @@ void ListingTracePane::setDebuggingState(bool b)
         m_ui->listingTraceTableWidget->show();
     }
 
-    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
+    for (int i = 0; i < tableWidget->rowCount(); i++) {
         tableWidget->item(i, 1)->setBackgroundColor(Qt::white);
         tableWidget->item(i, 1)->setTextColor(Qt::black);
     }
@@ -115,6 +115,12 @@ void ListingTracePane::setDebuggingState(bool b)
         highlightedItem->setTextColor(Qt::white);
         tableWidget->scrollToItem(highlightedItem);
     }
+}
+
+void ListingTracePane::showAssemblerListing()
+{
+    m_ui->listingPepOsTraceTableWidget->hide();
+    m_ui->listingTraceTableWidget->show();
 }
 
 void ListingTracePane::highlightOnFocus()

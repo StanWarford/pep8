@@ -420,6 +420,7 @@ bool MainWindow::assemble()
             objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
             assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
             listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+            listingTracePane->showAssemblerListing();
 
             QString temp = curSourceFile;
             if (!curSourceFile.isEmpty()) {
@@ -819,7 +820,7 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::programCounter = 0x0000;
     setDebugState(true);
     Sim::trapped = false;
-    listingTracePane->setDebuggingState(false);
+    listingTracePane->setDebuggingState(true);
     cpuPane->setButtonsEnabled(false);
     cpuPane->runClicked();
     cpuPane->clearCpu();

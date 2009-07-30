@@ -27,6 +27,10 @@ public:
     // Post: resume and single step buttons clickability is set to b
     // Also clears the selection
 
+    void showAssemblerListing();
+    // Post: The tableWidget containing the assembler listing is shown
+    // and the OS tableWidget is hidden
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 
