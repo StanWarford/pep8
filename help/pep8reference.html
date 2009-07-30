@@ -5,6 +5,7 @@
  <title> Pep/8: Reference Documentation </title>
   <style type="text/css" media="all">
    th { background-color:yellow }
+   code { font-family:Courier; font-size:11pt }
   </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
@@ -29,121 +30,121 @@ Pep/8 Reference
   <th>Instruction Specifier</th> <th>Mnemonic</th> <th>Instruction</th> <th>Addressing Modes</th> <th>Status Bits</th>
  </tr>
  <tr>
-  <td>0000 0000</td> <td>STOP</td> <td>Stop execution</td> <td>U</td> <td></td>
+  <td><code>0000 0000</code></code></td> <td><code>STOP</code></td> <td>Stop execution</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0000 0001</td> <td>RETTR</td> <td>Return from trap</td> <td>U</td> <td></td>
+  <td><code>0000 0001</code></td> <td><code>RETTR</code></td> <td>Return from trap</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0000 0010</td> <td>MOVSPA</td> <td>Move SP to A</td> <td>U</td> <td></td>
+  <td><code>0000 0010</code></td> <td><code>MOVSPA</code></td> <td>Move SP to A</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0000 0011</td> <td>MOVFLGA</td> <td>Move NZVC flags to A</td> <td>U</td> <td></td>
+  <td><code>0000 0011</code></td> <td><code>MOVFLGA</code></td> <td>Move NZVC flags to A</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0000 010a</td> <td>BR</td> <td>Branch unconditional</td> <td>i, x</td> <td></td>
+  <td><code>0000 010a</code></td> <td><code>BR</code></td> <td>Branch unconditional</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0000 011a</td> <td>BRLE</td> <td>Branch if less than or equal to</td> <td>i, x</td> <td></td>
+  <td><code>0000 011a</code></td> <td><code>BRLE</code></td> <td>Branch if less than or equal to</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0000 100a</td> <td>BRLT</td> <td>Branch if less than</td> <td>i, x</td> <td></td>
+  <td><code>0000 100a</code></td> <td><code>BRLT</code></td> <td>Branch if less than</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0000 101a</td> <td>BREQ</td> <td>Branch if equal to</td> <td>i, x</td> <td></td>
+  <td><code>0000 101a</code></td> <td><code>BREQ</code></td> <td>Branch if equal to</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0000 110a</td> <td>BRNE</td> <td>Branch if not equal to</td> <td>i, x</td> <td></td>
+  <td><code>0000 110a</code></td> <td><code>BRNE</code></td> <td>Branch if not equal to</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0000 111a</td> <td>BRGE</td> <td>Branch if greater than or equal to</td> <td>i, x</td> <td></td>
+  <td><code>0000 111a</code></td> <td><code>BRGE</code></td> <td>Branch if greater than or equal to</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0001 000a</td> <td>BRGT</td> <td>Branch if greater than</td> <td>i, x</td> <td></td>
+  <td><code>0001 000a</code></td> <td><code>BRGT</code></td> <td>Branch if greater than</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0001 001a</td> <td>BRV</td> <td>Branch if V</td> <td>i, x</td> <td></td>
+  <td><code>0001 001a</code></td> <td><code>BRV</code></td> <td>Branch if V</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0001 010a</td> <td>BRC</td> <td>Branch if C</td> <td>i, x</td> <td></td>
+  <td><code>0001 010a</code></td> <td><code>BRC</code></td> <td>Branch if C</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0001 011a</td> <td>CALL</td> <td>Call subroutine</td> <td>i, x</td> <td></td>
+  <td><code>0001 011a</code></td> <td><code>CALL</code></td> <td>Call subroutine</td> <td>i, x</td> <td></td>
  </tr>
  <tr>
-  <td>0001 100r</td> <td>NOTr</td> <td>Bitwise invert r</td> <td>U</td> <td>N Z</td>
+  <td><code>0001 100r</code></td> <td><code>NOTr</code></td> <td>Bitwise invert r</td> <td>U</td> <td>N Z</td>
  </tr>
  <tr>
-  <td>0001 101r</td> <td>NEGr</td> <td>Negate r</td> <td>U</td> <td>N Z V</td>
+  <td><code>0001 101r</code></td> <td><code>NEGr</code></td> <td>Negate r</td> <td>U</td> <td>N Z V</td>
  </tr>
  <tr>
-  <td>0001 110r</td> <td>ASLr</td> <td>Arithmetic shift left r</td> <td>U</td> <td>N Z V C</td>
+  <td><code>0001 110r</code></td> <td><code>ASLr</code></td> <td>Arithmetic shift left r</td> <td>U</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>0001 111r</td> <td>ASRr</td> <td>Arithmetic shift right r</td> <td>U</td> <td>N Z C</td>
+  <td><code>0001 111r</code></td> <td><code>ASRr</code></td> <td>Arithmetic shift right r</td> <td>U</td> <td>N Z C</td>
  </tr>
  <tr>
-  <td>0010 000r</td> <td>ROLr</td> <td>Rotate left r</td> <td>U</td> <td>C</td>
+  <td><code>0010 000r</code></td> <td><code>ROLr</code></td> <td>Rotate left r</td> <td>U</td> <td>C</td>
  </tr>
  <tr>
-  <td>0010 001r</td> <td>RORr</td> <td>Rotate right r</td> <td>U</td> <td>C</td>
+  <td><code>0010 001r</code></td> <td><code>RORr</code></td> <td>Rotate right r</td> <td>U</td> <td>C</td>
  </tr>
  <tr>
-  <td>0010 01nn</td> <td>NOPn</td> <td>Unary no operation trap</td> <td>U</td> <td></td>
+  <td><code>0010 01nn</code></td> <td><code>NOPn</code></td> <td>Unary no operation trap</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0010 1aaa</td> <td>NOP</td> <td>Nonunary no operation trap</td> <td>i</td> <td></td>
+  <td><code>0010 1aaa</code></td> <td><code>NOP</code></td> <td>Nonunary no operation trap</td> <td>i</td> <td></td>
  </tr>
  <tr>
-  <td>0011 0aaa</td> <td>DECI</td> <td>Decimal input trap</td> <td>d, n, s, sf, x, sx, sxf</td> <td>N Z V</td>
+  <td><code>0011 0aaa</code></td> <td><code>DECI</code></td> <td>Decimal input trap</td> <td>d, n, s, sf, x, sx, sxf</td> <td>N Z V</td>
  </tr>
  <tr>
-  <td>0011 1aaa</td> <td>DECO</td> <td>Decimal output trap</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
+  <td><code>0011 1aaa</code></td> <td><code>DECO</code></td> <td>Decimal output trap</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
  <tr>
-  <td>0100 0aaa</td> <td>STRO</td> <td>String output trap</td> <td>d, n, sf</td> <td></td>
+  <td><code>0100 0aaa</code></td> <td><code>STRO</code></td> <td>String output trap</td> <td>d, n, sf</td> <td></td>
  </tr>
  <tr>
-  <td>0100 1aaa</td> <td>CHARI</td> <td>Character input</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+  <td><code>0100 1aaa</code></td> <td><code>CHARI</code></td> <td>Character input</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
  <tr>
-  <td>0101 0aaa</td> <td>CHARO</td> <td>Character output</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
+  <td><code>0101 0aaa</code></td> <td><code>CHARO</code></td> <td>Character output</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
  <tr>
-  <td>0101 1nnn</td> <td>RETn</td> <td>Return from call with n local bytes</td> <td>U</td> <td></td>
+  <td><code>0101 1nnn</code></td> <td><code>RETn</code></td> <td>Return from call with n local bytes</td> <td>U</td> <td></td>
  </tr>
  <tr>
-  <td>0110 0aaa</td> <td>ADDSP</td> <td>Add to stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+  <td><code>0110 0aaa</code></td> <td><code>ADDSP</code></td> <td>Add to stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>0110 1aaa</td> <td>SUBSP</td> <td>Subtract from stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+  <td><code>0110 1aaa</code></td> <td><code>SUBSP</code></td> <td>Subtract from stack pointer (SP)</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>0111 raaa</td> <td>ADDr</td> <td>Add to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+  <td><code>0111 raaa</code></td> <td><code>ADDr</code></td> <td>Add to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>1000 raaa</td> <td>SUBr</td> <td>Subtract from r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+  <td><code>1000 raaa</code></td> <td><code>SUBr</code></td> <td>Subtract from r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>1001 raaa</td> <td>ANDr</td> <td>Bitwise AND to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+  <td><code>1001 raaa</code></td> <td><code>ANDr</code></td> <td>Bitwise AND to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
  </tr>
  <tr>
-  <td>1010 raaa</td> <td>ORr</td> <td>Bitwise OR to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+  <td><code>1010 raaa</code></td> <td><code>ORr</code></td> <td>Bitwise OR to r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
  </tr>
  <tr>
-  <td>1011 raaa</td> <td>CPr</td> <td>Compare r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
+  <td><code>1011 raaa</code></td> <td><code>CPr</code></td> <td>Compare r</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z V C</td>
  </tr>
  <tr>
-  <td>1100 raaa</td> <td>LDr</td> <td>Load r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+  <td><code>1100 raaa</code></td> <td><code>LDr</code></td> <td>Load r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
  </tr>
  <tr>
-  <td>1101 raaa</td> <td>LDBYTEr</td> <td>Load byte r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
+  <td><code>1101 raaa</code></td> <td><code>LDBYTEr</code></td> <td>Load byte r from memory</td> <td>i, d, n, s, sf, x, sx, sxf</td> <td>N Z</td>
  </tr>
  <tr>
-  <td>1110 raaa</td> <td>STr</td> <td>Store r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+  <td><code>1110 raaa</code></td> <td><code>STr</code></td> <td>Store r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
  <tr>
-  <td>1111 raaa</td> <td>STBYTEr</td> <td>Store byte r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
+  <td><code>1111 raaa</code></td> <td><code>STBYTEr</code></td> <td>Store byte r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
 </table>
 
@@ -155,28 +156,28 @@ Pep/8 Reference
   <th>Dot Command</th> <th>Description</th>
  </tr>
  <tr>
-  <td>.ADDRSS symbol</td> <td>The address of a symbol (two bytes)</td>
+  <td><code>.ADDRSS</code> symbol</td> <td>The address of a symbol (two bytes)</td>
  </tr>
  <tr>
-  <td>.ASCII "string"</td> <td>A string of ASCII bytes</td>
+  <td><code>.ASCII</code> "string"</td> <td>A string of ASCII bytes</td>
  </tr>
  <tr>
-  <td>.BLOCK n</td> <td>A block of n bytes</td>
+  <td><code>.BLOCK</code> n</td> <td>A block of n bytes</td>
  </tr>
  <tr>
-  <td>.BURN 0xFFFF</td> <td>Initiate ROM burn ending at 0xFFFF</td>
+  <td><code>.BURN 0xFFFF</code></td> <td>Initiate ROM burn ending at 0xFFFF</td>
  </tr>
  <tr>
-  <td>.BYTE constant</td> <td>A byte value (one byte)</td>
+  <td><code>.BYTE</code> constant</td> <td>A byte value (one byte)</td>
  </tr>
  <tr>
-  <td>.END</td> <td>The sentinel for the assembler</td>
+  <td><code>.END</code></td> <td>The sentinel for the assembler</td>
  </tr>
  <tr>
-  <td>.EQUATE constant</td> <td>Equate a symbol to a constant value</td>
+  <td><code>.EQUATE</code> constant</td> <td>Equate a symbol to a constant value</td>
  </tr>
  <tr>
-  <td>.WORD constant</td> <td>A word value (two bytes)</td>
+  <td><code>.WORD</code> constant</td> <td>A word value (two bytes)</td>
  </tr>
 </table>
 
@@ -187,28 +188,28 @@ Pep/8 Reference
   <th>Addressing Mode</th> <th>aaa-field</th> <th>Letters</th> <th>Operand</th>
  </tr>
  <tr>
-  <td>Immediate</td> <td>000</td> <td>i</td> <td>OprndSpec</td>
+  <td>Immediate</td> <td><code>000</code></td> <td>i</td> <td>OprndSpec</td>
  </tr>
  <tr>
-  <td>Direct</td> <td>001</td> <td>d</td> <td>Mem [OprndSpec ]</td>
+  <td>Direct</td> <td><code>001</code></td> <td>d</td> <td>Mem [OprndSpec ]</td>
  </tr>
  <tr>
-  <td>Indirect</td> <td>010</td> <td>n</td> <td>Mem [Mem [OprndSpec ] ]</td>
+  <td>Indirect</td> <td><code>010</code></td> <td>n</td> <td>Mem [Mem [OprndSpec ] ]</td>
  </tr>
  <tr>
-  <td>Stack-relative</td> <td>011</td> <td>s</td> <td>Mem [SP + OprndSpec ]</td>
+  <td>Stack-relative</td> <td><code>011</code></td> <td>s</td> <td>Mem [SP + OprndSpec ]</td>
  </tr>
  <tr>
-  <td>Stack-relative deferred</td> <td>100</td> <td>sf</td> <td>Mem [Mem [SP + OprndSpec ] ]</td>
+  <td>Stack-relative deferred</td> <td><code>100</code></td> <td>sf</td> <td>Mem [Mem [SP + OprndSpec ] ]</td>
  </tr>
  <tr>
-  <td>Indexed</td> <td>101</td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
+  <td>Indexed</td> <td><code>101</code></td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
  </tr>
  <tr>
-  <td>Stack-indexed</td> <td>110</td> <td>sx</td> <td>Mem [SP + OprndSpec + X ]</td>
+  <td>Stack-indexed</td> <td><code>110</code></td> <td>sx</td> <td>Mem [SP + OprndSpec + X ]</td>
  </tr>
  <tr>
-  <td>Stack-indexed deferred</td> <td>111</td> <td>sxf</td> <td>Mem [Mem [SP + OprndSpec ] + X ]</td>
+  <td>Stack-indexed deferred</td> <td><code>111</code></td> <td>sxf</td> <td>Mem [Mem [SP + OprndSpec ] + X ]</td>
  </tr>
 </table>
 
@@ -218,10 +219,10 @@ Pep/8 Reference
   <th>Addressing Mode</th> <th>a-field</th> <th>Letters</th> <th>Operand</th>
  </tr>
  <tr>
-  <td>Immediate</td> <td>0</td> <td>i</td> <td>OprndSpec</td>
+  <td>Immediate</td> <td><code>0</code></td> <td>i</td> <td>OprndSpec</td>
  </tr>
  <tr>
-  <td>Indexed</td> <td>1</td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
+  <td>Indexed</td> <td><code>1</code></td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
  </tr>
 </table>
 
@@ -233,10 +234,10 @@ Pep/8 Reference
   <th>r-field</th> <th>Register</th>
  </tr>
  <tr>
-  <td>0</td> <td>Accumulator, A</td>
+  <td><code>0</code></td> <td>Accumulator, A</td>
  </tr>
  <tr>
-  <td>1</td> <td>Index register, X</td>
+  <td><code>1</code></td> <td>Index register, X</td>
  </tr>
 </table>
 

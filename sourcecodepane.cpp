@@ -239,6 +239,7 @@ void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mes
     }
     cursor.movePosition(QTextCursor::EndOfLine);
     m_ui->pepSourceCodeTextEdit->setTextCursor(cursor);
+    m_ui->pepSourceCodeTextEdit->textCursor().insertText(" ");
     m_ui->pepSourceCodeTextEdit->textCursor().insertText(message);
 }
 

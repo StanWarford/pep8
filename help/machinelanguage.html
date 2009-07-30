@@ -1,7 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: Machine Language Documentation </title></head>
+<head>
+ <title> Pep/8: Machine Language Documentation </title>
+  <style type="text/css" media="all">
+   code { font-family:Courier; font-size:11pt }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <center>
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
@@ -32,7 +37,7 @@ Each hex number representing a byte must contain exactly two characters.
 Each character must be in 0..9, A..F, or a..f and must be followed by exactly one space.
 There must be no leading spaces at the beginning of a line
 and no trailing spaces at the end of a line.
-The last two characters in the file must be lowercase zz,
+The last two characters in the file must be lowercase <code>zz</code>,
 which is used as the terminating sentinel by the loader.
 <p>
 Step 2.<br>

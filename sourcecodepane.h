@@ -59,8 +59,8 @@ public:
     // This function should only be called on program startup once
 
     void removeErrorMessages();
-    // Post: Searces for the string ";ERROR:" on each line and removes the end of the line.
-    // Post: Searces for the string ";WARNING:" on each line and removes the end of the line.
+    // Post: Searces for the string ";ERROR: " on each line and removes the end of the line.
+    // Post: Searces for the string ";WARNING: " on each line and removes the end of the line.
 
     void appendMessageInSourceCodePaneAt(int lineNumber, QString message);
     // Post: Appends message to the end of line lineNumber in color color.
