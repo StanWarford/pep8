@@ -226,35 +226,37 @@ void CpuPane::resumeWithTerminal()
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
-        if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]] && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
-            Sim::trapped = true;
-            updateCpu();
-            do {
-                trapLookahead();
-                if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
-                    // we are waiting for input
-                    emit waitingForInput();
-                    return;
-                }
-                else {
-                    if (Sim::vonNeumannStep(errorString)) {
-                        emit vonNeumannStepped();
-                        if (Sim::outputBuffer.length() == 1) {
-                            emit appendOutput(Sim::outputBuffer);
-                            Sim::outputBuffer = "";
+        trapLookahead();
+        if (!m_ui->pepTraceTrapsCheckBox->isChecked()) {
+            if (Sim::trapped /*&& !m_ui->pepTraceTrapsCheckBox->isChecked()*/ && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
+                updateCpu();
+                do {
+                    trapLookahead();
+                    if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
+                        // we are waiting for input
+                        emit waitingForInput();
+                        return;
+                    }
+                    else {
+                        if (Sim::vonNeumannStep(errorString)) {
+                            emit vonNeumannStepped();
+                            if (Sim::outputBuffer.length() == 1) {
+                                emit appendOutput(Sim::outputBuffer);
+                                Sim::outputBuffer = "";
+                            }
+                            if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                                emit updateSimulationView();
+                                emit executionComplete();
+                            }
                         }
-                        if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                        else {
+                            QMessageBox::warning(0, "Pep/8", errorString);
                             emit updateSimulationView();
                             emit executionComplete();
                         }
                     }
-                    else {
-                        QMessageBox::warning(0, "Pep/8", errorString);
-                        emit updateSimulationView();
-                        emit executionComplete();
-                    }
-                }
-            } while (Sim::trapped);
+                } while (Sim::trapped);
+            }
         }
         else if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
@@ -332,7 +334,33 @@ void CpuPane::singleStepWithTerminal()
     trapLookahead();
     if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
         updateCpu();
-        resumeThroughTrapTerminal();
+        do {
+            trapLookahead();
+            if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
+                // we are waiting for input
+                emit waitingForInput();
+                return;
+            }
+            else {
+                if (Sim::vonNeumannStep(errorString)) {
+                    emit vonNeumannStepped();
+                    if (Sim::outputBuffer.length() == 1) {
+                        emit appendOutput(Sim::outputBuffer);
+                        Sim::outputBuffer = "";
+                    }
+                    if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                        emit updateSimulationView();
+                        emit executionComplete();
+                    }
+                }
+                else {
+                    QMessageBox::warning(0, "Pep/8", errorString);
+                    emit updateSimulationView();
+                    emit executionComplete();
+                }
+            }
+        } while (Sim::trapped);
+        emit updateSimulationView();
     }
     else if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
         m_ui->cpuSingleStepPushButton->setDisabled(true);
@@ -371,13 +399,13 @@ void CpuPane::singleStepWithTerminal()
 void CpuPane::trapLookahead()
 {
     if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
-//        qDebug() << "It's a trap!";
+        // qDebug() << "It's a trap!";
         Sim::trapped = true;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
         Pep::listingRowChecked = &Pep::listingRowCheckedOS;
     }
     else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
-//        qDebug() << "Bravely Sir Robin ran away - away!";
+        // qDebug() << "I do everything I think possible or acceptable to escape from this trap." - Jacques Derrida"
         Sim::trapped = false;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -407,38 +435,6 @@ void CpuPane::resumeThroughTrapBatch()
         }
     } while (Sim::trapped);
     emit updateSimulationView();
-}
-
-void CpuPane::resumeThroughTrapTerminal()
-{
-    qDebug() << "Resuming through trap (terminal)...";
-    QString errorString;
-    do {
-        trapLookahead();
-        if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
-            // we are waiting for input
-            emit waitingForInput();
-            return;
-        }
-        else {
-            if (Sim::vonNeumannStep(errorString)) {
-                emit vonNeumannStepped();
-                if (Sim::outputBuffer.length() == 1) {
-                    emit appendOutput(Sim::outputBuffer);
-                    Sim::outputBuffer = "";
-                }
-                if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
-                    emit updateSimulationView();
-                    emit executionComplete();
-                }
-            }
-            else {
-                QMessageBox::warning(0, "Pep/8", errorString);
-                emit updateSimulationView();
-                emit executionComplete();
-            }
-        }
-    } while (Sim::trapped);
 }
 
 void CpuPane::interruptExecution()
