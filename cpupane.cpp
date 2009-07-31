@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QKeyEvent>
+#include <QSound>
 #include "cpupane.h"
 #include "ui_cpupane.h"
 #include "sim.h"
@@ -11,6 +12,7 @@ CpuPane::CpuPane(QWidget *parent) :
         m_ui(new Ui::CpuPane)
 {
     m_ui->setupUi(this);
+    // QSound::play(":/sounds/itsatrap.wav"); // For later! Gonna be implemented as a % chance on tracing traps in the OS
 
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SIGNAL(singleStepButtonClicked()));
 

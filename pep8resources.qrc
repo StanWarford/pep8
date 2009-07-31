@@ -9,7 +9,6 @@
         <file>images/open.png</file>
         <file>images/CodeCPUMemory.xpm</file>
         <file>images/CodeCPU.xpm</file>
-        <file>images/CodeMemory.xpm</file>
         <file>images/CodeOnly.xpm</file>
         <file>images/copy.png</file>
         <file>images/new.png</file>
@@ -19,5 +18,6 @@
         <file>images/help.png</file>
         <file>images/stop.png</file>
         <file>CourDKn.ttf</file>
+        <file>sounds/itsatrap.wav</file>
     </qresource>
 </RCC>

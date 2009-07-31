@@ -6,9 +6,13 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 
+CONFIG+=ppc
+CONFIG+=x86
+
 # Mac icon
-ICON = icon.icns
+ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
+
 QT += webkit
 
 # Input

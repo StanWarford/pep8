@@ -427,7 +427,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         return true;
     case DECI: case DECO: case STRO:
     case NOP: case NOP0: case NOP1: case NOP2: case NOP3:
-        temp = readWord(0xfffa);
+        temp = readWord(Pep::dotBurnArgument - 5);
         writeByte(temp - 1, instructionSpecifier);
         writeWord(temp - 3, stackPointer);
         writeWord(temp - 5, programCounter);
@@ -435,7 +435,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         writeWord(temp - 9, accumulator);
         writeByte(temp - 10, nzvcToInt());
         stackPointer = temp - 10;
-        programCounter = readWord(0xfffe);
+        programCounter = readWord(Pep::dotBurnArgument - 1);
         return true;
     case LDA:
         operand = readWordOprnd(addrMode);
