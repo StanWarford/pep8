@@ -5,6 +5,7 @@
  <title> Pep/8: Machine Language Documentation </title>
   <style type="text/css" media="all">
    code { font-family:Courier; font-size:11pt }
+   h4 { margin-bottom: 0; border-bottom-width: 0; padding-bottom: 0; }
   </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
@@ -18,7 +19,7 @@ Machine Language
 Reference: <i>Computer Systems</i>, Chapters 3, 4.
 <p>
 A machine language program is a binary sequence, that is, a sequence of ones and zeros, that the
-machine interprets according to its von Neumann cycle as in Figure 4.31.
+machine interprets according to its von Neumann cycle as in Figure 4.31 of the text.
 Therefore, to write a machine language program is to write a sequence of ones and zeros.
 Fortunately, the Pep/8 loader permits you to use the hexadecimal abbreviation for binary, as Section 3.4 explains.
 
@@ -26,9 +27,9 @@ Fortunately, the Pep/8 loader permits you to use the hexadecimal abbreviation fo
 
 Writing a machine language program is a three-step process.
 <p>
-Step 1.<br>
+<h4>Step 1.</h4>
 With this Pep/8 application, you write the machine language program in hexadecimal in the Object Code pane.
-The following figure shows the object program from Figure 4.41 of the textbook.
+The following figure shows the object program from Figure 4.41 of the text.
 <p>
 <img src="qrc:/help/images/machinelanguage01.png" alt="machinelanguage01" hspace=10 vspace=10>
 <p>
@@ -40,7 +41,7 @@ and no trailing spaces at the end of a line.
 The last two characters in the file must be lowercase <code>zz</code>,
 which is used as the terminating sentinel by the loader.
 <p>
-Step 2.<br>
+<h4>Step 2.</h4>
 After writing the machine language program, load it by selecting Build -> Load from the menu.
 <p>
 <img src="qrc:/help/images/machinelanguage02.png" alt="machinelanguage02" hspace=10 vspace=10>
@@ -49,7 +50,7 @@ If there are no errors in the program a message to that effect will appear at th
 <p>
 <img src="qrc:/help/images/machinelanguage03.png" alt="machinelanguage03" hspace=10 vspace=10>
 <p>
-Step 3.<br>
+<h4>Step 3.</h4>
 To execute the program select Build -> Execute from the menu.
 <p>
 <img src="qrc:/help/images/machinelanguage04.png" alt="machinelanguage04" hspace=10 vspace=10>

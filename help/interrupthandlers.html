@@ -1,7 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: Interrupt Handlers Documentation </title></head>
+<head>
+ <title> Pep/8: Interrupt Handlers Documentation </title>
+  <style type="text/css" media="all">
+   code { font-family:Courier; font-size:11pt }
+   pre { font-family:Courier; font-size:11pt }
+   h4 { margin-bottom: 0; border-bottom-width: 0; padding-bottom: 0; }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <center>
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
@@ -9,43 +16,77 @@
 <font FACE="Geneva,Helvetica,Arial" size="3">
 Writing Trap Handlers
 </font></td></tr></table></center>
-
-<h3>This is a placeholder title.</h3>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat ultricies lacus ac consequat. Proin vel sem lectus, non tristique lorem. Vivamus fringilla iaculis nunc id luctus. Etiam pharetra ullamcorper metus sit amet volutpat. Quisque cursus viverra elit ut volutpat. Morbi nec nisi nec risus dapibus adipiscing eget vehicula eros. Aenean lobortis, sapien at imperdiet fringilla, mi erat malesuada lectus, ut tincidunt enim orci sit amet sem. Integer gravida placerat varius.<br><br>
-
+<p>
+Reference: <i>Computer Systems</i>, Chapter 8.
+<p>
+To modify the operating system for the problems in Chapter 8 of the text is a six-step process.
+<p>
+<h4>Step 1.</h4>
+Decide on your mnemonic for your new instruction.
+It will replace one of <code>NOP0</code>, <code>NOP1</code>, <code>NOP2</code>, <code>NOP3</code>,
+<code>NOP</code>, <code>DECI</code>, <code>DECO</code>, or <code>STRO</code>.
+Select the menu option System->Redefine Mnemonics to change the mnemonics of one of the instructions.
+The dialog box requires you to enter a mnemonic and its allowed addressing modes if it is nonunary.
+For example, change the mnemonic for the unary instruction <code>NOP0</code> to <code>ECHO</code>.
+<p>
+<i>Insert screen shot here of Redefine Mnemonics with NOP0 changed to ECHO.</i>
+<p>
+<h4>Step 2.</h4>
+In this Help system in the pane on the left, select Pep/8 Operating System, and then click the Copy to Source button.
+The default operating system will be copied to the Source Code pane.
+<p>
+<i>Insert screen shots here of Pep/8 OS selected and then copied to Source Code pane.</i>
+<p>
+<h4>Step 3.</h4>
+Modify the trap handler part of the operating system to implement your new instruction.
+As an example, here is the original NOP0 trap handler.
+<p>
+<i>Insert screen shot here of this fragment from Pep/8 OS.</i>
+<p>
 <pre>
-Nunc vitae felis quis lacus vestibulum consectetur id non odio.
-Quisque enim dolor, accumsan vitae consequat id, lobortis at libero.
-Curabitur at urna nulla, id pharetra dolor.
-Sed a nunc eget enim elementum varius vitae in urna.
-</pre><br><br>
-
-<h3>Example Assembly language program.</h3>
-
-<pre>;File: fig0526.pep
-;Computer Systems, Fourth edition
-;Figure 5.26
-;
-         BR      main
-bonus:   .EQUATE 5          ;constant
-exam1:   .BLOCK  2          ;global variable #2d
-exam2:   .BLOCK  2          ;global variable #2d
-score:   .BLOCK  2          ;global variable #2d
-;
-main:    DECI    exam1,d    ;cin >> exam1
-         DECI    exam2,d    ;   >> exam2
-         LDA     exam1,d    ;score = (exam1
-         ADDA    exam2,d    ;   + exam2)
-         ASRA               ;   / 2
-         ADDA    bonus,i    ;   + bonus
-         STA     score,d
-         STRO    msg,d      ;cout << "score = "
-         DECO    score,d       ;   << score
-         CHARO   '\n',i     ;   << endl
-         STOP
-msg:     .ASCII  "score = \x00"
-         .END
-</pre><br>
+;******* Opcode 0x24
+;The NOP0 instruction.
+opcode24:RET0
+</pre>
+And here is how you would modify it to implement the new <code>ECHO</code> instruction in place of <code>NOP0</code>.
+<p>
+<i>Insert screen shot here of this fragment from modified Pep/8 OS.</i>
+<p>
+<pre>
+;******* Opcode 0x24
+;The ECHO instruction.
+opcode24:CHARI byteBuff,d
+         CHARO byteBuff,d
+         RET0
+</pre>
+CAUTION: You cannot use any trap instructions in your trap handler.
+<p>
+<h4>Step 4.</h4>
+Select System->Assemble/Install New OS to assemble and install the reprogrammed operating system.
+<p>
+<i>Insert screen shot here of System->Assemble/Install New OS.</i>
+<p>
+You can save your modified operating system as a <code>.pep</code> file as you would any other Pep/8 assembly language program.
+<p>
+<h4>Step 5.</h4>
+Write an assembly language program to test your new instruction with the new mnemonic.
+The assembler should recognize the new mnemonic and generate the appropriate object code.
+For example, your test program might be the following.
+<p>
+<i>Insert screen shot here of the following code in the Source Code pane.</i>
+<p>
+<pre>
+ECHO
+STOP
+.END
+</pre>
+<p>
+<h4>Step 6.</h4>
+Load and execute your program assembled in step 5.
+In this example, whatever character is placed in the Input pane should be echoed in the output pane.
+<p>
+<i>Insert screen shot here of the Batch I/O panes with a single character, P, in the input and output panes.</i>
+<p>
 
 </body>
 </html>
