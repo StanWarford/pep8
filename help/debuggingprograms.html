@@ -1,7 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01//EN">
 
 <html>
-<head><title> Pep/8: Debugging Programs Documentation </title></head>
+<head>
+ <title> Pep/8: Debugging Programs Documentation </title>
+  <style type="text/css" media="all">
+   code { font-family:Courier; font-size:11pt }
+   h4 { margin-bottom: 0; border-bottom-width: 0; padding-bottom: 0; }
+  </style>
+</head>
 <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#000033" alink="#0066FF">
 <center>
 <table bgcolor="#6699CC" width="100%" cellpadding="2" cellspacing="0" border="0"><tr><td>
@@ -11,23 +17,94 @@ Debugging Programs
 </font></td></tr></table></center>
 <p>
  The Pep/8 system provides debugging tools to help you locate errors in the programs you write.
- The tools include a memory dump, break points, a symbolic trace feature, and a byte converter.
+ The tools include a memory dump, break points, and a symbolic trace feature.
+ If you are debugging a machine language program that you wrote you can use the memory dump feature
+ but you cannot set break points or use the symbolic trace feature.
+ You can use all the debugging features if you are debugging an assembly language program.
+ An additional debugging tool is the byte converter, which is available any time the application is running.
+ <p>
+Topics:
+ <a href="#Memory">The memory dump</a>,
+ <a href="#Break">Break points</a>,
+ <a href="#Symbolic">Symbolic trace</a>,
+ <a href="#Byte">Byte converter</a>.
 
-<h3>The memory dump</h3>
+<h3><a name="Memory">The memory dump</a></h3>
 
-The memory dump feature is especially useful when you write machine language programs.
 View the Memory Dump pane by selecting View->Code/CPU/Memory from the menu or by clicking the corresponding icon in the tool bar.
 <p>
 <img src="images/debuggingprograms01.png" alt="Example trace program image alt text" hspace=10 vspace=10>
 <img src="images/debuggingprograms02.png" alt="Example trace program image alt text" hspace=10 vspace=10>
 <p>
-Each line of the Memory Dump pane displays eight bytes
+The first step is to write the machine language program in hexadecimal in the Object Code pane.
+The following figure shows the object program from Figure 4.41 of the text.
+<p>
+<img src="qrc:/help/images/machinelanguage01.png" alt="machinelanguage01" hspace=10 vspace=10>
+<p>
+ Then select Build->Start Debugging Object from the menu, which puts you in the debugging mode.
+<p>
+ <i>Screenshot of menu selection.</i>
+<p>
+While you are in the debugging mode, you can click the Single Step button in the CPU pane,
+which will execute one von Neumann cycle of the CPU.
+<p>
+ <i>Screenshot of Single Step button.</i>
+<p>
+ The CPU pane shows you the values of the NZVC bits and of each register in the CPU.
+ The following screen shot shows the CPU pane after one click of the Single Step button for the object program from Figure 4.41.
+<p>
+ <i>Screenshot of CPU pane.</i>
+<p>
+The CPU pane displays the content of the accumulator, index register, stack pointer, and program counter first in hexadecimal and
+then in decimal.
+It displays the instruction specifier first in binary, and then as a mnemonic.
+If the instruction is nonunary, it decodes the addressing mode field and shows the corresponding letter for the addressing mode
+after the mnemonic, and displays the operand specifier as well.
+<p>
+The operand is not part of the CPU, except for the case of immediate addressing when the operand <i>is</i> the operand specifier.
+However, for the convenience of the programmer, the CPU pane computes the value of the operand from the addressing mode
+and displays it as well.
+The Operand field in the CPU pane is enclosed in parentheses to emphasize the fact that it is <i>not</i> part of the CPU.
+<p>
+ <i>Screenshot of (Operand) field of CPU pane.</i>
+<p>
+ The values in the CPU pane are the values <i>after</i> the instruction has executed.
+ For example, the values in the above screen shots are the values after the first <code>CHARI</code> executes.
+ In the von Neumann cycle, the program counter increments before the instruction executes.
+ So, the value of the program counter is the address of the <i>next</i> instruction to execute.
+ In the above screen shot, the program counter is 3, which is the address of the <i>next</i> instruction to execute,
+ while the instruction that just executed is the instruction at address 0.
+<p>
+ As you single step through the program, the Memory Dump pane highlights in red the bytes that have changed,
+ and highlights in blue the bytes of the instruction as specified by the program counter.
+ The following screen shot shows the Memory Dump pane after the first click of the Single Step button.
+<p>
+ <i>Screenshot of Memory Dump pane.</i>
+<p>
+Each line of the Memory Dump pane displays eight bytes, each byte represented as two hexadecimal digits.
+The address in the first column is the address of the first byte.
+The rightmost column shows the value of the bytes in the row displayed as ASCII characters.
+If the byte is a control character that cannot be displayed, the column depicts the value as a period.
+<p>
+The above screen shot highlights the byte at address 000D in red because the first <code>CHARI</code> instruction
+input the letter <code>u</code> at that address.
+It hightlights the bytes starting at address 0003 in blue because that is the value of the program counter,
+and those bytes are the instruction that will execute <i>next</i>.
+<p>
+ If you want the program to run to completion, click the Resume button.
+<p>
+ <i>Screenshot of Resume button.</i>
+<p>
+ If you want to terminate the debugging session without running the program to completion, select Build->Stop Debugging
+ from the menu or click the stop sign icon in the menu bar.
+<p>
+ <i>Screenshot of menu item and stop sign icon.</i>
+<p>
+<h3><a name="Break">Break points</a></h3>
 
-<h3>Break points</h3>
+<h3><a name="Symbolic">Symbolic trace</a></h3>
 
-<h3>Symbolic trace</h3>
-
-<h3>Byte converter</h3>
+<h3><a name="Byte">Byte converter</a></h3>
 
 <p>
 
