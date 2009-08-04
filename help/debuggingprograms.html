@@ -36,7 +36,10 @@ View the Memory Dump pane by selecting View->Code/CPU/Memory from the menu or by
 <img src="images/debuggingprograms01.png" alt="Example trace program image alt text" hspace=10 vspace=10>
 <img src="images/debuggingprograms02.png" alt="Example trace program image alt text" hspace=10 vspace=10>
 <p>
-The first step is to write the machine language program in hexadecimal in the Object Code pane.
+The Pep/8 application may run noticibly slower when the Memory Dump pane is visible.
+<h4>Switching to debug mode</h4>
+To use the Memory Dump pane you must first switch to the debug mode.
+If you are debugging a machine language program that you wrote, the first step is to enter the program in hexadecimal in the Object Code pane.
 The following figure shows the object program from Figure 4.41 of the text.
 <p>
 <img src="qrc:/help/images/machinelanguage01.png" alt="machinelanguage01" hspace=10 vspace=10>
@@ -45,6 +48,17 @@ The following figure shows the object program from Figure 4.41 of the text.
 <p>
  <i>Screenshot of menu selection.</i>
 <p>
+If you are debugging an assembly language program that you wrote, enter the program in the Source Code pane.
+Assemble it by selecting Build->Assemble from the menu or clicking on the hammer icon in the tool bar.
+<p>
+<img src="qrc:/help/images/assemblylanguage03.png" alt="assemblylanguage03" hspace=10 vspace=10>
+<img src="qrc:/help/images/assemblylanguage03b.png" alt="assemblylanguage03b" hspace=10 vspace=10>
+<p>
+ Then select Build->Start Debugging Source from the menu, or click on the icon with the bug in the toolbar, which puts you in the debugging mode.
+<p>
+ <i>Screenshot of menu selection and start debugging icon.</i>
+<p>
+<h4>Tracing in debug mode</h4>
 While you are in the debugging mode, you can click the Single Step button in the CPU pane,
 which will execute one von Neumann cycle of the CPU.
 <p>
@@ -91,7 +105,9 @@ input the letter <code>u</code> at that address.
 It hightlights the bytes starting at address 0003 in blue because that is the value of the program counter,
 and those bytes are the instruction that will execute <i>next</i>.
 <p>
+ <h4>Switching out of debug mode</h4>
  If you want the program to run to completion, click the Resume button.
+ The program will run to completion and exit the debug mode.
 <p>
  <i>Screenshot of Resume button.</i>
 <p>
@@ -101,10 +117,74 @@ and those bytes are the instruction that will execute <i>next</i>.
  <i>Screenshot of menu item and stop sign icon.</i>
 <p>
 <h3><a name="Break">Break points</a></h3>
+To use break points for an assembly language program enter the debugging mode as described in the previous section.
+Pep/8 will switch from the Code pane to the Trace pane and display the source program for tracing.
+The following screen shot shows the Trace pane for the program in Figure 5.15 of the text.
+<p>
+ <i>Screenshot of listing trace pane for Figure 5.15.</i>
+<p>
+As you single step through the program, the CPU shows the content of the registers as described in the previous section.
+Remember that the CPU pane shows the values of the registers <i>after</i> the instruction in the instruction specifier
+has executed.
+In addition, the Trace pane highlights the instruction specified by the program counter, which is the <i>next</i> instruction
+to be executed.
+The following screen shot shows the Trace pane after five clicks of the Single Step button.
+The <code>LDA</code> instruction has just executed, and the <code>ADDA</code> instruction will execute next.
+<p>
+ <i>Screenshot of Trace pane and CPU pane after 5 clicks.</i>
+<p>
+<h4>Setting break points</h4>
+ Each executable instruction in the Trace pane has a checkbox for setting a break point.
+ The following screenshot shows the Trace pane for the program in Figure 5.15 before any statement has been executed.
+ The programmer has set a breakpoint at the <code>STA</code> instruction.
+<p>
+ <i>Screenshot of Trace pane with breakpoint set.</i>
+<p>
+ When the programmer clicks the Resume button, the program resumes executing until it gets to an instruction with a breakpoint
+ or until completion if no breakpoint is encountered.
+ The following screenshot shows what happens when the Resume button is clicked.
+ Note that the <code>STA</code> instruction will execute next if the programmer clicks the Single Step button at this point.
+ <p>
+ <i>Screenshot of Resume button first, followed by Trace pane.</i>
+<p>
+<h4>Tracing traps</h4>
+ If you want to trace the operating system's execution of a trap instruction, click the Trace Traps checkbox in the CPU pane before
+ entering the debugging mode.
+ <p>
+ <i>Screenshot of Trace Traps checkbox.</i>
+<p>
+As you single step through your program, if you execute a trap instruction the Trace pane will show the individual instructions
+in the trap handler of the operating system.
+The first screen shot below shows the <code>DECI</code> instruction about to be executed.
+The second screen shot shows the effect of clicking the Single Step button.
+The Trace pane switches to the trap handler in the operating system.
+ <p>
+ <i>Screenshots of Trace pane before and after Single Step.</i>
+<p>
+When you are tracing an operating system trap, you can set breakpoints and click Single Step or Resume as you would
+with the source program.
+If you resume within the operating system and encounter no further breakpoints, Pep/8 will continue after the return
+from trap instruction <code>RETTR</code>
+to the source program until it encounters a break point there.
 
 <h3><a name="Symbolic">Symbolic trace</a></h3>
 
+The symbolic trace feature is controlled by the trace tags described in the text.
+While this version of Pep/8, 8.1.0, does process the trace tags,
+the symbolic trace feature itself is not yet implemented with this version.
+It is scheduled to be released shortly with version 8.1.1.
+
 <h3><a name="Byte">Byte converter</a></h3>
+
+Any time the Pep/8 application is running, the byte converter is available in the tool bar.
+The four input fields represent the value of a single byte as displayed from left to right in decimal, hexadecimal, binary, and ASCII.
+Simply enter any value in any input field and the other fields will show the same value in the corresponding format.
+Here is the result of entering the letter <code>P</code> in the ASCII field.
+ <p>
+ <i>Screenshot of byte converter.</i>
+<p>
+
+
 
 <p>
 
