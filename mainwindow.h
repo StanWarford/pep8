@@ -26,6 +26,7 @@
 // Dialog boxes
 #include "redefinemnemonicsdialog.h"
 #include "helpdialog.h"
+#include "aboutpep.h"
 
 namespace Ui
 {
@@ -65,6 +66,7 @@ private:
     // Dialog boxes
     RedefineMnemonicsDialog *redefineMnemonicsDialog;
     HelpDialog *helpDialog;
+    AboutPep *aboutPepDialog;
 
     // Byte converter
     ByteConverterDec *byteConverterDec;
@@ -154,6 +156,7 @@ private slots:
 
     // Help
     void on_actionHelp_triggered();
+    void on_actionHelp_Check_for_updates_triggered();
     void on_actionHelp_Machine_Language_triggered();
     void on_actionHelp_Assembly_Language_triggered();
     void on_actionHelp_Debugging_Programs_triggered();

@@ -19,6 +19,18 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>504</width>
+    <height>361</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>504</width>
+    <height>361</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Redefine Mnemonics</string>
   </property>
@@ -618,7 +630,7 @@
      <item>
       <widget class="QLabel" name="warningLabel">
        <property name="text">
-        <string>     </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -659,6 +671,49 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>unaryMnemonic0LineEdit</tabstop>
+  <tabstop>unaryMnemonic1LineEdit</tabstop>
+  <tabstop>unaryMnemonic2LineEdit</tabstop>
+  <tabstop>unaryMnemonic3LineEdit</tabstop>
+  <tabstop>nonUnaryMnemonic0LineEdit</tabstop>
+  <tabstop>nonUnaryMnemonic1LineEdit</tabstop>
+  <tabstop>nonUnaryMnemonic2LineEdit</tabstop>
+  <tabstop>nonUnaryMnemonic3LineEdit</tabstop>
+  <tabstop>mnemon3sxCheckBox</tabstop>
+  <tabstop>mnemon0sxfCheckBox</tabstop>
+  <tabstop>mnemon1nCheckBox</tabstop>
+  <tabstop>mnemon1sxCheckBox</tabstop>
+  <tabstop>mnemon2sCheckBox</tabstop>
+  <tabstop>mnemon3sfCheckBox</tabstop>
+  <tabstop>mnemon0xCheckBox</tabstop>
+  <tabstop>mnemon0sCheckBox</tabstop>
+  <tabstop>mnemon3dCheckBox</tabstop>
+  <tabstop>mnemon3sCheckBox</tabstop>
+  <tabstop>mnemon0dCheckBox</tabstop>
+  <tabstop>mnemon1sCheckBox</tabstop>
+  <tabstop>mnemon2dCheckBox</tabstop>
+  <tabstop>mnemon2nCheckBox</tabstop>
+  <tabstop>mnemon2sfCheckBox</tabstop>
+  <tabstop>mnemon1iCheckBox</tabstop>
+  <tabstop>mnemon2sxfCheckBox</tabstop>
+  <tabstop>mnemon0sfCheckBox</tabstop>
+  <tabstop>mnemon3iCheckBox</tabstop>
+  <tabstop>mnemon0nCheckBox</tabstop>
+  <tabstop>mnemon2sxCheckBox</tabstop>
+  <tabstop>mnemon1dCheckBox</tabstop>
+  <tabstop>mnemon2xCheckBox</tabstop>
+  <tabstop>mnemon1xCheckBox</tabstop>
+  <tabstop>mnemon3sxfCheckBox</tabstop>
+  <tabstop>mnemon3nCheckBox</tabstop>
+  <tabstop>mnemon3xCheckBox</tabstop>
+  <tabstop>mnemon0iCheckBox</tabstop>
+  <tabstop>mnemon1sfCheckBox</tabstop>
+  <tabstop>mnemon0sxCheckBox</tabstop>
+  <tabstop>mnemon1sxfCheckBox</tabstop>
+  <tabstop>mnemon2iCheckBox</tabstop>
+  <tabstop>defaultMnemonicsButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

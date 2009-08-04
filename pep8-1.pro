@@ -5,15 +5,16 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
+CONFIG += ppc
+CONFIG += x86
+QT += webkit
 
-CONFIG+=ppc
-CONFIG+=x86
-
-# Mac icon
+# Mac icon/plist
 ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
 
-QT += webkit
+# Windows RC file
+RC_FILE = pep8resources.rc
 
 # Input
 HEADERS += mainwindow.h \
@@ -41,7 +42,8 @@ HEADERS += mainwindow.h \
     sim.h \
     enu.h \
     pephighlighter.h \
-    cpphighlighter.h
+    cpphighlighter.h \
+    aboutpep.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -58,7 +60,8 @@ FORMS += mainwindow.ui \
     byteconverterchar.ui \
     byteconverterbin.ui \
     helpdialog.ui \
-    listingtracepane.ui
+    listingtracepane.ui \
+    aboutpep.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     sourcecodepane.cpp \
@@ -82,9 +85,7 @@ SOURCES += main.cpp \
     code.cpp \
     sim.cpp \
     pephighlighter.cpp \
-    cpphighlighter.cpp
+    cpphighlighter.cpp \
+    aboutpep.cpp
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
-
-# Windows RC file
-RC_FILE = pep8resources.rc

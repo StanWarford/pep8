@@ -1,6 +1,8 @@
 #include <QMessageBox>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <QUrl>
 #include <QSettings>
 #include <QApplication>
 #include <QPrinter>
@@ -50,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Dialog boxes setup
     redefineMnemonicsDialog = new RedefineMnemonicsDialog(this);
     helpDialog = new HelpDialog(this);
+    aboutPepDialog = new AboutPep(this);
 
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
 
@@ -1122,6 +1125,11 @@ void MainWindow::on_actionHelp_triggered()
     }
  }
 
+void MainWindow::on_actionHelp_Check_for_updates_triggered()
+{
+    QDesktopServices::openUrl(QUrl("http://code.google.com/p/pep8-1/downloads/list"));
+}
+
 void MainWindow::on_actionHelp_Machine_Language_triggered()
 {
     helpDialog->show();
@@ -1166,7 +1174,7 @@ void MainWindow::on_actionHelp_Pep_8_Operating_System_triggered()
 
 void MainWindow::on_actionAbout_Pep8_triggered()
 {
-
+    aboutPepDialog->exec();
 }
 
 void MainWindow::helpCopyToSourceButtonClicked()
@@ -1211,7 +1219,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-
+    QDesktopServices::openUrl(QUrl("http://www.qtsoftware.com/"));
 }
 
 void MainWindow::slotByteConverterDecEdited(const QString &str)
