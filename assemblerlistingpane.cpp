@@ -11,6 +11,11 @@ AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
     m_ui->setupUi(this);
 
     pepHighlighter = new PepHighlighter(m_ui->assemblerListingTextEdit->document());
+
+    if (Pep::getSystem() != "Mac") {
+        m_ui->assemblerListingLabel->setFont(QFont("Verdana"));
+        m_ui->assemblerListingTextEdit->setFont(QFont("Dark Courier"));
+    }
 }
 
 AssemblerListingPane::~AssemblerListingPane()

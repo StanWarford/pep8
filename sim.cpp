@@ -625,7 +625,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         indexRegister = addAndSetNZVC(indexRegister, (~operand + 1) & 0xffff);
         return true;
     default:
-        qDebug() << "Invalid instruction?!";
+        return false;
     }
     return false;
 }

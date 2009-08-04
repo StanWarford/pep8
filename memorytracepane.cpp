@@ -2,6 +2,7 @@
 #include "memorytracepane.h"
 #include "ui_memorytracepane.h"
 #include "sim.h"
+#include "pep.h"
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
     QWidget(parent),
@@ -9,6 +10,10 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepMemoryTraceLabel->setFont(QFont("Verdana"));
+        m_ui->pepStackTraceGraphicsView->setFont(QFont("Dark Courier"));
+    }
 }
 
 MemoryTracePane::~MemoryTracePane()

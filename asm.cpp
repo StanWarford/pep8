@@ -2,8 +2,6 @@
 #include "argument.h"
 #include "code.h"
 
-#include <QDebug>
-
 // Regular expressions for lexical analysis
 QRegExp Asm::rxAddrMode("^((,)(\\s*)(i|d|x|n|s(?![fx])|sx(?![f])|sf|sxf){1}){1}");
 QRegExp Asm::rxCharConst("^((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");

@@ -2,7 +2,6 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 #include "pep.h"
-#include <QDebug>
 
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),
@@ -44,10 +43,6 @@ void HelpDialog::selectItem(QString string) {
 }
 
 void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
-//    qDebug() << "Is valid? : " << m_ui->helpTreeWidget->currentIndex().parent().isValid();
-//    qDebug() << "Parent row: " << m_ui->helpTreeWidget->currentIndex().parent().row();
-//    qDebug() << "Row: " << m_ui->helpTreeWidget->currentIndex().row();
-
     // Is this a subcategory?
     bool isHelpSubCat = m_ui->helpTreeWidget->currentIndex().parent().isValid();
     // Parent row (if it has a parent, -1 else)

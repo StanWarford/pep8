@@ -20,6 +20,11 @@ MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     // Comment the previous two lines to show the refresh button.
 
     QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
+
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepMemoryDumpLabel->setFont(QFont("Verdana"));
+        m_ui->pepMemoryDumpTextEdit->setFont(QFont("Dark Courier"));
+    }
 }
 
 MemoryDumpPane::~MemoryDumpPane()

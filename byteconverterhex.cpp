@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "byteconverterhex.h"
 #include "ui_byteconverterhex.h"
 

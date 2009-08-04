@@ -1,6 +1,7 @@
 #include <QFontDialog>
 #include "inputpane.h"
 #include "ui_inputpane.h"
+#include "pep.h"
 
 InputPane::InputPane(QWidget *parent) :
     QWidget(parent),
@@ -11,6 +12,10 @@ InputPane::InputPane(QWidget *parent) :
     connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepInputLabel->setFont(QFont("Verdana"));
+        m_ui->pepInputTextEdit->setFont(QFont("Dark Courier"));
+    }
 }
 
 InputPane::~InputPane()

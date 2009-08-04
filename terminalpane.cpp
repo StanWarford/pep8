@@ -3,6 +3,7 @@
 #include "terminalpane.h"
 #include "ui_terminalpane.h"
 #include "sim.h"
+#include "pep.h"
 
 TerminalPane::TerminalPane(QWidget *parent) :
     QWidget(parent),
@@ -14,6 +15,11 @@ TerminalPane::TerminalPane(QWidget *parent) :
 
     connect(m_ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepTerminalLabel->setFont(QFont("Verdana"));
+        m_ui->pepTerminalTextEdit->setFont(QFont("Dark Courier"));
+    }
 }
 
 TerminalPane::~TerminalPane()

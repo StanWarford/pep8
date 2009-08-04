@@ -2,7 +2,6 @@
 #include "objectcodepane.h"
 #include "ui_objectcodepane.h"
 #include "pep.h"
-#include <QDebug>
 
 ObjectCodePane::ObjectCodePane(QWidget *parent) :
     QWidget(parent),
@@ -14,6 +13,11 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
 
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepObjectCodeLabel->setFont(QFont("Verdana"));
+        m_ui->pepObjectCodeTextEdit->setFont(QFont("Dark Courier"));
+    }
 }
 
 ObjectCodePane::~ObjectCodePane()

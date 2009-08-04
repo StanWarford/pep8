@@ -5,7 +5,6 @@
 #include "ui_cpupane.h"
 #include "sim.h"
 #include "pep.h"
-#include <QDebug>
 
 CpuPane::CpuPane(QWidget *parent) :
         QWidget(parent),
@@ -18,6 +17,34 @@ CpuPane::CpuPane(QWidget *parent) :
 
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepCpuLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuNLabel->setFont(QFont("Verdana"));
+        m_ui->cpuZLabel->setFont(QFont("Verdana"));
+        m_ui->cpuVLabel->setFont(QFont("Verdana"));
+        m_ui->cpuCLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuAHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuADecLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuXHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuXDecLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuSPHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuSPDecLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuPCHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuPCDecLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuInstrSpecBinLabel->setFont(QFont("Verdana"));
+        m_ui->cpuInstrSpecMnemonLabel->setFont(QFont("Verdana"));
+
+        m_ui->cpuOprndSpecHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuOprndSpecDecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuOprndHexLabel->setFont(QFont("Verdana"));
+        m_ui->cpuOprndDecLabel->setFont(QFont("Verdana"));
+    }
 }
 
 CpuPane::~CpuPane()
@@ -401,13 +428,11 @@ void CpuPane::singleStepWithTerminal()
 void CpuPane::trapLookahead()
 {
     if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
-        // qDebug() << "It's a trap!";
         Sim::trapped = true;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
         Pep::listingRowChecked = &Pep::listingRowCheckedOS;
     }
     else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
-        // qDebug() << "I do everything I think possible or acceptable to escape from this trap." - Jacques Derrida"
         Sim::trapped = false;
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;

@@ -4,8 +4,6 @@
 #include "sim.h"
 #include "pep.h"
 
-#include <QDebug>
-
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::ListingTracePane)
@@ -16,6 +14,11 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
     connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
+
+    if (Pep::getSystem() != "Mac") {
+        m_ui->listingTraceLabel->setFont(QFont("Verdana"));
+        m_ui->listingPepOsTraceTableWidget->setFont(QFont("Dark Courier"));
+    }
 }
 
 ListingTracePane::~ListingTracePane()
