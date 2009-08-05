@@ -118,7 +118,7 @@
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QLabel" name="label_38">
+        <widget class="QLabel" name="pepNLabel">
          <property name="font">
           <font>
            <family>Lucida Grande</family>
@@ -187,7 +187,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QLabel" name="label_46">
+        <widget class="QLabel" name="pepZlabel">
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -262,7 +262,7 @@
         </widget>
        </item>
        <item row="0" column="4">
-        <widget class="QLabel" name="label_43">
+        <widget class="QLabel" name="pepVLabel">
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -289,7 +289,7 @@
         </widget>
        </item>
        <item row="0" column="6">
-        <widget class="QLabel" name="label_44">
+        <widget class="QLabel" name="pepClabel">
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -465,7 +465,7 @@
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:Lucida Grande; font-size:11pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Accumulator&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Accumulator</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

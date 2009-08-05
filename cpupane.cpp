@@ -31,6 +31,11 @@ CpuPane::CpuPane(QWidget *parent) :
         m_ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
         m_ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
 
+        m_ui->pepNLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepZLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepVLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepClabel->setFont(QFont(Pep::labelFont));
+
         m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
         m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));
         m_ui->cpuVLabel->setFont(QFont(Pep::labelFont));

@@ -53,7 +53,7 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item row="0" column="0">
-         <widget class="QLabel" name="unaryOpCoLabel">
+         <widget class="QLabel" name="unaryOpCodeLabel">
           <property name="font">
            <font>
             <family>Lucida Grande</family>
@@ -438,7 +438,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="nonunaryMnemonicLabe">
+       <widget class="QLabel" name="nonunaryMnemonicLabel">
         <property name="font">
          <font>
           <family>Lucida Grande</family>
