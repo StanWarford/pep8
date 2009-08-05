@@ -18,6 +18,7 @@ public:
     static const int codeFontSize;
     static const int ioFontSize;
     static const QString labelFont;
+    static const int labelFontSize;
 
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;

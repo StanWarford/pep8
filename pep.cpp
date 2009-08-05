@@ -9,6 +9,7 @@ const QString Pep::codeFont = "Courier New";
 const int Pep::codeFontSize = 9;
 const int Pep::ioFontSize = 10;
 const QString Pep::labelFont = "Verdana";
+const int Pep::labelFontSize = 11;
 
 // Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";

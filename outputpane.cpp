@@ -10,7 +10,7 @@ OutputPane::OutputPane(QWidget *parent) :
     m_ui->setupUi(this);
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepOutputLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
         m_ui->pepOutputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     }
 }

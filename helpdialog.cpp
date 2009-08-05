@@ -135,21 +135,21 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
             else if (row == eFIG503) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0503.pep"));
                 m_ui->helpRightPepTextEdit->setText(Pep::resToString(":/help/figures/fig0432.peph"));
-                m_ui->helpFigureLabel->setText("<b>Figure 5.03</b><code>  </code> An assembly-language program to output <code>Hi</code>. It is the assembly-language version of Figure 4.32.");
+                m_ui->helpFigureLabel->setText("<b>Figure 5.3</b><code>  </code> An assembly-language program to output <code>Hi</code>. It is the assembly-language version of Figure 4.32.");
                 m_ui->helpRightCppTextEdit->hide();
                 m_ui->helpRightPepTextEdit->show();
             }
             else if (row == eFIG506) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0506.pep"));
                 m_ui->helpRightPepTextEdit->setText(Pep::resToString(":/help/figures/fig0434.peph"));
-                m_ui->helpFigureLabel->setText("<b>Figure 5.06</b><code>  </code> An assembly language program to input two characters and output them in reverse order. It is the assembly language version of Figure 4.34.");
+                m_ui->helpFigureLabel->setText("<b>Figure 5.6</b><code>  </code> An assembly language program to input two characters and output them in reverse order. It is the assembly language version of Figure 4.34.");
                 m_ui->helpRightCppTextEdit->hide();
                 m_ui->helpRightPepTextEdit->show();
             }
             else if (row == eFIG507) {
                 m_ui->helpLeftTextEdit->setText(Pep::resToString(":/help/figures/fig0507.pep"));
                 m_ui->helpRightPepTextEdit->setText(Pep::resToString(":/help/figures/fig0435.peph"));
-                m_ui->helpFigureLabel->setText("<b>Figure 5.07</b><code>  </code> An assembly language program to add 3 and 5 and output the single-character result. It is the assembly language version of Figure 4.35.");
+                m_ui->helpFigureLabel->setText("<b>Figure 5.7</b><code>  </code> An assembly language program to add 3 and 5 and output the single-character result. It is the assembly language version of Figure 4.35.");
                 m_ui->helpRightCppTextEdit->hide();
                 m_ui->helpRightPepTextEdit->show();
             }
