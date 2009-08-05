@@ -14,36 +14,35 @@ CpuPane::CpuPane(QWidget *parent) :
     // QSound::play(":/sounds/itsatrap.wav"); // For later! Gonna be implemented as a % chance on tracing traps in the OS
 
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SIGNAL(singleStepButtonClicked()));
-
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepCpuLabel->setFont(QFont("Verdana"));
+        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuNLabel->setFont(QFont("Verdana"));
-        m_ui->cpuZLabel->setFont(QFont("Verdana"));
-        m_ui->cpuVLabel->setFont(QFont("Verdana"));
-        m_ui->cpuCLabel->setFont(QFont("Verdana"));
+        m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuVLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuCLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuAHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuADecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuAHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuADecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuXHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuXDecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuXHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuXDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuSPHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuSPDecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuSPHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuSPDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuPCHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuPCDecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuPCHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuPCDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuInstrSpecBinLabel->setFont(QFont("Verdana"));
-        m_ui->cpuInstrSpecMnemonLabel->setFont(QFont("Verdana"));
+        m_ui->cpuInstrSpecBinLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuInstrSpecMnemonLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuOprndSpecHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuOprndSpecDecLabel->setFont(QFont("Verdana"));
-        m_ui->cpuOprndHexLabel->setFont(QFont("Verdana"));
-        m_ui->cpuOprndDecLabel->setFont(QFont("Verdana"));
+        m_ui->cpuOprndSpecHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuOprndSpecDecLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuOprndHexLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuOprndDecLabel->setFont(QFont(Pep::labelFont));
     }
 }
 

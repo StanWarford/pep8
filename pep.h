@@ -13,10 +13,10 @@
 class Pep
 {
 public:
-
-    // Label highlight colors
-    static const QColor labelHighlightColor;
-    static const QColor labelNoHighlightColor;
+    // Fonts:
+    static const QString codeFont;
+    static const int codeFontSize;
+    static const QString labelFont;
 
     // Default redefine mnemonics
     static const QString defaultUnaryMnemonic0;

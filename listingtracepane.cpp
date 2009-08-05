@@ -16,8 +16,8 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->listingTraceLabel->setFont(QFont("Verdana"));
-        m_ui->listingPepOsTraceTableWidget->setFont(QFont("Dark Courier"));
+        m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont));
+        m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 

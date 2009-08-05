@@ -1,8 +1,13 @@
 #include <QFile>
 #include <QTextStream>
-
 #include "pep.h"
+
 using namespace Enu;
+
+// Fonts
+const QString Pep::codeFont = "Courier New";
+const int Pep::codeFontSize = 9;
+const QString Pep::labelFont = "Verdana";
 
 // Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";

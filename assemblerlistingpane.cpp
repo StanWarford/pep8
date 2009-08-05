@@ -2,7 +2,7 @@
 #include <QFontDialog>
 #include "assemblerlistingpane.h"
 #include "ui_assemblerlistingpane.h"
-#include "Pep.h"
+#include "pep.h"
 
 AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
         QWidget(parent),
@@ -13,8 +13,8 @@ AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
     pepHighlighter = new PepHighlighter(m_ui->assemblerListingTextEdit->document());
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->assemblerListingLabel->setFont(QFont("Verdana"));
-        m_ui->assemblerListingTextEdit->setFont(QFont("Dark Courier"));
+        m_ui->assemblerListingLabel->setFont(QFont(Pep::labelFont));
+        m_ui->assemblerListingTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 

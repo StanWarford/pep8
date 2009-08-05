@@ -15,8 +15,8 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepObjectCodeLabel->setFont(QFont("Verdana"));
-        m_ui->pepObjectCodeTextEdit->setFont(QFont("Dark Courier"));
+        m_ui->pepObjectCodeLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepObjectCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 

@@ -17,8 +17,8 @@ TerminalPane::TerminalPane(QWidget *parent) :
     connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepTerminalLabel->setFont(QFont("Verdana"));
-        m_ui->pepTerminalTextEdit->setFont(QFont("Dark Courier"));
+        m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 

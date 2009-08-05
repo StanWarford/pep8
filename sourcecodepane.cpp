@@ -26,8 +26,8 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepSourceCodeLabel->setFont(QFont("Verdana"));
-        m_ui->pepSourceCodeTextEdit->setFont(QFont("Dark Courier"));
+        m_ui->pepSourceCodeLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepSourceCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 
