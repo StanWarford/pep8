@@ -18,6 +18,17 @@ CpuPane::CpuPane(QWidget *parent) :
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont));
+        m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
+
+        m_ui->cpuALabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuXLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuPCLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuInstrSpecLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuOprndSpecLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuOprndLabel->setFont(QFont(Pep::labelFont));
+        m_ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
+        m_ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
 
         m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
         m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));

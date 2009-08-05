@@ -7,6 +7,7 @@ using namespace Enu;
 // Fonts
 const QString Pep::codeFont = "Courier New";
 const int Pep::codeFontSize = 9;
+const int Pep::ioFontSize = 10;
 const QString Pep::labelFont = "Verdana";
 
 // Default redefine mnemonics

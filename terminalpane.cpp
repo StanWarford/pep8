@@ -18,7 +18,7 @@ TerminalPane::TerminalPane(QWidget *parent) :
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+        m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     }
 }
 

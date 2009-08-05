@@ -14,7 +14,7 @@ InputPane::InputPane(QWidget *parent) :
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepInputLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepInputTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+        m_ui->pepInputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     }
 }
 

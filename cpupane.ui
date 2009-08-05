@@ -446,7 +446,7 @@
      <item>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QLabel" name="label_10">
+        <widget class="QLabel" name="cpuALabel">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -515,7 +515,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="cpuXLabel">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -626,7 +626,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="cpuSPLabel">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -737,7 +737,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_13">
+        <widget class="QLabel" name="cpuPCLabel">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -890,7 +890,7 @@
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_15">
+        <widget class="QLabel" name="cpuInstrSpecLabel">
          <property name="font">
           <font>
            <family>Lucida Grande</family>
@@ -957,7 +957,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QLabel" name="label_16">
+        <widget class="QLabel" name="cpuOprndSpecLabel">
          <property name="font">
           <font>
            <family>Lucida Grande</family>
@@ -1072,7 +1072,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="6" column="0">
-        <widget class="QLabel" name="label_14">
+        <widget class="QLabel" name="cpuOprndLabel">
          <property name="minimumSize">
           <size>
            <width>100</width>

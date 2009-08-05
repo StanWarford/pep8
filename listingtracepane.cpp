@@ -18,6 +18,7 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     if (Pep::getSystem() != "Mac") {
         m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont));
         m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+        m_ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
 
