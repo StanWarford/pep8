@@ -187,7 +187,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QLabel" name="pepZlabel">
+        <widget class="QLabel" name="pepZLabel">
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -289,7 +289,7 @@
         </widget>
        </item>
        <item row="0" column="6">
-        <widget class="QLabel" name="pepClabel">
+        <widget class="QLabel" name="pepCLabel">
          <property name="minimumSize">
           <size>
            <width>24</width>

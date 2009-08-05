@@ -535,7 +535,7 @@
        </widget>
       </item>
       <item row="0" column="9">
-       <widget class="QLabel" name="sfxLabel">
+       <widget class="QLabel" name="sxfLabel">
         <property name="font">
          <font>
           <family>Lucida Grande</family>
