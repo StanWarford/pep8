@@ -85,9 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
     ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
 
-    // Save system setup
-    readSettings();
-
     // Install OS into memory
     Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
     Pep::listingRowChecked = &Pep::listingRowCheckedOS;
@@ -102,7 +99,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Focus highlighting, actions enable/disable
     connect(qApp->instance(), SIGNAL(focusChanged(QWidget*, QWidget*)), this, SLOT(mainWindowUtilities(QWidget*, QWidget*)));
-
     connect(objectCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(objectCodePane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
     connect(sourceCodePane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
@@ -120,8 +116,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(singleStepButtonClicked()), this, SLOT(singleStepButtonClicked()));
     connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(vonNeumannStepped()));
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
-
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
+
+    readSettings();
 
     // Recent files
     for (int i = 0; i < MaxRecentFiles; ++i) {
@@ -183,18 +180,20 @@ bool MainWindow::saveObject()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Pep/8", "Dialog");
+    QSettings settings("Pep8", "MainWindow");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
     move(pos);
+    curPath = settings.value("filePath", QDir::homePath()).toString();
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Pep/8", "Dialog");
+    QSettings settings("Pep8", "MainWindow");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
+    settings.setValue("filePath", curPath);
 }
 
 bool MainWindow::maybeSaveSource()
@@ -339,6 +338,7 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     else if (pane == Enu::EListing) {
         curListingFile = fileName;
     }
+    curPath = QFileInfo(fileName).path();
 
     QString shownName;
     if (pane == Enu::ESource) {
@@ -378,7 +378,7 @@ QString MainWindow::strippedName(const QString &fullFileName)
 // Recent files:
 void MainWindow::updateRecentFileActions()
 {
-    QSettings settings("Pep/8", "Recent Files");
+    QSettings settings("Pep8", "Recent Files");
     QStringList files = settings.value("recentFileList").toStringList();
 
     int numRecentFiles = qMin(files.size(), (int)MaxRecentFiles);
@@ -528,10 +528,12 @@ void MainWindow::on_actionFile_Open_triggered()
         QString fileName = QFileDialog::getOpenFileName(
                 this,
                 "Open text file",
-                "",
+                curPath,
                 "Text files (*.pepo *.txt *.pep)");
-        if (!fileName.isEmpty())
+        if (!fileName.isEmpty()) {
             loadFile(fileName);
+            curPath = QFileInfo(fileName).path();
+        }
     }
 }
 
@@ -550,12 +552,12 @@ bool MainWindow::on_actionFile_Save_Source_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Source Code",
-            curSourceFile.isEmpty() ? "untitled.pep" : curSourceFile,
+            curSourceFile.isEmpty() ? curPath + "/untitled.pep" : curPath + "/" + strippedName(curSourceFile),
             "Pep8 Source (*.pep *.txt)");
     if (fileName.isEmpty())
         return false;
 
-    QSettings settings("Pep/8", "Recent Files");
+    QSettings settings("Pep8", "Recent Files");
     QStringList files = settings.value("recentFileList").toStringList();
     files.removeAll(fileName);
     files.prepend(fileName);
@@ -578,12 +580,12 @@ bool MainWindow::on_actionFile_Save_Object_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Object Code",
-            curObjectFile.isEmpty() ? "untitled.pepo" : curObjectFile,
+            curObjectFile.isEmpty() ? curPath + "/untitled.pepo" : curPath + "/" + strippedName(curObjectFile),
             "Pep8 Object (*.pepo *.txt)");
     if (fileName.isEmpty())
         return false;
 
-    QSettings settings("Pep/8", "Recent Files");
+    QSettings settings("Pep8", "Recent Files");
     QStringList files = settings.value("recentFileList").toStringList();
     files.removeAll(fileName);
     files.prepend(fileName);
@@ -606,7 +608,7 @@ bool MainWindow::on_actionFile_Save_Listing_As_triggered()
     QString fileName = QFileDialog::getSaveFileName(
             this,
             "Save Assembler Listing",
-            curListingFile.isEmpty() ? "untitled.pepl" : curListingFile,
+            curListingFile.isEmpty() ? curPath + "/untitled.pepl" : curPath + "/" + strippedName(curListingFile),
             "Pep8 Listing (*.pepl)");
     if (fileName.isEmpty()) {
         return false;
