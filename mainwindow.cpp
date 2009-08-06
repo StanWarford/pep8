@@ -461,6 +461,7 @@ void MainWindow::setDebugState(bool b)
     ui->actionFile_New->setDisabled(b);
     ui->actionFile_Open->setDisabled(b);
     ui->actionEdit_Format_From_Listing->setDisabled(b);
+    ui->actionEdit_Remove_Error_Messages->setDisabled(b);
     ui->actionBuild_Assemble->setDisabled(b);
     ui->actionBuild_Load->setDisabled(b);
     ui->actionBuild_Execute->setDisabled(b);
@@ -471,7 +472,9 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Start_Debugging_Loader->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionBuild_Interrupt_Execution->setDisabled(!b);
-    ui->actionEdit_Remove_Error_Messages->setDisabled(b);
+    ui->actionSystem_Redefine_Mnemonics->setDisabled(b);
+    ui->actionSystem_Assemble_Install_New_OS->setDisabled(b);
+    ui->actionSystem_Reinstall_Default_OS->setDisabled(b);
     inputPane->setReadOnly(b);
     sourceCodePane->setReadOnly(b);
     objectCodePane->setReadOnly(b);
