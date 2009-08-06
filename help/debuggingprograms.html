@@ -33,8 +33,8 @@ Topics:
 
 View the Memory Dump pane by selecting View->Code/CPU/Memory from the menu or by clicking the corresponding icon in the tool bar.
 <p>
-<img src="images/debuggingprograms01.png" alt="Example trace program image alt text" hspace=10 vspace=10>
-<img src="images/debuggingprograms02.png" alt="Example trace program image alt text" hspace=10 vspace=10>
+<img src="images/codecpumemory.png" alt="codecpumemory" hspace=10 vspace=10>
+<img src="images/codecpumemoryicon.png" alt="codecpumemoryicon" hspace=10 vspace=10>
 <p>
 The Pep/8 application may run noticibly slower when the Memory Dump pane is visible.
 <h4>Switching to debug mode</h4>
@@ -42,27 +42,27 @@ To use the Memory Dump pane you must first switch to the debug mode.
 If you are debugging a machine language program that you wrote, the first step is to enter the program in hexadecimal in the Object Code pane.
 The following figure shows the object program from Figure 4.41 of the text.
 <p>
-<img src="qrc:/help/images/machinelanguage01.png" alt="machinelanguage01" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig441.png" alt="fig441" hspace=10 vspace=10>
 <p>
  Then select Build->Start Debugging Object from the menu, which puts you in the debugging mode.
 <p>
- <i>Screenshot of menu selection.</i>
+<img src="qrc:/help/images/startdebuggingobject.png" alt="startdebuggingobject" hspace=10 vspace=10>
 <p>
 If you are debugging an assembly language program that you wrote, enter the program in the Source Code pane.
 Assemble it by selecting Build->Assemble from the menu or clicking on the hammer icon in the tool bar.
 <p>
-<img src="qrc:/help/images/assemblylanguage03.png" alt="assemblylanguage03" hspace=10 vspace=10>
-<img src="qrc:/help/images/assemblylanguage03b.png" alt="assemblylanguage03b" hspace=10 vspace=10>
+<img src="qrc:/help/images/assemble.png" alt="assemble" hspace=10 vspace=10>
+<img src="qrc:/help/images/assembleicon.png" alt="assembleicon" hspace=10 vspace=10>
 <p>
  Then select Build->Start Debugging Source from the menu, or click on the icon with the bug in the toolbar, which puts you in the debugging mode.
 <p>
- <i>Screenshot of menu selection and start debugging icon.</i>
+<img src="qrc:/help/images/startdebuggingsource.png" alt="startdebuggingsource" hspace=10 vspace=10>
 <p>
 <h4>Tracing in debug mode</h4>
 While you are in the debugging mode, you can click the Single Step button in the CPU pane,
 which will execute one von Neumann cycle of the CPU.
 <p>
- <i>Screenshot of Single Step button.</i>
+<img src="qrc:/help/images/singlestep.png" alt="singlestep" hspace=10 vspace=10>
 <p>
  The CPU pane shows you the values of the NZVC bits and of each register in the CPU.
  The following screen shot shows the CPU pane after one click of the Single Step button for the object program from Figure 4.41.
@@ -114,7 +114,8 @@ and those bytes are the instruction that will execute <i>next</i>.
  If you want to terminate the debugging session without running the program to completion, select Build->Stop Debugging
  from the menu or click the stop sign icon in the menu bar.
 <p>
- <i>Screenshot of menu item and stop sign icon.</i>
+<img src="qrc:/help/images/stopdebugging.png" alt="stopdebugging" hspace=10 vspace=10>
+<img src="qrc:/help/images/stopdebuggingicon.png" alt="stopdebuggingicon" hspace=10 vspace=10>
 <p>
 <h3><a name="Break">Break points</a></h3>
 To use break points for an assembly language program enter the debugging mode as described in the previous section.

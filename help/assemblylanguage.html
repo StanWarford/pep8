@@ -36,61 +36,61 @@ Writing an assembly language program is a four-step process.
 With this Pep/8 application, you write the assembly language program using the built-in text editor in the Source Code pane.
 The following figure shows the source program after entering the program from Figure 5.18 of the textbook.
 <p>
-<img src="qrc:/help/images/assemblylanguage01.png" alt="assemblylanguage01" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig518.png" alt="fig518" hspace=10 vspace=10>
 <p>
 Strict formatting is not required as long as there is one instruction or dot command per line,
 and at least one space between a mnemonic and an operand specifier.
 For example, the above program could be entered as follows.
 <p>
-<img src="qrc:/help/images/assemblylanguage02.png" alt="assemblylanguage02" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig518unformatted.png" alt="fig518unformatted" hspace=10 vspace=10>
 <p>
 <h4>Step 2.</h4>
 After writing the assembly language program, assemble it by selecting Build->Assemble from the menu
 or clicking on the hammer icon in the tool bar.
 <p>
-<img src="qrc:/help/images/assemblylanguage03.png" alt="assemblylanguage03" hspace=10 vspace=10>
-<img src="qrc:/help/images/assemblylanguage03b.png" alt="assemblylanguage03b" hspace=10 vspace=10>
+<img src="qrc:/help/images/assemble.png" alt="assemble" hspace=10 vspace=10>
+<img src="qrc:/help/images/assembleicon.png" alt="assembleicon" hspace=10 vspace=10>
 <p>
 If there are no errors, the translated program will appear in the Object Code pane,
 and a formatted listing will appear in the Assembler Listing pane.
 <p>
-<img src="qrc:/help/images/assemblylanguage04.png" alt="assemblylanguage04" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig518assembled.png" alt="fig518assembled" hspace=10 vspace=10>
 <p>
 If there is an error in your program, an error message will appear in the source code pane.
 The following screen shot shows what would happen if you fail to supply the addressing mode for
 the <code>STRO</code> instruction.
 <P>
-<img src="qrc:/help/images/assemblylanguage05.png" alt="assemblylanguage05" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig518error.png" alt="fig518error" hspace=10 vspace=10>
 <p>
 If you would like, you can select Build->Remove Error Messages from the menu to delete the error message.
 Then, you can correct your error and try to assemble your program again.
 It is not necessary to remove the error message before correcting your program, as error messages
 are automatically removed when you assemble your program.
 <p>
-<img src="qrc:/help/images/assemblylanguage06.png" alt="assemblylanguage06" hspace=10 vspace=10>
+<img src="qrc:/help/images/removeerrormessages.png" alt="removeerrormessages" hspace=10 vspace=10>
 <p>
 Once you assemble your program so that a formatted listing appears in the Assembler Listing pane,
 you can select Edit->Format From Listing from the menu.
 Your source code will be replaced with the standard formatted source code extracted from the Assembler Listing pane.
 <p>
- <i>Need a screen shot of Edit->Format From Listing here.</i>
+<img src="qrc:/help/images/formatfromlisting.png" alt="formatfromlisting" hspace=10 vspace=10>
 <p>
 <h4>Step 3.</h4>
 Load your program by selecting Build -> Load from the menu.
 <p>
-<img src="qrc:/help/images/assemblylanguage07.png" alt="assemblylanguage07" hspace=10 vspace=10>
+<img src="qrc:/help/images/load.png" alt="load" hspace=10 vspace=10>
 <p>
 <h4>Step 4.</h4>
 To execute the program select Build -> Execute from the menu.
 <p>
-<img src="qrc:/help/images/assemblylanguage08.png" alt="assemblylanguage08" hspace=10 vspace=10>
+<img src="qrc:/help/images/execute.png" alt="execute" hspace=10 vspace=10>
 <p>
 <h3><a name="Trace">Trace tag warnings</a></h3>
 
 If your program assembles correctly but there is an error in your trace tags, a trace tag warning is displayed.
 For example, here is what happens if you make an error in one of the trace tags in the program from Figure 5.26.
 <p>
-<img src="qrc:/help/images/assemblylanguage09.png" alt="assemblylanguage09" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig518tracetagwarning.png" alt="fig518tracetagwarning" hspace=10 vspace=10>
 <p>
 Programs with trace tag warnings have assembled correctly and will still run.
 In the debugger, you can still single step through the program, set break points, and trace memory in the Memory Dump pane.
@@ -102,7 +102,7 @@ you fix the trace tag error and reassemble your program.
 The three steps &mdash; Assemble, Load, Execute &mdash; are combined in the single option called Run.
 You can initiate a run by selecting Build->Run from the menu or by clicking on the Run icon in the tool bar.
 <p>
-<img src="qrc:/help/images/assemblylanguage11.png" alt="assemblylanguage11" hspace=10 vspace=10>
-<img src="qrc:/help/images/assemblylanguage11b.png" alt="assemblylanguage11b" hspace=10 vspace=10>
+<img src="qrc:/help/images/runsource.png" alt="runsource" hspace=10 vspace=10>
+<img src="qrc:/help/images/runicon.png" alt="runicon" hspace=10 vspace=10>
 </body>
 </html>

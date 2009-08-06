@@ -82,32 +82,34 @@
         <file>help/figures/fig0514b.pep</file>
         <file>help/figures/fig0515.pep</file>
         <file>help/figures/fig0516.pep</file>
-        <file>help/images/writingprograms01.png</file>
-        <file>help/images/writingprograms02.png</file>
-        <file>help/images/writingprograms03.png</file>
-        <file>help/images/writingprograms04.png</file>
-        <file>help/images/machinelanguage01.png</file>
-        <file>help/images/machinelanguage02.png</file>
-        <file>help/images/machinelanguage03.png</file>
-        <file>help/images/machinelanguage04.png</file>
-        <file>help/images/machinelanguage05.png</file>
-        <file>help/images/assemblylanguage01.png</file>
-        <file>help/images/assemblylanguage02.png</file>
-        <file>help/images/assemblylanguage03.png</file>
-        <file>help/images/assemblylanguage04.png</file>
-        <file>help/images/assemblylanguage05.png</file>
-        <file>help/images/assemblylanguage06.png</file>
-        <file>help/images/assemblylanguage07.png</file>
-        <file>help/images/assemblylanguage08.png</file>
-        <file>help/images/assemblylanguage09.png</file>
-        <file>help/images/assemblylanguage10.png</file>
         <file>help/figures/exer0804.pep</file>
         <file>help/figures/prob0829.pep</file>
         <file>help/figures/prob0832.pep</file>
-        <file>help/images/assemblylanguage03b.png</file>
-        <file>help/images/assemblylanguage11.png</file>
-        <file>help/images/assemblylanguage11b.png</file>
-        <file>help/images/debuggingprograms01.png</file>
-        <file>help/images/debuggingprograms02.png</file>
+        <file>help/images/assemble.png</file>
+        <file>help/images/assembleinstallnewos.png</file>
+        <file>help/images/codecpumemory.png</file>
+        <file>help/images/codecpumemoryicon.png</file>
+        <file>help/images/execute.png</file>
+        <file>help/images/formatfromlisting.png</file>
+        <file>help/images/interruptexecution.png</file>
+        <file>help/images/iotab.png</file>
+        <file>help/images/load.png</file>
+        <file>help/images/removeerrormessages.png</file>
+        <file>help/images/runicon.png</file>
+        <file>help/images/runsource.png</file>
+        <file>help/images/startdebuggingobject.png</file>
+        <file>help/images/startdebuggingsource.png</file>
+        <file>help/images/stopdebugging.png</file>
+        <file>help/images/assembleicon.png</file>
+        <file>help/images/fig518.png</file>
+        <file>help/images/fig518assembled.png</file>
+        <file>help/images/fig518error.png</file>
+        <file>help/images/fig518tracetagwarning.png</file>
+        <file>help/images/fig518unformatted.png</file>
+        <file>help/images/fig441.png</file>
+        <file>help/images/singlestep.png</file>
+        <file>help/images/fig441output.png</file>
+        <file>help/images/loadsucceeded.png</file>
+        <file>help/images/assemblysucceeded.png</file>
     </qresource>
 </RCC>
