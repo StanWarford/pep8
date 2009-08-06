@@ -1,4 +1,5 @@
 #include <QFontDialog>
+#include <QScrollBar>
 #include "listingtracepane.h"
 #include "ui_listingtracepane.h"
 #include "sim.h"
@@ -56,7 +57,9 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         tableWidget->setItem(i, 0, item);
     }
     tableWidget->resizeColumnsToContents();
+    tableWidget->setColumnWidth(1, tableWidget->columnWidth(1) + 800);
     tableWidget->resizeRowsToContents();
+    tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }
 
 void ListingTracePane::clearListingTrace()
@@ -93,6 +96,7 @@ void ListingTracePane::updateListingTrace()
         highlightedItem->setTextColor(Qt::white);
         tableWidget->scrollToItem(highlightedItem);
     }
+    tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }
 
 void ListingTracePane::setDebuggingState(bool b)
@@ -119,6 +123,7 @@ void ListingTracePane::setDebuggingState(bool b)
         highlightedItem->setTextColor(Qt::white);
         tableWidget->scrollToItem(highlightedItem);
     }
+    tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }
 
 void ListingTracePane::showAssemblerListing()
