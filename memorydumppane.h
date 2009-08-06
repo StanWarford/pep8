@@ -32,6 +32,9 @@ public:
     void updateMemory();
     // Post: Memory displays are updated using the changedMemoryAddrss qlist in sim
 
+    void scrollToTop();
+    // Post: Memory dump is scrolled to the top left corner
+
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
 

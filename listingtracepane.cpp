@@ -16,7 +16,7 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont));
+        m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
         m_ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }

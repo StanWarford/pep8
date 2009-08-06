@@ -182,7 +182,7 @@ void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
+    QSize size = settings.value("size", QSize(800, 800)).toSize();
     resize(size);
     move(pos);
     curPath = settings.value("filePath", QDir::homePath()).toString();
@@ -1008,6 +1008,9 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
 {
     memoryDumpPane->updateMemory();
     memoryDumpPane->highlightMemory(ui->actionBuild_Stop_Debugging->isEnabled());
+    if (ui->horizontalSplitter->widget(2)->isHidden()) {
+        memoryDumpPane->scrollToTop();
+    }
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();

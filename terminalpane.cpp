@@ -17,7 +17,7 @@ TerminalPane::TerminalPane(QWidget *parent) :
     connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     }
 }
@@ -31,6 +31,7 @@ void TerminalPane::appendOutput(QString str)
 {
     m_ui->pepTerminalTextEdit->setText(m_ui->pepTerminalTextEdit->toPlainText().append(str));
     strokeString.append(str);
+    m_ui->pepTerminalTextEdit->verticalScrollBar()->setValue(m_ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 void TerminalPane::waitingForInput()
@@ -84,8 +85,7 @@ void TerminalPane::displayTerminal()
     else {
         m_ui->pepTerminalTextEdit->setPlainText(strokeString + retString);
     }
-    QScrollBar* sBar = m_ui->pepTerminalTextEdit->verticalScrollBar();
-    sBar->setValue(sBar->maximum()); // Scroll to bottom
+    m_ui->pepTerminalTextEdit->verticalScrollBar()->setValue(m_ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 void TerminalPane::keyPressEvent(QKeyEvent* e)

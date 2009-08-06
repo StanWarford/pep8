@@ -20,7 +20,7 @@ MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }
@@ -228,6 +228,12 @@ void MemoryDumpPane::updateMemory()
     m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
     m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 
+}
+
+void MemoryDumpPane::scrollToTop()
+{
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(0);
+    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(0);
 }
 
 void MemoryDumpPane::highlightOnFocus()

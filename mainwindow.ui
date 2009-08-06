@@ -120,11 +120,20 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
+       <property name="opaqueResize">
+        <bool>true</bool>
+       </property>
        <property name="handleWidth">
         <number>7</number>
        </property>
        <widget class="QWidget" name="CpuWidgetPane" native="true"/>
        <widget class="QTabWidget" name="pepInputOutputTab">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="tabShape">
          <enum>QTabWidget::Rounded</enum>
         </property>

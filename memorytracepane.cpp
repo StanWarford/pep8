@@ -11,7 +11,7 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
     m_ui->setupUi(this);
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 }

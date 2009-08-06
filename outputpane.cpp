@@ -1,4 +1,5 @@
 #include <QFontDialog>
+#include <QScrollBar>
 #include "outputpane.h"
 #include "ui_outputpane.h"
 #include "pep.h"
@@ -10,7 +11,7 @@ OutputPane::OutputPane(QWidget *parent) :
     m_ui->setupUi(this);
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->pepOutputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     }
 }
@@ -23,6 +24,7 @@ OutputPane::~OutputPane()
 void OutputPane::appendOutput(QString str)
 {
     m_ui->pepOutputTextEdit->setText(m_ui->pepOutputTextEdit->toPlainText().append(str));
+    m_ui->pepOutputTextEdit->verticalScrollBar()->setValue(m_ui->pepOutputTextEdit->verticalScrollBar()->maximum());
 }
 
 void OutputPane::clearOutput()

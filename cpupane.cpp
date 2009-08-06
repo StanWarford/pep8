@@ -17,7 +17,7 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
 
         m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
 
