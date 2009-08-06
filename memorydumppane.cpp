@@ -6,8 +6,6 @@
 #include "pep.h"
 #include "enu.h"
 
-#include <QDebug>
-
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::MemoryDumpPane)

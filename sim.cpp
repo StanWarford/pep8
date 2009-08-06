@@ -1,7 +1,6 @@
 #include "sim.h"
 #include "pep.h"
 #include <QMessageBox>
-#include <QDebug>
 #include <QSet>
 
 using namespace Enu;

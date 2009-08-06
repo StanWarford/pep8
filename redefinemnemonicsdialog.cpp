@@ -11,27 +11,29 @@ RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
     restoreDefaults();
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->unaryOpCodeLabel->setFont(QFont(Pep::labelFont));
+        m_ui->unaryOpCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->unaryOpCode1Label->setFont(QFont(Pep::codeFont));
         m_ui->unaryOpCode2Label->setFont(QFont(Pep::codeFont));
         m_ui->unaryOpCode3Label->setFont(QFont(Pep::codeFont));
         m_ui->unaryOpCode4Label->setFont(QFont(Pep::codeFont));
 
-        m_ui->unaryMnemonicLabel->setFont(QFont(Pep::labelFont));
+        m_ui->unaryMnemonicLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->unaryMnemonic0LineEdit->setFont(QFont(Pep::codeFont));
         m_ui->unaryMnemonic1LineEdit->setFont(QFont(Pep::codeFont));
         m_ui->unaryMnemonic2LineEdit->setFont(QFont(Pep::codeFont));
         m_ui->unaryMnemonic3LineEdit->setFont(QFont(Pep::codeFont));
 
-        m_ui->nonunaryMnemonicLabel->setFont(QFont(Pep::labelFont));
-        m_ui->iLabel->setFont(QFont(Pep::labelFont));
-        m_ui->dLabel->setFont(QFont(Pep::labelFont));
-        m_ui->nLabel->setFont(QFont(Pep::labelFont));
-        m_ui->sLabel->setFont(QFont(Pep::labelFont));
-        m_ui->sfLabel->setFont(QFont(Pep::labelFont));
-        m_ui->xLabel->setFont(QFont(Pep::labelFont));
-        m_ui->sxLabel->setFont(QFont(Pep::labelFont));
-        m_ui->sxfLabel->setFont(QFont(Pep::labelFont));
+        m_ui->nonunaryMnemonicLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->iLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->dLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->nLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->sLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->sfLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->xLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->sxLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+        m_ui->sxfLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+
+        m_ui->nonunaryOpCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
 
         m_ui->nonunaryOpCode1Label->setFont(QFont(Pep::codeFont));
         m_ui->nonunaryOpCode2Label->setFont(QFont(Pep::codeFont));
