@@ -111,5 +111,18 @@
         <file>help/images/fig441output.png</file>
         <file>help/images/loadsucceeded.png</file>
         <file>help/images/assemblysucceeded.png</file>
+        <file>help/images/byteconverter.png</file>
+        <file>help/images/cpupane.png</file>
+        <file>help/images/fig0515breakpoint.png</file>
+        <file>help/images/fig0515cpu.png</file>
+        <file>help/images/fig0515deci.png</file>
+        <file>help/images/fig0515listingadda.png</file>
+        <file>help/images/fig0515listingtrace.png</file>
+        <file>help/images/fig0515trap.png</file>
+        <file>help/images/memorydump.png</file>
+        <file>help/images/operand.png</file>
+        <file>help/images/resume.png</file>
+        <file>help/images/stopdebuggingicon.png</file>
+        <file>help/images/tracetraps.png</file>
     </qresource>
 </RCC>

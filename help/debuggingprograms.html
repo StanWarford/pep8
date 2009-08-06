@@ -67,7 +67,7 @@ which will execute one von Neumann cycle of the CPU.
  The CPU pane shows you the values of the NZVC bits and of each register in the CPU.
  The following screen shot shows the CPU pane after one click of the Single Step button for the object program from Figure 4.41.
 <p>
- <i>Screenshot of CPU pane.</i>
+<img src="qrc:/help/images/cpupane.png" alt="cpupane" hspace=10 vspace=10>
 <p>
 The CPU pane displays the content of the accumulator, index register, stack pointer, and program counter first in hexadecimal and
 then in decimal.
@@ -80,7 +80,7 @@ However, for the convenience of the programmer, the CPU pane computes the value 
 and displays it as well.
 The Operand field in the CPU pane is enclosed in parentheses to emphasize the fact that it is <i>not</i> part of the CPU.
 <p>
- <i>Screenshot of (Operand) field of CPU pane.</i>
+<img src="qrc:/help/images/operand.png" alt="operand" hspace=10 vspace=10>
 <p>
  The values in the CPU pane are the values <i>after</i> the instruction has executed.
  For example, the values in the above screen shots are the values after the first <code>CHARI</code> executes.
@@ -93,7 +93,7 @@ The Operand field in the CPU pane is enclosed in parentheses to emphasize the fa
  and highlights in blue the bytes of the instruction as specified by the program counter.
  The following screen shot shows the Memory Dump pane after the first click of the Single Step button.
 <p>
- <i>Screenshot of Memory Dump pane.</i>
+<img src="qrc:/help/images/memorydump.png" alt="memorydump" hspace=10 vspace=10>
 <p>
 Each line of the Memory Dump pane displays eight bytes, each byte represented as two hexadecimal digits.
 The address in the first column is the address of the first byte.
@@ -109,7 +109,7 @@ and those bytes are the instruction that will execute <i>next</i>.
  If you want the program to run to completion, click the Resume button.
  The program will run to completion and exit the debug mode.
 <p>
- <i>Screenshot of Resume button.</i>
+<img src="qrc:/help/images/resume.png" alt="resume" hspace=10 vspace=10>
 <p>
  If you want to terminate the debugging session without running the program to completion, select Build->Stop Debugging
  from the menu or click the stop sign icon in the menu bar.
@@ -122,7 +122,7 @@ To use break points for an assembly language program enter the debugging mode as
 Pep/8 will switch from the Code pane to the Trace pane and display the source program for tracing.
 The following screen shot shows the Trace pane for the program in Figure 5.15 of the text.
 <p>
- <i>Screenshot of listing trace pane for Figure 5.15.</i>
+<img src="qrc:/help/images/fig0515listingtrace.png" alt="fig0515listingtrace" hspace=10 vspace=10>
 <p>
 As you single step through the program, the CPU shows the content of the registers as described in the previous section.
 Remember that the CPU pane shows the values of the registers <i>after</i> the instruction in the instruction specifier
@@ -132,27 +132,30 @@ to be executed.
 The following screen shot shows the Trace pane after five clicks of the Single Step button.
 The <code>LDA</code> instruction has just executed, and the <code>ADDA</code> instruction will execute next.
 <p>
- <i>Screenshot of Trace pane and CPU pane after 5 clicks.</i>
+<img src="qrc:/help/images/fig0515breakpoint.png" alt="fig0515breakpoint" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig0515cpu.png" alt="fig0515cpu" hspace=10 vspace=10>
+
 <p>
 <h4>Setting break points</h4>
  Each executable instruction in the Trace pane has a checkbox for setting a break point.
  The following screenshot shows the Trace pane for the program in Figure 5.15 before any statement has been executed.
  The programmer has set a breakpoint at the <code>STA</code> instruction.
 <p>
- <i>Screenshot of Trace pane with breakpoint set.</i>
+<img src="qrc:/help/images/fig0515breakpoint.png" alt="fig0515breakpoint" hspace=10 vspace=10>
 <p>
  When the programmer clicks the Resume button, the program resumes executing until it gets to an instruction with a breakpoint
  or until completion if no breakpoint is encountered.
  The following screenshot shows what happens when the Resume button is clicked.
  Note that the <code>STA</code> instruction will execute next if the programmer clicks the Single Step button at this point.
  <p>
- <i>Screenshot of Resume button first, followed by Trace pane.</i>
+<img src="qrc:/help/images/resume.png" alt="resume" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig0515resumed.png" alt="fig0515resumed" hspace=10 vspace=10>
 <p>
 <h4>Tracing traps</h4>
  If you want to trace the operating system's execution of a trap instruction, click the Trace Traps checkbox in the CPU pane before
  entering the debugging mode.
  <p>
- <i>Screenshot of Trace Traps checkbox.</i>
+<img src="qrc:/help/images/tracetraps.png" alt="tracetraps" hspace=10 vspace=10>
 <p>
 As you single step through your program, if you execute a trap instruction the Trace pane will show the individual instructions
 in the trap handler of the operating system.
@@ -160,7 +163,8 @@ The first screen shot below shows the <code>DECI</code> instruction about to be 
 The second screen shot shows the effect of clicking the Single Step button.
 The Trace pane switches to the trap handler in the operating system.
  <p>
- <i>Screenshots of Trace pane before and after Single Step.</i>
+<img src="qrc:/help/images/fig0515deci.png" alt="fig0515deci" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig0515trap.png" alt="fig0515trap" hspace=10 vspace=10>
 <p>
 When you are tracing an operating system trap, you can set breakpoints and click Single Step or Resume as you would
 with the source program.
@@ -182,7 +186,7 @@ The four input fields represent the value of a single byte as displayed from lef
 Simply enter any value in any input field and the other fields will show the same value in the corresponding format.
 Here is the result of entering the letter <code>P</code> in the ASCII field.
  <p>
- <i>Screenshot of byte converter.</i>
+<img src="qrc:/help/images/byteconverter.png" alt="byteconverter" hspace=10 vspace=10>
 <p>
 
 
