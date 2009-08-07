@@ -138,5 +138,8 @@
         <file>help/images/fig0441output.png</file>
         <file>help/images/startdebuggingicon.png</file>
         <file>help/images/pep8help.png</file>
+        <file>help/images/viewicon.png</file>
+        <file>help/images/codecodememory.png</file>
+        <file>help/images/stackpointer.png</file>
     </qresource>
 </RCC>

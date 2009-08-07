@@ -106,7 +106,7 @@ void MemoryDumpPane::highlightMemory(bool b)
     }
 
     if (b) {
-        highlightByte(Sim::stackPointer, Qt::white, Qt::darkCyan);
+        highlightByte(Sim::stackPointer, Qt::white, Qt::darkMagenta);
         highlightedData.append(Sim::stackPointer);
         
         if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
