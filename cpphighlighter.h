@@ -33,9 +33,9 @@ private:
     QTextCharFormat classFormat;
     QTextCharFormat singleLineCommentFormat;
     QTextCharFormat multiLineCommentFormat;
+    QTextCharFormat functionFormat;
     QTextCharFormat singleQuotationFormat;
     QTextCharFormat doubleQuotationFormat;
-    QTextCharFormat functionFormat;
 };
 
 #endif // CPPHIGHLIGHTER_H

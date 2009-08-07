@@ -37,6 +37,12 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
 
     multiLineCommentFormat.setForeground(Qt::darkGreen);
 
+    functionFormat.setFontItalic(true);
+    functionFormat.setForeground(Qt::darkBlue);
+    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=[\\s]*\\()");
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
     singleQuotationFormat.setForeground(Qt::red);
     rule.pattern = QRegExp("((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");
     rule.format = singleQuotationFormat;
@@ -45,12 +51,6 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
     doubleQuotationFormat.setForeground(Qt::red);
     rule.pattern = QRegExp("((\")((([^\"|\\\\])|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))*)(\"))");
     rule.format = doubleQuotationFormat;
-    highlightingRules.append(rule);
-
-    functionFormat.setFontItalic(true);
-    functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
-    rule.format = functionFormat;
     highlightingRules.append(rule);
 
     commentStartExpression = QRegExp("/\\*");
