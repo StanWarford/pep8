@@ -106,13 +106,10 @@
         <file>help/images/fig518error.png</file>
         <file>help/images/fig518tracetagwarning.png</file>
         <file>help/images/fig518unformatted.png</file>
-        <file>help/images/fig441.png</file>
         <file>help/images/singlestep.png</file>
-        <file>help/images/fig441output.png</file>
         <file>help/images/loadsucceeded.png</file>
         <file>help/images/assemblysucceeded.png</file>
         <file>help/images/byteconverter.png</file>
-        <file>help/images/cpupane.png</file>
         <file>help/images/fig0515breakpoint.png</file>
         <file>help/images/fig0515cpu.png</file>
         <file>help/images/fig0515deci.png</file>
@@ -133,5 +130,10 @@
         <file>help/images/redefinemnemonics.png</file>
         <file>help/images/nop0.png</file>
         <file>help/images/relocatedos.png</file>
+        <file>help/images/fig0434.png</file>
+        <file>help/images/fig0434cpupane.png</file>
+        <file>help/images/fig0434io.png</file>
+        <file>help/images/fig0434memorydump.png</file>
+        <file>help/images/runobject.png</file>
     </qresource>
 </RCC>

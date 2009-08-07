@@ -20,13 +20,13 @@ Assembly Language
 <p>
 An assembly language program is a sequence of lines, each line containing either an instruction
 from the Pep/8 instruction set specfied by a mnemonic,
-or a pseudo-operation, also called a pseudo-op or a dot command.
+or a pseudo-operation, also called a pseudo-op or dot command.
 The assembly language program must end with the pseudo-op <code>.END</code>.
 <p>
  Topics:
  <a href="#Writing">Writing an assembly language program</a>,
  <a href="#Trace">Trace tag warnings</a>,
- <a href="#Run">The Run option</a>.
+ <a href="#Run">The Run Source option</a>.
 
 <h3><a name="Writing">Writing an assembly language program</a></h3>
 
@@ -69,7 +69,7 @@ the <code>STRO</code> instruction.
 If you would like, you can select Build->Remove Error Messages from the menu to delete the error message.
 Then, you can correct your error and try to assemble your program again.
 It is not necessary to remove the error message before correcting your program, as error messages
-are automatically removed when you assemble your program.
+are automatically removed when you reassemble your program.
 <p>
 <img src="qrc:/help/images/removeerrormessages.png" alt="removeerrormessages" hspace=10 vspace=10>
 <p>
@@ -101,12 +101,13 @@ In the debugger, you can still single step through the program, set break points
 However, the symbolic trace feature that shows the C++ memory model graphically in the Memory Trace pane is disabled until
 you fix the trace tag error and reassemble your program.
 
-<h3><a name="Run">The Run option</a></h3>
+<h3><a name="Run">The Run Source option</a></h3>
 
-The three steps &mdash; Assemble, Load, Execute &mdash; are combined in the single option called Run.
-You can initiate a run by selecting Build->Run from the menu or by clicking on the Run icon in the tool bar.
+The three steps &mdash; Assemble, Load, Execute &mdash; are combined in the single option called Run Source.
+You can initiate a run by selecting Build->Run Source from the menu or by clicking on the Run Source icon in the tool bar.
 <p>
 <img src="qrc:/help/images/runsource.png" alt="runsource" hspace=10 vspace=10>
 <img src="qrc:/help/images/runicon.png" alt="runicon" hspace=10 vspace=10>
+<p>
 </body>
 </html>
