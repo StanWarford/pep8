@@ -124,5 +124,14 @@
         <file>help/images/resume.png</file>
         <file>help/images/stopdebuggingicon.png</file>
         <file>help/images/tracetraps.png</file>
+        <file>help/images/fig0515resumed.png</file>
+        <file>help/images/echo.png</file>
+        <file>help/images/echoprogram.png</file>
+        <file>help/images/modifieddotburn.png</file>
+        <file>help/images/pecho.png</file>
+        <file>help/images/pep8oshelpsystem.png</file>
+        <file>help/images/redefinemnemonics.png</file>
+        <file>help/images/nop0.png</file>
+        <file>help/images/relocatedos.png</file>
     </qresource>
 </RCC>

@@ -41,36 +41,24 @@ Select the menu option System->Redefine Mnemonics to change the mnemonics of one
 The dialog box requires you to enter a mnemonic and its allowed addressing modes if it is nonunary.
 For example, change the mnemonic for the unary instruction <code>NOP0</code> to <code>ECHO</code>.
 <p>
-<i>Insert screen shot here of Redefine Mnemonics with NOP0 changed to ECHO.</i>
+<img src="qrc:/help/images/redefinemnemonics.png" alt="redefinemnemonics" hspace=10 vspace=10>
 <p>
 <h4>Step 2.</h4>
 In this Help system in the pane on the left, select Pep/8 Operating System, and then click the Copy to Source button.
 The default operating system will be copied to the Source Code pane.
 <p>
-<i>Insert screen shots here of Pep/8 OS selected and then copied to Source Code pane.</i>
+<img src="qrc:/help/images/pep8oshelpsystem.png" alt="pep8oshelpsystem" hspace=10 vspace=10>
 <p>
 <h4>Step 3.</h4>
 Modify the trap handler part of the operating system to implement your new instruction.
 As an example, here is the original NOP0 trap handler.
 <p>
-<i>Insert screen shot here of this fragment from Pep/8 OS.</i>
+<img src="qrc:/help/images/nop0.png" alt="nop0" hspace=10 vspace=10>
 <p>
-<pre>
-;******* Opcode 0x24
-;The NOP0 instruction.
-opcode24:RET0
-</pre>
 And here is how you would modify it to implement the new <code>ECHO</code> instruction in place of <code>NOP0</code>.
 <p>
-<i>Insert screen shot here of this fragment from modified Pep/8 OS.</i>
+<img src="qrc:/help/images/echo.png" alt="echo" hspace=10 vspace=10>
 <p>
-<pre>
-;******* Opcode 0x24
-;The ECHO instruction.
-opcode24:CHARI byteBuff,d
-         CHARO byteBuff,d
-         RET0
-</pre>
 CAUTION: You cannot use any trap instructions in your trap handler.
 <p>
 <h4>Step 4.</h4>
@@ -85,19 +73,13 @@ Write an assembly language program to test your new instruction with the new mne
 The assembler should recognize the new mnemonic and generate the appropriate object code.
 For example, your test program might be the following.
 <p>
-<i>Insert screen shot here of the following code in the Source Code pane.</i>
-<p>
-<pre>
-ECHO
-STOP
-.END
-</pre>
+<img src="qrc:/help/images/echoprogram.png" alt="echoprogram" hspace=10 vspace=10>
 <p>
 <h4>Step 6.</h4>
 Load and execute your program assembled in step 5.
 In this example, whatever character is placed in the Input pane should be echoed in the output pane.
 <p>
-<i>Insert screen shot here of the Batch I/O panes with a single character, P, in the input and output panes.</i>
+<img src="qrc:/help/images/pecho.png" alt="pecho" hspace=10 vspace=10>
 
 <h3><a name="BURN">The .BURN pseudo-op</a></h3>
 
@@ -115,11 +97,11 @@ Simply change the burn directive in the operating system to a smaller value.
 For example, you can change the burn directive to <code>.BURN 0x7FFF</code>, assemble and install the new OS,
 and the system will install only 32KB of memory instead of 64KB.
 <p>
- <i>Screen shot of the modified .BURN constant.</i>
+<img src="qrc:/help/images/modifieddotburn.png" alt="modifieddotburn" hspace=10 vspace=10>
 <p>
 The trap handlers all run correctly, which you can trace in the Memory Dump pane.
 <p>
- <i>Screen shot of the Memory Dump pane with relocated OS.</i>
+<img src="qrc:/help/images/relocatedos.png" alt="relocatedos" hspace=10 vspace=10>
 <p>
 </body>
 </html>

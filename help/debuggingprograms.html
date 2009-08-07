@@ -132,7 +132,7 @@ to be executed.
 The following screen shot shows the Trace pane after five clicks of the Single Step button.
 The <code>LDA</code> instruction has just executed, and the <code>ADDA</code> instruction will execute next.
 <p>
-<img src="qrc:/help/images/fig0515breakpoint.png" alt="fig0515breakpoint" hspace=10 vspace=10>
+<img src="qrc:/help/images/fig0515listingadda.png" alt="fig0515listingadda" hspace=10 vspace=10>
 <img src="qrc:/help/images/fig0515cpu.png" alt="fig0515cpu" hspace=10 vspace=10>
 
 <p>
@@ -159,12 +159,16 @@ The <code>LDA</code> instruction has just executed, and the <code>ADDA</code> in
 <p>
 As you single step through your program, if you execute a trap instruction the Trace pane will show the individual instructions
 in the trap handler of the operating system.
-The first screen shot below shows the <code>DECI</code> instruction about to be executed.
-The second screen shot shows the effect of clicking the Single Step button.
-The Trace pane switches to the trap handler in the operating system.
- <p>
+<p>
+The <code>DECI</code> instruction about to be executed:
+<p>
 <img src="qrc:/help/images/fig0515deci.png" alt="fig0515deci" hspace=10 vspace=10>
+<p>
+The effect of clicking the Single Step button:
+<p>
 <img src="qrc:/help/images/fig0515trap.png" alt="fig0515trap" hspace=10 vspace=10>
+<p>
+The Trace pane switches to the trap handler in the operating system.
 <p>
 When you are tracing an operating system trap, you can set breakpoints and click Single Step or Resume as you would
 with the source program.

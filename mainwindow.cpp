@@ -21,8 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QFontDatabase::addApplicationFont(":/CourDKn.ttf");
-
     // Left pane setup
     sourceCodePane = new SourceCodePane(ui->codeSplitter);
     delete ui->SourceCodeWidgetPane;
