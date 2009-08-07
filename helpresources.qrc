@@ -116,7 +116,6 @@
         <file>help/images/fig0515listingadda.png</file>
         <file>help/images/fig0515listingtrace.png</file>
         <file>help/images/fig0515trap.png</file>
-        <file>help/images/memorydump.png</file>
         <file>help/images/operand.png</file>
         <file>help/images/resume.png</file>
         <file>help/images/stopdebuggingicon.png</file>
@@ -135,5 +134,9 @@
         <file>help/images/fig0434io.png</file>
         <file>help/images/fig0434memorydump.png</file>
         <file>help/images/runobject.png</file>
+        <file>help/images/fig0441.png</file>
+        <file>help/images/fig0441output.png</file>
+        <file>help/images/startdebuggingicon.png</file>
+        <file>help/images/pep8help.png</file>
     </qresource>
 </RCC>

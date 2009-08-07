@@ -154,7 +154,7 @@ void MemoryDumpPane::highlightMemory(bool b)
             highlightedData.append(Sim::add(Sim::programCounter, 2));
         }
         else { // unary.
-            highlightByte(Sim::programCounter, Qt::white, Qt::darkBlue);
+            highlightByte(Sim::programCounter, Qt::white, Qt::blue);
             highlightedData.append(Sim::programCounter);
         }
 
