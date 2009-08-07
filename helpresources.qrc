@@ -58,7 +58,6 @@
         <file>help/figures/fig0647.cpp</file>
         <file>help/figures/fig0647.pep</file>
         <file>help/figures/pep8os.pep</file>
-        <file>help/welcome.html</file>
         <file>help/figures/fig0432.pepb</file>
         <file>help/figures/fig0432.peph</file>
         <file>help/figures/fig0432.pepo</file>
@@ -141,5 +140,6 @@
         <file>help/images/viewicon.png</file>
         <file>help/images/codecodememory.png</file>
         <file>help/images/stackpointer.png</file>
+        <file>help/images/fig0601.png</file>
     </qresource>
 </RCC>
