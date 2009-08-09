@@ -336,7 +336,10 @@ void MainWindow::setCurrentFile(const QString &fileName, Enu::EPane pane)
     else if (pane == Enu::EListing) {
         curListingFile = fileName;
     }
-    curPath = QFileInfo(fileName).path();
+
+    if (!fileName.isEmpty()) {
+        curPath = QFileInfo(fileName).path();
+    }
 
     QString shownName;
     if (pane == Enu::ESource) {
