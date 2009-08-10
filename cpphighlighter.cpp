@@ -5,19 +5,32 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
 {
     HighlightingRule rule;
 
+
+//    functionFormat.setFontItalic(true);
+    functionFormat.setFontWeight(QFont::Bold);
+    functionFormat.setForeground(Qt::darkMagenta);
+    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=[\\s]*\\()");
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
+    declarationFormat.setFontItalic(true);
+    declarationFormat.setForeground(Qt::darkBlue);
+    QStringList declarationPatterns;
+    declarationPatterns << "\\bbool\\b" << "\\bchar\\b" << "\\bconst\\b" << "\\bcase\\b"
+                    << "\\benum\\b" << "\\bint\\b" << "\\bnamespace\\b" << "\\bstruct\\b"
+                    << "\\busing\\b" << "\\#include\\b" << "\\bvoid\\b";
+    foreach (const QString &pattern, declarationPatterns) {
+        rule.pattern = QRegExp(pattern);
+        rule.format = declarationFormat;
+        highlightingRules.append(rule);
+    }
+
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
-    keywordPatterns << "\\bbool\\b" << "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
-                    << "\\bdouble\\b" << "\\benum\\b" << "\\bexplicit\\b"
-                    << "\\bfriend\\b" << "\\binline\\b" << "\\bint\\b"
-                    << "\\blong\\b" << "\\bnamespace\\b" << "\\boperator\\b"
-                    << "\\bprivate\\b" << "\\bprotected\\b" << "\\bpublic\\b"
-                    << "\\bshort\\b" << "\\bsignals\\b" << "\\bsigned\\b"
-                    << "\\bslots\\b" << "\\bstatic\\b" << "\\bstruct\\b"
-                    << "\\btemplate\\b" << "\\btypedef\\b" << "\\btypename\\b"
-                    << "\\bunion\\b" << "\\bunsigned\\b" << "\\bvirtual\\b"
-                    << "\\bvoid\\b" << "\\bvolatile\\b";
+    keywordPatterns << "\\bwhile\\b" << "\\bfor\\b" << "\\bswitch\\b"
+            << "\\bif\\b" << "\\bdo\\b" << "\\bnew\\b"
+            << "\\breturn\\b" << "\\belse\\b";
     foreach (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegExp(pattern);
         rule.format = keywordFormat;
@@ -36,12 +49,6 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
     highlightingRules.append(rule);
 
     multiLineCommentFormat.setForeground(Qt::darkGreen);
-
-    functionFormat.setFontItalic(true);
-    functionFormat.setForeground(Qt::darkBlue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=[\\s]*\\()");
-    rule.format = functionFormat;
-    highlightingRules.append(rule);
 
     singleQuotationFormat.setForeground(Qt::red);
     rule.pattern = QRegExp("((\')(?![\'])(([^\'|\\\\]){1}|((\\\\)([\'|b|f|n|r|t|v|\"|\\\\]))|((\\\\)(([x|X])([0-9|A-F|a-f]{2}))))(\'))");
