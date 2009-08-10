@@ -26,9 +26,6 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    // For testing tab stops, which are > spaces.
-//    m_ui->pepSourceCodeTextEdit->setTabStopWidth(63);
-
     qApp->installEventFilter(this);
 
     if (Pep::getSystem() != "Mac") {
@@ -368,14 +365,46 @@ void SourceCodePane::setLabelToModified(bool modified)
 
 bool SourceCodePane::eventFilter(QObject *, QEvent *event)
 {
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key_Tab) {
-            // Things with cursors, and spaces happen here.
-            // But for now...
-            m_ui->pepSourceCodeTextEdit->insertPlainText("         ");
-            return true;
+    if (m_ui->pepSourceCodeTextEdit->hasFocus()) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_Tab) {
+                QTextCursor cursor = m_ui->pepSourceCodeTextEdit->textCursor();
+                cursor.movePosition(QTextCursor::StartOfLine);
+                int linePos = m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position();
+                m_ui->pepSourceCodeTextEdit->insertPlainText(tab(linePos));
+
+                return true;
+            }
         }
     }
     return false;
 }
+
+QString SourceCodePane::tab(int curLinePos)
+{
+    QString retString;
+    int spaces;
+    if (curLinePos < 9) {
+        spaces = 9 - curLinePos;
+    }
+    else if (curLinePos < 17) {
+        spaces = 17 - curLinePos;
+    }
+    else if (curLinePos < 29) {
+        spaces = 29 - curLinePos;
+    }
+    else if (curLinePos == 29) {
+        spaces = 5;
+    }
+    else {
+        spaces = 4 - ((curLinePos - 30) % 4);
+    }
+
+    for (int i = 0; i < spaces; i++) {
+        retString.append(" ");
+    }
+
+    return retString;
+}
+

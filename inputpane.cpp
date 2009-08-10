@@ -1,4 +1,5 @@
 #include <QFontDialog>
+#include <QKeyEvent>
 #include "inputpane.h"
 #include "ui_inputpane.h"
 #include "pep.h"
@@ -11,6 +12,8 @@ InputPane::InputPane(QWidget *parent) :
 
     connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
+    qApp->installEventFilter(this);
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
@@ -95,4 +98,35 @@ void InputPane::setFont()
 void InputPane::setReadOnly(bool b)
 {
     m_ui->pepInputTextEdit->setReadOnly(b);
+}
+
+bool InputPane::eventFilter(QObject *, QEvent *event)
+{
+    if (m_ui->pepInputTextEdit->hasFocus()) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_Tab) {
+                QTextCursor cursor = m_ui->pepInputTextEdit->textCursor();
+                cursor.movePosition(QTextCursor::StartOfLine);
+                int linePos = m_ui->pepInputTextEdit->textCursor().position() - cursor.position();
+                m_ui->pepInputTextEdit->insertPlainText(tab(linePos));
+
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+QString InputPane::tab(int curLinePos)
+{
+    QString retString;
+    int spaces;
+    spaces = 4 - (curLinePos % 4);
+
+    for (int i = 0; i < spaces; i++) {
+        retString.append(" ");
+    }
+
+    return retString;
 }

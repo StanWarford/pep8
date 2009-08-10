@@ -56,6 +56,9 @@ public:
 private:
     Ui::InputPane *m_ui;
 
+    bool eventFilter(QObject *, QEvent *event);
+    QString tab(int curLinePos);
+
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);

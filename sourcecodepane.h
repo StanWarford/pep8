@@ -127,6 +127,7 @@ private:
     PepHighlighter *pepHighlighter;
 
     bool eventFilter(QObject *, QEvent *event);
+    QString tab(int curLinePos);
 
 private slots:
     void setLabelToModified(bool modified);
