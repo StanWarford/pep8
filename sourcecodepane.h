@@ -126,6 +126,8 @@ private:
 
     PepHighlighter *pepHighlighter;
 
+    bool eventFilter(QObject *, QEvent *event);
+
 private slots:
     void setLabelToModified(bool modified);
 

@@ -4,11 +4,14 @@
 #include <QPalette>
 #include <QSyntaxHighlighter>
 #include <QFontDialog>
+#include <QKeyEvent>
 #include "sourcecodepane.h"
 #include "ui_sourcecodepane.h"
 #include "code.h"
 #include "sim.h"
 #include "pep.h"
+
+#include <QDebug>
 
 SourceCodePane::SourceCodePane(QWidget *parent) :
         QWidget(parent),
@@ -22,6 +25,11 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
 
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+
+    // For testing tab stops, which are > spaces.
+//    m_ui->pepSourceCodeTextEdit->setTabStopWidth(63);
+
+    qApp->installEventFilter(this);
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepSourceCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
@@ -358,3 +366,16 @@ void SourceCodePane::setLabelToModified(bool modified)
     }
 }
 
+bool SourceCodePane::eventFilter(QObject *, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Tab) {
+            // Things with cursors, and spaces happen here.
+            // But for now...
+            m_ui->pepSourceCodeTextEdit->insertPlainText("         ");
+            return true;
+        }
+    }
+    return false;
+}
