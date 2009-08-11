@@ -33,6 +33,9 @@ public:
     void copy();
     // Post: the text edit that has focus has the copy() operation performed
 
+    void setCopyButtonDisabled(bool b);
+    // Post: the enabled state of the copy to source/object code button is set to b
+
 private:
     Ui::HelpDialog *m_ui;
 

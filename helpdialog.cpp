@@ -554,3 +554,7 @@ void HelpDialog::copy()
     }
 }
 
+void HelpDialog::setCopyButtonDisabled(bool b)
+{
+    m_ui->helpCopyToSourceButton->setDisabled(b);
+}

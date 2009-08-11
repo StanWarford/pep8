@@ -488,6 +488,7 @@ void MainWindow::setDebugState(bool b)
     cpuPane->setDebugState(b);
     sourceCodePane->setReadOnly(b);
     objectCodePane->setReadOnly(b);
+    helpDialog->setCopyButtonDisabled(b);
     if (b) {
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -1223,8 +1224,9 @@ void MainWindow::on_actionAbout_Pep8_triggered()
 void MainWindow::helpCopyToSourceButtonClicked()
 {
     helpDialog->hide();
-    if (ui->actionBuild_Stop_Debugging->isEnabled()) {
+    if (ui->actionBuild_Stop_Debugging->isEnabled()) { // Leaving this here to safeguard.
         ui->statusbar->showMessage("Copy to source failed, in debugging mode", 4000);
+        return;
     }
     Enu::EPane destPane;
     Enu::EPane inputDest;
