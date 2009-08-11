@@ -59,10 +59,15 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         tableWidget->setItem(i, 0, item);
     }
     tableWidget->resizeColumnsToContents();
-    // Platform-dependent-ish, but better than what we had. Will be updating later...:
-    tableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - 28);
     m_ui->listingTraceTableWidget->width();
     tableWidget->resizeRowsToContents();
+    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
+        programDocWidth = tableWidget->columnWidth(1);
+    }
+    else {
+        osDocWidth = tableWidget->columnWidth(1);
+    }
+    resizeDocWidth();
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }
 
@@ -157,6 +162,23 @@ void ListingTracePane::setFont()
     QFont font = QFontDialog::getFont(&ok, QFont(m_ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->listingTraceTableWidget->setFont(font);
+    }
+}
+
+void ListingTracePane::resizeDocWidth()
+{
+    int column0 = m_ui->listingTraceTableWidget->columnWidth(0);
+    if (m_ui->listingTraceTableWidget->width() > programDocWidth + column0 + 5) { // + 5 for breathing room
+        m_ui->listingTraceTableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - column0);
+    }
+    else {
+        m_ui->listingTraceTableWidget->setColumnWidth(1, programDocWidth);
+    }
+    if (m_ui->listingPepOsTraceTableWidget->width() > osDocWidth + column0 + 5) { // + 5 for breathing room
+        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, m_ui->listingPepOsTraceTableWidget->viewport()->width() - column0);
+    }
+    else {
+        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
     }
 }
 

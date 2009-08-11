@@ -168,17 +168,17 @@ void CpuPane::runWithBatch()
         }
         else {
             QMessageBox::warning(0, "Pep/8", errorString);
-            emit updateSimulationView();
+            updateCpu();
             emit executionComplete();
             return;
         }
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
-            emit updateSimulationView();
+            updateCpu();
             emit executionComplete();
             return;
         }
         if (interruptExecutionFlag) {
-            emit updateSimulationView();
+            updateCpu();
             return;
         }
     }
@@ -207,16 +207,17 @@ void CpuPane::runWithTerminal()
             }
             else {
                 QMessageBox::warning(0, "Pep/8", errorString);
-                emit updateSimulationView();
+                updateCpu();
                 emit executionComplete();
                 return;
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
-                emit updateSimulationView();
+                updateCpu();
                 emit executionComplete();
                 return;
             }
             if (interruptExecutionFlag) {
+                updateCpu();
                 emit updateSimulationView();
                 return;
             }

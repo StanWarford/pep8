@@ -48,7 +48,7 @@ public:
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
     int memoryDumpWidth();
-    // Post: the width of the memory dump text edit is returned
+    // Post: the width of the memory dump text edit document is returned
 
 private:
     Ui::MemoryDumpPane *m_ui;

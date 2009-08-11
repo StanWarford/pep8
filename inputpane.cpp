@@ -108,9 +108,7 @@ bool InputPane::eventFilter(QObject *, QEvent *event)
             if (keyEvent->key() == Qt::Key_Tab) {
                 QTextCursor cursor = m_ui->pepInputTextEdit->textCursor();
                 cursor.movePosition(QTextCursor::StartOfLine);
-                int linePos = m_ui->pepInputTextEdit->textCursor().position() - cursor.position();
-                m_ui->pepInputTextEdit->insertPlainText(tab(linePos));
-
+                m_ui->pepInputTextEdit->insertPlainText(tab(m_ui->pepInputTextEdit->textCursor().position() - cursor.position()));
                 return true;
             }
         }

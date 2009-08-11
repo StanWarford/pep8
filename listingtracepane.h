@@ -40,8 +40,14 @@ public:
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
+    void resizeDocWidth();
+    // Post: the document widths of the trace panes are set
+
 private:
     Ui::ListingTracePane *m_ui;
+
+    int programDocWidth;
+    int osDocWidth;
 
 private slots:
     void updateIsCheckedTable(QTableWidgetItem *item);

@@ -181,6 +181,8 @@ private slots:
     void setUndoability(bool b);
     void setRedoability(bool b);
 
+    void resizeDocWidth(int, int);
+
     // For updating the CPU and Memory trace from listing trace pane
     void updateSimulationView();
     void vonNeumannStepped();

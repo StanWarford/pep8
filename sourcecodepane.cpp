@@ -371,9 +371,7 @@ bool SourceCodePane::eventFilter(QObject *, QEvent *event)
             if (keyEvent->key() == Qt::Key_Tab) {
                 QTextCursor cursor = m_ui->pepSourceCodeTextEdit->textCursor();
                 cursor.movePosition(QTextCursor::StartOfLine);
-                int linePos = m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position();
-                m_ui->pepSourceCodeTextEdit->insertPlainText(tab(linePos));
-
+                m_ui->pepSourceCodeTextEdit->insertPlainText(tab(m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position()));
                 return true;
             }
         }

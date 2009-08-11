@@ -16,6 +16,8 @@
 #include "pep.h"
 #include "sim.h"
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -80,7 +82,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Adjust initial configuration
     ui->actionView_Code_CPU->setDisabled(true);
     ui->horizontalSplitter->widget(2)->hide();
-    cpuPane->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    cpuPane->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
+    memoryDumpPane->setMinimumWidth(memoryDumpPane->memoryDumpWidth());
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     ui->codeSplitter->widget(0)->resize(QSize(1, 9001)); // Enlarge Source Code pane.
     ui->horizontalSplitter->widget(2)->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
@@ -118,6 +122,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(vonNeumannStepped()), this, SLOT(vonNeumannStepped()));
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
+
+    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
 
     readSettings();
 
@@ -454,7 +460,6 @@ bool MainWindow::load()
     if (objectCodePane->getObjectCode(objectCodeList)) {
         Sim::loadMem(objectCodeList);
         memoryDumpPane->refreshMemoryLines(0, objectCodeList.size());
-        memoryDumpPane->highlightMemory(true);
         return true;
     }    
     return false;
@@ -480,12 +485,9 @@ void MainWindow::setDebugState(bool b)
     ui->actionSystem_Assemble_Install_New_OS->setDisabled(b);
     ui->actionSystem_Reinstall_Default_OS->setDisabled(b);
     inputPane->setReadOnly(b);
+    cpuPane->setDebugState(b);
     sourceCodePane->setReadOnly(b);
     objectCodePane->setReadOnly(b);
-    listingTracePane->setDebuggingState(b);
-    cpuPane->setDebugState(b);
-    cpuPane->setButtonsEnabled(b);
-    memoryDumpPane->highlightMemory(b);
     if (b) {
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
@@ -787,6 +789,8 @@ void MainWindow::on_actionEdit_Font_triggered()
     }
     else if (memoryDumpPane->hasFocus()) {
         memoryDumpPane->setFont();
+        memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
+        memoryDumpPane->setMinimumWidth(memoryDumpPane->memoryDumpWidth());
     }
     else if (cpuPane->hasFocus()) {
     }
@@ -824,8 +828,6 @@ void MainWindow::on_actionBuild_Execute_triggered()
     Sim::programCounter = 0x0000;
     setDebugState(true);
     Sim::trapped = false;
-    listingTracePane->setDebuggingState(true);
-    cpuPane->setButtonsEnabled(false);
     cpuPane->runClicked();
     cpuPane->clearCpu();
     sourceCodePane->setReadOnly(true);
@@ -885,6 +887,11 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 
         cpuPane->updateCpu();
         listingTracePane->setDebuggingState(true);
+        cpuPane->setButtonsEnabled(true);
+
+        if (!memoryDumpPane->isHidden()) {
+            memoryDumpPane->highlightMemory(true);
+        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);
@@ -928,6 +935,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Object_triggered()
             Sim::inputBuffer.clear();
             terminalPane->clearTerminal();
         }
+
+        cpuPane->setButtonsEnabled(true);
+
+        if (!memoryDumpPane->isHidden()) {
+            memoryDumpPane->highlightMemory(true);
+        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);
@@ -970,7 +983,9 @@ void MainWindow::on_actionBuild_Start_Debugging_Loader_triggered()
     cpuPane->traceTraps(true);
     cpuPane->setDebugState(true);
     cpuPane->setButtonsEnabled(true);
-    memoryDumpPane->highlightMemory(true);
+    if (!memoryDumpPane->isHidden()) {
+        memoryDumpPane->highlightMemory(true);
+    }
     listingTracePane->setDebuggingState(true);
 
     cpuPane->updateCpu();
@@ -980,6 +995,9 @@ void MainWindow::on_actionBuild_Stop_Debugging_triggered()
 {
     on_actionBuild_Interrupt_Execution_triggered();
     setDebugState(false);
+    listingTracePane->setDebuggingState(false);
+    cpuPane->setButtonsEnabled(false);
+    memoryDumpPane->highlightMemory(false);
 
     mainWindowUtilities(0, 0);
 }
@@ -989,8 +1007,12 @@ void MainWindow::on_actionBuild_Interrupt_Execution_triggered()
     cpuPane->interruptExecution();
     setDebugState(true);
     cpuPane->updateCpu();
+    cpuPane->setButtonsEnabled(true);
+    if (!memoryDumpPane->isHidden()) {
+        memoryDumpPane->highlightMemory(true);
+    }
+
     listingTracePane->updateListingTrace();
-    // Other things need to happen here?
 }
 
 // View MainWindow triggers
@@ -1027,9 +1049,6 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->actionView_Code_Only->setDisabled(false);
     ui->actionView_Code_CPU->setDisabled(false);
     ui->actionView_Code_CPU_Memory->setDisabled(true);
-//    ui->horizontalSplitter->widget(2)->resize(memoryDumpPane->memoryDumpWidth(), 1);
-
-
 }
 
 void MainWindow::on_actionView_Code_Tab_triggered()
@@ -1413,6 +1432,11 @@ void MainWindow::setRedoability(bool b)
     else if (terminalPane->hasFocus()) {
         ui->actionEdit_Redo->setDisabled(!b);
     }
+}
+
+void MainWindow::resizeDocWidth(int, int)
+{
+    listingTracePane->resizeDocWidth();
 }
 
 void MainWindow::updateSimulationView()
