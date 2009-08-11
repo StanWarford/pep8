@@ -20,6 +20,9 @@ private:
     Ui::ByteConverterHex *m_ui;
     QRegExpValidator* hexValidator;
 
+private slots:
+    void moveCursorAwayFromPrefix(int old, int current);
+
 signals:
     void textEdited(const QString &);
 };
