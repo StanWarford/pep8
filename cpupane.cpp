@@ -11,9 +11,8 @@ CpuPane::CpuPane(QWidget *parent) :
         m_ui(new Ui::CpuPane)
 {
     m_ui->setupUi(this);
-    // QSound::play(":/sounds/itsatrap.wav"); // For later! Gonna be implemented as a % chance on tracing traps in the OS
 
-    connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SIGNAL(singleStepButtonClicked()));
+    connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
     if (Pep::getSystem() != "Mac") {
@@ -151,6 +150,9 @@ void CpuPane::traceTraps(bool b)
 void CpuPane::setButtonsEnabled(bool b) {
     m_ui->cpuResumePushButton->setDisabled(!b);
     m_ui->cpuSingleStepPushButton->setDisabled(!b);
+    if (b) {
+        m_ui->cpuSingleStepPushButton->setFocus();
+    }
 }
 
 void CpuPane::runWithBatch()
@@ -490,7 +492,7 @@ void CpuPane::interruptExecution()
 
 void CpuPane::highlightOnFocus()
 {
-    if (m_ui->pepCpuLabel->hasFocus()) { // Never has focus, which is fine
+    if (m_ui->cpuSingleStepPushButton->hasFocus()) {
         m_ui->pepCpuLabel->setAutoFillBackground(true);
     }
     else {
@@ -503,3 +505,25 @@ Enu::EWaiting CpuPane::waitingState()
     return waiting;
 }
 
+bool CpuPane::singleStepHasFocus()
+{
+    return m_ui->cpuSingleStepPushButton->isEnabled() && m_ui->cpuSingleStepPushButton->hasFocus();
+}
+
+bool CpuPane::hasFocus()
+{
+    return m_ui->cpuSingleStepPushButton->hasFocus();
+}
+
+void CpuPane::mousePressEvent(QMouseEvent *)
+{
+    if (m_ui->cpuSingleStepPushButton->isEnabled()) {
+        m_ui->cpuSingleStepPushButton->setFocus();
+    }
+}
+
+void CpuPane::singleStepButton()
+{
+    m_ui->cpuSingleStepPushButton->setFocus();
+    emit singleStepButtonClicked();
+}

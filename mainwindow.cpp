@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
-    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
+//    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
 
     readSettings();
 
@@ -504,6 +504,16 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if ((keyEvent->modifiers() & Qt::ControlModifier) && (keyEvent->key() == Qt::Key_Period)) {
             on_actionBuild_Interrupt_Execution_triggered();
+            return true;
+        }
+        else if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            if (cpuPane->singleStepHasFocus()) {
+                singleStepButtonClicked();
+                return true;
+            }
+        }
+        else if (keyEvent->key() == Qt::Key_Tab && inputPane->hasFocus()) {
+            inputPane->tab();
             return true;
         }
     }
@@ -1323,6 +1333,7 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     assemblerListingPane->highlightOnFocus();
     listingTracePane->highlightOnFocus();
     memoryTracePane->highlightOnFocus();
+    cpuPane->highlightOnFocus();
     inputPane->highlightOnFocus();
     outputPane->highlightOnFocus();
     terminalPane->highlightOnFocus();
@@ -1357,6 +1368,13 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
         ui->actionEdit_Paste->setDisabled(true);
     }
     else if (memoryTracePane->hasFocus()) {
+        ui->actionEdit_Undo->setDisabled(true);
+        ui->actionEdit_Redo->setDisabled(true);
+        ui->actionEdit_Cut->setDisabled(true);
+        ui->actionEdit_Copy->setDisabled(true);
+        ui->actionEdit_Paste->setDisabled(true);
+    }
+    else if (cpuPane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(true);
         ui->actionEdit_Redo->setDisabled(true);
         ui->actionEdit_Cut->setDisabled(true);
@@ -1432,10 +1450,10 @@ void MainWindow::setRedoability(bool b)
     }
 }
 
-void MainWindow::resizeDocWidth(int, int)
-{
-    listingTracePane->resizeDocWidth();
-}
+//void MainWindow::resizeDocWidth(int, int)
+//{
+//    listingTracePane->resizeDocWidth();
+//}
 
 void MainWindow::updateSimulationView()
 {

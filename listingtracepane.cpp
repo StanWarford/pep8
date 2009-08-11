@@ -18,8 +18,8 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
     connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 
-    programDocWidth = 0;
-    osDocWidth = 0;
+//    programDocWidth = 0;
+//    osDocWidth = 0;
 
     if (Pep::getSystem() != "Mac") {
         m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
@@ -64,13 +64,13 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
     tableWidget->resizeColumnsToContents();
     m_ui->listingTraceTableWidget->width();
     tableWidget->resizeRowsToContents();
-    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
-        programDocWidth = tableWidget->columnWidth(1);
-    }
-    else {
-        osDocWidth = tableWidget->columnWidth(1);
-    }
-    resizeDocWidth();
+//    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
+//        programDocWidth = tableWidget->columnWidth(1);
+//    }
+//    else {
+//        osDocWidth = tableWidget->columnWidth(1);
+//    }
+//    resizeDocWidth();
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }
 
@@ -136,7 +136,7 @@ void ListingTracePane::setDebuggingState(bool b)
         tableWidget->scrollToItem(highlightedItem);
     }
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
-    resizeDocWidth();
+//    resizeDocWidth();
 }
 
 void ListingTracePane::showAssemblerListing()
@@ -169,22 +169,22 @@ void ListingTracePane::setFont()
     }
 }
 
-void ListingTracePane::resizeDocWidth()
-{
-    int column0 = m_ui->listingTraceTableWidget->columnWidth(0);
-    if (m_ui->listingTraceTableWidget->width() > programDocWidth + column0 + 5) { // + 5 for breathing room
-        m_ui->listingTraceTableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - column0);
-    }
-    else {
-        m_ui->listingTraceTableWidget->setColumnWidth(1, programDocWidth);
-    }
-    if (m_ui->listingPepOsTraceTableWidget->width() > osDocWidth + column0 + 5) { // + 5 for breathing room
-        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, m_ui->listingPepOsTraceTableWidget->viewport()->width() - column0);
-    }
-    else {
-        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
-    }
-}
+//void ListingTracePane::resizeDocWidth()
+//{
+//    int column0 = m_ui->listingTraceTableWidget->columnWidth(0);
+//    if (m_ui->listingTraceTableWidget->width() > programDocWidth + column0 + 5) { // + 5 for breathing room
+//        m_ui->listingTraceTableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - column0);
+//    }
+//    else {
+//        m_ui->listingTraceTableWidget->setColumnWidth(1, programDocWidth);
+//    }
+//    if (m_ui->listingPepOsTraceTableWidget->width() > osDocWidth + column0 + 5) { // + 5 for breathing room
+//        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, m_ui->listingPepOsTraceTableWidget->viewport()->width() - column0);
+//    }
+//    else {
+//        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
+//    }
+//}
 
 void ListingTracePane::updateIsCheckedTable(QTableWidgetItem *item)
 {

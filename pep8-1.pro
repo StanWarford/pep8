@@ -5,8 +5,6 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
-CONFIG += ppc
-CONFIG += x86
 QT += webkit
 
 # Mac icon/plist

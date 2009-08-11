@@ -53,11 +53,12 @@ public:
     void setReadOnly(bool b);
     // Post: the text edit's read only attribute is set to b
 
+    void tab();
+    // Post: a tab is inserted in the input pane if it is not read only
+
 private:
     Ui::InputPane *m_ui;
 
-    bool eventFilter(QObject *, QEvent *event);
-    QString tab(int curLinePos);
 
 signals:
     void undoAvailable(bool);

@@ -66,12 +66,23 @@ public:
     Enu::EWaiting waitingState();
     // Post: Returns the waiting state of the simulation (for terminal io)
 
+    bool singleStepHasFocus();
+    // Post: returns if the single step is enabled
+
+    bool hasFocus();
+    // Post: Returns if the single step button has focus
+
 private:
     Ui::CpuPane *m_ui;
 
     bool interruptExecutionFlag; // Used to interrupt execution by the user
 
     Enu::EWaiting waiting; // Used to store terminal IO waiting for input state
+
+    void mousePressEvent(QMouseEvent *);
+
+private slots:
+    void singleStepButton();
 
 signals:
     void resumeButtonClicked();

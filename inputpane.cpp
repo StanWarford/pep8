@@ -5,15 +5,13 @@
 #include "pep.h"
 
 InputPane::InputPane(QWidget *parent) :
-    QWidget(parent),
-    m_ui(new Ui::InputPane)
+        QWidget(parent),
+        m_ui(new Ui::InputPane)
 {
     m_ui->setupUi(this);
 
     connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
-
-    qApp->installEventFilter(this);
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
@@ -100,31 +98,22 @@ void InputPane::setReadOnly(bool b)
     m_ui->pepInputTextEdit->setReadOnly(b);
 }
 
-bool InputPane::eventFilter(QObject *, QEvent *event)
+void InputPane::tab()
 {
-    if (m_ui->pepInputTextEdit->hasFocus()) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (keyEvent->key() == Qt::Key_Tab) {
-                QTextCursor cursor = m_ui->pepInputTextEdit->textCursor();
-                cursor.movePosition(QTextCursor::StartOfLine);
-                m_ui->pepInputTextEdit->insertPlainText(tab(m_ui->pepInputTextEdit->textCursor().position() - cursor.position()));
-                return true;
-            }
+    if (!m_ui->pepInputTextEdit->isReadOnly()) {
+        QTextCursor cursor = m_ui->pepInputTextEdit->textCursor();
+        cursor.movePosition(QTextCursor::StartOfLine);
+
+        int curLinePos = m_ui->pepInputTextEdit->textCursor().position() - cursor.position();
+
+        QString string;
+        int spaces;
+        spaces = 4 - (curLinePos % 4);
+
+        for (int i = 0; i < spaces; i++) {
+            string.append(" ");
         }
+
+        m_ui->pepInputTextEdit->insertPlainText(string);
     }
-    return false;
-}
-
-QString InputPane::tab(int curLinePos)
-{
-    QString retString;
-    int spaces;
-    spaces = 4 - (curLinePos % 4);
-
-    for (int i = 0; i < spaces; i++) {
-        retString.append(" ");
-    }
-
-    return retString;
 }
