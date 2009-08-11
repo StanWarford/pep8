@@ -792,8 +792,6 @@ void MainWindow::on_actionEdit_Font_triggered()
         memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
         memoryDumpPane->setMinimumWidth(memoryDumpPane->memoryDumpWidth());
     }
-    else if (cpuPane->hasFocus()) {
-    }
 }
 
 void MainWindow::on_actionEdit_Remove_Error_Messages_triggered()

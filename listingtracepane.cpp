@@ -18,6 +18,9 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
     connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
     connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 
+    programDocWidth = 0;
+    osDocWidth = 0;
+
     if (Pep::getSystem() != "Mac") {
         m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
@@ -133,6 +136,7 @@ void ListingTracePane::setDebuggingState(bool b)
         tableWidget->scrollToItem(highlightedItem);
     }
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
+    resizeDocWidth();
 }
 
 void ListingTracePane::showAssemblerListing()
