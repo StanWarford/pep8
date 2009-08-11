@@ -111,6 +111,12 @@
        </widget>
       </widget>
       <widget class="QSplitter" name="middleSplitter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -129,16 +135,22 @@
        <widget class="QWidget" name="CpuWidgetPane" native="true"/>
        <widget class="QTabWidget" name="pepInputOutputTab">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="tabShape">
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pepBatchTab">
          <attribute name="title">

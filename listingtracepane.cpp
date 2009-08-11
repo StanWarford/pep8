@@ -5,6 +5,8 @@
 #include "sim.h"
 #include "pep.h"
 
+#include <QDebug>
+
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::ListingTracePane)
@@ -57,7 +59,9 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         tableWidget->setItem(i, 0, item);
     }
     tableWidget->resizeColumnsToContents();
-    tableWidget->setColumnWidth(1, tableWidget->columnWidth(1) + 800);
+    // Platform-dependent-ish, but better than what we had. Will be updating later...:
+    tableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - 28);
+    m_ui->listingTraceTableWidget->width();
     tableWidget->resizeRowsToContents();
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
 }

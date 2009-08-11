@@ -6,6 +6,9 @@
 #include "pep.h"
 #include "enu.h"
 
+#include <QAbstractTextDocumentLayout>
+#include <QDebug>
+
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::MemoryDumpPane)
@@ -263,6 +266,12 @@ void MemoryDumpPane::setFont()
     if (ok) {
         m_ui->pepMemoryDumpTextEdit->setFont(font);
     }
+}
+
+int MemoryDumpPane::memoryDumpWidth()
+{
+    return m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
+            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6;
 }
 
 void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)

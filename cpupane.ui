@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="topMargin">
+   <property name="margin">
     <number>0</number>
    </property>
    <item>

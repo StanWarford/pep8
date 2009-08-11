@@ -78,10 +78,13 @@ MainWindow::MainWindow(QWidget *parent)
     Pep::initDecoderTables();
 
     // Adjust initial configuration
+    ui->actionView_Code_CPU->setDisabled(true);
     ui->horizontalSplitter->widget(2)->hide();
+    cpuPane->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
-    ui->codeSplitter->widget(0)->resize(QSize(1, 800)); // Enlarge Source Code pane.
-    ui->middleSplitter->widget(1)->resize(QSize(1, 600)); // Enlarge Input pane.
+    ui->codeSplitter->widget(0)->resize(QSize(1, 9001)); // Enlarge Source Code pane.
+    ui->horizontalSplitter->widget(2)->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
+    ui->middleSplitter->widget(1)->resize(QSize(1, 9001)); // Maximize Input pane against the CPU pane.
 
     // Install OS into memory
     Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
@@ -519,7 +522,7 @@ void MainWindow::on_actionFile_New_triggered()
         listingTracePane->clearListingTrace();
         cpuPane->clearCpu();
         outputPane->clearOutput();
-        // Do we want to clear input as well?
+        ui->pepCodeTraceTab->setCurrentIndex(0);
         setCurrentFile("", Enu::ESource);
         setCurrentFile("", Enu::EObject);
         setCurrentFile("", Enu::EListing);
@@ -536,6 +539,7 @@ void MainWindow::on_actionFile_Open_triggered()
                 "Text files (*.pepo *.txt *.pep)");
         if (!fileName.isEmpty()) {
             loadFile(fileName);
+            ui->pepCodeTraceTab->setCurrentIndex(0);
             curPath = QFileInfo(fileName).path();
         }
     }
@@ -995,6 +999,9 @@ void MainWindow::on_actionView_Code_Only_triggered()
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->hide();
     ui->horizontalSplitter->widget(2)->hide();
+    ui->actionView_Code_Only->setDisabled(true);
+    ui->actionView_Code_CPU->setDisabled(false);
+    ui->actionView_Code_CPU_Memory->setDisabled(false);
 }
 
 void MainWindow::on_actionView_Code_CPU_triggered()
@@ -1002,7 +1009,9 @@ void MainWindow::on_actionView_Code_CPU_triggered()
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->hide();
-
+    ui->actionView_Code_Only->setDisabled(false);
+    ui->actionView_Code_CPU->setDisabled(true);
+    ui->actionView_Code_CPU_Memory->setDisabled(false);
 }
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
@@ -1015,6 +1024,12 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->horizontalSplitter->widget(0)->show();
     ui->horizontalSplitter->widget(1)->show();
     ui->horizontalSplitter->widget(2)->show();
+    ui->actionView_Code_Only->setDisabled(false);
+    ui->actionView_Code_CPU->setDisabled(false);
+    ui->actionView_Code_CPU_Memory->setDisabled(true);
+//    ui->horizontalSplitter->widget(2)->resize(memoryDumpPane->memoryDumpWidth(), 1);
+
+
 }
 
 void MainWindow::on_actionView_Code_Tab_triggered()
