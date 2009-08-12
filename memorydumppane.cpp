@@ -1,12 +1,12 @@
 #include <QFontDialog>
 #include <QTextCharFormat>
+#include <QAbstractTextDocumentLayout>
 #include "memorydumppane.h"
 #include "ui_memorydumppane.h"
 #include "sim.h"
 #include "pep.h"
 #include "enu.h"
 
-#include <QAbstractTextDocumentLayout>
 #include <QDebug>
 
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
@@ -272,6 +272,14 @@ int MemoryDumpPane::memoryDumpWidth()
 {
     return m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
             m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6;
+}
+
+QSize MemoryDumpPane::sizeHint()
+{
+//    qDebug() << QSize(m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
+//            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 5, 600);
+    return QSize(m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
+            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6, 600);
 }
 
 void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)

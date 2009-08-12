@@ -82,9 +82,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Adjust initial configuration
     ui->actionView_Code_CPU->setDisabled(true);
     ui->horizontalSplitter->widget(2)->hide();
-    cpuPane->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
-    memoryDumpPane->setMinimumWidth(memoryDumpPane->memoryDumpWidth());
     ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     ui->codeSplitter->widget(0)->resize(QSize(1, 9001)); // Enlarge Source Code pane.
     ui->horizontalSplitter->widget(2)->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
@@ -800,8 +797,8 @@ void MainWindow::on_actionEdit_Font_triggered()
     }
     else if (memoryDumpPane->hasFocus()) {
         memoryDumpPane->setFont();
+        memoryDumpPane->updateGeometry();
         memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
-        memoryDumpPane->setMinimumWidth(memoryDumpPane->memoryDumpWidth());
     }
 }
 
@@ -1058,6 +1055,8 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->actionView_Code_Only->setDisabled(false);
     ui->actionView_Code_CPU->setDisabled(false);
     ui->actionView_Code_CPU_Memory->setDisabled(true);
+    memoryDumpPane->updateGeometry();
+    memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
 }
 
 void MainWindow::on_actionView_Code_Tab_triggered()

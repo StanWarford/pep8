@@ -50,6 +50,8 @@ public:
     int memoryDumpWidth();
     // Post: the width of the memory dump text edit document is returned
 
+    QSize sizeHint();
+
 private:
     Ui::MemoryDumpPane *m_ui;
 
