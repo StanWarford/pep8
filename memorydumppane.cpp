@@ -318,6 +318,11 @@ void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor backgr
     cursor.mergeCharFormat(format);
 }
 
+void MemoryDumpPane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepMemoryDumpTextEdit->setFocus();
+}
+
 void MemoryDumpPane::on_pepMemRefreshButton_clicked()
 {
     int scrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();

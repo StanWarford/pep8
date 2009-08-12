@@ -146,3 +146,9 @@ void TerminalPane::keyPressEvent(QKeyEvent* e)
         m_ui->pepTerminalTextEdit->releaseKeyboard();
     }
 }
+
+void TerminalPane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepTerminalTextEdit->setFocus();
+}
+

@@ -79,3 +79,8 @@ void OutputPane::setFont()
         m_ui->pepOutputTextEdit->setFont(font);
     }
 }
+
+void OutputPane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepOutputTextEdit->setFocus();
+}

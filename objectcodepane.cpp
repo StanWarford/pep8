@@ -176,6 +176,11 @@ void ObjectCodePane::setReadOnly(bool b)
     m_ui->pepObjectCodeTextEdit->setReadOnly(b);
 }
 
+void ObjectCodePane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepObjectCodeTextEdit->setFocus();
+}
+
 void ObjectCodePane::mouseDoubleClickEvent(QMouseEvent *)
 {
     emit labelDoubleClicked(Enu::EObject);

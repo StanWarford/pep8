@@ -77,6 +77,8 @@ private:
 
     void highlightByte(int memAddr, QColor foreground, QColor background);
 
+    void mouseReleaseEvent(QMouseEvent *);
+
     QList<int> highlightedData;
     QSet<int> modifiedBytes;
     QList<int> bytesWrittenLastStep;

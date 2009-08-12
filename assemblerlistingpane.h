@@ -64,6 +64,8 @@ private:
 
     PepHighlighter *pepHighlighter;
 
+    void mouseReleaseEvent(QMouseEvent *);
+
     void mouseDoubleClickEvent(QMouseEvent *);
 
 signals:

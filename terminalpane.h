@@ -69,6 +69,8 @@ private:
 private slots:
     void keyPressEvent(QKeyEvent *e);
 
+    void mouseReleaseEvent(QMouseEvent *);
+
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);

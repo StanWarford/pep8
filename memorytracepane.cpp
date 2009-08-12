@@ -63,3 +63,9 @@ void MemoryTracePane::setFont()
         m_ui->pepStackTraceGraphicsView->setFont(font);
     }
 }
+
+void MemoryTracePane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepStackTraceGraphicsView->setFocus();
+}
+

@@ -1481,14 +1481,24 @@ void MainWindow::setRedoability(bool b)
 
 void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
 {
+    QList<int> list;
     if (pane == Enu::ESource) {
-
+        list.append(3000);
+        list.append(1);
+        list.append(1);
+        ui->codeSplitter->setSizes(list);
     }
     else if (pane == Enu::EObject) {
-
+        list.append(1);
+        list.append(3000);
+        list.append(1);
+        ui->codeSplitter->setSizes(list);
     }
     else if (pane == Enu::EListing) {
-
+        list.append(1);
+        list.append(1);
+        list.append(3000);
+        ui->codeSplitter->setSizes(list);
     }
 }
 

@@ -24,6 +24,8 @@
 #include "ui_assemblerlistingpane.h"
 #include "pep.h"
 
+#include <QMouseEvent>
+
 AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
         QWidget(parent),
         m_ui(new Ui::AssemblerListingPane)
@@ -133,6 +135,11 @@ void AssemblerListingPane::setFont()
     if (ok) {
         m_ui->assemblerListingTextEdit->setFont(font);
     }
+}
+
+void AssemblerListingPane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->assemblerListingTextEdit->setFocus();
 }
 
 void AssemblerListingPane::mouseDoubleClickEvent(QMouseEvent *)

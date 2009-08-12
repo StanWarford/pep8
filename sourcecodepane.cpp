@@ -401,6 +401,11 @@ void SourceCodePane::tab()
     }
 }
 
+void SourceCodePane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepSourceCodeTextEdit->setFocus();
+}
+
 void SourceCodePane::mouseDoubleClickEvent(QMouseEvent *)
 {
     emit labelDoubleClicked(Enu::ESource);

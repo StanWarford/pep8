@@ -176,7 +176,7 @@ void ListingTracePane::highlightOnFocus()
 
 bool ListingTracePane::hasFocus()
 {
-    return m_ui->listingTraceTableWidget->hasFocus();
+    return m_ui->listingTraceTableWidget->hasFocus() || m_ui->listingPepOsTraceTableWidget->hasFocus();
 }
 
 void ListingTracePane::setFont()
@@ -204,6 +204,18 @@ void ListingTracePane::setFont()
 //        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
 //    }
 //}
+
+void ListingTracePane::mouseReleaseEvent(QMouseEvent *)
+{
+    QTableWidget *tableWidget;
+    if (!m_ui->listingTraceTableWidget->isHidden()) {
+        tableWidget = m_ui->listingTraceTableWidget;
+    }
+    else {
+        tableWidget = m_ui->listingPepOsTraceTableWidget;
+    }
+    tableWidget->setFocus();
+}
 
 void ListingTracePane::updateIsCheckedTable(QTableWidgetItem *item)
 {

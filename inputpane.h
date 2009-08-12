@@ -79,6 +79,7 @@ public:
 private:
     Ui::InputPane *m_ui;
 
+    void mouseReleaseEvent(QMouseEvent *);
 
 signals:
     void undoAvailable(bool);

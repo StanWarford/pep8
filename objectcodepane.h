@@ -98,6 +98,8 @@ public:
 private:
     Ui::ObjectCodePane *m_ui;
 
+    void mouseReleaseEvent(QMouseEvent *);
+
     void mouseDoubleClickEvent(QMouseEvent *);
 
 private slots:

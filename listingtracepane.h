@@ -66,6 +66,8 @@ public:
 private:
     Ui::ListingTracePane *m_ui;
 
+    void mouseReleaseEvent(QMouseEvent *);
+
 //    int programDocWidth;
 //    int osDocWidth;
 

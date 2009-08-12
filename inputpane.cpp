@@ -137,3 +137,8 @@ void InputPane::tab()
         m_ui->pepInputTextEdit->insertPlainText(string);
     }
 }
+
+void InputPane::mouseReleaseEvent(QMouseEvent *)
+{
+    m_ui->pepInputTextEdit->setFocus();
+}

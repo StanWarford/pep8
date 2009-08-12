@@ -46,6 +46,8 @@ public:
 private:
     Ui::MemoryTracePane *m_ui;
 
+    void mouseReleaseEvent(QMouseEvent *);
+
 };
 
 #endif // MEMORYTRACEPANE_H

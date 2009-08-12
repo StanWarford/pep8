@@ -54,6 +54,8 @@ public:
 
 private:
     Ui::OutputPane *m_ui;
+
+    void mouseReleaseEvent(QMouseEvent *);
 };
 
 #endif // OUTPUTPANE_H
