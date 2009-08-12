@@ -23,6 +23,7 @@
 
 #include <QtGui/QWidget>
 #include "pephighlighter.h"
+#include "enu.h"
 
 namespace Ui {
     class AssemblerListingPane;
@@ -62,6 +63,12 @@ private:
     Ui::AssemblerListingPane *m_ui;
 
     PepHighlighter *pepHighlighter;
+
+    void mouseDoubleClickEvent(QMouseEvent *);
+
+signals:
+
+    void labelDoubleClicked(Enu::EPane pane);
 };
 
 #endif // ASSEMBLERLISTINGPANE_H

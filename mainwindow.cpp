@@ -101,10 +101,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Adjust initial configuration
     ui->actionView_Code_CPU->setDisabled(true);
     ui->horizontalSplitter->widget(2)->hide();
-    ui->horizontalSplitter->widget(0)->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
-    ui->codeSplitter->widget(0)->resize(QSize(1, 9001)); // Enlarge Source Code pane.
-    ui->horizontalSplitter->widget(2)->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
-    ui->middleSplitter->widget(1)->resize(QSize(1, 9001)); // Maximize Input pane against the CPU pane.
+    ui->pepCodeTraceTab->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
+    sourceCodePane->resize(QSize(1, 9001)); // Enlarge Source Code pane.
+//    memoryDumpPane->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
 
     // Install OS into memory
     Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
@@ -129,6 +128,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(terminalPane, SIGNAL(undoAvailable(bool)), this, SLOT(setUndoability(bool)));
     connect(terminalPane, SIGNAL(redoAvailable(bool)), this, SLOT(setRedoability(bool)));
 
+    connect(sourceCodePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
+    connect(objectCodePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
+    connect(assemblerListingPane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
+
     // Simulator signals
     connect(cpuPane, SIGNAL(updateSimulationView()), this, SLOT(updateSimulationView()));
     connect(cpuPane, SIGNAL(executionComplete()), this, SLOT(on_actionBuild_Stop_Debugging_triggered()));
@@ -139,7 +142,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
-    connect(ui->middleSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeMiddleSplitter(int,int)));
 //    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
 
     readSettings();
@@ -1477,9 +1479,17 @@ void MainWindow::setRedoability(bool b)
     }
 }
 
-void MainWindow::resizeMiddleSplitter(int, int)
+void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
 {
-//    ui->pepInputOutputTab->resize(QSize(1, 300)); // Maximize Input pane against the CPU pane.
+    if (pane == Enu::ESource) {
+
+    }
+    else if (pane == Enu::EObject) {
+
+    }
+    else if (pane == Enu::EListing) {
+
+    }
 }
 
 //void MainWindow::resizeDocWidth(int, int)

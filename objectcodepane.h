@@ -22,6 +22,7 @@
 #define OBJECTCODEPANE_H
 
 #include <QtGui/QWidget>
+#include "enu.h"
 
 namespace Ui {
     class ObjectCodePane;
@@ -97,6 +98,8 @@ public:
 private:
     Ui::ObjectCodePane *m_ui;
 
+    void mouseDoubleClickEvent(QMouseEvent *);
+
 private slots:
     void setLabelToModified(bool modified);
 
@@ -104,6 +107,7 @@ signals:
     void undoAvailable(bool);
     void redoAvailable(bool);
 
+    void labelDoubleClicked(Enu::EPane pane);
 };
 
 #endif // OBJECTCODEPANE_H

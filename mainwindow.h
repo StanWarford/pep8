@@ -201,7 +201,7 @@ private slots:
     void setUndoability(bool b);
     void setRedoability(bool b);
 
-    void resizeMiddleSplitter(int, int);
+    void doubleClickedCodeLabel(Enu::EPane pane);
     //    void resizeDocWidth(int, int);
 
     // For updating the CPU and Memory trace from listing trace pane

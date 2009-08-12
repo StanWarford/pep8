@@ -56,12 +56,24 @@
     </property>
     <item>
      <widget class="QSplitter" name="horizontalSplitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QTabWidget" name="pepCodeTraceTab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="pepCodeTab">
         <attribute name="title">
@@ -800,36 +812,6 @@
     <string>Machine Language</string>
    </property>
   </action>
-  <action name="actionHelp_Break_Points">
-   <property name="text">
-    <string>Break Points</string>
-   </property>
-  </action>
-  <action name="actionHelp_Symbolic_Trace">
-   <property name="text">
-    <string>Symbolic Trace</string>
-   </property>
-  </action>
-  <action name="actionHelp_Instruction_Set">
-   <property name="text">
-    <string>Instruction Set</string>
-   </property>
-  </action>
-  <action name="actionHelp_Dot_Commands">
-   <property name="text">
-    <string>Dot Commands</string>
-   </property>
-  </action>
-  <action name="actionHelp_Byte_Converter">
-   <property name="text">
-    <string>Byte Converter</string>
-   </property>
-  </action>
-  <action name="actionHelp_Addressing_Modes">
-   <property name="text">
-    <string>Addressing Modes</string>
-   </property>
-  </action>
   <action name="actionHelp_Examples">
    <property name="text">
     <string>Examples</string>
@@ -853,16 +835,6 @@
   <action name="actionHelp_Pep_8_Operating_System">
    <property name="text">
     <string>Pep/8 Operating System</string>
-   </property>
-  </action>
-  <action name="actionFile_Save_Object">
-   <property name="text">
-    <string>Save Object</string>
-   </property>
-  </action>
-  <action name="actionFile_Save_Listing">
-   <property name="text">
-    <string>Save Listing</string>
    </property>
   </action>
   <action name="actionFile_Save_Object_As">
@@ -986,11 +958,6 @@
     <string>Ctrl+.</string>
    </property>
   </action>
-  <action name="actionHelp_Memory_Dump">
-   <property name="text">
-    <string>Memory Dump</string>
-   </property>
-  </action>
   <action name="actionHelp_Debugging_Programs">
    <property name="text">
     <string>Debugging Programs</string>
@@ -999,11 +966,6 @@
   <action name="actionHelp_Pep_8_Reference">
    <property name="text">
     <string>Pep/8 Reference</string>
-   </property>
-  </action>
-  <action name="actionSystem_Trace_Load">
-   <property name="text">
-    <string>Trace Load</string>
    </property>
   </action>
   <action name="actionBuild_Start_Debugging_Loader">

@@ -17,6 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QScrollBar>
 #include <QFontDialog>
 #include "assemblerlistingpane.h"
@@ -132,4 +133,9 @@ void AssemblerListingPane::setFont()
     if (ok) {
         m_ui->assemblerListingTextEdit->setFont(font);
     }
+}
+
+void AssemblerListingPane::mouseDoubleClickEvent(QMouseEvent *)
+{
+    emit labelDoubleClicked(Enu::EListing);
 }

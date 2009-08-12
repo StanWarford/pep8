@@ -401,6 +401,11 @@ void SourceCodePane::tab()
     }
 }
 
+void SourceCodePane::mouseDoubleClickEvent(QMouseEvent *)
+{
+    emit labelDoubleClicked(Enu::ESource);
+}
+
 void SourceCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepSourceCodeLabel->text();

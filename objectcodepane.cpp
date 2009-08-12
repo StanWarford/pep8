@@ -176,6 +176,11 @@ void ObjectCodePane::setReadOnly(bool b)
     m_ui->pepObjectCodeTextEdit->setReadOnly(b);
 }
 
+void ObjectCodePane::mouseDoubleClickEvent(QMouseEvent *)
+{
+    emit labelDoubleClicked(Enu::EObject);
+}
+
 void ObjectCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepObjectCodeLabel->text();

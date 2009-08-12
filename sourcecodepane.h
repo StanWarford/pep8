@@ -26,6 +26,7 @@
 #include <QList>
 #include "asm.h" // For Code in QList<Code *> codeList;
 #include "pephighlighter.h" // For syntax highlighting
+#include "enu.h"
 
 namespace Ui {
     class SourceCodePane;
@@ -148,12 +149,16 @@ private:
 
     PepHighlighter *pepHighlighter;
 
+    void mouseDoubleClickEvent(QMouseEvent *);
+
 private slots:
     void setLabelToModified(bool modified);
 
 signals:
     void undoAvailable(bool);
     void redoAvailable(bool);
+
+    void labelDoubleClicked(Enu::EPane pane);
 };
 
 #endif // SOURCECODEPANE_H
