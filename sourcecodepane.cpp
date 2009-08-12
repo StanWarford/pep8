@@ -17,6 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include <QList>
 #include <QStringList>
 #include <QTextCursor>
@@ -44,8 +45,6 @@ SourceCodePane::SourceCodePane(QWidget *parent) :
 
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
-
-    qApp->installEventFilter(this);
 
     if (Pep::getSystem() != "Mac") {
         m_ui->pepSourceCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
@@ -370,6 +369,38 @@ void SourceCodePane::setReadOnly(bool b)
     m_ui->pepSourceCodeTextEdit->setReadOnly(b);
 }
 
+void SourceCodePane::tab()
+{
+    if (!m_ui->pepSourceCodeTextEdit->isReadOnly()) {
+        QTextCursor cursor = m_ui->pepSourceCodeTextEdit->textCursor();
+        cursor.movePosition(QTextCursor::StartOfLine);
+        QString string;
+        int curLinePos = m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position();
+        int spaces;
+        if (curLinePos < 9) {
+            spaces = 9 - curLinePos;
+        }
+        else if (curLinePos < 17) {
+            spaces = 17 - curLinePos;
+        }
+        else if (curLinePos < 29) {
+            spaces = 29 - curLinePos;
+        }
+        else if (curLinePos == 29) {
+            spaces = 5;
+        }
+        else {
+            spaces = 4 - ((curLinePos - 30) % 4);
+        }
+
+        for (int i = 0; i < spaces; i++) {
+            string.append(" ");
+        }
+
+        m_ui->pepSourceCodeTextEdit->insertPlainText(string);
+    }
+}
+
 void SourceCodePane::setLabelToModified(bool modified)
 {
     QString temp = m_ui->pepSourceCodeLabel->text();
@@ -382,46 +413,4 @@ void SourceCodePane::setLabelToModified(bool modified)
     }
 }
 
-bool SourceCodePane::eventFilter(QObject *, QEvent *event)
-{
-    if (m_ui->pepSourceCodeTextEdit->hasFocus()) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (keyEvent->key() == Qt::Key_Tab) {
-                QTextCursor cursor = m_ui->pepSourceCodeTextEdit->textCursor();
-                cursor.movePosition(QTextCursor::StartOfLine);
-                m_ui->pepSourceCodeTextEdit->insertPlainText(tab(m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position()));
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-QString SourceCodePane::tab(int curLinePos)
-{
-    QString retString;
-    int spaces;
-    if (curLinePos < 9) {
-        spaces = 9 - curLinePos;
-    }
-    else if (curLinePos < 17) {
-        spaces = 17 - curLinePos;
-    }
-    else if (curLinePos < 29) {
-        spaces = 29 - curLinePos;
-    }
-    else if (curLinePos == 29) {
-        spaces = 5;
-    }
-    else {
-        spaces = 4 - ((curLinePos - 30) % 4);
-    }
-
-    for (int i = 0; i < spaces; i++) {
-        retString.append(" ");
-    }
-
-    return retString;
-}
 

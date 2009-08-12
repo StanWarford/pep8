@@ -24,6 +24,7 @@
 #include "ui_cpupane.h"
 #include "sim.h"
 #include "pep.h"
+#include <QtGlobal>
 
 CpuPane::CpuPane(QWidget *parent) :
         QWidget(parent),

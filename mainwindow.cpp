@@ -139,6 +139,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
+    connect(ui->middleSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeMiddleSplitter(int,int)));
 //    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
 
     readSettings();
@@ -529,9 +530,15 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 return true;
             }
         }
-        else if (keyEvent->key() == Qt::Key_Tab && inputPane->hasFocus()) {
-            inputPane->tab();
-            return true;
+        else if (keyEvent->key() == Qt::Key_Tab) {
+            if (inputPane->hasFocus()) {
+                inputPane->tab();
+                return true;
+            }
+            else if (sourceCodePane->hasFocus()) {
+                sourceCodePane->tab();
+                return true;
+            }
         }
     }
     else if (event->type() == QEvent::FileOpen) {
@@ -1468,6 +1475,11 @@ void MainWindow::setRedoability(bool b)
     else if (terminalPane->hasFocus()) {
         ui->actionEdit_Redo->setDisabled(!b);
     }
+}
+
+void MainWindow::resizeMiddleSplitter(int, int)
+{
+//    ui->pepInputOutputTab->resize(QSize(1, 300)); // Maximize Input pane against the CPU pane.
 }
 
 //void MainWindow::resizeDocWidth(int, int)

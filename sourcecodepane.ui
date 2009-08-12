@@ -88,6 +88,9 @@
          </disabled>
         </palette>
        </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Panel</enum>
        </property>

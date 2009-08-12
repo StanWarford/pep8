@@ -136,6 +136,8 @@ public:
     void setReadOnly(bool b);
     // Post: the text edit's read only attribute is set to b
 
+    void tab();
+
 private:
     Ui::SourceCodePane *m_ui;
     QList<Code *> codeList;
@@ -145,9 +147,6 @@ private:
     QList<bool> hasCheckBox;
 
     PepHighlighter *pepHighlighter;
-
-    bool eventFilter(QObject *, QEvent *event);
-    QString tab(int curLinePos);
 
 private slots:
     void setLabelToModified(bool modified);
