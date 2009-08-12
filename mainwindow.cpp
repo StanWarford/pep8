@@ -1068,6 +1068,11 @@ void MainWindow::on_actionView_Code_CPU_triggered()
     ui->actionView_Code_Only->setDisabled(false);
     ui->actionView_Code_CPU->setDisabled(true);
     ui->actionView_Code_CPU_Memory->setDisabled(false);
+    QList<int> list;
+    list.append(3000);
+    list.append(1);
+    list.append(1);
+    ui->horizontalSplitter->setSizes(list);
 }
 
 void MainWindow::on_actionView_Code_CPU_Memory_triggered()
@@ -1083,8 +1088,13 @@ void MainWindow::on_actionView_Code_CPU_Memory_triggered()
     ui->actionView_Code_Only->setDisabled(false);
     ui->actionView_Code_CPU->setDisabled(false);
     ui->actionView_Code_CPU_Memory->setDisabled(true);
-    memoryDumpPane->updateGeometry();
     memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
+    QList<int> list;
+    list.append(3000);
+    list.append(1);
+    list.append(3000);
+    ui->horizontalSplitter->setSizes(list);
+
 }
 
 void MainWindow::on_actionView_Code_Tab_triggered()
