@@ -209,9 +209,12 @@ bool MainWindow::saveObject()
 void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
-    int width = 0.60 * QApplication::desktop()->width();
-    int height = 0.60 * QApplication::desktop()->height();
-    QPoint pos = settings.value("pos", QPoint((QApplication::desktop()->width() - width) / 2, (QApplication::desktop()->height() - height) / 2)).toPoint();
+    QDesktopWidget *desktop = QApplication::desktop();
+    int width = desktop->width() * 0.80;
+    int height = desktop->height() * 0.70;
+    int screenWidth = desktop->width();
+    int screenHeight = desktop->height();
+    QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
     QSize size = settings.value("size", QSize(width, height)).toSize();
     if (Pep::getSystem() == "Mac") {
         pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
