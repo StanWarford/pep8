@@ -1,3 +1,15 @@
+Pep/8 is a virtual machine for writing machine language and assembly
+language programs. It is designed to be used with the textbook,
+Computer Systems, J. Stanley Warford, Fourth edition, Jones and Bartlett,
+Publishers, 2010.
+
+Programmed by:
+Chris Dimpfl
+J. Stanley Warford
+
+Contact:
+J. Stanley Warford (Stan.Warford@pepperdine.edu)
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
