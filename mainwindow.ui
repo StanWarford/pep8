@@ -493,7 +493,7 @@
     <addaction name="separator"/>
     <addaction name="menuHelp_Writing_Programs"/>
     <addaction name="actionHelp_Debugging_Programs"/>
-    <addaction name="actionHelp_Writing_Interrupt_Handlers"/>
+    <addaction name="actionHelp_Writing_Trap_Handlers"/>
     <addaction name="actionHelp_Pep_8_Reference"/>
     <addaction name="actionHelp_Examples"/>
     <addaction name="actionHelp_Pep_8_Operating_System"/>
@@ -742,9 +742,9 @@
     <string>Reinstall Default OS</string>
    </property>
   </action>
-  <action name="actionHelp_Writing_Interrupt_Handlers">
+  <action name="actionHelp_Writing_Trap_Handlers">
    <property name="text">
-    <string>Writing Interrupt Handlers</string>
+    <string>Writing Trap Handlers</string>
    </property>
   </action>
   <action name="actionView_Code_Only">

@@ -5,7 +5,6 @@
         <file>help/assemblylanguage.html</file>
         <file>help/debuggingprograms.html</file>
         <file>help/examples.html</file>
-        <file>help/interrupthandlers.html</file>
         <file>help/pep8reference.html</file>
         <file>help/figures/fig0518.cpp</file>
         <file>help/figures/fig0518.pep</file>
@@ -142,5 +141,6 @@
         <file>help/images/fig0601.png</file>
         <file>help/images/fig0434cpu.png</file>
         <file>help/images/sourcecode.png</file>
+        <file>help/writingtraphandlers.html</file>
     </qresource>
 </RCC>

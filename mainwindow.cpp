@@ -1239,7 +1239,7 @@ void MainWindow::on_actionHelp_Debugging_Programs_triggered()
     helpDialog->debuggingProgramsClicked();
 }
 
-void MainWindow::on_actionHelp_Writing_Interrupt_Handlers_triggered()
+void MainWindow::on_actionHelp_Writing_Trap_Handlers_triggered()
 {
     helpDialog->show();
     helpDialog->writingTrapHandlersClicked();

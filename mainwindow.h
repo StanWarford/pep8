@@ -182,7 +182,7 @@ private slots:
     void on_actionHelp_Machine_Language_triggered();
     void on_actionHelp_Assembly_Language_triggered();
     void on_actionHelp_Debugging_Programs_triggered();
-    void on_actionHelp_Writing_Interrupt_Handlers_triggered();
+    void on_actionHelp_Writing_Trap_Handlers_triggered();
     void on_actionHelp_Pep_8_Reference_triggered();
     void on_actionHelp_Examples_triggered();
     void on_actionHelp_Pep_8_Operating_System_triggered();

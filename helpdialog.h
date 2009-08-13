@@ -68,7 +68,7 @@ private:
     enum Row {
         eWRITING = 0,
         eDEBUGGING = 1,
-        eINTERRUPT = 2,
+        eTRAP = 2,
         eREFERENCE = 3,
         eEXAMPLES = 4,
         eOS = 5,

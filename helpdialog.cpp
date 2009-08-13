@@ -99,10 +99,10 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
         m_ui->helpTopWebView->show();
         m_ui->helpTopWebView->load(QUrl("qrc:/help/debuggingprograms.html"));
     }
-    else if (!isHelpSubCat && row == eINTERRUPT) {  // Writing Interrupt Handlers
+    else if (!isHelpSubCat && row == eTRAP) {  // Writing Trap Handlers
         m_ui->helpSplitter->widget(1)->hide();
         m_ui->helpTopWebView->show();
-        m_ui->helpTopWebView->load(QUrl("qrc:/help/interrupthandlers.html"));
+        m_ui->helpTopWebView->load(QUrl("qrc:/help/writingtraphandlers.html"));
     }
     else if ((!isHelpSubCat && row == eREFERENCE)) {
         m_ui->helpSplitter->widget(1)->hide();
