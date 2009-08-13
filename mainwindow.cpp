@@ -31,6 +31,7 @@
 #include <QTextDocument>
 #include <QFontDatabase>
 #include <QTextStream>
+#include <QDesktopWidget>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
@@ -208,8 +209,10 @@ bool MainWindow::saveObject()
 void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
-    QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
-    QSize size = settings.value("size", QSize(1000, 700)).toSize();
+    int width = 0.60 * QApplication::desktop()->width();
+    int height = 0.60 * QApplication::desktop()->height();
+    QPoint pos = settings.value("pos", QPoint((QApplication::desktop()->width() - width) / 2, (QApplication::desktop()->height() - height) / 2)).toPoint();
+    QSize size = settings.value("size", QSize(width, height)).toSize();
     if (Pep::getSystem() == "Mac") {
         pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
     }
