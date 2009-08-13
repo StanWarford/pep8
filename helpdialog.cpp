@@ -1,3 +1,4 @@
+// File: helpdialog.cpp
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
