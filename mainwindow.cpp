@@ -208,8 +208,11 @@ bool MainWindow::saveObject()
 void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(800, 800)).toSize();
+    QPoint pos = settings.value("pos", QPoint(0, 0)).toPoint();
+    QSize size = settings.value("size", QSize(1000, 700)).toSize();
+    if (Pep::getSystem() == "Mac") {
+        pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
+    }
     resize(size);
     move(pos);
     curPath = settings.value("filePath", QDir::homePath()).toString();
