@@ -17,7 +17,6 @@
         <file>images/debugger_start.png</file>
         <file>images/help.png</file>
         <file>images/stop.png</file>
-        <file>CourDKn.ttf</file>
         <file>sounds/itsatrap.wav</file>
         <file>images/Pep8-icon.png</file>
     </qresource>
