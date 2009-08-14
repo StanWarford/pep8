@@ -25,7 +25,7 @@
 using namespace Enu;
 
 // Fonts
-const QString Pep::codeFont = getSystem() == "Win" ? "Courier New" : "Courier 10 Pitch";
+const QString Pep::codeFont = getSystem() == "Windows" ? "Courier New" : "Courier 10 Pitch";
 const int Pep::codeFontSize = 9;
 const int Pep::ioFontSize = 10;
 const QString Pep::labelFont = "Verdana";
