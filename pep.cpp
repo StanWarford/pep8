@@ -25,11 +25,22 @@
 using namespace Enu;
 
 // Fonts
+#ifdef Q_WS_WIN
 const QString Pep::codeFont = "Courier New";
 const int Pep::codeFontSize = 9;
 const int Pep::ioFontSize = 10;
 const QString Pep::labelFont = "Verdana";
 const int Pep::labelFontSize = 10;
+#endif
+
+#ifdef Q_WS_X11
+const QString Pep::codeFont = "Courier 10 Pitch";
+const int Pep::codeFontSize = 9;
+const int Pep::ioFontSize = 10;
+const QString Pep::labelFont = "Verdana";
+const int Pep::labelFontSize = 10;
+#endif
+
 
 // Default redefine mnemonics
 const QString Pep::defaultUnaryMnemonic0 = "NOP0";
