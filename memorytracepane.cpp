@@ -23,6 +23,7 @@
 #include "ui_memorytracepane.h"
 #include "sim.h"
 #include "pep.h"
+#include "memorycellgraphicsitem.h"
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
     QWidget(parent),
@@ -34,6 +35,12 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
         m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
         m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
+
+    scene = new QGraphicsScene(this);
+
+    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 2, "main");
+    scene->addItem(item);
+    m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
 MemoryTracePane::~MemoryTracePane()
@@ -43,7 +50,7 @@ MemoryTracePane::~MemoryTracePane()
 
 void MemoryTracePane::highlightOnFocus()
 {
-    if (m_ui->pepStackTraceGraphicsView->hasFocus()) {
+    if (m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus()) {
         m_ui->pepMemoryTraceLabel->setAutoFillBackground(true);
     }
     else {
@@ -53,13 +60,14 @@ void MemoryTracePane::highlightOnFocus()
 
 bool MemoryTracePane::hasFocus()
 {
-    return m_ui->pepStackTraceGraphicsView->hasFocus();
+    return m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus();
 }
 
 void MemoryTracePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepStackTraceGraphicsView->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepStackTraceGraphicsView->font()), this,
+                                      "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->pepStackTraceGraphicsView->setFont(font);
     }

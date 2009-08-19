@@ -1,8 +1,8 @@
-// File: memorytracepane.h
+// File: memorycellgraphicsitem.h
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -19,39 +19,30 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MEMORYTRACEPANE_H
-#define MEMORYTRACEPANE_H
+#ifndef MEMORYCELLGRAPHICSITEM_H
+#define MEMORYCELLGRAPHICSITEM_H
 
-#include <QtGui/QWidget>
-#include <QGraphicsScene>
+#include <QGraphicsItem>
 
-namespace Ui {
-    class MemoryTracePane;
-}
-
-class MemoryTracePane : public QWidget {
-    Q_OBJECT
-    Q_DISABLE_COPY(MemoryTracePane)
+class MemoryCellGraphicsItem : public QGraphicsItem
+{
 public:
-    explicit MemoryTracePane(QWidget *parent = 0);
-    virtual ~MemoryTracePane();
+    MemoryCellGraphicsItem(int addr, int val, QString sym);
+    ~MemoryCellGraphicsItem() { }
 
-    void highlightOnFocus();
-    // Post: Highlights the label based on the label window color saved in the UI file
+    QRectF boundingRect() const;
 
-    bool hasFocus();
-    // Post: returns if the pane has focus
-
-    void setFont();
-    // Post: the font used by the text edit is set to a font chosen in a font dialog
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-    Ui::MemoryTracePane *m_ui;
-
-    void mouseReleaseEvent(QMouseEvent *);
-
-    QGraphicsScene *scene;
+    int address;
+    int value;
+    QString symbol;
+    QRectF box;
+    QColor boxColor;
+    QColor boxBgColor;
+    QColor textColor;
 
 };
 
-#endif // MEMORYTRACEPANE_H
+#endif // MEMORYCELLGRAPHICSITEM_H

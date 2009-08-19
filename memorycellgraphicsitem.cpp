@@ -1,8 +1,8 @@
-// File: memorytracepane.h
+// File: memorycellgraphicsitem.cpp
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -19,39 +19,33 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MEMORYTRACEPANE_H
-#define MEMORYTRACEPANE_H
+#include "memorycellgraphicsitem.h"
+#include <QPainter>
 
-#include <QtGui/QWidget>
-#include <QGraphicsScene>
-
-namespace Ui {
-    class MemoryTracePane;
+MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, int val, QString sym)
+{
+    address = addr;
+    value = val;
+    symbol = sym;
+    boxColor = Qt::black;
+    boxBgColor = Qt::white;
+    textColor = Qt::black;
 }
 
-class MemoryTracePane : public QWidget {
-    Q_OBJECT
-    Q_DISABLE_COPY(MemoryTracePane)
-public:
-    explicit MemoryTracePane(QWidget *parent = 0);
-    virtual ~MemoryTracePane();
+QRectF MemoryCellGraphicsItem::boundingRect() const
+{
+    const int Margin = 1;
+    return QRectF(-32, -16, 64, 32) ;
+}
 
-    void highlightOnFocus();
-    // Post: Highlights the label based on the label window color saved in the UI file
+void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QPen pen(boxColor);
+    painter->setPen(pen);
+    painter->setBrush(boxBgColor);
 
-    bool hasFocus();
-    // Post: returns if the pane has focus
+    painter->drawRect(-32, -16, 64, 32);
+    painter->setPen(textColor);
+    painter->drawText(QRectF(-32, -16, 64, 32), Qt::AlignCenter, QString("%1").arg(value));
+}
 
-    void setFont();
-    // Post: the font used by the text edit is set to a font chosen in a font dialog
-
-private:
-    Ui::MemoryTracePane *m_ui;
-
-    void mouseReleaseEvent(QMouseEvent *);
-
-    QGraphicsScene *scene;
-
-};
-
-#endif // MEMORYTRACEPANE_H

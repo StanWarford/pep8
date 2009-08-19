@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(cpuPane, SIGNAL(waitingForInput()), this, SLOT(waitingForInput()));
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
-//    connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
+    // connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
 
     readSettings();
 
@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     qApp->installEventFilter(this);
 
     // Hide memory trace pane, because nothing is implemented there (for now!)
-    memoryTracePane->hide();
+//    memoryTracePane->hide();
 }
 
 MainWindow::~MainWindow()
