@@ -162,9 +162,6 @@ MainWindow::MainWindow(QWidget *parent)
     memoryDumpPane->refreshMemory();
 
     qApp->installEventFilter(this);
-
-    // Hide memory trace pane, because nothing is implemented there (for now!)
-//    memoryTracePane->hide();
 }
 
 MainWindow::~MainWindow()
@@ -1530,6 +1527,7 @@ void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
+    memoryTracePane->updateMemoryTrace();
     if (!memoryDumpPane->isHidden()) {
         memoryDumpPane->updateMemory();
         memoryDumpPane->highlightMemory(true);
@@ -1539,6 +1537,7 @@ void MainWindow::updateSimulationView()
 void MainWindow::vonNeumannStepped()
 {
     memoryDumpPane->cacheModifiedBytes();
+    memoryTracePane->cacheStackChanges();
 }
 
 void MainWindow::appendOutput(QString str)

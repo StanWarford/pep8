@@ -36,51 +36,48 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
-    if (Pep::getSystem() != "Mac") {
-        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
 
-        m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
+    m_ui->cpuALabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuXLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuPCLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuInstrSpecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuOprndSpecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuOprndLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
+    m_ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuALabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuXLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuPCLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuInstrSpecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndSpecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
-        m_ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
+    m_ui->pepNLabel->setFont(QFont(Pep::labelFont));
+    m_ui->pepZLabel->setFont(QFont(Pep::labelFont));
+    m_ui->pepVLabel->setFont(QFont(Pep::labelFont));
+    m_ui->pepCLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->pepNLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepZLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepVLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepCLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuVLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuCLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuVLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuCLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuAHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuADecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuAHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuADecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuXHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuXDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuXHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuXDecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuSPHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuSPDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuSPHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSPDecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuPCHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuPCDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuPCHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuPCDecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuInstrSpecBinLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuInstrSpecMnemonLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuInstrSpecBinLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuInstrSpecMnemonLabel->setFont(QFont(Pep::labelFont));
-
-        m_ui->cpuOprndSpecHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndSpecDecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndDecLabel->setFont(QFont(Pep::labelFont));
-    }
+    m_ui->cpuOprndSpecHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuOprndSpecDecLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuOprndHexLabel->setFont(QFont(Pep::labelFont));
+    m_ui->cpuOprndDecLabel->setFont(QFont(Pep::labelFont));
 }
 
 CpuPane::~CpuPane()

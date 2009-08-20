@@ -24,6 +24,8 @@
 
 #include <QtGui/QWidget>
 #include <QGraphicsScene>
+#include <QStack>
+#include "memorycellgraphicsitem.h"
 
 namespace Ui {
     class MemoryTracePane;
@@ -35,6 +37,12 @@ class MemoryTracePane : public QWidget {
 public:
     explicit MemoryTracePane(QWidget *parent = 0);
     virtual ~MemoryTracePane();
+
+    void updateMemoryTrace();
+    // Post: The memory trace is updated
+
+    void cacheStackChanges();
+    // Post: Stack changes are cached for the next time the simulation view is updated
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -51,6 +59,11 @@ private:
     void mouseReleaseEvent(QMouseEvent *);
 
     QGraphicsScene *scene;
+    QStack<MemoryCellGraphicsItem *> globalVars;
+    QStack<MemoryCellGraphicsItem *> runtimeStack;
+
+private slots:
+    void zoomFactorChanged(int factor);
 
 };
 

@@ -23,7 +23,6 @@
 #include "ui_memorytracepane.h"
 #include "sim.h"
 #include "pep.h"
-#include "memorycellgraphicsitem.h"
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
     QWidget(parent),
@@ -31,14 +30,14 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    if (Pep::getSystem() != "Mac") {
-        m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
-        m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-    }
+    m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+
+    connect(m_ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
 
-    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 2, "main");
+    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 65536, "main");
     scene->addItem(item);
     m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
@@ -46,6 +45,16 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 MemoryTracePane::~MemoryTracePane()
 {
     delete m_ui;
+}
+
+void MemoryTracePane::updateMemoryTrace()
+{
+
+}
+
+void MemoryTracePane::cacheStackChanges()
+{
+
 }
 
 void MemoryTracePane::highlightOnFocus()
@@ -78,3 +87,9 @@ void MemoryTracePane::mouseReleaseEvent(QMouseEvent *)
     m_ui->pepStackTraceGraphicsView->setFocus();
 }
 
+void MemoryTracePane::zoomFactorChanged(int factor)
+{
+    QMatrix matrix;
+    matrix.scale(factor * .01, factor * .01);
+    m_ui->pepStackTraceGraphicsView->setMatrix(matrix);
+}

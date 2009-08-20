@@ -43,14 +43,12 @@ HelpDialog::HelpDialog(QWidget *parent) :
     rightCppHighlighter = new CppHighlighter(m_ui->helpRightCppTextEdit->document());
     rightPepHighlighter = new PepHighlighter(m_ui->helpRightPepTextEdit->document());
 
-    if (Pep::getSystem() != "Mac") {
-        m_ui->helpCopyToSourceButton->setFont(QFont(Pep::labelFont));
-        m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont));
+    m_ui->helpCopyToSourceButton->setFont(QFont(Pep::labelFont));
+    m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont));
 
-        m_ui->helpRightCppTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-        m_ui->helpRightPepTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-        m_ui->helpLeftTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-    }
+    m_ui->helpRightCppTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    m_ui->helpRightPepTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    m_ui->helpLeftTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 HelpDialog::~HelpDialog()

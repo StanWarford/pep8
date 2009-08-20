@@ -20,6 +20,7 @@
 */
 
 #include "memorycellgraphicsitem.h"
+#include "pep.h"
 #include <QPainter>
 
 MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, int val, QString sym)
@@ -34,18 +35,25 @@ MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, int val, QString sym)
 
 QRectF MemoryCellGraphicsItem::boundingRect() const
 {
-    const int Margin = 1;
     return QRectF(-32, -16, 64, 32) ;
 }
 
 void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen pen(boxColor);
+    pen.setWidth(2);
     painter->setPen(pen);
     painter->setBrush(boxBgColor);
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->drawRoundedRect(QRectF(-32, -16, 64, 32), 2, 2, Qt::RelativeSize);
 
-    painter->drawRect(-32, -16, 64, 32);
     painter->setPen(textColor);
+    painter->setRenderHint(QPainter::TextAntialiasing);
+    painter->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+
+    painter->drawText(QRectF(-110, -16, 64, 32), Qt::AlignVCenter | Qt::AlignRight, QString("0x") + QString("%1").arg(address, 4, 16, QLatin1Char('0')).toUpper());
     painter->drawText(QRectF(-32, -16, 64, 32), Qt::AlignCenter, QString("%1").arg(value));
+    painter->drawText(QRectF(48, -16, 64, 32), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
+
 }
 

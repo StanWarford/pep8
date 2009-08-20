@@ -41,11 +41,9 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 //    programDocWidth = 0;
 //    osDocWidth = 0;
 
-    if (Pep::getSystem() != "Mac") {
-        m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
-        m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-        m_ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-    }
+    m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    m_ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 ListingTracePane::~ListingTracePane()
