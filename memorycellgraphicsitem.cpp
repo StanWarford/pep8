@@ -68,4 +68,8 @@ void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     painter->drawText(QRectF(x + bufferWidth + boxWidth, y, symbolWidth, boxHeight), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
 }
 
+QString MemoryCellGraphicsItem::getSymbol()
+{
+    return symbol;
+}
 

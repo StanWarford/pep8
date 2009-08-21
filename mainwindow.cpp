@@ -133,6 +133,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sourceCodePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
     connect(objectCodePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
     connect(assemblerListingPane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
+    connect(memoryTracePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
+    connect(listingTracePane, SIGNAL(labelDoubleClicked(Enu::EPane)), this, SLOT(doubleClickedCodeLabel(Enu::EPane)));
 
     // Simulator signals
     connect(cpuPane, SIGNAL(updateSimulationView()), this, SLOT(updateSimulationView()));
@@ -1519,6 +1521,17 @@ void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
         list.append(3000);
         ui->codeSplitter->setSizes(list);
     }
+    else if (pane == Enu::EListingTrace) {
+        list.append(3000);
+        list.append(1);
+        ui->traceSplitter->setSizes(list);
+    }
+    else if (pane == Enu::EMemoryTrace) {
+        list.append(1);
+        list.append(3000);
+        ui->traceSplitter->setSizes(list);
+    }
+
 }
 
 //void MainWindow::resizeDocWidth(int, int)

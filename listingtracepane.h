@@ -24,6 +24,7 @@
 
 #include <QtGui/QWidget>
 #include <QTableWidgetItem>
+#include "enu.h"
 
 namespace Ui {
     class ListingTracePane;
@@ -71,9 +72,13 @@ private:
 
 //    int programDocWidth;
 //    int osDocWidth;
+    void mouseDoubleClickEvent(QMouseEvent *);
 
 private slots:
     void updateIsCheckedTable(QTableWidgetItem *item);
+
+signals:
+    void labelDoubleClicked(Enu::EPane pane);
 
 };
 

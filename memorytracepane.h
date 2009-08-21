@@ -25,6 +25,7 @@
 #include <QtGui/QWidget>
 #include <QGraphicsScene>
 #include <QStack>
+#include <QSet>
 #include "memorycellgraphicsitem.h"
 #include "enu.h"
 
@@ -40,7 +41,7 @@ public:
     virtual ~MemoryTracePane();
 
     void setMemoryTrace();
-    // The memory trace is populated.
+    // The memory trace is populated (on assembly).
 
     void setDebugState(bool b);
     // Post: if b, the trace pane is populated with globals and the stack frame
@@ -73,10 +74,20 @@ private:
     QPointF globalLocation;
     QPointF stackLocation;
 
+    QMap<int, MemoryCellGraphicsItem *> addressToGlobalItemMap;
+    QMap<int, MemoryCellGraphicsItem *> addressToStackItemMap;
+    QList<int> modifiedBytesToBeUpdated;
+    QSet<int> modifiedBytes;
+    QList<int> bytesWrittenLastStep;
+
     void mouseReleaseEvent(QMouseEvent *);
+    void mouseDoubleClickEvent(QMouseEvent *);
 
 private slots:
     void zoomFactorChanged(int factor);
+
+signals:
+    void labelDoubleClicked(Enu::EPane pane);
 
 };
 

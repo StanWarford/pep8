@@ -72,6 +72,7 @@ void MemoryTracePane::setMemoryTrace()
                                                                       globalLocation.x(), globalLocation.y());
             globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
             globalVars.push(item);
+            addressToGlobalItemMap.insert(address, item);
             scene->addItem(item);
         }
         else {
@@ -82,6 +83,7 @@ void MemoryTracePane::setMemoryTrace()
                                                                           globalLocation.x(), globalLocation.y());
                 globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
                 globalVars.push(item);
+                addressToGlobalItemMap.insert(address, item);
                 scene->addItem(item);
             }
         }
@@ -97,12 +99,31 @@ void MemoryTracePane::setDebugState(bool b)
 
 void MemoryTracePane::updateMemoryTrace()
 {
+    for (int i = 0; i < globalVars.size(); i++) {
+        globalVars.at(i)->boxBgColor = Qt::white;
+    }
+    modifiedBytesToBeUpdated = modifiedBytes.toList();
+    for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
+        if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
+            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->boxBgColor = Qt::red;
+        }
+    }
+    for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
+        if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
+            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->value = traceValue(addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->getSymbol());
+        }
+    }
     m_ui->pepStackTraceGraphicsView->setScene(scene);
+    m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
+
+    modifiedBytes.clear();
 }
 
 void MemoryTracePane::cacheStackChanges()
 {
-
+    bytesWrittenLastStep.clear();
+    modifiedBytes.unite(Sim::modifiedBytes);
+    bytesWrittenLastStep = Sim::modifiedBytes.toList();
 }
 
 void MemoryTracePane::highlightOnFocus()
@@ -188,4 +209,9 @@ void MemoryTracePane::zoomFactorChanged(int factor)
     QMatrix matrix;
     matrix.scale(factor * .01, factor * .01);
     m_ui->pepStackTraceGraphicsView->setMatrix(matrix);
+}
+
+void MemoryTracePane::mouseDoubleClickEvent(QMouseEvent *)
+{
+    emit labelDoubleClicked(Enu::EMemoryTrace);
 }

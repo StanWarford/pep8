@@ -76,11 +76,13 @@ namespace Enu
 
     enum EPane
     {
-        ESource = 1,
-        EObject = 2,
-        EListing = 4,
-        EBatchIO = 8,
-        ETerminal = 16,
+        ESource,
+        EObject,
+        EListing,
+        EListingTrace,
+        EMemoryTrace,
+        EBatchIO,
+        ETerminal,
     };
 
 }

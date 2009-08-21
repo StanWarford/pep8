@@ -220,3 +220,8 @@ void ListingTracePane::updateIsCheckedTable(QTableWidgetItem *item)
 {
     Pep::listingRowChecked->insert(item->row(), item->checkState());
 }
+
+void ListingTracePane::mouseDoubleClickEvent(QMouseEvent *)
+{
+    emit labelDoubleClicked(Enu::EListingTrace);
+}

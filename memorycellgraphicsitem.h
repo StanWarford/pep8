@@ -40,16 +40,19 @@ public:
     static const int symbolWidth;
     static const int bufferWidth;
 
+    QString value;
+    QColor boxColor;
+    QColor boxBgColor;
+    QColor textColor;
+
+    QString getSymbol();
+
 private:
     int x;
     int y;
     int address;
-    QString value;
     QString symbol;
     QRectF box;
-    QColor boxColor;
-    QColor boxBgColor;
-    QColor textColor;
 
 };
 
