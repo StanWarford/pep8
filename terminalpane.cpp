@@ -36,7 +36,7 @@ TerminalPane::TerminalPane(QWidget *parent) :
     connect(m_ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 

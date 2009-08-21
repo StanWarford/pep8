@@ -24,22 +24,24 @@
 #include "sim.h"
 #include "pep.h"
 
+#include <QDebug>
+
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::MemoryTracePane)
 {
     m_ui->setupUi(this);
 
-    m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
     connect(m_ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
 
-    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 65536, "main");
-    scene->addItem(item);
-    m_ui->pepStackTraceGraphicsView->setScene(scene);
+//    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 65536, "main", -32, -16);
+//    scene->addItem(item);
+//    m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
 MemoryTracePane::~MemoryTracePane()
@@ -47,9 +49,55 @@ MemoryTracePane::~MemoryTracePane()
     delete m_ui;
 }
 
-void MemoryTracePane::updateMemoryTrace()
+void MemoryTracePane::setMemoryTrace()
+{
+//    scene->clear();
+    while (!globalVars.isEmpty()) {
+        delete globalVars.pop();
+    }
+    if (Pep::traceTagWarning) {
+        hide();
+        return;
+    }
+    stackLocation = QPointF(100, -100);
+    globalLocation = QPointF(-100, -100);
+    QString blockSymbol;
+    int multiplier;
+    for (int i = 0; i < Pep::blockSymbols.size(); i++) {
+        blockSymbol = Pep::blockSymbols.at(i);
+        multiplier = Pep::symbolFormatMultiplier.value(blockSymbol);
+        int address = Pep::symbolTable.value(blockSymbol);
+        if (multiplier == 1) {
+            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address, traceValue(blockSymbol), blockSymbol,
+                                                                      globalLocation.x(), globalLocation.y());
+            globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+            globalVars.push(item);
+            scene->addItem(item);
+        }
+        else {
+            for (int j = 0; j < multiplier; j++) {
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + j * cellSize(Pep::symbolFormat.value(blockSymbol)),
+                                                                          traceValue(blockSymbol, j * multiplier),
+                                                                          blockSymbol + QString("[%1]").arg(j),
+                                                                          globalLocation.x(), globalLocation.y());
+                globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+                globalVars.push(item);
+                scene->addItem(item);
+            }
+        }
+        m_ui->pepStackTraceGraphicsView->setScene(scene);
+    }
+
+}
+
+void MemoryTracePane::setDebugState(bool b)
 {
 
+}
+
+void MemoryTracePane::updateMemoryTrace()
+{
+    m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
 void MemoryTracePane::cacheStackChanges()
@@ -79,6 +127,54 @@ void MemoryTracePane::setFont()
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->pepStackTraceGraphicsView->setFont(font);
+    }
+}
+
+QString MemoryTracePane::traceValue(QString symbol, int offset)
+{
+    QString retString;
+    switch (Pep::symbolFormat.value(symbol)) {
+    case Enu::F_1C:
+        retString = QString(QChar(Sim::Mem[Pep::symbolTable.value(symbol) + offset]));
+        break;
+    case Enu::F_1D:
+        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset]);
+        break;
+    case Enu::F_2D:
+        retString = QString("%1").arg(Sim::toSignedDecimal(
+                Sim::Mem[Pep::symbolTable.value(symbol) + offset] * 256 + Sim::Mem[Pep::symbolTable.value(symbol) + offset +1]));
+        break;
+    case Enu::F_1H:
+        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset],
+                                      2, 16, QLatin1Char('0')).toUpper();
+        break;
+    case Enu::F_2H:
+        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset] * 256 + Sim::Mem[Pep::symbolTable.value(symbol) + offset + 1],
+                                      4, 16, QLatin1Char('0')).toUpper();
+        break;
+    default:
+        // Should not occur
+        break;
+    }
+    return retString;
+}
+
+int MemoryTracePane::cellSize(Enu::ESymbolFormat symbolFormat)
+{
+    switch (symbolFormat) {
+    case Enu::F_1C:
+        return 1;
+    case Enu::F_1D:
+        return 1;
+    case Enu::F_2D:
+        return 2;
+    case Enu::F_1H:
+        return 1;
+    case Enu::F_2H:
+        return 2;
+    default:
+        // Should not occur
+        return 0;
     }
 }
 

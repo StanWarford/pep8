@@ -34,7 +34,7 @@ InputPane::InputPane(QWidget *parent) :
     connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     m_ui->pepInputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 

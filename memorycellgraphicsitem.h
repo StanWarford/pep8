@@ -27,16 +27,24 @@
 class MemoryCellGraphicsItem : public QGraphicsItem
 {
 public:
-    MemoryCellGraphicsItem(int addr, int val, QString sym);
+    MemoryCellGraphicsItem(int addr, QString val, QString sym, int xLoc, int yLoc);
     ~MemoryCellGraphicsItem() { }
 
     QRectF boundingRect() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    static const int boxHeight;
+    static const int boxWidth;
+    static const int addressWidth;
+    static const int symbolWidth;
+    static const int bufferWidth;
+
 private:
+    int x;
+    int y;
     int address;
-    int value;
+    QString value;
     QString symbol;
     QRectF box;
     QColor boxColor;

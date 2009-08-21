@@ -26,6 +26,7 @@
 #include <QGraphicsScene>
 #include <QStack>
 #include "memorycellgraphicsitem.h"
+#include "enu.h"
 
 namespace Ui {
     class MemoryTracePane;
@@ -37,6 +38,13 @@ class MemoryTracePane : public QWidget {
 public:
     explicit MemoryTracePane(QWidget *parent = 0);
     virtual ~MemoryTracePane();
+
+    void setMemoryTrace();
+    // The memory trace is populated.
+
+    void setDebugState(bool b);
+    // Post: if b, the trace pane is populated with globals and the stack frame
+    // If !b, the pane is cleared. (yes/no?)
 
     void updateMemoryTrace();
     // Post: The memory trace is updated
@@ -56,11 +64,16 @@ public:
 private:
     Ui::MemoryTracePane *m_ui;
 
-    void mouseReleaseEvent(QMouseEvent *);
+    static QString traceValue(QString symbol, int offset = 0);
+    static int cellSize(Enu::ESymbolFormat symbolFormat);
 
     QGraphicsScene *scene;
     QStack<MemoryCellGraphicsItem *> globalVars;
     QStack<MemoryCellGraphicsItem *> runtimeStack;
+    QPointF globalLocation;
+    QPointF stackLocation;
+
+    void mouseReleaseEvent(QMouseEvent *);
 
 private slots:
     void zoomFactorChanged(int factor);

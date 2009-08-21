@@ -23,8 +23,18 @@
 #include "pep.h"
 #include <QPainter>
 
-MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, int val, QString sym)
+#include <QDebug>
+
+const int MemoryCellGraphicsItem::boxHeight = 22;
+const int MemoryCellGraphicsItem::boxWidth = 50;
+const int MemoryCellGraphicsItem::addressWidth = 64;
+const int MemoryCellGraphicsItem::symbolWidth = 64;
+const int MemoryCellGraphicsItem::bufferWidth = 14;
+
+MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString val, QString sym, int xLoc, int yLoc)
 {
+    x = xLoc;
+    y = yLoc;
     address = addr;
     value = val;
     symbol = sym;
@@ -35,7 +45,9 @@ MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, int val, QString sym)
 
 QRectF MemoryCellGraphicsItem::boundingRect() const
 {
-    return QRectF(-32, -16, 64, 32) ;
+    const int Margin = 1;
+    return QRectF(QPointF(x - addressWidth + Margin, y + Margin),
+                  QSizeF(addressWidth + bufferWidth * 2 + boxWidth + symbolWidth + Margin * 2, boxHeight + Margin * 2));
 }
 
 void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -45,15 +57,15 @@ void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     painter->setPen(pen);
     painter->setBrush(boxBgColor);
     painter->setRenderHint(QPainter::Antialiasing);
-    painter->drawRoundedRect(QRectF(-32, -16, 64, 32), 2, 2, Qt::RelativeSize);
+    painter->drawRoundedRect(QRectF(x, y, boxWidth, boxHeight), 2, 2, Qt::RelativeSize);
 
     painter->setPen(textColor);
     painter->setRenderHint(QPainter::TextAntialiasing);
     painter->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
-    painter->drawText(QRectF(-110, -16, 64, 32), Qt::AlignVCenter | Qt::AlignRight, QString("0x") + QString("%1").arg(address, 4, 16, QLatin1Char('0')).toUpper());
-    painter->drawText(QRectF(-32, -16, 64, 32), Qt::AlignCenter, QString("%1").arg(value));
-    painter->drawText(QRectF(48, -16, 64, 32), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
-
+    painter->drawText(QRectF(x - addressWidth - bufferWidth, y, addressWidth, boxHeight), Qt::AlignVCenter | Qt::AlignRight, QString("%1").arg(address, 4, 16, QLatin1Char('0')).toUpper());
+    painter->drawText(QRectF(x, y, boxWidth, boxHeight), Qt::AlignCenter, value);
+    painter->drawText(QRectF(x + bufferWidth + boxWidth, y, symbolWidth, boxHeight), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
 }
+
 

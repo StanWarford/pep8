@@ -34,7 +34,7 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
     connect(m_ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepObjectCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize, QFont::Bold));
+    m_ui->pepObjectCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     m_ui->pepObjectCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 

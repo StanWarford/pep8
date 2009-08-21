@@ -162,6 +162,7 @@ MainWindow::MainWindow(QWidget *parent)
     memoryDumpPane->refreshMemory();
 
     qApp->installEventFilter(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -207,8 +208,8 @@ void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
     QDesktopWidget *desktop = QApplication::desktop();
-    int width = desktop->width() * 0.80;
-    int height = desktop->height() * 0.70;
+    int width = (int)desktop->width() * 0.80;
+    int height = (int)desktop->height() * 0.70;
     int screenWidth = desktop->width();
     int screenHeight = desktop->height();
     QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();
@@ -450,6 +451,7 @@ bool MainWindow::assemble()
             objectCodePane->setObjectCode(sourceCodePane->getObjectCode());
             assemblerListingPane->setAssemblerListing(sourceCodePane->getAssemblerListingList());
             listingTracePane->setListingTrace(sourceCodePane->getAssemblerListingList(), sourceCodePane->getHasCheckBox());
+            memoryTracePane->setMemoryTrace();
             listingTracePane->showAssemblerListing();
 
             QString temp = curSourceFile;
@@ -1527,7 +1529,9 @@ void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
 void MainWindow::updateSimulationView()
 {
     listingTracePane->updateListingTrace();
-    memoryTracePane->updateMemoryTrace();
+    if (!memoryTracePane->isHidden()) {
+        memoryTracePane->updateMemoryTrace();
+    }
     if (!memoryDumpPane->isHidden()) {
         memoryDumpPane->updateMemory();
         memoryDumpPane->highlightMemory(true);
@@ -1537,7 +1541,9 @@ void MainWindow::updateSimulationView()
 void MainWindow::vonNeumannStepped()
 {
     memoryDumpPane->cacheModifiedBytes();
-    memoryTracePane->cacheStackChanges();
+    if (!memoryTracePane->isHidden()) {
+        memoryTracePane->cacheStackChanges();
+    }
 }
 
 void MainWindow::appendOutput(QString str)
