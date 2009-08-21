@@ -45,8 +45,8 @@ MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString val, QString sy
 
 QRectF MemoryCellGraphicsItem::boundingRect() const
 {
-    const int Margin = 1;
-    return QRectF(QPointF(x - addressWidth + Margin, y + Margin),
+    const int Margin = 4;
+    return QRectF(QPointF(x - addressWidth - Margin, y - Margin),
                   QSizeF(addressWidth + bufferWidth * 2 + boxWidth + symbolWidth + Margin * 2, boxHeight + Margin * 2));
 }
 

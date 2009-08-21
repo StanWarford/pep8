@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     memoryDumpPane->refreshMemory();
 
     qApp->installEventFilter(this);
-
+    memoryTracePane->hide(); // Hidden until successful assembly with trace tags.
 }
 
 MainWindow::~MainWindow()
@@ -474,6 +474,12 @@ bool MainWindow::assemble()
                 setCurrentFile("", Enu::EListing);
             }
             ui->actionEdit_Format_From_Listing->setEnabled(true);
+            if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty() && Pep::equateSymbols.isEmpty() && Pep::newSymbols.isEmpty())) {
+                memoryTracePane->show();
+            }
+            else {
+                memoryTracePane->hide();
+            }
             return true;
         }
     }

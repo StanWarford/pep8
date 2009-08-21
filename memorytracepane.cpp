@@ -39,9 +39,6 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 
     scene = new QGraphicsScene(this);
 
-//    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(31, 65536, "main", -32, -16);
-//    scene->addItem(item);
-//    m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
 MemoryTracePane::~MemoryTracePane()
@@ -51,10 +48,12 @@ MemoryTracePane::~MemoryTracePane()
 
 void MemoryTracePane::setMemoryTrace()
 {
-//    scene->clear();
-    while (!globalVars.isEmpty()) {
-        delete globalVars.pop();
-    }
+    scene->clear();
+//    while (!globalVars.isEmpty()) {
+//        delete globalVars.pop();
+//    }
+    globalVars.clear();
+    runtimeStack.clear();
     modifiedBytesToBeUpdated.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
@@ -69,6 +68,7 @@ void MemoryTracePane::setMemoryTrace()
     globalLocation = QPointF(-100, -100);
     QString blockSymbol;
     int multiplier;
+    // Globals:
     for (int i = 0; i < Pep::blockSymbols.size(); i++) {
         blockSymbol = Pep::blockSymbols.at(i);
         multiplier = Pep::symbolFormatMultiplier.value(blockSymbol);
@@ -93,8 +93,20 @@ void MemoryTracePane::setMemoryTrace()
                 scene->addItem(item);
             }
         }
-        m_ui->pepStackTraceGraphicsView->setScene(scene);
     }
+    // Stack frame:
+    stackLocation.setY(globalLocation.y());
+    scene->addLine(stackLocation.x() - MemoryCellGraphicsItem::boxWidth * 0.2, stackLocation.y(),
+                   stackLocation.x() + MemoryCellGraphicsItem::boxWidth * 1.2, stackLocation.y(),
+                   QPen(QBrush(Qt::SolidPattern), 2, Qt::SolidLine));
+    int dist = MemoryCellGraphicsItem::boxWidth * 1.2 - MemoryCellGraphicsItem::boxWidth * 1.4;
+    for (int i = MemoryCellGraphicsItem::boxWidth * 1.2; i > dist; i = i - 10) {
+        scene->addLine(stackLocation.x() + i - 10, stackLocation.y() + 10,
+                       stackLocation.x() + i, stackLocation.y(),
+                       QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
+    }
+
+    m_ui->pepStackTraceGraphicsView->setScene(scene);
 
 }
 

@@ -36,10 +36,10 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
-    m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
-
     if (Pep::getSystem() != "Mac") {
+        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
+
         m_ui->cpuALabel->setFont(QFont(Pep::labelFont));
         m_ui->cpuXLabel->setFont(QFont(Pep::labelFont));
         m_ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
