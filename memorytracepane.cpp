@@ -55,6 +55,12 @@ void MemoryTracePane::setMemoryTrace()
     while (!globalVars.isEmpty()) {
         delete globalVars.pop();
     }
+    modifiedBytesToBeUpdated.clear();
+    modifiedBytes.clear();
+    bytesWrittenLastStep.clear();
+    addressToGlobalItemMap.clear();
+    addressToStackItemMap.clear();
+
     if (Pep::traceTagWarning) {
         hide();
         return;
