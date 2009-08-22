@@ -79,6 +79,7 @@ private:
     QList<int> modifiedBytesToBeUpdated;
     QSet<int> modifiedBytes;
     QList<int> bytesWrittenLastStep;
+    bool delayLastStepClear;
 
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);

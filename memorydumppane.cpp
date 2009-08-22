@@ -188,9 +188,22 @@ void MemoryDumpPane::highlightMemory(bool b)
 
 void MemoryDumpPane::cacheModifiedBytes()
 {
-    bytesWrittenLastStep.clear();
     modifiedBytes.unite(Sim::modifiedBytes);
-    bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    if (Sim::tracingTraps) {
+        bytesWrittenLastStep.clear();
+        bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    }
+    else if (Sim::trapped) {
+        delayLastStepClear = true;
+        bytesWrittenLastStep.append(Sim::modifiedBytes.toList());
+    }
+    else if (delayLastStepClear) {
+        delayLastStepClear = false;
+    }
+    else {
+        bytesWrittenLastStep.clear();
+        bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    }
 }
 
 void MemoryDumpPane::updateMemory()

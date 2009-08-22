@@ -83,6 +83,7 @@ private:
     QList<int> highlightedData;
     QSet<int> modifiedBytes;
     QList<int> bytesWrittenLastStep;
+    bool delayLastStepClear;
 
 private slots:
     void on_pepMemRefreshButton_clicked();

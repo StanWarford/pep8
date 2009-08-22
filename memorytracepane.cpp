@@ -126,7 +126,7 @@ void MemoryTracePane::updateMemoryTrace()
     modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
-            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->boxBgColor = Qt::red;
+            addressToGlobalItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
         }
     }
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
@@ -135,17 +135,31 @@ void MemoryTracePane::updateMemoryTrace()
                     traceValue(addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->getSymbol());
         }
     }
-    m_ui->pepStackTraceGraphicsView->setScene(scene);
+    // m_ui->pepStackTraceGraphicsView->setScene(scene); // Not needed for now?
     m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
 
+    bytesWrittenLastStep.clear();
     modifiedBytes.clear();
 }
 
 void MemoryTracePane::cacheStackChanges()
 {
-    bytesWrittenLastStep.clear();
     modifiedBytes.unite(Sim::modifiedBytes);
-    bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    if (Sim::tracingTraps) {
+        bytesWrittenLastStep.clear();
+        bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    }
+    else if (Sim::trapped) {
+        delayLastStepClear = true;
+        bytesWrittenLastStep.append(Sim::modifiedBytes.toList());
+    }
+    else if (delayLastStepClear) {
+        delayLastStepClear = false;
+    }
+    else {
+        bytesWrittenLastStep.clear();
+        bytesWrittenLastStep = Sim::modifiedBytes.toList();
+    }
 }
 
 void MemoryTracePane::highlightOnFocus()

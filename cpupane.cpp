@@ -160,6 +160,7 @@ void CpuPane::runClicked() {
 void CpuPane::setDebugState(bool b)
 {
     m_ui->pepTraceTrapsCheckBox->setDisabled(b);
+    Sim::tracingTraps = m_ui->pepTraceTrapsCheckBox->isChecked();
 }
 
 void CpuPane::traceTraps(bool b)

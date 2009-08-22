@@ -42,6 +42,7 @@ QString Sim::outputBuffer;
 
 QSet<int> Sim::modifiedBytes;
 bool Sim::trapped;
+bool Sim::tracingTraps;
 
 Enu::EExecState Sim::executionState;
 
