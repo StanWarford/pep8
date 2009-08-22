@@ -82,14 +82,17 @@ void MemoryTracePane::setMemoryTrace()
             scene->addItem(item);
         }
         else {
+            int offset;
             for (int j = 0; j < multiplier; j++) {
-                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + j * cellSize(Pep::symbolFormat.value(blockSymbol)),
-                                                                          traceValue(blockSymbol, j * multiplier),
+                offset = j * cellSize(Pep::symbolFormat.value(blockSymbol));
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
+                                                                          traceValue(blockSymbol, offset),
                                                                           blockSymbol + QString("[%1]").arg(j),
                                                                           globalLocation.x(), globalLocation.y());
                 globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
                 globalVars.push(item);
-                addressToGlobalItemMap.insert(address, item);
+                addressToGlobalItemMap.insert(address + offset, item);
+                qDebug() << "address + offset: " << address + offset;
                 scene->addItem(item);
             }
         }
@@ -128,7 +131,8 @@ void MemoryTracePane::updateMemoryTrace()
     }
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
-            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->value = traceValue(addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->getSymbol());
+            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->value =
+                    traceValue(addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->getSymbol());
         }
     }
     m_ui->pepStackTraceGraphicsView->setScene(scene);
