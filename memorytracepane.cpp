@@ -84,9 +84,9 @@ void MemoryTracePane::setMemoryTrace()
             scene->addItem(item);
         }
         else {
-            int offset;
+            int offset = 0;
+            int bytesPerCell = cellSize(Pep::symbolFormat.value(blockSymbol));
             for (int j = 0; j < multiplier; j++) {
-                offset = j * cellSize(Pep::symbolFormat.value(blockSymbol));
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
                                                                           blockSymbol + QString("[%1]").arg(j),
                                                                           Pep::symbolFormat.value(blockSymbol),
@@ -97,6 +97,7 @@ void MemoryTracePane::setMemoryTrace()
                 globalVars.push(item);
                 addressToGlobalItemMap.insert(address + offset, item);
                 scene->addItem(item);
+                offset += bytesPerCell;
             }
         }
     }
@@ -111,7 +112,6 @@ void MemoryTracePane::setMemoryTrace()
                        stackLocation.x() + i, stackLocation.y(),
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
     }
-
     m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
