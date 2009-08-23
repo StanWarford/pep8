@@ -21,10 +21,8 @@
 #include <QFontDialog>
 #include "memorytracepane.h"
 #include "ui_memorytracepane.h"
-#include "sim.h"
 #include "pep.h"
-
-#include <QDebug>
+#include "sim.h"
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
     QWidget(parent),
@@ -74,8 +72,12 @@ void MemoryTracePane::setMemoryTrace()
         multiplier = Pep::symbolFormatMultiplier.value(blockSymbol);
         int address = Pep::symbolTable.value(blockSymbol);
         if (multiplier == 1) {
-            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address, traceValue(blockSymbol), blockSymbol,
-                                                                      globalLocation.x(), globalLocation.y());
+            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address,
+                                                                      blockSymbol,
+                                                                      Pep::symbolFormat.value(blockSymbol),
+                                                                      globalLocation.x(),
+                                                                      globalLocation.y());
+            item->updateValue();
             globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
             globalVars.push(item);
             addressToGlobalItemMap.insert(address, item);
@@ -86,13 +88,14 @@ void MemoryTracePane::setMemoryTrace()
             for (int j = 0; j < multiplier; j++) {
                 offset = j * cellSize(Pep::symbolFormat.value(blockSymbol));
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
-                                                                          traceValue(blockSymbol, offset),
                                                                           blockSymbol + QString("[%1]").arg(j),
-                                                                          globalLocation.x(), globalLocation.y());
+                                                                          Pep::symbolFormat.value(blockSymbol),
+                                                                          globalLocation.x(),
+                                                                          globalLocation.y());
+                item->updateValue();
                 globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
                 globalVars.push(item);
                 addressToGlobalItemMap.insert(address + offset, item);
-                qDebug() << "address + offset: " << address + offset;
                 scene->addItem(item);
             }
         }
@@ -110,7 +113,25 @@ void MemoryTracePane::setMemoryTrace()
     }
 
     m_ui->pepStackTraceGraphicsView->setScene(scene);
+}
 
+int MemoryTracePane::cellSize(Enu::ESymbolFormat symbolFormat)
+{
+    switch (symbolFormat) {
+    case Enu::F_1C:
+        return 1;
+    case Enu::F_1D:
+        return 1;
+    case Enu::F_2D:
+        return 2;
+    case Enu::F_1H:
+        return 1;
+    case Enu::F_2H:
+        return 2;
+    default:
+        // Should not occur
+        return 0;
+    }
 }
 
 void MemoryTracePane::setDebugState(bool b)
@@ -131,8 +152,7 @@ void MemoryTracePane::updateMemoryTrace()
     }
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
-            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->value =
-                    traceValue(addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->getSymbol());
+            addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
     // m_ui->pepStackTraceGraphicsView->setScene(scene); // Not needed for now?
@@ -184,54 +204,6 @@ void MemoryTracePane::setFont()
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->pepStackTraceGraphicsView->setFont(font);
-    }
-}
-
-QString MemoryTracePane::traceValue(QString symbol, int offset)
-{
-    QString retString;
-    switch (Pep::symbolFormat.value(symbol)) {
-    case Enu::F_1C:
-        retString = QString(QChar(Sim::Mem[Pep::symbolTable.value(symbol) + offset]));
-        break;
-    case Enu::F_1D:
-        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset]);
-        break;
-    case Enu::F_2D:
-        retString = QString("%1").arg(Sim::toSignedDecimal(
-                Sim::Mem[Pep::symbolTable.value(symbol) + offset] * 256 + Sim::Mem[Pep::symbolTable.value(symbol) + offset +1]));
-        break;
-    case Enu::F_1H:
-        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset],
-                                      2, 16, QLatin1Char('0')).toUpper();
-        break;
-    case Enu::F_2H:
-        retString = QString("%1").arg(Sim::Mem[Pep::symbolTable.value(symbol) + offset] * 256 + Sim::Mem[Pep::symbolTable.value(symbol) + offset + 1],
-                                      4, 16, QLatin1Char('0')).toUpper();
-        break;
-    default:
-        // Should not occur
-        break;
-    }
-    return retString;
-}
-
-int MemoryTracePane::cellSize(Enu::ESymbolFormat symbolFormat)
-{
-    switch (symbolFormat) {
-    case Enu::F_1C:
-        return 1;
-    case Enu::F_1D:
-        return 1;
-    case Enu::F_2D:
-        return 2;
-    case Enu::F_1H:
-        return 1;
-    case Enu::F_2H:
-        return 2;
-    default:
-        // Should not occur
-        return 0;
     }
 }
 

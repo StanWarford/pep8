@@ -65,9 +65,6 @@ public:
 private:
     Ui::MemoryTracePane *m_ui;
 
-    static QString traceValue(QString symbol, int offset = 0);
-    static int cellSize(Enu::ESymbolFormat symbolFormat);
-
     QGraphicsScene *scene;
     QStack<MemoryCellGraphicsItem *> globalVars;
     QStack<MemoryCellGraphicsItem *> runtimeStack;
@@ -83,6 +80,8 @@ private:
 
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
+
+    static int cellSize(Enu::ESymbolFormat symbolFormat);
 
 private slots:
     void zoomFactorChanged(int factor);

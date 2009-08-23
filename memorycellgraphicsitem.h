@@ -23,11 +23,12 @@
 #define MEMORYCELLGRAPHICSITEM_H
 
 #include <QGraphicsItem>
+#include "enu.h"
 
 class MemoryCellGraphicsItem : public QGraphicsItem
 {
 public:
-    MemoryCellGraphicsItem(int addr, QString val, QString sym, int xLoc, int yLoc);
+    MemoryCellGraphicsItem(int addr, QString sym, Enu::ESymbolFormat eSymFrmt, int xLoc, int yLoc);
     ~MemoryCellGraphicsItem() { }
 
     QRectF boundingRect() const;
@@ -39,18 +40,20 @@ public:
     static const int addressWidth;
     static const int symbolWidth;
     static const int bufferWidth;
+    static int cellSize(Enu::ESymbolFormat symbolFormat);
 
     QString value;
     QColor boxColor;
     QColor boxBgColor;
     QColor textColor;
 
-    QString getSymbol();
+    void updateValue();
 
 private:
     int x;
     int y;
     int address;
+    Enu::ESymbolFormat eSymbolFormat;
     QString symbol;
     QRectF box;
 

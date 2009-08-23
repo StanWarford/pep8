@@ -21,6 +21,7 @@
 
 #include "memorycellgraphicsitem.h"
 #include "pep.h"
+#include "sim.h"
 #include <QPainter>
 
 #include <QDebug>
@@ -31,13 +32,13 @@ const int MemoryCellGraphicsItem::addressWidth = 64;
 const int MemoryCellGraphicsItem::symbolWidth = 64;
 const int MemoryCellGraphicsItem::bufferWidth = 14;
 
-MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString val, QString sym, int xLoc, int yLoc)
+MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString sym,  Enu::ESymbolFormat eSymFrmt, int xLoc, int yLoc)
 {
     x = xLoc;
     y = yLoc;
     address = addr;
-    value = val;
     symbol = sym;
+    eSymbolFormat = eSymFrmt;
     boxColor = Qt::black;
     boxBgColor = Qt::white;
     textColor = Qt::black;
@@ -68,8 +69,26 @@ void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     painter->drawText(QRectF(x + bufferWidth + boxWidth, y, symbolWidth, boxHeight), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
 }
 
-QString MemoryCellGraphicsItem::getSymbol()
+void MemoryCellGraphicsItem::updateValue()
 {
-    return symbol;
+    switch (eSymbolFormat) {
+    case Enu::F_1C:
+        value = QString(QChar(Sim::Mem[address]));
+        break;
+    case Enu::F_1D:
+        value = QString("%1").arg(Sim::Mem[address]);
+        break;
+    case Enu::F_2D:
+        value = QString("%1").arg(Sim::toSignedDecimal(Sim::Mem[address] * 256 + Sim::Mem[address +1]));
+        break;
+    case Enu::F_1H:
+        value = QString("%1").arg(Sim::Mem[address], 2, 16, QLatin1Char('0')).toUpper();
+        break;
+    case Enu::F_2H:
+        value = QString("%1").arg(Sim::Mem[address] * 256 + Sim::Mem[address + 1], 4, 16, QLatin1Char('0')).toUpper();
+        break;
+    default:
+        value = ""; // Should not occur
+        break;
+    }
 }
-
