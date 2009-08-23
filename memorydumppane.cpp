@@ -42,8 +42,10 @@ MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
 
     QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
 
-    m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    if (Pep::getSystem() != "Mac") {
+        m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        m_ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    }
 }
 
 MemoryDumpPane::~MemoryDumpPane()
@@ -179,9 +181,17 @@ void MemoryDumpPane::highlightMemory(bool b)
             highlightedData.append(Sim::programCounter);
         }
 
+        bytesWrittenLastStep = bytesWrittenLastStep.toSet().toList();
+        qSort(bytesWrittenLastStep);
         while (!bytesWrittenLastStep.isEmpty()) {
-            highlightByte(bytesWrittenLastStep.at(0), Qt::white, Qt::red);
-            highlightedData.append(bytesWrittenLastStep.takeFirst());
+            // This is to prevent bytes modified by the OS from being highlighted when we are not tracing traps:
+            if (bytesWrittenLastStep.at(0) < Pep::romStartAddress - 0x21 || Sim::trapped) { // Is this a behavior we want?
+                highlightByte(bytesWrittenLastStep.at(0), Qt::white, Qt::red);
+                highlightedData.append(bytesWrittenLastStep.takeFirst());
+            }
+            else {
+                return;
+            }
         }
     }
 }
