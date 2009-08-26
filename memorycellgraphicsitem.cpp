@@ -42,6 +42,7 @@ MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString sym,  Enu::ESym
     boxColor = Qt::black;
     boxBgColor = Qt::white;
     textColor = Qt::black;
+    boxTextColor = Qt::black;
 }
 
 QRectF MemoryCellGraphicsItem::boundingRect() const
@@ -65,8 +66,10 @@ void MemoryCellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     painter->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
     painter->drawText(QRectF(x - addressWidth - bufferWidth, y, addressWidth, boxHeight), Qt::AlignVCenter | Qt::AlignRight, QString("%1").arg(address, 4, 16, QLatin1Char('0')).toUpper());
-    painter->drawText(QRectF(x, y, boxWidth, boxHeight), Qt::AlignCenter, value);
     painter->drawText(QRectF(x + bufferWidth + boxWidth, y, symbolWidth, boxHeight), Qt::AlignVCenter | Qt::AlignLeft, QString("%1").arg(symbol));
+
+    painter->setPen(boxTextColor);
+    painter->drawText(QRectF(x, y, boxWidth, boxHeight), Qt::AlignCenter, value);
 }
 
 void MemoryCellGraphicsItem::updateValue()

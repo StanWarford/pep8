@@ -943,6 +943,9 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         if (!memoryDumpPane->isHidden()) {
             memoryDumpPane->highlightMemory(true);
         }
+        if (!memoryTracePane->isHidden()) {
+            memoryTracePane->setMemoryTrace();
+        }
     }
     else {
         ui->statusbar->showMessage("Load failed", 4000);

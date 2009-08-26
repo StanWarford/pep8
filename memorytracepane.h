@@ -67,7 +67,10 @@ private:
 
     QGraphicsScene *scene;
     QStack<MemoryCellGraphicsItem *> globalVars;
-    QStack<MemoryCellGraphicsItem *> runtimeStack;
+    QStack<MemoryCellGraphicsItem *> runtimeStack;    
+    QStack<bool> isStackItemRendered;
+    QStringList lookAheadSymbolList;
+
     QPointF globalLocation;
     QPointF stackLocation;
 

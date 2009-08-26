@@ -185,7 +185,7 @@ void MemoryDumpPane::highlightMemory(bool b)
         qSort(bytesWrittenLastStep);
         while (!bytesWrittenLastStep.isEmpty()) {
             // This is to prevent bytes modified by the OS from being highlighted when we are not tracing traps:
-            if (bytesWrittenLastStep.at(0) < Pep::romStartAddress - 0x21 || Sim::trapped) { // Is this a behavior we want?
+            if (bytesWrittenLastStep.at(0) < Sim::readWord(Pep::dotBurnArgument - 0x7) || Sim::trapped) {
                 highlightByte(bytesWrittenLastStep.at(0), Qt::white, Qt::red);
                 highlightedData.append(bytesWrittenLastStep.takeFirst());
             }

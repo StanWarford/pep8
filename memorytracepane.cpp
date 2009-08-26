@@ -24,9 +24,11 @@
 #include "pep.h"
 #include "sim.h"
 
+#include <QDebug>
+
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
-    QWidget(parent),
-    m_ui(new Ui::MemoryTracePane)
+        QWidget(parent),
+        m_ui(new Ui::MemoryTracePane)
 {
     m_ui->setupUi(this);
 
@@ -47,11 +49,12 @@ MemoryTracePane::~MemoryTracePane()
 void MemoryTracePane::setMemoryTrace()
 {
     scene->clear();
-//    while (!globalVars.isEmpty()) {
-//        delete globalVars.pop();
-//    }
+    //    while (!globalVars.isEmpty()) {
+    //        delete globalVars.pop();
+    //    }
     globalVars.clear();
     runtimeStack.clear();
+    isStackItemRendered.clear();
     modifiedBytesToBeUpdated.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
@@ -101,6 +104,7 @@ void MemoryTracePane::setMemoryTrace()
             }
         }
     }
+
     // Stack frame:
     stackLocation.setY(globalLocation.y());
     scene->addLine(stackLocation.x() - MemoryCellGraphicsItem::boxWidth * 0.2, stackLocation.y(),
@@ -112,6 +116,8 @@ void MemoryTracePane::setMemoryTrace()
                        stackLocation.x() + i, stackLocation.y(),
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
     }
+    stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+
     m_ui->pepStackTraceGraphicsView->setScene(scene);
 }
 
@@ -143,23 +149,42 @@ void MemoryTracePane::updateMemoryTrace()
 {
     for (int i = 0; i < globalVars.size(); i++) {
         globalVars.at(i)->boxBgColor = Qt::white;
+        globalVars.at(i)->boxTextColor = Qt::black;
+    }
+    for (int i = 0; i < runtimeStack.size(); i++) {
+        runtimeStack.at(i)->boxBgColor = Qt::white;
+        runtimeStack.at(i)->boxTextColor = Qt::black;
     }
     modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
             addressToGlobalItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
+            addressToGlobalItemMap.value(bytesWrittenLastStep.at(i))->boxTextColor = Qt::white;
+        }
+        if (addressToStackItemMap.contains(bytesWrittenLastStep.at(i))) {
+            addressToStackItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
+            addressToStackItemMap.value(bytesWrittenLastStep.at(i))->boxTextColor = Qt::white;
         }
     }
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
+        if (addressToStackItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
+            addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
+        }
     }
-    // m_ui->pepStackTraceGraphicsView->setScene(scene); // Not needed for now?
     m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
 
     bytesWrittenLastStep.clear();
     modifiedBytes.clear();
+
+    for (int i = 0; i < runtimeStack.size(); i++) {
+        if (!isStackItemRendered.at(i)) {
+            scene->addItem(runtimeStack.at(i));
+            isStackItemRendered[i] = true;
+        }
+    }
 }
 
 void MemoryTracePane::cacheStackChanges()
@@ -180,7 +205,105 @@ void MemoryTracePane::cacheStackChanges()
         bytesWrittenLastStep.clear();
         bytesWrittenLastStep = Sim::modifiedBytes.toList();
     }
+
+    if (Sim::trapped) {
+        return;
+    }
+
+    // Look ahead
+    switch (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]) {
+    case Enu::SUBSP:
+    case Enu::RET0:
+    case Enu::RET1:
+    case Enu::RET2:
+    case Enu::RET3:
+    case Enu::RET4:
+    case Enu::RET5:
+    case Enu::RET6:
+    case Enu::RET7:
+    case Enu::ADDSP:
+        if (Pep::symbolTraceList.contains(Sim::programCounter)) {
+            lookAheadSymbolList = Pep::symbolTraceList.value(Sim::programCounter);
+//            qDebug() << "Setting look ahead list! List: " << lookAheadSymbolList;
+        }
+        break;
+    default:
+        break;
+    }
+    // End look ahead
+
+    int multiplier;
+    int offset = 0;
+    int bytesPerCell;
+    QString stackSymbol;
+
+    switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
+    case Enu::CALL:
+        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer, "retAddr",
+                                                                  Enu::F_2H, stackLocation.x(), stackLocation.y());
+        item->updateValue();
+        stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+
+        runtimeStack.push(item);
+        isStackItemRendered.push(false);
+        addressToStackItemMap.insert(Sim::stackPointer, item);
+        break;
+    case Enu::SUBSP:
+        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+            stackSymbol = lookAheadSymbolList.at(i);
+            multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
+            if (multiplier == 1) {
+                offset += cellSize(Pep::symbolFormat.value(stackSymbol));
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
+                                                                          stackSymbol,
+                                                                          Pep::symbolFormat.value(stackSymbol),
+                                                                          stackLocation.x(), stackLocation.y());
+                item->updateValue();
+                stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                runtimeStack.push(item);
+                isStackItemRendered.push(false);
+                addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+            }
+            else {
+                bytesPerCell = cellSize(Pep::symbolFormat.value(stackSymbol));
+                for (int j = multiplier - 1; j >= 0; j--) {
+                    offset += bytesPerCell;
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
+                                                                              stackSymbol + QString("[%1]").arg(j),
+                                                                              Pep::symbolFormat.value(stackSymbol),
+                                                                              stackLocation.x(), stackLocation.y());
+                    item->updateValue();
+                    stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    runtimeStack.push(item);
+                    isStackItemRendered.push(false);
+                    addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+                }
+            }
+        }
+        break;
+    case Enu::RET0:
+        break;
+    case Enu::RET1:
+        break;
+    case Enu::RET2:
+        break;
+    case Enu::RET3:
+        break;
+    case Enu::RET4:
+        break;
+    case Enu::RET5:
+        break;
+    case Enu::RET6:
+        break;
+    case Enu::RET7:
+        break;
+    case Enu::ADDSP:
+        break;
+    default:
+        break;
+    }
 }
+
 
 void MemoryTracePane::highlightOnFocus()
 {

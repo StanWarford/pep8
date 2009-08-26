@@ -46,7 +46,7 @@ public:
     QColor boxColor;
     QColor boxBgColor;
     QColor textColor;
-
+    QColor boxTextColor;
     void updateValue();
 
 private:
