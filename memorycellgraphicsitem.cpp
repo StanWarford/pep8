@@ -95,3 +95,8 @@ void MemoryCellGraphicsItem::updateValue()
         break;
     }
 }
+
+int MemoryCellGraphicsItem::getAddress()
+{
+    return address;
+}

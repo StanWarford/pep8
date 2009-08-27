@@ -295,10 +295,13 @@ void MemoryTracePane::cacheStackChanges()
     case Enu::RET7:
         break;
     case Enu::ADDSP:
-        bytesToPop = Sim::operandSpecifier;
-        for (int i = bytesToPop; i > 0; i = i - 2) {
-
-        }
+//        bytesToPop = Sim::operandSpecifier;
+//        for (int i = bytesToPop; i > 0; i = i - 2) {
+//            scene->removeItem(runtimeStack.top());
+//            addressToStackItemMap.remove(runtimeStack.top()->getAddress());
+//            runtimeStack.pop();
+//            isStackItemRendered.pop();
+//        }
         break;
     default:
         break;

@@ -48,6 +48,7 @@ public:
     QColor textColor;
     QColor boxTextColor;
     void updateValue();
+    int getAddress();
 
 private:
     int x;
