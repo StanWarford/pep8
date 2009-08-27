@@ -301,6 +301,7 @@ void MemoryTracePane::cacheStackChanges()
 //            addressToStackItemMap.remove(runtimeStack.top()->getAddress());
 //            runtimeStack.pop();
 //            isStackItemRendered.pop();
+//            stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
 //        }
         break;
     default:
