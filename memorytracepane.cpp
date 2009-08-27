@@ -49,9 +49,6 @@ MemoryTracePane::~MemoryTracePane()
 void MemoryTracePane::setMemoryTrace()
 {
     scene->clear();
-    //    while (!globalVars.isEmpty()) {
-    //        delete globalVars.pop();
-    //    }
     globalVars.clear();
     runtimeStack.clear();
     isStackItemRendered.clear();
@@ -224,7 +221,6 @@ void MemoryTracePane::cacheStackChanges()
     case Enu::ADDSP:
         if (Pep::symbolTraceList.contains(Sim::programCounter)) {
             lookAheadSymbolList = Pep::symbolTraceList.value(Sim::programCounter);
-//            qDebug() << "Setting look ahead list! List: " << lookAheadSymbolList;
         }
         break;
     default:
@@ -235,6 +231,7 @@ void MemoryTracePane::cacheStackChanges()
     int multiplier;
     int offset = 0;
     int bytesPerCell;
+    int bytesToPop;
     QString stackSymbol;
 
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
@@ -298,6 +295,10 @@ void MemoryTracePane::cacheStackChanges()
     case Enu::RET7:
         break;
     case Enu::ADDSP:
+        bytesToPop = Sim::operandSpecifier;
+        for (int i = bytesToPop; i > 0; i = i - 2) {
+
+        }
         break;
     default:
         break;

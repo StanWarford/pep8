@@ -27,8 +27,6 @@
 #include "pep.h"
 #include "enu.h"
 
-#include <QDebug>
-
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::MemoryDumpPane)
@@ -317,8 +315,6 @@ int MemoryDumpPane::memoryDumpWidth()
 
 QSize MemoryDumpPane::sizeHint()
 {
-//    qDebug() << QSize(m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
-//            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 5, 600);
     return QSize(m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
             m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6, 600);
 }

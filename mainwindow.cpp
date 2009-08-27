@@ -32,6 +32,7 @@
 #include <QFontDatabase>
 #include <QTextStream>
 #include <QDesktopWidget>
+#include <QTextCodec>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pep.h"
@@ -276,6 +277,7 @@ void MainWindow::loadFile(const QString &fileName)
     }
 
     QTextStream in(&file);
+    in.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QRegExp rx(".*.pepo");
     Enu::EPane pane;
