@@ -100,3 +100,8 @@ int MemoryCellGraphicsItem::getAddress()
 {
     return address;
 }
+
+int MemoryCellGraphicsItem::getNumBytes()
+{
+    return Sim::cellSize(eSymbolFormat);
+}

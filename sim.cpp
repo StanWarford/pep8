@@ -244,6 +244,25 @@ void Sim::writeWordOprnd(Enu::EAddrMode addrMode, int value)
     }
 }
 
+int Sim::cellSize(Enu::ESymbolFormat symbolFormat)
+{
+    switch (symbolFormat) {
+    case Enu::F_1C:
+        return 1;
+    case Enu::F_1D:
+        return 1;
+    case Enu::F_2D:
+        return 2;
+    case Enu::F_1H:
+        return 1;
+    case Enu::F_2H:
+        return 2;
+    default:
+        // Should not occur
+        return 0;
+    }
+}
+
 bool Sim::vonNeumannStep(QString &errorString)
 {
     modifiedBytes.clear();

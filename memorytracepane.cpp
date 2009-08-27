@@ -85,7 +85,7 @@ void MemoryTracePane::setMemoryTrace()
         }
         else {
             int offset = 0;
-            int bytesPerCell = cellSize(Pep::symbolFormat.value(blockSymbol));
+            int bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(blockSymbol));
             for (int j = 0; j < multiplier; j++) {
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
                                                                           blockSymbol + QString("[%1]").arg(j),
@@ -116,25 +116,6 @@ void MemoryTracePane::setMemoryTrace()
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
     m_ui->pepStackTraceGraphicsView->setScene(scene);
-}
-
-int MemoryTracePane::cellSize(Enu::ESymbolFormat symbolFormat)
-{
-    switch (symbolFormat) {
-    case Enu::F_1C:
-        return 1;
-    case Enu::F_1D:
-        return 1;
-    case Enu::F_2D:
-        return 2;
-    case Enu::F_1H:
-        return 1;
-    case Enu::F_2H:
-        return 2;
-    default:
-        // Should not occur
-        return 0;
-    }
 }
 
 void MemoryTracePane::setDebugState(bool b)
@@ -250,7 +231,7 @@ void MemoryTracePane::cacheStackChanges()
             stackSymbol = lookAheadSymbolList.at(i);
             multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
             if (multiplier == 1) {
-                offset += cellSize(Pep::symbolFormat.value(stackSymbol));
+                offset += Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
                                                                           stackSymbol,
                                                                           Pep::symbolFormat.value(stackSymbol),
@@ -262,7 +243,7 @@ void MemoryTracePane::cacheStackChanges()
                 addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
             }
             else {
-                bytesPerCell = cellSize(Pep::symbolFormat.value(stackSymbol));
+                bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                 for (int j = multiplier - 1; j >= 0; j--) {
                     offset += bytesPerCell;
                     MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,

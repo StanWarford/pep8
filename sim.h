@@ -83,6 +83,7 @@ public:
 
     static void writeByteOprnd(Enu::EAddrMode addrMode, int value);
     static void writeWordOprnd(Enu::EAddrMode addrMode, int value);
+    static int cellSize(Enu::ESymbolFormat symbolFormat);
 
     static bool vonNeumannStep(QString &errorString);
 

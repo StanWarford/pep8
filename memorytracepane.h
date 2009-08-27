@@ -84,8 +84,6 @@ private:
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
 
-    static int cellSize(Enu::ESymbolFormat symbolFormat);
-
 private slots:
     void zoomFactorChanged(int factor);
 
