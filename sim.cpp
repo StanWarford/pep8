@@ -161,7 +161,7 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 void Sim::writeByte(int memAddr, int value)
 {
     if (memAddr < Pep::romStartAddress) {
-        Mem[memAddr & 0xffff] = value < 0 ? value + 256 : value;
+        Mem[memAddr & 0xffff] = value;
         modifiedBytes.insert(memAddr & 0xffff);
     }
 }
@@ -421,7 +421,9 @@ bool Sim::vonNeumannStep(QString &errorString)
         if (Sim::inputBuffer.size() != 0) {
             QString ch = Sim::inputBuffer.left(1);
             Sim::inputBuffer.remove(0, 1);
-            Sim::writeByteOprnd(addrMode, QChar(ch[0]).toLatin1());
+            int value = QChar(ch[0]).toLatin1();
+            value += value < 0 ? 256 : 0;
+            Sim::writeByteOprnd(addrMode, value);
             operand = readByteOprnd(addrMode);
             operandDisplayFieldWidth = 2;
         }
