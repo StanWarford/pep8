@@ -23,6 +23,7 @@
 #include "pep.h"
 #include "asm.h"
 #include <QRegExp>
+#include <QDebug>
 
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)

@@ -1377,7 +1377,7 @@ void MainWindow::slotByteConverterBinEdited(const QString &str)
 void MainWindow::slotByteConverterCharEdited(const QString &str)
 {
     if (str.length() > 0) {
-        int data = (int)str[0].toAscii();
+        int data = (int)str[0].toLatin1();
         byteConverterDec->setValue(data);
         byteConverterHex->setValue(data);
         byteConverterBin->setValue(data);

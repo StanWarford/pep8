@@ -220,14 +220,15 @@ void Asm::unquotedStringToInt(QString &str, int &value)
             value = 11;
         }
         else {
-            value = QChar(s[0]).toAscii();
+            value = QChar(s[0]).toLatin1();
         }
     }
     else {
         s = str.left(1);
         str.remove(0, 1);
-        value = QChar(s[0]).toAscii();
+        value = QChar(s[0]).toLatin1();
     }
+    value += value < 0 ? 256 : 0;
 }
 
 int Asm::byteStringLength(QString str)

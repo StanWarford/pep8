@@ -421,7 +421,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         if (Sim::inputBuffer.size() != 0) {
             QString ch = Sim::inputBuffer.left(1);
             Sim::inputBuffer.remove(0, 1);
-            Sim::writeByteOprnd(addrMode, QChar(ch[0]).toAscii());
+            Sim::writeByteOprnd(addrMode, QChar(ch[0]).toLatin1());
             operand = readByteOprnd(addrMode);
             operandDisplayFieldWidth = 2;
         }
