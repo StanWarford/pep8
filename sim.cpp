@@ -161,7 +161,7 @@ int Sim::readWordOprnd(Enu::EAddrMode addrMode)
 void Sim::writeByte(int memAddr, int value)
 {
     if (memAddr < Pep::romStartAddress) {
-        Mem[memAddr & 0xffff] = value;
+        Mem[memAddr & 0xffff] = value < 0 ? value + 256 : value;
         modifiedBytes.insert(memAddr & 0xffff);
     }
 }
