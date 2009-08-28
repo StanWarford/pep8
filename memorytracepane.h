@@ -81,6 +81,8 @@ private:
     QList<int> bytesWrittenLastStep;
     bool delayLastStepClear;
 
+    void popBytes(int bytesToPop);
+
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);
 

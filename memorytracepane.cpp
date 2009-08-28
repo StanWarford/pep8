@@ -212,7 +212,6 @@ void MemoryTracePane::cacheStackChanges()
     int multiplier;
     int offset = 0;
     int bytesPerCell;
-    int bytesToPop;
     QString stackSymbol;
 
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
@@ -260,30 +259,31 @@ void MemoryTracePane::cacheStackChanges()
         }
         break;
     case Enu::RET0:
+        popBytes(2);
         break;
     case Enu::RET1:
+        popBytes(3);
         break;
     case Enu::RET2:
+        popBytes(4);
         break;
     case Enu::RET3:
+        popBytes(5);
         break;
     case Enu::RET4:
+        popBytes(6);
         break;
     case Enu::RET5:
+        popBytes(7);
         break;
     case Enu::RET6:
+        popBytes(8);
         break;
     case Enu::RET7:
+        popBytes(9);
         break;
     case Enu::ADDSP:
-//        bytesToPop = Sim::operandSpecifier;
-//        for (int i = bytesToPop; i > 0; i = i - 2) {
-//            scene->removeItem(runtimeStack.top());
-//            addressToStackItemMap.remove(runtimeStack.top()->getAddress());
-//            runtimeStack.pop();
-//            isStackItemRendered.pop();
-//            stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
-//        }
+        popBytes(Sim::operandSpecifier);
         break;
     default:
         break;
@@ -313,6 +313,19 @@ void MemoryTracePane::setFont()
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->pepStackTraceGraphicsView->setFont(font);
+    }
+}
+
+void MemoryTracePane::popBytes(int bytesToPop)
+{
+    while (bytesToPop > 0 && !runtimeStack.isEmpty()) {
+        scene->removeItem(runtimeStack.top());
+        addressToStackItemMap.remove(runtimeStack.top()->getAddress());
+        bytesToPop -= runtimeStack.top()->getNumBytes();
+        runtimeStack.pop();
+        isStackItemRendered.pop();
+        stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
+
     }
 }
 
