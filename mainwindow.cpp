@@ -211,8 +211,8 @@ void MainWindow::readSettings()
 {
     QSettings settings("Pep8", "MainWindow");
     QDesktopWidget *desktop = QApplication::desktop();
-    int width = (int)desktop->width() * 0.80;
-    int height = (int)desktop->height() * 0.70;
+    int width = static_cast<int>(desktop->width() * 0.80);
+    int height = static_cast<int>(desktop->height() * 0.70);
     int screenWidth = desktop->width();
     int screenHeight = desktop->height();
     QPoint pos = settings.value("pos", QPoint((screenWidth - width) / 2, (screenHeight - height) / 2)).toPoint();

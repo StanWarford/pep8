@@ -75,8 +75,8 @@ void MemoryTracePane::setMemoryTrace()
             MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address,
                                                                       blockSymbol,
                                                                       Pep::symbolFormat.value(blockSymbol),
-                                                                      globalLocation.x(),
-                                                                      globalLocation.y());
+                                                                      static_cast<int>(globalLocation.x()),
+                                                                      static_cast<int>(globalLocation.y()));
             item->updateValue();
             globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
             globalVars.push(item);
@@ -90,8 +90,8 @@ void MemoryTracePane::setMemoryTrace()
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
                                                                           blockSymbol + QString("[%1]").arg(j),
                                                                           Pep::symbolFormat.value(blockSymbol),
-                                                                          globalLocation.x(),
-                                                                          globalLocation.y());
+                                                                          static_cast<int>(globalLocation.x()),
+                                                                          static_cast<int>(globalLocation.y()));
                 item->updateValue();
                 globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
                 globalVars.push(item);
@@ -107,8 +107,8 @@ void MemoryTracePane::setMemoryTrace()
     scene->addLine(stackLocation.x() - MemoryCellGraphicsItem::boxWidth * 0.2, stackLocation.y(),
                    stackLocation.x() + MemoryCellGraphicsItem::boxWidth * 1.2, stackLocation.y(),
                    QPen(QBrush(Qt::SolidPattern), 2, Qt::SolidLine));
-    int dist = MemoryCellGraphicsItem::boxWidth * 1.2 - MemoryCellGraphicsItem::boxWidth * 1.4;
-    for (int i = MemoryCellGraphicsItem::boxWidth * 1.2; i > dist; i = i - 10) {
+    int dist = static_cast<int>(MemoryCellGraphicsItem::boxWidth * 1.2 - MemoryCellGraphicsItem::boxWidth * 1.4);
+    for (int i = static_cast<int>(MemoryCellGraphicsItem::boxWidth * 1.2); i > dist; i = i - 10) {
         scene->addLine(stackLocation.x() + i - 10, stackLocation.y() + 10,
                        stackLocation.x() + i, stackLocation.y(),
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
@@ -216,44 +216,51 @@ void MemoryTracePane::cacheStackChanges()
 
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
     case Enu::CALL:
-        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer, "retAddr",
-                                                                  Enu::F_2H, stackLocation.x(), stackLocation.y());
-        item->updateValue();
-        stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+        {
+            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer, "retAddr",
+                                                                      Enu::F_2H,
+                                                                      static_cast<int>(stackLocation.x()),
+                                                                      static_cast<int>(stackLocation.y()));
+            item->updateValue();
+            stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
-        runtimeStack.push(item);
-        isStackItemRendered.push(false);
-        addressToStackItemMap.insert(Sim::stackPointer, item);
+            runtimeStack.push(item);
+            isStackItemRendered.push(false);
+            addressToStackItemMap.insert(Sim::stackPointer, item);
+        }
         break;
     case Enu::SUBSP:
-        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
-            stackSymbol = lookAheadSymbolList.at(i);
-            multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
-            if (multiplier == 1) {
-                offset += Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
-                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
-                                                                          stackSymbol,
-                                                                          Pep::symbolFormat.value(stackSymbol),
-                                                                          stackLocation.x(), stackLocation.y());
-                item->updateValue();
-                stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
-                runtimeStack.push(item);
-                isStackItemRendered.push(false);
-                addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
-            }
-            else {
-                bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
-                for (int j = multiplier - 1; j >= 0; j--) {
-                    offset += bytesPerCell;
+        {
+            for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+                stackSymbol = lookAheadSymbolList.at(i);
+                multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
+                if (multiplier == 1) {
+                    offset += Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                     MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
-                                                                              stackSymbol + QString("[%1]").arg(j),
+                                                                              stackSymbol,
                                                                               Pep::symbolFormat.value(stackSymbol),
-                                                                              stackLocation.x(), stackLocation.y());
+                                                                              static_cast<int>(stackLocation.x()),
+                                                                              static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                     runtimeStack.push(item);
                     isStackItemRendered.push(false);
                     addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+                }
+                else {
+                    bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
+                    for (int j = multiplier - 1; j >= 0; j--) {
+                        offset += bytesPerCell;
+                        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
+                                                                                  stackSymbol + QString("[%1]").arg(j),
+                                                                                  Pep::symbolFormat.value(stackSymbol),
+                                                                                  stackLocation.x(), stackLocation.y());
+                        item->updateValue();
+                        stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                        runtimeStack.push(item);
+                        isStackItemRendered.push(false);
+                        addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+                    }
                 }
             }
         }
