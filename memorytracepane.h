@@ -28,6 +28,7 @@
 #include <QSet>
 #include "memorycellgraphicsitem.h"
 #include "enu.h"
+#include "stackframefsm.h"
 
 namespace Ui {
     class MemoryTracePane;
@@ -81,6 +82,8 @@ private:
     QList<int> bytesWrittenLastStep;
     bool delayLastStepClear;
 
+	StackFrameFSM stackFrameFSM;
+	
     void popBytes(int bytesToPop);
 
     void mouseReleaseEvent(QMouseEvent *);

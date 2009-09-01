@@ -1,3 +1,4 @@
+
 // File: mainwindow.cpp
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
@@ -80,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     aboutPepDialog = new AboutPep(this);
 
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
-
+	
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
     ui->byteConverterToolBar->addWidget(byteConverterDec);

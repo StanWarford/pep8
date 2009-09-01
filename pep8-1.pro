@@ -42,7 +42,8 @@ HEADERS += mainwindow.h \
     pephighlighter.h \
     cpphighlighter.h \
     aboutpep.h \
-    memorycellgraphicsitem.h
+    memorycellgraphicsitem.h \
+	stackframefsm.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -86,6 +87,7 @@ SOURCES += main.cpp \
     pephighlighter.cpp \
     cpphighlighter.cpp \
     aboutpep.cpp \
-    memorycellgraphicsitem.cpp
+    memorycellgraphicsitem.cpp \
+	stackframefsm.cpp
 RESOURCES += pep8resources.qrc \
     helpresources.qrc
