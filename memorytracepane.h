@@ -76,6 +76,10 @@ private:
     // describes if it has been added to the scene yet.
     // Possibly to be removed?
     QStringList lookAheadSymbolList;
+
+    // Stack frame
+    QStack<int> numCellsInStackFrame;
+    QStack<QGraphicsRectItem *> graphicItemsInStackFrame;
     // This list is populated so we can access what was pushed/popped the previous step, useful especially with CALL
 
     QPointF globalLocation;
@@ -95,6 +99,9 @@ private:
     // This is used to delay the clear of the bytesWrittenLastStep list for purposes of highlighting after a trap
 
 	StackFrameFSM stackFrameFSM;
+	
+	void addStackFrame(int numCells);
+	void removeStackFrame(int numCells);
 	
     void popBytes(int bytesToPop);
     // This pops bytesToPop bytes off of the runtimeStack

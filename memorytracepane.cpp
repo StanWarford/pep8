@@ -226,6 +226,7 @@ void MemoryTracePane::cacheStackChanges()
             runtimeStack.push(item);
             isStackItemRendered.push(false);
             addressToStackItemMap.insert(Sim::stackPointer, item);
+            stackFrameFSM.makeTransition(1);
         }
         break;
     case Enu::SUBSP:
@@ -263,6 +264,7 @@ void MemoryTracePane::cacheStackChanges()
                 }
             }
         }
+        stackFrameFSM.makeTransition(Sim::operandSpecifier / 2);
         break;
     case Enu::RET0:
         popBytes(2);
@@ -294,6 +296,9 @@ void MemoryTracePane::cacheStackChanges()
     default:
         break;
     }
+//	int something = stackFrameFSM.makeTransition(0);
+//    addStackFrame(something);
+//	removeStackFrame(something);
 }
 
 
@@ -319,6 +324,23 @@ void MemoryTracePane::setFont()
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->pepStackTraceGraphicsView->setFont(font);
+    }
+}
+void MemoryTracePane::addStackFrame(int numCells)
+{
+    QPen pen(Qt::green);
+    pen.setWidth(2);
+    // This ought to be a rounded rect...but isn't yet:
+    graphicItemsInStackFrame.push(scene->addRect(stackLocation.x(), stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth,
+                                                 MemoryCellGraphicsItem::boxHeight * numCells, pen));
+    numCellsInStackFrame.push(numCells);
+}
+
+void MemoryTracePane::removeStackFrame(int numCells)
+{
+    while (numCells > 0 && !numCellsInStackFrame.isEmpty()) {
+        scene->removeItem(graphicItemsInStackFrame.pop());
+        numCells -= numCellsInStackFrame.pop();
     }
 }
 

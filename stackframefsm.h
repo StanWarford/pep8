@@ -12,16 +12,12 @@ public:
 	StackFrameFSM();
 
 	void reset(); // set everything to 0 and start state
-	int makeTransition(Enu::EMnemonic mnemon, int nNumCellsToAdd);
+        int makeTransition(/*Enu::EMnemonic mnemon,*/ int numCellsToAdd);
 	// if the frame is ready to add, returns the number of cells
 	// otherwise returns 0
 
 private:
-	enum
-	{
-		EStart, ESubSP, ECall
-	} 
-	stackState;
+        enum { EStart, ESubSP, ECall } stackState;
 
 	int numCellsFromSubSP; // number of cells from the first SUBSP (i.e. parameters and retVal)
 	int numCellsFromCall;
