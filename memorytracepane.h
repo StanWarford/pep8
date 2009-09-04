@@ -68,23 +68,36 @@ private:
 
     QGraphicsScene *scene;
     QStack<MemoryCellGraphicsItem *> globalVars;
+    // Stack of the global variables
     QStack<MemoryCellGraphicsItem *> runtimeStack;    
+    // Stack of the stack items
     QStack<bool> isStackItemRendered;
+    // Stack that mirrors the runtimeStack, but holds a boolean for each item that
+    // describes if it has been added to the scene yet.
+    // Possibly to be removed?
     QStringList lookAheadSymbolList;
+    // This list is populated so we can access what was pushed/popped the previous step, useful especially with CALL
 
     QPointF globalLocation;
+    // This is the location where the next global item will be added
     QPointF stackLocation;
+    // This is the location where the next stack item will be added
 
     QMap<int, MemoryCellGraphicsItem *> addressToGlobalItemMap;
+    // This map is used to identify if an address is in the globals
     QMap<int, MemoryCellGraphicsItem *> addressToStackItemMap;
-    QList<int> modifiedBytesToBeUpdated;
+    // This map is used to identify if an address is part of the stack
     QSet<int> modifiedBytes;
+    // This set is used to cache modified bytes since the last update
     QList<int> bytesWrittenLastStep;
+    // This list is used to keep track of the bytes changed last step for highlighting purposes
     bool delayLastStepClear;
+    // This is used to delay the clear of the bytesWrittenLastStep list for purposes of highlighting after a trap
 
 	StackFrameFSM stackFrameFSM;
 	
     void popBytes(int bytesToPop);
+    // This pops bytesToPop bytes off of the runtimeStack
 
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent *);

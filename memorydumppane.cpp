@@ -313,12 +313,6 @@ int MemoryDumpPane::memoryDumpWidth()
             m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6;
 }
 
-QSize MemoryDumpPane::sizeHint()
-{
-    return QSize(m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
-            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6, 600);
-}
-
 void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)
 {
     QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());

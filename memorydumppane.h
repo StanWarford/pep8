@@ -71,19 +71,27 @@ public:
     int memoryDumpWidth();
     // Post: the width of the memory dump text edit document is returned
 
-    QSize sizeHint();
-
 private:
     Ui::MemoryDumpPane *m_ui;
 
     void highlightByte(int memAddr, QColor foreground, QColor background);
+    // Used to highlight/unhighlight individual bytes.
 
     void mouseReleaseEvent(QMouseEvent *);
 
     QList<int> highlightedData;
+    // This is a list of bytes that are currently highlighted.
+
     QSet<int> modifiedBytes;
+    // This is a list of bytes that were modified since the last update. This is cached for a convenient time to update
+    // such as when we hit a breakpoint, the program finishes, or the end of the single step.
+
     QList<int> bytesWrittenLastStep;
+    // This is a list of bytes written last step, which is used to highlight recently modified bytes
+
     bool delayLastStepClear;
+    // This is used to delay a clear of the QList bytesWrittenLastStep when leaving a trap that modifies bytes
+    // to allow highlighting of modified bytes in trap instructions.
 
 private slots:
     void on_pepMemRefreshButton_clicked();

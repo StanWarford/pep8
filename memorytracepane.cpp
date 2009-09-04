@@ -52,7 +52,6 @@ void MemoryTracePane::setMemoryTrace()
     globalVars.clear();
     runtimeStack.clear();
     isStackItemRendered.clear();
-    modifiedBytesToBeUpdated.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
     addressToGlobalItemMap.clear();
@@ -133,7 +132,7 @@ void MemoryTracePane::updateMemoryTrace()
         runtimeStack.at(i)->boxBgColor = Qt::white;
         runtimeStack.at(i)->boxTextColor = Qt::black;
     }
-    modifiedBytesToBeUpdated = modifiedBytes.toList();
+     QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
             addressToGlobalItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
@@ -332,7 +331,6 @@ void MemoryTracePane::popBytes(int bytesToPop)
         runtimeStack.pop();
         isStackItemRendered.pop();
         stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
-
     }
 }
 

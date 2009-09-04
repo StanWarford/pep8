@@ -83,7 +83,11 @@ public:
 
     static void writeByteOprnd(Enu::EAddrMode addrMode, int value);
     static void writeWordOprnd(Enu::EAddrMode addrMode, int value);
+
     static int cellSize(Enu::ESymbolFormat symbolFormat);
+    // This is used exclusively in the memoryTracePane/memoryCellGraphicsItem
+    // I still disagree with where this is. It should be in the MemoryCellGraphicsItem
+    // because that is what it is used for.
 
     static bool vonNeumannStep(QString &errorString);
 
