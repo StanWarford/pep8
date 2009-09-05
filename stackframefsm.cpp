@@ -4,6 +4,8 @@
 #include "sim.h"
 #include "pep.h"
 
+#include <QDebug>
+
 StackFrameFSM::StackFrameFSM()
 {
 
@@ -16,11 +18,12 @@ void StackFrameFSM::reset()
     numCellsFromCall = 0;
 }
 
-//	the states: EStart, ESubSP, ECall
+// the states: EStart, ESubSP, ECall
 
 int StackFrameFSM::makeTransition(int numCellsToAdd)
 {
-    Enu::EMnemonic mnemon = Pep::decodeMnemonic[Sim::operandSpecifier];
+    Enu::EMnemonic mnemon = Pep::decodeMnemonic[Sim::instructionSpecifier];
+
     switch(stackState)
     {
     case(EStart):
@@ -33,30 +36,30 @@ int StackFrameFSM::makeTransition(int numCellsToAdd)
             numCellsFromSubSP = 0;
             numCellsFromCall = 1; // = numCellsToAdd; // ECall = 1
             stackState = ECall;
-            qDebug("EStart -> ECall");
+            qDebug() << "EStart -> ECall";
         }
         break;
     case(ESubSP):
         if (mnemon == Enu::CALL) {
             numCellsFromCall = 1; // = numCellsToAdd; // ECall = 1
             stackState = ECall;
-            qDebug("ESubSP -> ECall");
+            qDebug() << "ESubSP -> ECall";
         }
         else { // not ECall
             stackState = EStart;
-            qDebug("ESubSP -> EStart, adding frame with %d cells", numCellsFromSubSP);
+            qDebug() << "ESubSP -> EStart, adding frame with %d cells", numCellsFromSubSP;
             return numCellsFromSubSP; // lone subsp
         }
         break;
     case(ECall):
         if (mnemon == Enu::SUBSP) { // function with 1 or more locals and 0 or more parameters
             stackState = EStart;
-            qDebug("ECall -> EStart, adding frame with %d cells", (numCellsFromSubSP + numCellsFromCall + numCellsToAdd));
+            qDebug() << "ECall -> EStart, adding frame with " << numCellsFromSubSP + numCellsFromCall + numCellsToAdd << " cells";
             return (numCellsFromSubSP + numCellsFromCall + numCellsToAdd);
         }
         else { // not ESubSP
-            qDebug("ECall -> EStart, adding frame with %d cells", (numCellsFromSubSP + numCellsFromCall));
             stackState = EStart; // no locals
+            qDebug() << "ECall -> EStart, adding frame with " << numCellsFromSubSP + numCellsFromCall << " cells";
             return (numCellsFromSubSP + numCellsFromCall);
         }
         break;

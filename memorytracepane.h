@@ -98,11 +98,11 @@ private:
     bool delayLastStepClear;
     // This is used to delay the clear of the bytesWrittenLastStep list for purposes of highlighting after a trap
 
-	StackFrameFSM stackFrameFSM;
-	
-	void addStackFrame(int numCells);
-	void removeStackFrame(int numCells);
-	
+    StackFrameFSM stackFrameFSM;
+
+    void addStackFrame(int numCells);
+    void removeStackFrame(int numCells);
+
     void popBytes(int bytesToPop);
     // This pops bytesToPop bytes off of the runtimeStack
 

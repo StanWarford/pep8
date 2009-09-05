@@ -208,10 +208,10 @@ void MemoryTracePane::cacheStackChanges()
     }
     // End look ahead
 
-    int multiplier;
-    int offset = 0;
-    int bytesPerCell;
+    int multiplier, offset, bytesPerCell;
+    int numCellsToAdd = 0;
     QString stackSymbol;
+
 
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
     case Enu::CALL:
@@ -226,6 +226,7 @@ void MemoryTracePane::cacheStackChanges()
             runtimeStack.push(item);
             isStackItemRendered.push(false);
             addressToStackItemMap.insert(Sim::stackPointer, item);
+            stackFrameFSM.makeTransition(1);
         }
         break;
     case Enu::SUBSP:
@@ -259,39 +260,51 @@ void MemoryTracePane::cacheStackChanges()
                         runtimeStack.push(item);
                         isStackItemRendered.push(false);
                         addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+                        numCellsToAdd++;
                     }
                 }
             }
+            stackFrameFSM.makeTransition(numCellsToAdd);
         }
         break;
     case Enu::RET0:
         popBytes(2);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET1:
         popBytes(3);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET2:
         popBytes(4);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET3:
         popBytes(5);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET4:
         popBytes(6);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET5:
         popBytes(7);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET6:
         popBytes(8);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::RET7:
         popBytes(9);
+        stackFrameFSM.makeTransition(0);
         break;
     case Enu::ADDSP:
         popBytes(Sim::operandSpecifier);
+        stackFrameFSM.makeTransition(0);
         break;
     default:
+        stackFrameFSM.makeTransition(0);
         break;
     }
 
