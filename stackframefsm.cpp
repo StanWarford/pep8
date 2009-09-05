@@ -18,7 +18,7 @@ void StackFrameFSM::reset()
 
 //	the states: EStart, ESubSP, ECall
 
-int StackFrameFSM::makeTransition(/*Enu::EMnemonic mnemon,*/ int numCellsToAdd = 1)
+int StackFrameFSM::makeTransition(int numCellsToAdd)
 {
     Enu::EMnemonic mnemon = Pep::decodeMnemonic[Sim::operandSpecifier];
     switch(stackState)

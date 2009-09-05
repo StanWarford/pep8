@@ -12,7 +12,7 @@ public:
 	StackFrameFSM();
 
 	void reset(); // set everything to 0 and start state
-        int makeTransition(/*Enu::EMnemonic mnemon,*/ int numCellsToAdd);
+        int makeTransition(int numCellsToAdd);
 	// if the frame is ready to add, returns the number of cells
 	// otherwise returns 0
 

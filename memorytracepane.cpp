@@ -226,7 +226,6 @@ void MemoryTracePane::cacheStackChanges()
             runtimeStack.push(item);
             isStackItemRendered.push(false);
             addressToStackItemMap.insert(Sim::stackPointer, item);
-            stackFrameFSM.makeTransition(1);
         }
         break;
     case Enu::SUBSP:
@@ -264,7 +263,6 @@ void MemoryTracePane::cacheStackChanges()
                 }
             }
         }
-        stackFrameFSM.makeTransition(Sim::operandSpecifier / 2);
         break;
     case Enu::RET0:
         popBytes(2);
@@ -296,9 +294,7 @@ void MemoryTracePane::cacheStackChanges()
     default:
         break;
     }
-//	int something = stackFrameFSM.makeTransition(0);
-//    addStackFrame(something);
-//	removeStackFrame(something);
+
 }
 
 
