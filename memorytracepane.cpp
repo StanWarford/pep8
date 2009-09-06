@@ -19,6 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <QFontDialog>
+#include <QRgb>
 #include "memorytracepane.h"
 #include "ui_memorytracepane.h"
 #include "pep.h"
@@ -115,6 +116,8 @@ void MemoryTracePane::setMemoryTrace()
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
     m_ui->pepStackTraceGraphicsView->setScene(scene);
+
+    stackFrameFSM.reset();
 }
 
 void MemoryTracePane::setDebugState(bool b)
@@ -247,6 +250,7 @@ void MemoryTracePane::cacheStackChanges()
                     runtimeStack.push(item);
                     isStackItemRendered.push(false);
                     addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
+                    numCellsToAdd++;
                 }
                 else {
                     bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
@@ -265,6 +269,7 @@ void MemoryTracePane::cacheStackChanges()
                     }
                 }
             }
+            qDebug() << "numCellsToAdd before makeTransition in ADDSP: " << numCellsToAdd;
             frameSizeToAdd = stackFrameFSM.makeTransition(numCellsToAdd);
         }
         break;
@@ -309,9 +314,10 @@ void MemoryTracePane::cacheStackChanges()
         break;
     }
 
-//    if (frameSizeToAdd != 0) {
-//        addStackFrame(frameSizeToAdd);
-//    }
+    if (frameSizeToAdd != 0) {
+        addStackFrame(frameSizeToAdd);
+    }
+    qDebug() << "Frame size to add: " << frameSizeToAdd;
 }
 
 
@@ -341,7 +347,7 @@ void MemoryTracePane::setFont()
 }
 void MemoryTracePane::addStackFrame(int numCells)
 {
-    QPen pen(Qt::green);
+    QPen pen(QColor(111, 12, 12));
     pen.setWidth(2);
     // This ought to be a rounded rect...but isn't yet:
     graphicItemsInStackFrame.push(scene->addRect(stackLocation.x(), stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth,

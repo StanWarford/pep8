@@ -47,7 +47,7 @@ int StackFrameFSM::makeTransition(int numCellsToAdd)
         }
         else { // not ECall
             stackState = EStart;
-            qDebug() << "ESubSP -> EStart, adding frame with %d cells", numCellsFromSubSP;
+            qDebug() << "ESubSP -> EStart, adding frame with " << numCellsFromSubSP << " cells";
             return numCellsFromSubSP; // lone subsp
         }
         break;
