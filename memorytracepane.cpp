@@ -52,7 +52,7 @@ void MemoryTracePane::setMemoryTrace()
     scene->clear();
     globalVars.clear();
     runtimeStack.clear();
-    isStackItemRendered.clear();
+//    isStackItemRendered.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
     addressToGlobalItemMap.clear();
@@ -158,13 +158,6 @@ void MemoryTracePane::updateMemoryTrace()
 
     bytesWrittenLastStep.clear();
     modifiedBytes.clear();
-
-    for (int i = 0; i < runtimeStack.size(); i++) {
-        if (!isStackItemRendered.at(i)) {
-            scene->addItem(runtimeStack.at(i));
-            isStackItemRendered[i] = true;
-        }
-    }
 }
 
 void MemoryTracePane::cacheStackChanges()
@@ -227,8 +220,8 @@ void MemoryTracePane::cacheStackChanges()
             item->updateValue();
             stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
+            scene->addItem(item);
             runtimeStack.push(item);
-            isStackItemRendered.push(false);
             addressToStackItemMap.insert(Sim::stackPointer, item);
             frameSizeToAdd = stackFrameFSM.makeTransition(1);
         }
@@ -247,8 +240,8 @@ void MemoryTracePane::cacheStackChanges()
                                                                               static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    scene->addItem(item);
                     runtimeStack.push(item);
-                    isStackItemRendered.push(false);
                     addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
                     numCellsToAdd++;
                 }
@@ -263,7 +256,7 @@ void MemoryTracePane::cacheStackChanges()
                         item->updateValue();
                         stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                         runtimeStack.push(item);
-                        isStackItemRendered.push(false);
+                        scene->addItem(item);
                         addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
                         numCellsToAdd++;
                     }
@@ -347,9 +340,8 @@ void MemoryTracePane::setFont()
 }
 void MemoryTracePane::addStackFrame(int numCells)
 {
-    QPen pen(QColor(111, 12, 12));
+    QPen pen(QColor(150, 62, 62));
     pen.setWidth(2);
-    // This ought to be a rounded rect...but isn't yet:
     graphicItemsInStackFrame.push(scene->addRect(stackLocation.x(), stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth,
                                                  MemoryCellGraphicsItem::boxHeight * numCells, pen));
     numCellsInStackFrame.push(numCells);
@@ -370,7 +362,6 @@ void MemoryTracePane::popBytes(int bytesToPop)
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
         runtimeStack.pop();
-        isStackItemRendered.pop();
         stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
     }
 }

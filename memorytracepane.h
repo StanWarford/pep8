@@ -71,11 +71,8 @@ private:
     // Stack of the global variables
     QStack<MemoryCellGraphicsItem *> runtimeStack;    
     // Stack of the stack items
-    QStack<bool> isStackItemRendered;
-    // Stack that mirrors the runtimeStack, but holds a boolean for each item that
-    // describes if it has been added to the scene yet.
-    // Possibly to be removed?
     QStringList lookAheadSymbolList;
+    // This is used to give us what we're pushing onto the stack before we get there.
 
     // Stack frame
     QStack<int> numCellsInStackFrame;
