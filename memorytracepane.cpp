@@ -52,7 +52,7 @@ void MemoryTracePane::setMemoryTrace()
     scene->clear();
     globalVars.clear();
     runtimeStack.clear();
-//    isStackItemRendered.clear();
+    stackHeightToStackFrameMap.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
     addressToGlobalItemMap.clear();
@@ -309,6 +309,7 @@ void MemoryTracePane::cacheStackChanges()
 
     if (frameSizeToAdd != 0) {
         addStackFrame(frameSizeToAdd);
+        stackHeightToStackFrameMap.insert(runtimeStack.size() - 1, graphicItemsInStackFrame.top());
     }
     qDebug() << "Frame size to add: " << frameSizeToAdd;
 }
@@ -341,7 +342,7 @@ void MemoryTracePane::setFont()
 void MemoryTracePane::addStackFrame(int numCells)
 {
     QPen pen(QColor(150, 62, 62));
-    pen.setWidth(2);
+    pen.setWidth(3);
     graphicItemsInStackFrame.push(scene->addRect(stackLocation.x(), stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth,
                                                  MemoryCellGraphicsItem::boxHeight * numCells, pen));
     numCellsInStackFrame.push(numCells);
@@ -358,6 +359,10 @@ void MemoryTracePane::removeStackFrame(int numCells)
 void MemoryTracePane::popBytes(int bytesToPop)
 {
     while (bytesToPop > 0 && !runtimeStack.isEmpty()) {
+        if (stackHeightToStackFrameMap.contains(runtimeStack.size() - 1)) {
+            scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
+            stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
+        }
         scene->removeItem(runtimeStack.top());
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();

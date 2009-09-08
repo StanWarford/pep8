@@ -73,6 +73,7 @@ private:
     // Stack of the stack items
     QStringList lookAheadSymbolList;
     // This is used to give us what we're pushing onto the stack before we get there.
+    QMap<int, QGraphicsRectItem *> stackHeightToStackFrameMap;
 
     // Stack frame
     QStack<int> numCellsInStackFrame;
