@@ -341,10 +341,11 @@ void MemoryTracePane::setFont()
 }
 void MemoryTracePane::addStackFrame(int numCells)
 {
-    QPen pen(QColor(150, 62, 62));
-    pen.setWidth(3);
-    graphicItemsInStackFrame.push(scene->addRect(stackLocation.x(), stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth,
+    QPen pen(Qt::black);//QColor(150, 62, 62));
+    pen.setWidth(4);
+    graphicItemsInStackFrame.push(scene->addRect(stackLocation.x() - 2, stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth + 4,
                                                  MemoryCellGraphicsItem::boxHeight * numCells, pen));
+	graphicItemsInStackFrame.top()->setZValue(1.0); // This moves the stack frame to the front
     numCellsInStackFrame.push(numCells);
 }
 
