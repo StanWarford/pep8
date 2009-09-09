@@ -172,6 +172,7 @@ private slots:
     void on_actionView_Terminal_Tab_triggered();
 
     // System
+    void on_actionSystem_Clear_Memory_triggered();
     void on_actionSystem_Redefine_Mnemonics_triggered();
     void on_actionSystem_Assemble_Install_New_OS_triggered();
     void on_actionSystem_Reinstall_Default_OS_triggered();
@@ -203,7 +204,7 @@ private slots:
     void setRedoability(bool b);
 
     void doubleClickedCodeLabel(Enu::EPane pane);
-    //    void resizeDocWidth(int, int);
+    // void resizeDocWidth(int, int);
 
     // For updating the CPU and Memory trace from listing trace pane
     void updateSimulationView();

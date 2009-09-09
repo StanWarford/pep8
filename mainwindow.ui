@@ -459,6 +459,7 @@
     <property name="title">
      <string>&amp;System</string>
     </property>
+    <addaction name="actionSystem_Clear_Memory"/>
     <addaction name="actionSystem_Redefine_Mnemonics"/>
     <addaction name="separator"/>
     <addaction name="actionSystem_Assemble_Install_New_OS"/>
@@ -976,6 +977,11 @@
   <action name="actionHelp_Check_for_updates">
    <property name="text">
     <string>Check for updates...</string>
+   </property>
+  </action>
+  <action name="actionSystem_Clear_Memory">
+   <property name="text">
+    <string>Clear Memory</string>
    </property>
   </action>
  </widget>

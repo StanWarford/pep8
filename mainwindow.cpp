@@ -313,6 +313,7 @@ bool MainWindow::saveFileSource(const QString &fileName)
     }
 
     QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
     out << sourceCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
@@ -355,6 +356,7 @@ bool MainWindow::saveFileListing(const QString &fileName)
     }
 
     QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
     out << assemblerListingPane->toPlainText();
     QApplication::restoreOverrideCursor();
@@ -1147,6 +1149,14 @@ void MainWindow::on_actionView_Terminal_Tab_triggered()
 }
 
 // System MainWindow triggers
+
+void MainWindow::on_actionSystem_Clear_Memory_triggered()
+{
+    for (int i = 0; i < Pep::romStartAddress; i++) {
+        Sim::Mem[i] = 0;
+    }
+	memoryDumpPane->refreshMemory();
+}
 
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()
 {
