@@ -522,6 +522,7 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Start_Debugging_Loader->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionBuild_Interrupt_Execution->setDisabled(!b);
+	ui->actionSystem_Clear_Memory->setDisabled(b);
     ui->actionSystem_Redefine_Mnemonics->setDisabled(b);
     ui->actionSystem_Assemble_Install_New_OS->setDisabled(b);
     ui->actionSystem_Reinstall_Default_OS->setDisabled(b);

@@ -116,9 +116,11 @@ void TerminalPane::keyPressEvent(QKeyEvent* e)
             if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
                 e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
                 e->key() == Qt::Key_CapsLock || e->key() == Qt::Key_NumLock ||
-                e->key() == Qt::Key_ScrollLock)
-            {
+                e->key() == Qt::Key_ScrollLock) {
                 // skip
+            }
+            else if (e->key() == Qt::Key_Space) {
+                retString.append(' ');
             }
             else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
                 retString.append('\n');

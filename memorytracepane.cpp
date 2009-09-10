@@ -120,11 +120,6 @@ void MemoryTracePane::setMemoryTrace()
     stackFrameFSM.reset();
 }
 
-void MemoryTracePane::setDebugState(bool b)
-{
-
-}
-
 void MemoryTracePane::updateMemoryTrace()
 {
     for (int i = 0; i < globalVars.size(); i++) {
@@ -154,8 +149,20 @@ void MemoryTracePane::updateMemoryTrace()
             addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
-    m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
+//	m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
 
+//	int x = globalLocation.x();
+//	int y = globalVars.size() < runtimeStack.size() ?	globalLocation.y() - globalVars.size() * MemoryCellGraphicsItem::boxHeight :
+//														stackLocation.y() - runtimeStack.size() * MemoryCellGraphicsItem::boxHeight;
+//	int w = scene->width();
+//	int h = scene->height();
+//	m_ui->pepStackTraceGraphicsView->setSceneRect(globalVars.isEmpty() ? stackLocation.x() - , <#qreal y#>, <#qreal w#>, <#qreal h#>))
+	m_ui->pepStackTraceGraphicsView->update();
+	
+	if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
+		m_ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
+	}
+	
     bytesWrittenLastStep.clear();
     modifiedBytes.clear();
 }
@@ -353,7 +360,9 @@ void MemoryTracePane::addStackFrame(int numCells)
 void MemoryTracePane::removeStackFrame(int numCells)
 {
     while (numCells > 0 && !numCellsInStackFrame.isEmpty()) {
-        scene->removeItem(graphicItemsInStackFrame.pop());
+        scene->removeItem(graphicItemsInStackFrame.top());
+		delete graphicItemsInStackFrame.top();
+		graphicItemsInStackFrame.pop();
         numCells -= numCellsInStackFrame.pop();
     }
 }
@@ -368,6 +377,7 @@ void MemoryTracePane::popBytes(int bytesToPop)
         scene->removeItem(runtimeStack.top());
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
+		delete runtimeStack.top();
         runtimeStack.pop();
         stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
     }

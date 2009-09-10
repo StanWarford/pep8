@@ -44,10 +44,6 @@ public:
     void setMemoryTrace();
     // The memory trace is populated (on assembly).
 
-    void setDebugState(bool b);
-    // Post: if b, the trace pane is populated with globals and the stack frame
-    // If !b, the pane is cleared. (yes/no?)
-
     void updateMemoryTrace();
     // Post: The memory trace is updated
 
