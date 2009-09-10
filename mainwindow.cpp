@@ -39,7 +39,7 @@
 #include "pep.h"
 #include "sim.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)

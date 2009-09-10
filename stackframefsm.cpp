@@ -4,7 +4,7 @@
 #include "sim.h"
 #include "pep.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 StackFrameFSM::StackFrameFSM()
 {
@@ -30,36 +30,30 @@ int StackFrameFSM::makeTransition(int numCellsToAdd)
         if (mnemon == Enu::SUBSP) {
             numCellsFromSubSP = numCellsToAdd;
             stackState = ESubSP;
-            qDebug("EStart -> ESubSP");
         }
         else if (mnemon == Enu::CALL) {
             numCellsFromSubSP = 0;
             numCellsFromCall = 1; // = numCellsToAdd; // ECall = 1
             stackState = ECall;
-            qDebug() << "EStart -> ECall";
         }
         break;
     case(ESubSP):
         if (mnemon == Enu::CALL) {
             numCellsFromCall = 1; // = numCellsToAdd; // ECall = 1
             stackState = ECall;
-            qDebug() << "ESubSP -> ECall";
         }
         else { // not ECall
             stackState = EStart;
-            qDebug() << "ESubSP -> EStart, adding frame with " << numCellsFromSubSP << " cells";
             return numCellsFromSubSP; // lone subsp
         }
         break;
     case(ECall):
         if (mnemon == Enu::SUBSP) { // function with 1 or more locals and 0 or more parameters
             stackState = EStart;
-            qDebug() << "ECall -> EStart, adding frame with " << numCellsFromSubSP + numCellsFromCall + numCellsToAdd << " cells";
             return (numCellsFromSubSP + numCellsFromCall + numCellsToAdd);
         }
         else { // not ESubSP
             stackState = EStart; // no locals
-            qDebug() << "ECall -> EStart, adding frame with " << numCellsFromSubSP + numCellsFromCall << " cells";
             return (numCellsFromSubSP + numCellsFromCall);
         }
         break;

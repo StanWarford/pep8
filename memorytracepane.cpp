@@ -25,7 +25,7 @@
 #include "pep.h"
 #include "sim.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
         QWidget(parent),
@@ -252,7 +252,8 @@ void MemoryTracePane::cacheStackChanges()
                         MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
                                                                                   stackSymbol + QString("[%1]").arg(j),
                                                                                   Pep::symbolFormat.value(stackSymbol),
-                                                                                  stackLocation.x(), stackLocation.y());
+                                                                                  static_cast<int>(stackLocation.x()),
+                                                                                  static_cast<int>(stackLocation.y()));
                         item->updateValue();
                         stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                         runtimeStack.push(item);
@@ -262,7 +263,7 @@ void MemoryTracePane::cacheStackChanges()
                     }
                 }
             }
-            qDebug() << "numCellsToAdd before makeTransition in ADDSP: " << numCellsToAdd;
+            // qDebug() << "numCellsToAdd before makeTransition in ADDSP: " << numCellsToAdd;
             frameSizeToAdd = stackFrameFSM.makeTransition(numCellsToAdd);
         }
         break;
@@ -311,7 +312,7 @@ void MemoryTracePane::cacheStackChanges()
         addStackFrame(frameSizeToAdd);
         stackHeightToStackFrameMap.insert(runtimeStack.size() - 1, graphicItemsInStackFrame.top());
     }
-    qDebug() << "Frame size to add: " << frameSizeToAdd;
+    // qDebug() << "Frame size to add: " << frameSizeToAdd;
 }
 
 

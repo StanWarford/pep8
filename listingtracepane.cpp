@@ -25,7 +25,7 @@
 #include "sim.h"
 #include "pep.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),

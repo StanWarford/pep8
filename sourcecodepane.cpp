@@ -32,7 +32,7 @@
 #include "sim.h"
 #include "pep.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 SourceCodePane::SourceCodePane(QWidget *parent) :
         QWidget(parent),

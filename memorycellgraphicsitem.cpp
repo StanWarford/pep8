@@ -24,7 +24,7 @@
 #include "sim.h"
 #include <QPainter>
 
-#include <QDebug>
+// #include <QDebug>
 
 const int MemoryCellGraphicsItem::boxHeight = 22;
 const int MemoryCellGraphicsItem::boxWidth = 50;
