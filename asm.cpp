@@ -412,6 +412,10 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                     errorString = ";ERROR: Symbol " + tokenString + " cannot have more than eight characters.";
                     return false;
                 }
+                if (Pep::symbolTable.contains(tokenString)) {
+                    errorString = ";ERROR: Symbol " + tokenString + " was previously defined.";
+                    return false;
+                }
                 localSymbolDef = tokenString;
                 Pep::symbolTable.insert(localSymbolDef, Pep::byteCount);
                 Pep::adjustSymbolValueForBurn.insert(localSymbolDef, true);
