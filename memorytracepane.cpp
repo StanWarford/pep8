@@ -62,8 +62,8 @@ void MemoryTracePane::setMemoryTrace()
         hide();
         return;
     }
-    stackLocation = QPointF(100, -100);
-    globalLocation = QPointF(-100, -100);
+    stackLocation = QPointF(100, 0);
+    globalLocation = QPointF(-100, 0);
     QString blockSymbol;
     int multiplier;
     // Globals:
@@ -149,20 +149,21 @@ void MemoryTracePane::updateMemoryTrace()
             addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
-//	m_ui->pepStackTraceGraphicsView->fitInView(m_ui->pepStackTraceGraphicsView->viewport()->rect());
 
-//	int x = globalLocation.x();
-//	int y = globalVars.size() < runtimeStack.size() ?	globalLocation.y() - globalVars.size() * MemoryCellGraphicsItem::boxHeight :
-//														stackLocation.y() - runtimeStack.size() * MemoryCellGraphicsItem::boxHeight;
-//	int w = scene->width();
-//	int h = scene->height();
-//	m_ui->pepStackTraceGraphicsView->setSceneRect(globalVars.isEmpty() ? stackLocation.x() - , <#qreal y#>, <#qreal w#>, <#qreal h#>))
-	m_ui->pepStackTraceGraphicsView->update();
-	
-	if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
-		m_ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
-	}
-	
+    int x = globalVars.isEmpty() ? 0 : -100 - MemoryCellGraphicsItem::addressWidth - 10;
+    int h = globalVars.size() > runtimeStack.size() ?
+            globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
+            runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
+    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
+                      MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
+    int w = globalVars.isEmpty() ? widthOfCell + 5 : 200 + widthOfCell;
+    // m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
+    m_ui->pepStackTraceGraphicsView->update(QRect(x, 15, w, -h));
+
+    if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
+        m_ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
+    }
+
     bytesWrittenLastStep.clear();
     modifiedBytes.clear();
 }
@@ -349,7 +350,7 @@ void MemoryTracePane::setFont()
 }
 void MemoryTracePane::addStackFrame(int numCells)
 {
-    QPen pen(Qt::black);//QColor(150, 62, 62));
+    QPen pen(Qt::black);
     pen.setWidth(4);
     graphicItemsInStackFrame.push(scene->addRect(stackLocation.x() - 2, stackLocation.y() + MemoryCellGraphicsItem::boxHeight, MemoryCellGraphicsItem::boxWidth + 4,
                                                  MemoryCellGraphicsItem::boxHeight * numCells, pen));

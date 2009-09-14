@@ -335,6 +335,7 @@ bool MainWindow::saveFileObject(const QString &fileName) // Copied and pasted, c
     }
 
     QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("ISO 8859-1"));
     QApplication::setOverrideCursor(Qt::WaitCursor);
     out << objectCodePane->toPlainText();
     QApplication::restoreOverrideCursor();
@@ -1156,6 +1157,7 @@ void MainWindow::on_actionSystem_Clear_Memory_triggered()
     for (int i = 0; i < Pep::romStartAddress; i++) {
         Sim::Mem[i] = 0;
     }
+	cpuPane->clearCpu();
 	memoryDumpPane->refreshMemory();
 }
 

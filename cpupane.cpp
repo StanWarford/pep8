@@ -151,6 +151,16 @@ void CpuPane::clearCpu()
     m_ui->cpuOprndSpecDecLabel->setText("");
     m_ui->cpuOprndHexLabel->setText("");
     m_ui->cpuOprndDecLabel->setText("");
+
+    Sim::nBit = false;
+    Sim::zBit = false;
+    Sim::vBit = false;
+    Sim::cBit = false;
+
+    Sim::accumulator = 0;
+    Sim::indexRegister = 0;
+    Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
+    Sim::programCounter = 0;
 }
 
 void CpuPane::runClicked() {
