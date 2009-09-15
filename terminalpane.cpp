@@ -38,6 +38,8 @@ TerminalPane::TerminalPane(QWidget *parent) :
 
     m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    
+    qApp->installEventFilter(this);
 }
 
 TerminalPane::~TerminalPane()
@@ -106,46 +108,36 @@ void TerminalPane::displayTerminal()
     m_ui->pepTerminalTextEdit->verticalScrollBar()->setValue(m_ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
-void TerminalPane::keyPressEvent(QKeyEvent* e)
+bool TerminalPane::eventFilter(QObject *, QEvent *event)
 {
-    if (m_ui->pepTerminalTextEdit->hasFocus())
-    {
-        m_ui->pepTerminalTextEdit->grabKeyboard();
-        if (waiting)
-        {
-            if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
-                e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
-                e->key() == Qt::Key_CapsLock || e->key() == Qt::Key_NumLock ||
-                e->key() == Qt::Key_ScrollLock) {
-                // skip
-            }
-            else if (e->key() == Qt::Key_Space) {
-                retString.append(' ');
-            }
-            else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
-                retString.append('\n');
-                strokeString.append(retString);
-                waiting = false;
-                Sim::inputBuffer = retString;
-                retString = "";
-                displayTerminal();
-                emit inputReceived();
-                return;
-            }
-            else if (e->key() == Qt::Key_Backspace && !retString.isEmpty()) {
-                retString.truncate(retString.length() - 1);
-            }
-            else {
-                retString.append(e->text());
-            }
-            displayTerminal();
+    if (event->type() == QEvent::KeyPress && m_ui->pepTerminalTextEdit->hasFocus() && waiting) {
+        QKeyEvent *e = static_cast<QKeyEvent *>(event);
+        if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
+            e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
+            e->key() == Qt::Key_CapsLock || e->key() == Qt::Key_NumLock ||
+            e->key() == Qt::Key_ScrollLock || e->key() == Qt::Key_Tab) {
+            // skip
         }
-
+        else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
+            retString.append('\n');
+            strokeString.append(retString);
+            waiting = false;
+            Sim::inputBuffer = retString;
+            retString = "";
+            displayTerminal();
+            emit inputReceived();
+            return true;
+        }
+        else if (e->key() == Qt::Key_Backspace && !retString.isEmpty()) {
+            retString.truncate(retString.length() - 1);
+        }
+        else {
+            retString.append(e->text());
+        }
+        displayTerminal();
+        return true;
     }
-    else
-    {
-        m_ui->pepTerminalTextEdit->releaseKeyboard();
-    }
+    return false;
 }
 
 void TerminalPane::mouseReleaseEvent(QMouseEvent *)

@@ -66,10 +66,10 @@ private:
     QString retString;
 
     void displayTerminal();
+    
+    bool eventFilter(QObject *, QEvent *event);
 
 private slots:
-    void keyPressEvent(QKeyEvent *e);
-
     void mouseReleaseEvent(QMouseEvent *);
 
 signals:
