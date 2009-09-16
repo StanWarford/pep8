@@ -144,11 +144,21 @@ void MemoryTracePane::updateMemoryTrace()
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
+
         }
         if (addressToStackItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
+
+    int x = globalVars.isEmpty() ? 0 : -100 - MemoryCellGraphicsItem::addressWidth - 10;
+    int h = globalVars.size() > runtimeStack.size() ?
+            globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
+            runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
+    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
+                      MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
+    int w = globalVars.isEmpty() ? widthOfCell + 5 : 200 + widthOfCell;
+    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
 
     scene->invalidate();
 
