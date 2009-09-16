@@ -562,8 +562,15 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
             else if (token == Asm::LT_HEX_CONSTANT) {
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
-                nonUnaryInstruction->argument = new HexArgument(tokenString.toInt(&ok, 16));
-                state = Asm::PS_ADDRESSING_MODE;
+                int value = tokenString.toInt(&ok, 16);
+                if (value < 65536) {
+                    nonUnaryInstruction->argument = new HexArgument(value);
+                    state = Asm::PS_ADDRESSING_MODE;
+                }
+                else {
+                    errorString = ";ERROR: Hexidecimal constant is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
             }
             else if (token == Asm::LT_DEC_CONSTANT) {
                 bool ok;
@@ -672,9 +679,15 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
                 int value = tokenString.toInt(&ok, 16);
-                dotBlock->argument = new HexArgument(value);
-                Pep::byteCount += value;
-                state = Asm::PS_CLOSE;
+                if (value < 65536) {
+                    dotBlock->argument = new HexArgument(value);
+                    Pep::byteCount += value;
+                    state = Asm::PS_CLOSE;
+                }
+                else {
+                    errorString = ";ERROR: Hexidecimal constant is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
             }
             else {
                 errorString = ";ERROR: .BLOCK requires a decimal or hex constant argument.";
@@ -687,11 +700,17 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
                 int value = tokenString.toInt(&ok, 16);
-                dotBurn->argument = new HexArgument(value);
-                Pep::burnCount++;
-                Pep::dotBurnArgument = value;
-                Pep::romStartAddress = Pep::byteCount;
-                state = Asm::PS_CLOSE;
+                if (value < 65536) {
+                    dotBurn->argument = new HexArgument(value);
+                    Pep::burnCount++;
+                    Pep::dotBurnArgument = value;
+                    Pep::romStartAddress = Pep::byteCount;
+                    state = Asm::PS_CLOSE;
+                }
+                else {
+                    errorString = ";ERROR: Hexidecimal constant is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
             }
             else {
                 errorString = ";ERROR: .BURN requires a hex constant argument.";
@@ -793,10 +812,16 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 tokenString.remove(0, 2); // Remove "0x" prefix.
                 bool ok;
                 int value = tokenString.toInt(&ok, 16);
-                dotEquate->argument = new HexArgument(value);
-                Pep::symbolTable.insert(dotEquate->symbolDef, value);
-                Pep::adjustSymbolValueForBurn.insert(dotEquate->symbolDef, false);
-                state = Asm::PS_CLOSE;
+                if (value < 65536) {
+                    dotEquate->argument = new HexArgument(value);
+                    Pep::symbolTable.insert(dotEquate->symbolDef, value);
+                    Pep::adjustSymbolValueForBurn.insert(dotEquate->symbolDef, false);
+                    state = Asm::PS_CLOSE;
+                }
+                else {
+                    errorString = ";ERROR: Hexidecimal constant is out of range (0x0000..0xFFFF).";
+                    return false;
+                }
             }
             else if (token == Asm::LT_STRING_CONSTANT) {
                 if (Asm::byteStringLength(tokenString) > 2) {
