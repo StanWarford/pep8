@@ -447,8 +447,11 @@ bool Sim::vonNeumannStep(QString &errorString)
             operandDisplayFieldWidth = 2;
         }
         else {
-            errorString = "Error: Attempt to read past end of input.";
-            return false;
+            Sim::writeByteOprnd(addrMode, 0);
+            operand = readByteOprnd(addrMode);
+            operandDisplayFieldWidth = 2;
+//            errorString = "Error: Attempt to read past end of input.";
+//            return false;
         }
         return true;
     case CHARO:
