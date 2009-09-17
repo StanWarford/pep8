@@ -93,8 +93,12 @@ private:
     // This is used to delay a clear of the QList bytesWrittenLastStep when leaving a trap that modifies bytes
     // to allow highlighting of modified bytes in trap instructions.
 
+    void scrollToByte(int byte);
+
 private slots:
-    void on_pepMemRefreshButton_clicked();
+    void scrollToPC();
+    void scrollToSP();
+    void scrollToAddress(QString string);
 };
 
 #endif // MEMORYDUMPPANE_H

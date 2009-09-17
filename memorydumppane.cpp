@@ -27,23 +27,22 @@
 #include "pep.h"
 #include "enu.h"
 
+#include <QDebug>
+
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::MemoryDumpPane)
 {
     m_ui->setupUi(this);
 
-    m_ui->pepMemRefreshButton->hide();
-    m_ui->refreshBlock->setParent(0);
-    // We no longer need the 'refresh' button, but we'll leave it there for debugging purposes.
-    // Comment the previous two lines to show the refresh button.
-
-    QObject::connect(m_ui->pepMemRefreshButton, SIGNAL(clicked()), this, SLOT(on_pepMemRefreshButton_clicked()));
-
     if (Pep::getSystem() != "Mac") {
         m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
         m_ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
+
+    connect(m_ui->pcPushButton, SIGNAL(clicked()), this, SLOT(scrollToPC()));
+    connect(m_ui->spPushButton, SIGNAL(clicked()), this, SLOT(scrollToSP()));
+    connect(m_ui->scrollToLineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 }
 
 MemoryDumpPane::~MemoryDumpPane()
@@ -335,10 +334,55 @@ void MemoryDumpPane::mouseReleaseEvent(QMouseEvent *)
     m_ui->pepMemoryDumpTextEdit->setFocus();
 }
 
-void MemoryDumpPane::on_pepMemRefreshButton_clicked()
+void MemoryDumpPane::scrollToByte(int byte)
 {
-    int scrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
-    refreshMemory();
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(scrollBarPosition);
+    int min = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->minimum();
+    int max = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->maximum();
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>((byte / 65536.0) * (max - min)));
 }
 
+void MemoryDumpPane::scrollToPC()
+{
+    m_ui->scrollToLineEdit->setText(QString("%1").arg(Sim::programCounter));
+}
+
+void MemoryDumpPane::scrollToSP()
+{
+    m_ui->scrollToLineEdit->setText(QString("%1").arg(Sim::stackPointer));
+}
+
+void MemoryDumpPane::scrollToAddress(QString string)
+{
+    bool ok;
+    int byte;
+    if (string.startsWith("0x", Qt::CaseInsensitive)) {
+        byte = string.toInt(&ok, 16);
+        if (ok) {
+            if (byte > 65535) {
+                m_ui->scrollToLineEdit->setText("0xFFFF");
+            } else {
+                scrollToByte(byte);
+            }
+        }
+        else {
+            m_ui->scrollToLineEdit->setText("0x");
+        }
+    }
+    else {
+        byte = string.toInt(&ok, 10);
+        if (ok) {
+            if (byte < 0) {
+                m_ui->scrollToLineEdit->setText("0");
+            }
+            else if (byte > 65535) {
+                m_ui->scrollToLineEdit->setText("65535");
+            } else {
+                scrollToByte(byte);
+                m_ui->scrollToLineEdit->setText(QString("%1").arg(byte));
+            }
+        }
+        else {
+            m_ui->scrollToLineEdit->setText("");            
+        }
+    }
+}

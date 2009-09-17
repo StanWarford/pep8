@@ -36,6 +36,8 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
+    clearCpu();
+    
     if (Pep::getSystem() != "Mac") {
         m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
         m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
@@ -159,7 +161,7 @@ void CpuPane::clearCpu()
 
     Sim::accumulator = 0;
     Sim::indexRegister = 0;
-    Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
+    Sim::stackPointer = 0; // Sim::readWord(Pep::dotBurnArgument - 7);
     Sim::programCounter = 0;
 }
 

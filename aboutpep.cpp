@@ -33,6 +33,7 @@ AboutPep::AboutPep(QWidget *parent) :
     else {
         m_ui->aboutLabelWin->hide();
     }
+
 }
 
 AboutPep::~AboutPep()

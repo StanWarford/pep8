@@ -114,7 +114,16 @@ void MemoryTracePane::setMemoryTrace()
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
     }
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
-
+    
+    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
+    int h = globalVars.size() > runtimeStack.size() ?
+    globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
+    runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
+    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
+    MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
+    int w = 200 + widthOfCell;
+    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);    
+    
     m_ui->pepStackTraceGraphicsView->setScene(scene);
 
     stackFrameFSM.reset();
@@ -151,13 +160,13 @@ void MemoryTracePane::updateMemoryTrace()
         }
     }
 
-    int x = globalVars.isEmpty() ? 0 : -100 - MemoryCellGraphicsItem::addressWidth - 10;
+    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
     int h = globalVars.size() > runtimeStack.size() ?
             globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
             runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
     int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
                       MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
-    int w = globalVars.isEmpty() ? widthOfCell + 5 : 200 + widthOfCell;
+    int w = 200 + widthOfCell;
     m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
 
     scene->invalidate();

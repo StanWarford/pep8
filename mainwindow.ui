@@ -244,7 +244,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="fileToolBar">
    <property name="windowTitle">
-    <string>File</string>
+    <string>Toolbar</string>
    </property>
    <property name="movable">
     <bool>false</bool>
@@ -270,97 +270,13 @@
    <addaction name="actionFile_New"/>
    <addaction name="actionFile_Open"/>
    <addaction name="actionFile_Save_Source"/>
-  </widget>
-  <widget class="QToolBar" name="editToolBar">
-   <property name="windowTitle">
-    <string>Edit</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
    <addaction name="actionEdit_Undo"/>
    <addaction name="actionEdit_Redo"/>
-   <addaction name="actionEdit_Cut"/>
-   <addaction name="actionEdit_Copy"/>
-   <addaction name="actionEdit_Paste"/>
    <addaction name="actionHelp"/>
-  </widget>
-  <widget class="QToolBar" name="buildToolBar">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="windowTitle">
-    <string>Build</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
    <addaction name="actionBuild_Assemble"/>
    <addaction name="actionBuild_Run_Source"/>
    <addaction name="actionBuild_Start_Debugging_Source"/>
    <addaction name="actionBuild_Stop_Debugging"/>
-  </widget>
-  <widget class="QToolBar" name="viewToolBar">
-   <property name="windowTitle">
-    <string>View</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
    <addaction name="actionView_Code_Only"/>
    <addaction name="actionView_Code_CPU"/>
    <addaction name="actionView_Code_CPU_Memory"/>
@@ -380,6 +296,9 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
