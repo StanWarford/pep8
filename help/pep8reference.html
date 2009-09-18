@@ -27,7 +27,8 @@ Pep/8 Reference
  <a href="#Instruction">Instruction set</a>,
  <a href="#Dot">Dot commands</a>,
  <a href="#Addressing">Addressing modes</a>,
- <a href="#Register">Register field</a>.
+ <a href="#Register">Register field</a>,
+ <a href="#Trace">Trace tags</a>.
 
 <h3><a name="Instruction">Instruction set</a></h3>
 
@@ -244,6 +245,30 @@ Pep/8 Reference
  </tr>
  <tr>
   <td><code>1</code></td> <td>Index register, X</td>
+ </tr>
+</table>
+
+<h3><a name="Trace">Trace tags</a></h3>
+
+<p>
+<table border cellspacing=0 cellpadding=5>
+ <tr>
+  <th>Trace tag</th> <th>Format</th>
+ </tr>
+ <tr>
+  <td><code>#1c</code></td> <td>One-byte character</td>
+ </tr>
+ <tr>
+  <td><code>#1d</code></td> <td>One-byte decimal</td>
+ </tr>
+ <tr>
+  <td><code>#2d</code></td> <td>Two-byte decimal</td>
+ </tr>
+ <tr>
+  <td><code>#1h</code></td> <td>One-byte hexadecimal</td>
+ </tr>
+ <tr>
+  <td><code>#2h</code></td> <td>Two-byte hexadecimal</td>
  </tr>
 </table>
 
