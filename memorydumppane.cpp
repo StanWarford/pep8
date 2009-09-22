@@ -338,7 +338,7 @@ void MemoryDumpPane::scrollToByte(int byte)
 {
     int min = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->minimum();
     int max = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->maximum();
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>((byte / 65536.0) * (max - min)));
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>(8 * (byte / 8192 - 4) + ((byte - byte % 8) / 65536.0) * (max - min)));
 }
 
 void MemoryDumpPane::scrollToPC()

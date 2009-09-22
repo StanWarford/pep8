@@ -1,6 +1,6 @@
 // StackFrameFSM.cpp: implementation of the StackFrameFSM class.
 
-#include "StackFrameFSM.h"
+#include "stackframefsm.h"
 #include "sim.h"
 #include "pep.h"
 
