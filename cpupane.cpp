@@ -391,7 +391,34 @@ void CpuPane::singleStepWithBatch()
     QString errorString;
     trapLookahead();
     if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
-        resumeThroughTrapBatch();
+        QString errorString;
+        do {
+            trapLookahead();
+            qApp->processEvents();
+            if (Sim::vonNeumannStep(errorString)) {
+                emit vonNeumannStepped();
+                if (Sim::outputBuffer.length() == 1) {
+                    emit appendOutput(Sim::outputBuffer);
+                    Sim::outputBuffer = "";
+                }
+                if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
+                    emit updateSimulationView();
+                    emit executionComplete();
+                }
+            }
+            else {
+                QMessageBox::warning(0, "Pep/8", errorString);
+                emit updateSimulationView();
+                emit executionComplete();
+            }
+            if (interruptExecutionFlag) {
+                updateCpu();
+                emit updateSimulationView();
+                return;
+            }
+        } while (Sim::trapped);
+        emit updateSimulationView();
+        ;
         updateCpu();
     }
     else if (Sim::vonNeumannStep(errorString)) {
@@ -503,37 +530,6 @@ void CpuPane::trapLookahead()
         Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingProg;
         Pep::listingRowChecked = &Pep::listingRowCheckedProg;
     }
-}
-
-void CpuPane::resumeThroughTrapBatch()
-{
-    QString errorString;
-    do {
-        trapLookahead();
-        qApp->processEvents();
-        if (Sim::vonNeumannStep(errorString)) {
-            emit vonNeumannStepped();
-            if (Sim::outputBuffer.length() == 1) {
-                emit appendOutput(Sim::outputBuffer);
-                Sim::outputBuffer = "";
-            }
-            if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
-                emit updateSimulationView();
-                emit executionComplete();
-            }
-        }
-        else {
-            QMessageBox::warning(0, "Pep/8", errorString);
-            emit updateSimulationView();
-            emit executionComplete();
-        }
-        if (interruptExecutionFlag) {
-            updateCpu();
-            emit updateSimulationView();
-            return;
-        }
-    } while (Sim::trapped);
-    emit updateSimulationView();
 }
 
 void CpuPane::interruptExecution()

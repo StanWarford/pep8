@@ -882,12 +882,12 @@ void MainWindow::on_actionBuild_Load_triggered()
 
 void MainWindow::on_actionBuild_Execute_triggered()
 {
+    cpuPane->clearCpu();
     Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
     Sim::programCounter = 0x0000;
     setDebugState(true);
     Sim::trapped = false;
     cpuPane->runClicked();
-    cpuPane->clearCpu();
     sourceCodePane->setReadOnly(true);
     objectCodePane->setReadOnly(true);
     if (ui->pepInputOutputTab->currentIndex() == 0) {

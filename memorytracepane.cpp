@@ -334,7 +334,6 @@ void MemoryTracePane::cacheStackChanges()
     // qDebug() << "Frame size to add: " << frameSizeToAdd;
 }
 
-
 void MemoryTracePane::highlightOnFocus()
 {
     if (m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus()) {
@@ -373,8 +372,8 @@ void MemoryTracePane::removeStackFrame(int numCells)
 {
     while (numCells > 0 && !numCellsInStackFrame.isEmpty()) {
         scene->removeItem(graphicItemsInStackFrame.top());
-		delete graphicItemsInStackFrame.top();
-		graphicItemsInStackFrame.pop();
+        delete graphicItemsInStackFrame.top();
+        graphicItemsInStackFrame.pop();
         numCells -= numCellsInStackFrame.pop();
     }
 }
@@ -389,7 +388,7 @@ void MemoryTracePane::popBytes(int bytesToPop)
         scene->removeItem(runtimeStack.top());
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
-		delete runtimeStack.top();
+        delete runtimeStack.top();
         runtimeStack.pop();
         stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);
     }
