@@ -312,6 +312,7 @@ void CpuPane::resumeWithTerminal()
             updateCpu();
             do {
                 trapLookahead();
+                qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
                 if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
                     // we are waiting for input
                     m_ui->cpuSingleStepPushButton->setDisabled(true);
@@ -336,6 +337,11 @@ void CpuPane::resumeWithTerminal()
                         emit updateSimulationView();
                         emit executionComplete();
                     }
+                }
+                if (interruptExecutionFlag) {
+                    updateCpu();
+                    emit updateSimulationView();
+                    return;
                 }
             } while (Sim::trapped);
         }
@@ -417,6 +423,7 @@ void CpuPane::singleStepWithTerminal()
         updateCpu();
         do {
             trapLookahead();
+            qApp->processEvents();
             if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
                 // we are waiting for input
                 m_ui->cpuSingleStepPushButton->setDisabled(true);
@@ -441,6 +448,11 @@ void CpuPane::singleStepWithTerminal()
                     emit updateSimulationView();
                     emit executionComplete();
                 }
+            }
+            if (interruptExecutionFlag) {
+                updateCpu();
+                emit updateSimulationView();
+                return;
             }
         } while (Sim::trapped);
         emit updateSimulationView();
@@ -498,6 +510,7 @@ void CpuPane::resumeThroughTrapBatch()
     QString errorString;
     do {
         trapLookahead();
+        qApp->processEvents();
         if (Sim::vonNeumannStep(errorString)) {
             emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
@@ -513,6 +526,11 @@ void CpuPane::resumeThroughTrapBatch()
             QMessageBox::warning(0, "Pep/8", errorString);
             emit updateSimulationView();
             emit executionComplete();
+        }
+        if (interruptExecutionFlag) {
+            updateCpu();
+            emit updateSimulationView();
+            return;
         }
     } while (Sim::trapped);
     emit updateSimulationView();

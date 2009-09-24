@@ -338,17 +338,17 @@ void MemoryDumpPane::scrollToByte(int byte)
 {
     int min = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->minimum();
     int max = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->maximum();
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>(8 * (byte / 8192 - 4) + ((byte - byte % 8) / 65536.0) * (max - min)));
+    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
 }
 
 void MemoryDumpPane::scrollToPC()
 {
-    m_ui->scrollToLineEdit->setText(QString("%1").arg(Sim::programCounter));
+    m_ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
 }
 
 void MemoryDumpPane::scrollToSP()
 {
-    m_ui->scrollToLineEdit->setText(QString("%1").arg(Sim::stackPointer));
+    m_ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
 }
 
 void MemoryDumpPane::scrollToAddress(QString string)
