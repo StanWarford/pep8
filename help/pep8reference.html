@@ -25,6 +25,7 @@ Pep/8 Reference
 <p>
  Topics:
  <a href="#Instruction">Instruction set</a>,
+ <a href="#Setting">Setting the C bit on subtraction</a>,
  <a href="#Dot">Dot commands</a>,
  <a href="#Addressing">Addressing modes</a>,
  <a href="#Register">Register field</a>,
@@ -155,6 +156,24 @@ Pep/8 Reference
  </tr>
 </table>
 
+<h3><a name="Setting">Setting the C bit on subtraction</a></h3>
+
+There are two different philosophies for setting the carry bit after subtraction.
+<p>
+Z80, x86, and SPARC treat the carry flag as a "borrow flag" when doing a subtraction.
+When subtracting x - y, if x is less than y (treating both operands as unsigned),
+the carry flag is set because there is a borrow.
+A BRC after a SUBr or CPr instruction is equivalent to "branch if unsigned overflow" in this case.
+<p>
+On other processor families, such as ARM and PowerPC, the carry flag after a subtraction
+is set to the adder carry output after computing (x + ~y + 1).
+When subtracting x - y, if x is greater than or equal to y (treating both operands as unsigned), the carry flag is set.
+A BRC after a SUBr or CPr instruction is equivalent to "branch if not unsigned overflow" in this case.
+<p>
+Previous versions of Pep/8 set the C bit on subtraction according to the first philosophy.
+However, starting with version 8.1.0, the C bit on subtraction is set according to the second philosophy.
+This is consistent with the section "The Carry Bit" in Chapter 3, and the adder/subtracter circuit
+in Figure 10.53 in the text.
 
 <h3><a name="Dot">Dot commands</a></h3>
 
@@ -269,6 +288,8 @@ Pep/8 Reference
  </tr>
  <tr>
   <td><code>#2h</code></td> <td>Two-byte hexadecimal</td>
+ <tr>
+  <td><code>#2d4a</code></td> <td>Two-byte decimal, four-cell array (example)</td>
  </tr>
 </table>
 
