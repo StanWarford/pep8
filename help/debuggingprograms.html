@@ -42,6 +42,15 @@ The Pep/8 application may run noticibly slower when the Memory Dump pane is visi
 You can click either of the other two view icons to hide the Memory Dump pane.
 <p>
  <img src="images/codecodememory.png" alt="codecodememory" hspace=10 vspace=10>
+<p>
+You can scroll to any location in memory using the scroll bar on the right.
+To scroll to a specific memory location enter the address, either in decimal or in hexadecimal prefixed by <code>0x</code>,
+in the input field at the bottom of the pane.
+Click the SP button to scroll to the run-time stack.
+Click the PC button to scroll to the region of memory pointed to by the program counter.
+<p>
+ <i>Image with decimal address next to image with hex address.</i>
+
 <h4>Switching to debug mode</h4>
 To use the Memory Dump pane you must first switch to the debug mode.
 If you are debugging a machine language program that you wrote, the first step is to enter the program in hexadecimal in the Object Code pane.
