@@ -116,14 +116,17 @@ void ListingTracePane::updateListingTrace()
         m_ui->listingTraceTableWidget->show();
     }
 
-    for (int i = 0; i < tableWidget->rowCount(); i++) {
-        tableWidget->item(i, 1)->setBackgroundColor(Qt::white);
-        tableWidget->item(i, 1)->setTextColor(Qt::black);
+    for (int i = highlightedItemList.size() - 1; i >= 0; i--) {
+        highlightedItemList.at(i)->setBackgroundColor(Qt::white);
+        highlightedItemList.at(i)->setTextColor(Qt::black);
+        highlightedItemList.removeLast();
     }
     if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter)) {
         QTableWidgetItem *highlightedItem = tableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
         highlightedItem->setBackgroundColor(QColor(56, 117, 215));
         highlightedItem->setTextColor(Qt::white);
+        highlightedItemList.append(highlightedItem);
+
         tableWidget->scrollToItem(highlightedItem);
     }
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());
@@ -147,10 +150,14 @@ void ListingTracePane::setDebuggingState(bool b)
         tableWidget->item(i, 1)->setBackgroundColor(Qt::white);
         tableWidget->item(i, 1)->setTextColor(Qt::black);
     }
+    highlightedItemList.clear();
+    
     if (b && Pep::memAddrssToAssemblerListing->contains(Sim::programCounter)) {
         QTableWidgetItem *highlightedItem = tableWidget->item(Pep::memAddrssToAssemblerListing->value(Sim::programCounter), 1);
         highlightedItem->setBackgroundColor(QColor(56, 117, 215));
         highlightedItem->setTextColor(Qt::white);
+        highlightedItemList.append(highlightedItem);
+
         tableWidget->scrollToItem(highlightedItem);
     }
     tableWidget->horizontalScrollBar()->setValue(tableWidget->horizontalScrollBar()->minimum());

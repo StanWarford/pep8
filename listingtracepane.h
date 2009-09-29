@@ -70,6 +70,8 @@ private:
     Ui::ListingTracePane *m_ui;
 
     void mouseReleaseEvent(QMouseEvent *);
+    
+    QList<QTableWidgetItem *> highlightedItemList;
 
 //    int programDocWidth;
 //    int osDocWidth;
