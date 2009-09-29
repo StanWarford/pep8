@@ -67,12 +67,15 @@ private:
     // Stack of the global variables
     QStack<MemoryCellGraphicsItem *> runtimeStack;    
     // Stack of the stack items
+    QStack<bool> isRuntimeStackItemAddedStack;
+    // Used to keep track if the item has been added to the scene yet
     QStringList lookAheadSymbolList;
     // This is used to give us what we're pushing onto the stack before we get there.
-    QMap<int, QGraphicsRectItem *> stackHeightToStackFrameMap;
 
     // Stack frame
+    QMap<int, QGraphicsRectItem *> stackHeightToStackFrameMap;
     QStack<int> numCellsInStackFrame;
+    QStack<bool> isStackFrameAddedMap;
     QStack<QGraphicsRectItem *> graphicItemsInStackFrame;
     // This list is populated so we can access what was pushed/popped the previous step, useful especially with CALL
 

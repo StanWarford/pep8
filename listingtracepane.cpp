@@ -107,8 +107,14 @@ void ListingTracePane::updateListingTrace()
     QTableWidget *tableWidget;
     if (Sim::trapped) {
         tableWidget = m_ui->listingPepOsTraceTableWidget;
-        m_ui->listingPepOsTraceTableWidget->show();
-        m_ui->listingTraceTableWidget->hide();
+        if (!Sim::tracingTraps) {
+            m_ui->listingPepOsTraceTableWidget->hide();
+            m_ui->listingTraceTableWidget->show();
+        }
+        else {
+            m_ui->listingPepOsTraceTableWidget->show();
+            m_ui->listingTraceTableWidget->hide();
+        }
     }
     else {
         tableWidget = m_ui->listingTraceTableWidget;
