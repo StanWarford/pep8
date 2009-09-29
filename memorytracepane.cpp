@@ -401,6 +401,7 @@ void MemoryTracePane::popBytes(int bytesToPop)
             scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
             qDebug() << "Frame removed!";
 //            delete stackHeightToStackFrameMap.value(runtimeStack.size() - 1);
+            graphicItemsInStackFrame.pop();
             stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
             isStackFrameAddedMap.pop();
             numCellsInStackFrame.pop();
