@@ -279,7 +279,7 @@ void MemoryDumpPane::scrollToTop()
 
 void MemoryDumpPane::highlightOnFocus()
 {
-    if (m_ui->pepMemoryDumpTextEdit->hasFocus()) {
+    if (m_ui->pepMemoryDumpTextEdit->hasFocus() || m_ui->scrollToLineEdit->hasFocus()) {
         m_ui->pepMemoryDumpLabel->setAutoFillBackground(true);
     }
     else {
@@ -289,7 +289,7 @@ void MemoryDumpPane::highlightOnFocus()
 
 bool MemoryDumpPane::hasFocus()
 {
-    return m_ui->pepMemoryDumpTextEdit->hasFocus();
+    return m_ui->pepMemoryDumpTextEdit->hasFocus() || m_ui->scrollToLineEdit->hasFocus();
 }
 
 void MemoryDumpPane::copy()
@@ -369,20 +369,24 @@ void MemoryDumpPane::scrollToAddress(QString string)
         }
     }
     else {
-        byte = string.toInt(&ok, 10);
-        if (ok) {
-            if (byte < 0) {
-                m_ui->scrollToLineEdit->setText("0");
-            }
-            else if (byte > 65535) {
-                m_ui->scrollToLineEdit->setText("65535");
-            } else {
-                scrollToByte(byte);
-                m_ui->scrollToLineEdit->setText(QString("%1").arg(byte));
-            }
-        }
-        else {
-            m_ui->scrollToLineEdit->setText("");            
-        }
+        m_ui->scrollToLineEdit->setText("0x");
     }
+
+//    else {
+//        byte = string.toInt(&ok, 10);
+//        if (ok) {
+//            if (byte < 0) {
+//                m_ui->scrollToLineEdit->setText("0");
+//            }
+//            else if (byte > 65535) {
+//                m_ui->scrollToLineEdit->setText("65535");
+//            } else {
+//                scrollToByte(byte);
+//                m_ui->scrollToLineEdit->setText(QString("%1").arg(byte));
+//            }
+//        }
+//        else {
+//            m_ui->scrollToLineEdit->setText("");
+//        }
+//    }
 }

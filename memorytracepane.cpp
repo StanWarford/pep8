@@ -25,7 +25,7 @@
 #include "pep.h"
 #include "sim.h"
 
-// #include <QDebug>
+ #include <QDebug>
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
         QWidget(parent),
@@ -49,7 +49,6 @@ MemoryTracePane::~MemoryTracePane()
 
 void MemoryTracePane::setMemoryTrace()
 {
-    scene->clear();
     globalVars.clear();
     runtimeStack.clear();
     isRuntimeStackItemAddedStack.clear();
@@ -59,15 +58,19 @@ void MemoryTracePane::setMemoryTrace()
     bytesWrittenLastStep.clear();
     addressToGlobalItemMap.clear();
     addressToStackItemMap.clear();
+    numCellsInStackFrame.clear();
+    scene->clear();
 
     if (Pep::traceTagWarning) {
         hide();
         return;
     }
+
     stackLocation = QPointF(100, 0);
     globalLocation = QPointF(-100, 0);
     QString blockSymbol;
     int multiplier;
+
     // Globals:
     for (int i = 0; i < Pep::blockSymbols.size(); i++) {
         blockSymbol = Pep::blockSymbols.at(i);
@@ -153,7 +156,7 @@ void MemoryTracePane::updateMemoryTrace()
             isStackFrameAddedMap[i] = true;
         }
     }
-     QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
+    QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
             addressToGlobalItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
@@ -167,13 +170,13 @@ void MemoryTracePane::updateMemoryTrace()
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
-
         }
         if (addressToStackItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
 
+    // Set the scene rect (to remove scroll bars):
     int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
     int h = globalVars.size() > runtimeStack.size() ?
             globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
@@ -183,12 +186,15 @@ void MemoryTracePane::updateMemoryTrace()
     int w = 200 + widthOfCell;
     m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
 
-    scene->invalidate();
+    scene->invalidate(); // redraw the scene!
+    // this is fast, so we do this regardless of things changing in the boxes
 
+    // Scroll to the top item if we have a scrollbar:
     if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
         m_ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
     }
 
+    // Clear modified bytes so for the next update:
     bytesWrittenLastStep.clear();
     modifiedBytes.clear();
 }
@@ -216,7 +222,7 @@ void MemoryTracePane::cacheStackChanges()
         return;
     }
 
-    // Look ahead
+    // Look ahead for the symbol trace list (needs to be done here because of call, so we just do it for them all)
     switch (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]) {
     case Enu::SUBSP:
     case Enu::RET0:
@@ -237,10 +243,11 @@ void MemoryTracePane::cacheStackChanges()
     }
     // End look ahead
 
-    int multiplier, bytesPerCell;
+    int multiplier = 0;
+    int bytesPerCell = 0;
     int offset = 0;
     int numCellsToAdd = 0;
-    int frameSizeToAdd;
+    int frameSizeToAdd = 0;
     QString stackSymbol;
 
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
@@ -253,7 +260,6 @@ void MemoryTracePane::cacheStackChanges()
             item->updateValue();
             stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
-//            scene->addItem(item);
             isRuntimeStackItemAddedStack.push(false);
             runtimeStack.push(item);
             addressToStackItemMap.insert(Sim::stackPointer, item);
@@ -274,7 +280,6 @@ void MemoryTracePane::cacheStackChanges()
                                                                               static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
-//                    scene->addItem(item);
                     isRuntimeStackItemAddedStack.push(false);
                     runtimeStack.push(item);
                     addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
@@ -291,7 +296,6 @@ void MemoryTracePane::cacheStackChanges()
                                                                                   static_cast<int>(stackLocation.y()));
                         item->updateValue();
                         stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
-//                        scene->addItem(item);
                         isRuntimeStackItemAddedStack.push(false);
                         runtimeStack.push(item);
                         addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
@@ -385,30 +389,26 @@ void MemoryTracePane::addStackFrame(int numCells)
     item->setPen(pen);
     graphicItemsInStackFrame.push(item);
     isStackFrameAddedMap.push(false);
-    graphicItemsInStackFrame.top()->setZValue(-1.0); // This moves the stack frame to the back
+    graphicItemsInStackFrame.top()->setZValue(1.0); // This moves the stack frame to the front
     numCellsInStackFrame.push(numCells);
-}
-
-void MemoryTracePane::removeStackFrame(int numCells)
-{
-    while (numCells > 0 && !numCellsInStackFrame.isEmpty()) {
-        scene->removeItem(graphicItemsInStackFrame.top());
-        delete graphicItemsInStackFrame.top();
-        graphicItemsInStackFrame.pop();
-        isStackFrameAddedMap.pop();
-        numCells -= numCellsInStackFrame.pop();
-    }
 }
 
 void MemoryTracePane::popBytes(int bytesToPop)
 {
     while (bytesToPop > 0 && !runtimeStack.isEmpty()) {
         if (stackHeightToStackFrameMap.contains(runtimeStack.size() - 1)) {
+            qDebug() << "Removing frame...";
             scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
+            qDebug() << "Frame removed!";
+//            delete stackHeightToStackFrameMap.value(runtimeStack.size() - 1);
             stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
+            isStackFrameAddedMap.pop();
+            numCellsInStackFrame.pop();
         }
         
+        qDebug() << "Removing item...";
         scene->removeItem(runtimeStack.top());
+        qDebug() << "Item removed!";
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
         delete runtimeStack.top();

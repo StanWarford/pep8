@@ -36,6 +36,7 @@ CpuPane::CpuPane(QWidget *parent) :
     connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
     connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
+    interruptExecutionFlag = false;
     clearCpu();
     
     if (Pep::getSystem() != "Mac") {
@@ -388,6 +389,7 @@ void CpuPane::resumeWithTerminal()
 
 void CpuPane::singleStepWithBatch()
 {
+    interruptExecutionFlag = false;
     QString errorString;
     trapLookahead();
     if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
@@ -418,7 +420,6 @@ void CpuPane::singleStepWithBatch()
             }
         } while (Sim::trapped);
         emit updateSimulationView();
-        ;
         updateCpu();
     }
     else if (Sim::vonNeumannStep(errorString)) {
@@ -443,6 +444,7 @@ void CpuPane::singleStepWithBatch()
 
 void CpuPane::singleStepWithTerminal()
 {
+    interruptExecutionFlag = false;
     QString errorString;
     waiting = Enu::EDebugSSWaiting;
     trapLookahead();

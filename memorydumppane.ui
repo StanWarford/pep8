@@ -220,6 +220,9 @@ p, li { white-space: pre-wrap; }
          <height>16777215</height>
         </size>
        </property>
+       <property name="text">
+        <string>0x0000</string>
+       </property>
        <property name="maxLength">
         <number>6</number>
        </property>

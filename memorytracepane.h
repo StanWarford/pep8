@@ -75,9 +75,11 @@ private:
     // Stack frame
     QMap<int, QGraphicsRectItem *> stackHeightToStackFrameMap;
     QStack<int> numCellsInStackFrame;
+    // This is a stack of ints that each represent how many cells each stack frame encompass
     QStack<bool> isStackFrameAddedMap;
+    // Stack used to determine if a stack frame has been added to the scene yet
     QStack<QGraphicsRectItem *> graphicItemsInStackFrame;
-    // This list is populated so we can access what was pushed/popped the previous step, useful especially with CALL
+    // Stack of *items used to access the stack frames
 
     QPointF globalLocation;
     // This is the location where the next global item will be added
@@ -98,7 +100,6 @@ private:
     StackFrameFSM stackFrameFSM;
 
     void addStackFrame(int numCells);
-    void removeStackFrame(int numCells);
 
     void popBytes(int bytesToPop);
     // This pops bytesToPop bytes off of the runtimeStack

@@ -1556,7 +1556,6 @@ void MainWindow::doubleClickedCodeLabel(Enu::EPane pane)
         list.append(3000);
         ui->traceSplitter->setSizes(list);
     }
-
 }
 
 //void MainWindow::resizeDocWidth(int, int)
