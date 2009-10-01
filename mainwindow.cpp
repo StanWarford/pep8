@@ -1331,6 +1331,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
         if (!input.isEmpty()) {
             inputPane->setText(input);
             ui->pepInputOutputTab->setCurrentIndex(0);
+            outputPane->clearOutput();
         }
     }
 }

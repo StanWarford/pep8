@@ -44,7 +44,9 @@ HelpDialog::HelpDialog(QWidget *parent) :
     rightPepHighlighter = new PepHighlighter(m_ui->helpRightPepTextEdit->document());
 
     m_ui->helpCopyToSourceButton->setFont(QFont(Pep::labelFont));
-//    m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont));
+    if (Pep::getSystem() == "Linux") {
+        m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont, 8));
+    }
 
     m_ui->helpRightCppTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     m_ui->helpRightPepTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
