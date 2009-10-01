@@ -142,5 +142,6 @@
         <file>help/images/fig0434cpu.png</file>
         <file>help/images/sourcecode.png</file>
         <file>help/writingtraphandlers.html</file>
+        <file>help/images/scrollto.png</file>
     </qresource>
 </RCC>

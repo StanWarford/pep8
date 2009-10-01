@@ -59,6 +59,7 @@ void MemoryTracePane::setMemoryTrace()
     addressToGlobalItemMap.clear();
     addressToStackItemMap.clear();
     numCellsInStackFrame.clear();
+    graphicItemsInStackFrame.clear();
     scene->clear();
 
     if (Pep::traceTagWarning) {
@@ -119,15 +120,15 @@ void MemoryTracePane::setMemoryTrace()
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
     }
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
-    
-    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
-    int h = globalVars.size() > runtimeStack.size() ?
-    globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
-    runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
-    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
-    MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
-    int w = 200 + widthOfCell;
-    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);    
+
+//    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
+//    int h = globalVars.size() > runtimeStack.size() ?
+//    globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
+//    runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
+//    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
+//    MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
+//    int w = 200 + widthOfCell;
+//    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
     
     m_ui->pepStackTraceGraphicsView->setScene(scene);
 
@@ -397,9 +398,9 @@ void MemoryTracePane::popBytes(int bytesToPop)
 {
     while (bytesToPop > 0 && !runtimeStack.isEmpty()) {
         if (stackHeightToStackFrameMap.contains(runtimeStack.size() - 1)) {
-            qDebug() << "Removing frame...";
+//            qDebug() << "Removing frame...";
             scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
-            qDebug() << "Frame removed!";
+//            qDebug() << "Frame removed!";
 //            delete stackHeightToStackFrameMap.value(runtimeStack.size() - 1);
             graphicItemsInStackFrame.pop();
             stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
@@ -407,12 +408,12 @@ void MemoryTracePane::popBytes(int bytesToPop)
             numCellsInStackFrame.pop();
         }
         
-        qDebug() << "Removing item...";
+//        qDebug() << "Removing item...";
         scene->removeItem(runtimeStack.top());
-        qDebug() << "Item removed!";
+//        qDebug() << "Item removed!";
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
-        delete runtimeStack.top();
+//        delete runtimeStack.top();
         runtimeStack.pop();
         isRuntimeStackItemAddedStack.pop();
         stackLocation.setY(stackLocation.y() + MemoryCellGraphicsItem::boxHeight);

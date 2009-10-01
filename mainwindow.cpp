@@ -1244,7 +1244,7 @@ void MainWindow::on_actionHelp_triggered()
 
 void MainWindow::on_actionHelp_Check_for_updates_triggered()
 {
-    QDesktopServices::openUrl(QUrl("http://code.google.com/p/pep8-1/downloads/list"));
+    QDesktopServices::openUrl(QUrl("http://code.google.com/p/pep8-1/"));
 }
 
 void MainWindow::on_actionHelp_Machine_Language_triggered()
