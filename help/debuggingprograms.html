@@ -198,9 +198,32 @@ to the source program until it encounters a break point there.
 <h3><a name="Symbolic">Symbolic trace</a></h3>
 
 The symbolic trace feature is controlled by the trace tags described in the text.
-While this version of Pep/8 (8.1.0) does process the trace tags,
-the symbolic trace feature itself is not yet implemented with this version.
-It is scheduled to be released shortly with the next version.
+Trace tags are contained in assembly language comments and have no effect on generated object code.
+Each trace tag begins with the <code>#</code> character and supplies information to the symbol tracer on how to format
+and label the memory cell in the trace window.
+<p>
+If your program does not include trace tags, the memory trace pane will not be visible when you run your program.
+You can still use the debugger to single-step through your program and set break points.
+If it does include trace tags, but errors are detected in the tags, a blue warning will be issued.
+You can still run your program and use the debugger, but the memory trace pane will not be visible.
+The screenshot below shows what happens if you make an error in one of the trace tags in the program from Figure 5.26.
+<p>
+<img src="qrc:/help/images/fig518tracetagwarning.png" alt="fig518tracetagwarning" hspace=10 vspace=10>
+<p>
+If your program does include trace tags and they have no errors, the memory trace will automatically become visible
+below the listing trace pane.
+As you single-step through the program, you can see the global variables on the left, and the run-time stack on the right.
+The only user interface control that affects the symbolic trace display is the magnification input at the bottom left of the pane.
+Here is a screenshot of the memory trace pane from the program in Figure 6.21.
+The memory cell for <code>k</code> on top of the run-time stack is colored red because the <code>STA</code>
+instruction has just changed its value.
+<p>
+ <i>Screenshot of Figure 6.21 showing the globals, run-time stack and magnification input.</i>
+<p>
+ The sybolic trace feature of this version of Pep/8 displays global variables allocated with the <code>.BLOCK</code> dot command,
+ and parameters and local variables allocated with the <code>SUBSP</code> instruction.
+ It does not display storage from the heap allocated with the <code>new</code> operator, but that feature is scheduled for
+ the next release.
 
 <h3><a name="Byte">Byte converter</a></h3>
 
