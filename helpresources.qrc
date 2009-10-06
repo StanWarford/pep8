@@ -143,5 +143,6 @@
         <file>help/images/sourcecode.png</file>
         <file>help/writingtraphandlers.html</file>
         <file>help/images/scrollto.png</file>
+        <file>help/images/memorytrace.png</file>
     </qresource>
 </RCC>
