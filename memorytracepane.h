@@ -59,6 +59,9 @@ public:
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
+    void setFocus();
+    // Post: the graphics item has focus
+    
 private:
     Ui::MemoryTracePane *m_ui;
 

@@ -1062,7 +1062,12 @@ void MainWindow::on_actionBuild_Stop_Debugging_triggered()
             assemblerListingPane->setFocus();
         }
         else {
-            listingTracePane->setFocus();
+            if (!memoryTracePane->isHidden()) {
+                memoryTracePane->setFocus();
+            }
+            else {
+                listingTracePane->setFocus();
+            }
         }
     }
     setDebugState(false);

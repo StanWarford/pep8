@@ -380,6 +380,11 @@ void MemoryTracePane::setFont()
     }
 }
 
+void MemoryTracePane::setFocus()
+{
+    m_ui->pepStackTraceGraphicsView->setFocus();
+}
+
 void MemoryTracePane::addStackFrame(int numCells)
 {
     QPen pen(Qt::black);
