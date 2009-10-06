@@ -194,6 +194,11 @@ void ListingTracePane::setFont()
     }
 }
 
+void ListingTracePane::setFocus()
+{
+    m_ui->listingTraceTableWidget->isHidden() ? m_ui->listingPepOsTraceTableWidget->setFocus() : m_ui->listingTraceTableWidget->setFocus();
+}
+
 //void ListingTracePane::resizeDocWidth()
 //{
 //    int column0 = m_ui->listingTraceTableWidget->columnWidth(0);

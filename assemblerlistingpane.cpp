@@ -136,6 +136,11 @@ void AssemblerListingPane::setFont()
     }
 }
 
+void AssemblerListingPane::setFocus()
+{
+    m_ui->assemblerListingTextEdit->setFocus();
+}
+
 void AssemblerListingPane::mouseReleaseEvent(QMouseEvent *)
 {
     m_ui->assemblerListingTextEdit->setFocus();

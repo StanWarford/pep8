@@ -1054,7 +1054,17 @@ void MainWindow::on_actionBuild_Start_Debugging_Loader_triggered()
 
 void MainWindow::on_actionBuild_Stop_Debugging_triggered()
 {
-    on_actionBuild_Interrupt_Execution_triggered();
+    cpuPane->interruptExecution();
+    cpuPane->updateCpu();
+    listingTracePane->updateListingTrace();
+    if (cpuPane->singleStepHasFocus()) {
+        if (ui->pepCodeTraceTab->currentIndex() == 0) {
+            assemblerListingPane->setFocus();
+        }
+        else {
+            listingTracePane->setFocus();
+        }
+    }
     setDebugState(false);
     listingTracePane->setDebuggingState(false);
     cpuPane->setButtonsEnabled(false);
@@ -1305,6 +1315,8 @@ void MainWindow::helpCopyToSourceButtonClicked()
     Enu::EPane inputDest;
     QString input = "";
     QString code = helpDialog->getCode(destPane, inputDest, input);
+    outputPane->clearOutput();
+    inputPane->setText("");
     ui->pepCodeTraceTab->setCurrentIndex(0);
     if (destPane == Enu::ESource) {
         if (maybeSaveSource()) {

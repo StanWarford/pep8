@@ -47,6 +47,9 @@ HelpDialog::HelpDialog(QWidget *parent) :
     if (Pep::getSystem() == "Linux") {
         m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont, 8));
     }
+    else if (Pep::getSystem() == "Windows") {
+        m_ui->helpTreeWidget->setFont(QFont(Pep::labelFont, 8)); // I don't know if this is the proper font size.
+    }
 
     m_ui->helpRightCppTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     m_ui->helpRightPepTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));

@@ -59,6 +59,9 @@ public:
 
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
+    
+    void setFocus();
+    // Post: the text edit has focus
 
 private:
     Ui::AssemblerListingPane *m_ui;

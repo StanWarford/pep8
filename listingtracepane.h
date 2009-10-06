@@ -62,6 +62,9 @@ public:
     void setFont();
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
+    void setFocus();
+    // Post: gives the text edit focus
+    
 //    void resizeDocWidth();
     // Post: the document widths of the trace panes are set
     // This is commented, but preserved in case we want to bring back the resizing of the document width to the width of the window.
