@@ -568,6 +568,10 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         }
     }
     else if (event->type() == QEvent::FileOpen) {
+        if (ui->actionBuild_Stop_Debugging->isEnabled()) {
+            ui->statusbar->showMessage("Load failed, currently debugging.", 4000);
+            return false;
+        }
         loadFile(static_cast<QFileOpenEvent *>(event)->file());
         return true;
     }
