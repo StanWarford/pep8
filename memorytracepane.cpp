@@ -403,9 +403,9 @@ void MemoryTracePane::popBytes(int bytesToPop)
 {
     while (bytesToPop > 0 && !runtimeStack.isEmpty()) {
         if (stackHeightToStackFrameMap.contains(runtimeStack.size() - 1)) {
-//            qDebug() << "Removing frame...";
-            scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
-//            qDebug() << "Frame removed!";
+            if (stackHeightToStackFrameMap.value(runtimeStack.size() - 1)->scene() == scene) {
+                scene->removeItem(stackHeightToStackFrameMap.value(runtimeStack.size() - 1));
+            }
 //            delete stackHeightToStackFrameMap.value(runtimeStack.size() - 1);
             graphicItemsInStackFrame.pop();
             stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
@@ -413,9 +413,9 @@ void MemoryTracePane::popBytes(int bytesToPop)
             numCellsInStackFrame.pop();
         }
         
-//        qDebug() << "Removing item...";
-        scene->removeItem(runtimeStack.top());
-//        qDebug() << "Item removed!";
+        if (runtimeStack.top()->scene() == scene) {
+            scene->removeItem(runtimeStack.top());
+        }
         addressToStackItemMap.remove(runtimeStack.top()->getAddress());
         bytesToPop -= runtimeStack.top()->getNumBytes();
 //        delete runtimeStack.top();

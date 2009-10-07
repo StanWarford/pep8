@@ -1259,7 +1259,7 @@ void MainWindow::on_actionHelp_triggered()
         helpDialog->raise();
         helpDialog->activateWindow();
     }
- }
+}
 
 void MainWindow::on_actionHelp_Check_for_updates_triggered()
 {
