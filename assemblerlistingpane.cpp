@@ -141,6 +141,11 @@ void AssemblerListingPane::setFocus()
     m_ui->assemblerListingTextEdit->setFocus();
 }
 
+bool AssemblerListingPane::isEmpty()
+{
+    return m_ui->assemblerListingTextEdit->toPlainText() == "";
+}
+
 void AssemblerListingPane::mouseReleaseEvent(QMouseEvent *)
 {
     m_ui->assemblerListingTextEdit->setFocus();

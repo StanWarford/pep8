@@ -62,6 +62,9 @@ public:
     
     void setFocus();
     // Post: the text edit has focus
+    
+    bool isEmpty();
+    // Post: returns if the assembler listing is empty
 
 private:
     Ui::AssemblerListingPane *m_ui;

@@ -922,7 +922,7 @@ void MainWindow::on_actionBuild_Run_Source_triggered()
 
 void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
 {
-    if (load()) {
+    if (!assemblerListingPane->isEmpty() && load()) {
         ui->statusbar->showMessage("Load succeeded", 4000);
         Sim::stackPointer = Sim::readWord(Pep::dotBurnArgument - 7);
         Sim::programCounter = 0x0000;
@@ -959,7 +959,12 @@ void MainWindow::on_actionBuild_Start_Debugging_Source_triggered()
         }
     }
     else {
-        ui->statusbar->showMessage("Load failed", 4000);
+        if (assemblerListingPane->isEmpty()) {
+            ui->statusbar->showMessage("No assembler listing, cannot debug source", 4000);
+        } 
+        else {
+            ui->statusbar->showMessage("Load failed", 4000);
+        }
     }
 }
 
