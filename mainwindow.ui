@@ -628,6 +628,9 @@
    </property>
   </action>
   <action name="actionBuild_Start_Debugging_Source">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="pep8resources.qrc">
      <normaloff>:/images/debugger_start.png</normaloff>:/images/debugger_start.png</iconset>
@@ -834,6 +837,9 @@
    </property>
   </action>
   <action name="actionBuild_Start_Debugging_Object">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Start Debugging Object</string>
    </property>

@@ -486,6 +486,7 @@ bool MainWindow::assemble()
             else {
                 memoryTracePane->hide();
             }
+            ui->actionBuild_Start_Debugging_Source->setEnabled(true);
             return true;
         }
     }
@@ -569,7 +570,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     }
     else if (event->type() == QEvent::FileOpen) {
         if (ui->actionBuild_Stop_Debugging->isEnabled()) {
-            ui->statusbar->showMessage("Load failed, currently debugging.", 4000);
+            ui->statusbar->showMessage("Open failed, currently debugging.", 4000);
             return false;
         }
         loadFile(static_cast<QFileOpenEvent *>(event)->file());
@@ -592,6 +593,7 @@ void MainWindow::on_actionFile_New_triggered()
         setCurrentFile("", Enu::ESource);
         setCurrentFile("", Enu::EObject);
         setCurrentFile("", Enu::EListing);
+        ui->actionBuild_Start_Debugging_Source->setEnabled(false);
     }
 }
 
@@ -607,6 +609,7 @@ void MainWindow::on_actionFile_Open_triggered()
             loadFile(fileName);
             ui->pepCodeTraceTab->setCurrentIndex(0);
             curPath = QFileInfo(fileName).path();
+            ui->actionBuild_Start_Debugging_Source->setEnabled(false);
         }
     }
 }
@@ -716,7 +719,6 @@ void MainWindow::on_actionFile_Print_Object_triggered()
     if (dialog->exec() == QDialog::Accepted) {
         document.print(&printer);
     }
-
 }
 
 void MainWindow::on_actionFile_Print_Listing_triggered()
@@ -1340,6 +1342,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
             objectCodePane->clearObjectCode();
             listingTracePane->clearListingTrace();
             statusBar()->showMessage("Copied to source", 4000);
+            ui->actionBuild_Start_Debugging_Source->setEnabled(false);
         }
     }
     else if (maybeSaveObject()) {
@@ -1349,6 +1352,7 @@ void MainWindow::helpCopyToSourceButtonClicked()
         assemblerListingPane->clearAssemblerListing();
         listingTracePane->clearListingTrace();
         statusBar()->showMessage("Copied to object", 4000);
+        ui->actionBuild_Start_Debugging_Source->setEnabled(false);
     }
     if (inputDest == Enu::ETerminal) {
         ui->pepInputOutputTab->setCurrentIndex(1);
