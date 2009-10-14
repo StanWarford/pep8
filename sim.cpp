@@ -270,6 +270,7 @@ bool Sim::vonNeumannStep(QString &errorString)
     EAddrMode addrMode;
     int temp;
     bool bTemp;
+    bool nTemp, zTemp;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment
@@ -463,11 +464,19 @@ bool Sim::vonNeumannStep(QString &errorString)
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
         addAndSetNZVC(accumulator, (~operand + 1) & 0xffff);
+        if (vBit) { // Extend compare range. nBit and zBit are not adjusted in subtract instructions.
+            nBit = !nBit;
+            zBit = accumulator == operand;
+        }
         return true;
     case CPX:
         operand = readWordOprnd(addrMode);
         operandDisplayFieldWidth = 4;
         addAndSetNZVC(indexRegister, (~operand + 1) & 0xffff);
+        if (vBit) { // Extend compare range. nBit and zBit are not adjusted in subtract instructions.
+            nBit = !nBit;
+            zBit = indexRegister == operand;
+        }
         return true;
     case DECI: case DECO: case STRO:
     case NOP: case NOP0: case NOP1: case NOP2: case NOP3:
