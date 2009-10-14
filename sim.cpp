@@ -270,7 +270,6 @@ bool Sim::vonNeumannStep(QString &errorString)
     EAddrMode addrMode;
     int temp;
     bool bTemp;
-    bool nTemp, zTemp;
     // Fetch
     instructionSpecifier = readByte(programCounter);
     // Increment
