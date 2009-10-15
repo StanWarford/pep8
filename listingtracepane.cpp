@@ -191,6 +191,9 @@ void ListingTracePane::setFont()
     QFont font = QFontDialog::getFont(&ok, QFont(m_ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
         m_ui->listingTraceTableWidget->setFont(font);
+        m_ui->listingPepOsTraceTableWidget->setFont(font);
+        m_ui->listingTraceTableWidget->resizeColumnsToContents();
+        m_ui->listingPepOsTraceTableWidget->resizeColumnsToContents();
     }
 }
 
