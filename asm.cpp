@@ -292,18 +292,18 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
     Enu::EMnemonic localEnumMnemonic; // Key to Pep:: table lookups.
 
     // The concrete code objects asssigned to code.
-    UnaryInstruction *unaryInstruction;
-    NonUnaryInstruction *nonUnaryInstruction;
-    DotAddrss *dotAddrss;
-    DotAscii *dotAscii;
-    DotBlock *dotBlock;
-    DotBurn *dotBurn;
-    DotByte *dotByte;
-    DotEnd *dotEnd;
-    DotEquate *dotEquate;
-    DotWord *dotWord;
-    CommentOnly *commentOnly;
-    BlankLine *blankLine;
+    UnaryInstruction *unaryInstruction = NULL;
+    NonUnaryInstruction *nonUnaryInstruction = NULL;
+    DotAddrss *dotAddrss = NULL;
+    DotAscii *dotAscii = NULL;
+    DotBlock *dotBlock = NULL;
+    DotBurn *dotBurn = NULL;
+    DotByte *dotByte = NULL;
+    DotEnd *dotEnd = NULL;
+    DotEquate *dotEquate = NULL;
+    DotWord *dotWord = NULL;
+    CommentOnly *commentOnly = NULL;
+    BlankLine *blankLine = NULL;
 
     dotEndDetected = false;
     Asm::ParseState state = Asm::PS_START;
