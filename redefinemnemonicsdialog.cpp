@@ -59,6 +59,10 @@ RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :
     m_ui->nonunaryOpCode3Label->setFont(QFont(Pep::codeFont));
     m_ui->nonunaryOpCode4Label->setFont(QFont(Pep::codeFont));
 
+    m_ui->nonUnaryMnemonic0LineEdit->setFont(QFont(Pep::codeFont));
+    m_ui->nonUnaryMnemonic1LineEdit->setFont(QFont(Pep::codeFont));
+    m_ui->nonUnaryMnemonic2LineEdit->setFont(QFont(Pep::codeFont));
+    m_ui->nonUnaryMnemonic3LineEdit->setFont(QFont(Pep::codeFont));
 
     connect(m_ui->defaultMnemonicsButton, SIGNAL(clicked()), this, SLOT(restoreDefaults()));
 
