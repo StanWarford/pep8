@@ -443,7 +443,7 @@
             <enum>QTextEdit::NoWrap</enum>
            </property>
            <property name="textInteractionFlags">
-            <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
           <widget class="QTextEdit" name="helpRightCppTextEdit">
@@ -457,7 +457,7 @@
             <enum>QTextEdit::NoWrap</enum>
            </property>
            <property name="textInteractionFlags">
-            <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
           <widget class="QTextEdit" name="helpRightPepTextEdit">
@@ -474,7 +474,7 @@
             <bool>true</bool>
            </property>
            <property name="textInteractionFlags">
-            <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
          </widget>
