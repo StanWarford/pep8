@@ -61,6 +61,18 @@ public:
     }
 };
 
+class UnsignedDecArgument: public Argument
+{
+private:
+    int decValue;
+public:
+    UnsignedDecArgument(int dValue) { decValue = dValue; }
+    int getArgumentValue() { return decValue; }
+    QString getArgumentString() {
+        return QString("%1").arg(decValue);
+    }
+};
+
 class HexArgument: public Argument
 {
 private:

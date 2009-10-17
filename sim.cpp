@@ -465,7 +465,6 @@ bool Sim::vonNeumannStep(QString &errorString)
         addAndSetNZVC(accumulator, (~operand + 1) & 0xffff);
         if (vBit) { // Extend compare range. nBit and zBit are not adjusted in subtract instructions.
             nBit = !nBit;
-            zBit = accumulator == operand;
         }
         return true;
     case CPX:
@@ -474,7 +473,6 @@ bool Sim::vonNeumannStep(QString &errorString)
         addAndSetNZVC(indexRegister, (~operand + 1) & 0xffff);
         if (vBit) { // Extend compare range. nBit and zBit are not adjusted in subtract instructions.
             nBit = !nBit;
-            zBit = indexRegister == operand;
         }
         return true;
     case DECI: case DECO: case STRO:

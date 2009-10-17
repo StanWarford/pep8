@@ -578,8 +578,11 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 if ((-32768 <= value) && (value <= 65535)) {
                     if (value < 0) {
                         value += 65536; // Stored as two-byte unsigned.
+                        nonUnaryInstruction->argument = new DecArgument(value);
                     }
-                    nonUnaryInstruction->argument = new DecArgument(value);
+                    else {
+                        nonUnaryInstruction->argument = new UnsignedDecArgument(value);
+                    }
                     state = Asm::PS_ADDRESSING_MODE;
                 }
                 else {
@@ -664,9 +667,12 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 int value = tokenString.toInt(&ok, 10);
                 if ((0 <= value) && (value <= 65535)) {
                     if (value < 0) {
-                        value += 65536; // value stored as two-byte unsigned.
+                        value += 65536; // Stored as two-byte unsigned.
+                        dotBlock->argument = new DecArgument(value);
                     }
-                    dotBlock->argument = new DecArgument(value);
+                    else {
+                        dotBlock->argument = new UnsignedDecArgument(value);
+                    }
                     Pep::byteCount += value;
                     state = Asm::PS_CLOSE;
                 }
@@ -795,10 +801,14 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-32768 <= value) && (value <= 65535)) {
+
                     if (value < 0) {
-                        value += 65536; // value stored as two-byte unsigned.
+                        value += 65536; // Stored as two-byte unsigned.
+                        dotEquate->argument = new DecArgument(value);
                     }
-                    dotEquate->argument = new DecArgument(value);
+                    else {
+                        dotEquate->argument = new UnsignedDecArgument(value);
+                    }
                     Pep::symbolTable.insert(dotEquate->symbolDef, value);
                     Pep::adjustSymbolValueForBurn.insert(dotEquate->symbolDef, false);
                     state = Asm::PS_CLOSE;
@@ -849,10 +859,14 @@ bool Asm::processSourceLine(QString sourceLine, int lineNum, Code *&code, QStrin
                 bool ok;
                 int value = tokenString.toInt(&ok, 10);
                 if ((-32768 <= value) && (value < 65536)) {
+
                     if (value < 0) {
-                        value += 65536; // value stored as two-byte unsigned.
+                        value += 65536; // Stored as two-byte unsigned.
+                        dotWord->argument = new DecArgument(value);
                     }
-                    dotWord->argument = new DecArgument(value);
+                    else {
+                        dotWord->argument = new UnsignedDecArgument(value);
+                    }
                     Pep::byteCount += 2;
                     state = Asm::PS_CLOSE;
                 }
