@@ -23,7 +23,7 @@
 #include "pep.h"
 #include "asm.h"
 #include <QRegExp>
-// #include <QDebug>
+#include <QDebug>
 
 // appendObjectCode
 void UnaryInstruction::appendObjectCode(QList<int> &objectCode)
@@ -545,8 +545,10 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         Pep::symbolTraceList.insert(memAddress, list);
         return true;
     }
-    else if (mnemonic == Enu::CALL && argument->getArgumentString().toLower() == "new") {
+    else if (mnemonic == Enu::CALL && argument->getArgumentString() == "new") {
         int pos = 0;
+        QString symbol;
+        QStringList list;
         while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
             symbol = Asm::rxSymbolTag.cap(1);
             if (!Pep::equateSymbols.contains(symbol)) {
@@ -555,7 +557,10 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
                 return false;
             }
             list.append(symbol);
+            Pep::newSymbols.append(symbol);
+            Pep::symbolTraceList.insert(memAddress, list);
             pos += Asm::rxSymbolTag.matchedLength();
+            return true;
         }
     }
     else {

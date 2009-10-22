@@ -118,6 +118,9 @@ public:
     static QMap<QString, Enu::ESymbolFormat> symbolFormat;
     static QMap<QString, int> symbolFormatMultiplier;
     static QMap<int, QStringList> symbolTraceList;
+    // This map is used to map the program counter to the stringList of tags on the corresponding line
+    // For example, line corresponds to 0x12, and has the comment ; Allocate #next #data
+    // The stringlist would contain next and data
     static QStringList blockSymbols;
     static QStringList equateSymbols;
     static QStringList newSymbols;
