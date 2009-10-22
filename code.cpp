@@ -512,41 +512,53 @@ bool UnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorStr
 }
 
 bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorString) {
-    int numBytesAllocated;
-    switch (mnemonic) {
-    case Enu::ADDSP: case Enu::SUBSP:
+    if (mnemonic == Enu::ADDSP || mnemonic == Enu::SUBSP) {
+        int numBytesAllocated;
         if (addressingMode != Enu::I) {
             errorString = ";WARNING: Stack trace not possible unless immediate addressing is specified.";
             sourceLine = sourceCodeLine;
             return false;
         }
         numBytesAllocated = argument->getArgumentValue();
-        break;
-    default:
-        return true;
-    }
-    QString symbol;
-    QStringList list;
-    int numBytesListed = 0;
-    int pos = 0;
-    while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
-        symbol = Asm::rxSymbolTag.cap(1);
-        if (!Pep::equateSymbols.contains(symbol)) {
-            errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+        QString symbol;
+        QStringList list;
+        int numBytesListed = 0;
+        int pos = 0;
+        while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
+            symbol = Asm::rxSymbolTag.cap(1);
+            if (!Pep::equateSymbols.contains(symbol)) {
+                errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+                sourceLine = sourceCodeLine;
+                return false;
+            }
+            numBytesListed += Asm::tagNumBytes(Pep::symbolFormat.value(symbol)) * Pep::symbolFormatMultiplier.value(symbol);
+            list.append(symbol);
+            pos += Asm::rxSymbolTag.matchedLength();
+        }
+        if (numBytesAllocated != numBytesListed) {
+            QString message = (mnemonic == Enu::ADDSP) ? "deallocated" : "allocated";
+            errorString = ";WARNING: Number of bytes " + message + " (" + QString("%1").arg(numBytesAllocated) +
+            ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
             sourceLine = sourceCodeLine;
             return false;
         }
-        numBytesListed += Asm::tagNumBytes(Pep::symbolFormat.value(symbol)) * Pep::symbolFormatMultiplier.value(symbol);
-        list.append(symbol);
-        pos += Asm::rxSymbolTag.matchedLength();
+        Pep::symbolTraceList.insert(memAddress, list);
+        return true;
     }
-    if (numBytesAllocated != numBytesListed) {
-        QString message = (mnemonic == Enu::ADDSP) ? "deallocated" : "allocated";
-        errorString = ";WARNING: Number of bytes " + message + " (" + QString("%1").arg(numBytesAllocated) +
-                      ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
-        sourceLine = sourceCodeLine;
-        return false;
+    else if (mnemonic == Enu::CALL && argument->getArgumentString().toLower() == "new") {
+        int pos = 0;
+        while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
+            symbol = Asm::rxSymbolTag.cap(1);
+            if (!Pep::equateSymbols.contains(symbol)) {
+                errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+                sourceLine = sourceCodeLine;
+                return false;
+            }
+            list.append(symbol);
+            pos += Asm::rxSymbolTag.matchedLength();
+        }
     }
-    Pep::symbolTraceList.insert(memAddress, list);
-    return true;
+    else {
+        return true;
+    }
 }
