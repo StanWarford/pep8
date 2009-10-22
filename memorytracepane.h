@@ -47,8 +47,14 @@ public:
     void updateMemoryTrace();
     // Post: The memory trace is updated
 
+    void cacheChanges();
+    // Post: Modfied bytes are cached for updating the sim view
+
     void cacheStackChanges();
     // Post: Stack changes are cached for the next time the simulation view is updated
+
+    void cacheHeapChanges();
+    // Post: Heap changes are cached for the next time the simulation view is updated
 
     void highlightOnFocus();
     // Post: Highlights the label based on the label window color saved in the UI file
@@ -70,29 +76,42 @@ private:
     // Stack of the global variables
     QStack<MemoryCellGraphicsItem *> runtimeStack;    
     // Stack of the stack items
+    QStack<MemoryCellGraphicsItem *> heap;
+    // Stack of heap items
     QStack<bool> isRuntimeStackItemAddedStack;
-    // Used to keep track if the item has been added to the scene yet
+    // Used to keep track if the item has been added to the scene yet for the runtime stack
+    QStack<bool> isHeapItemAddedStack;
+    // Used to keep track if the item has been added to the scene yet for the heap
     QStringList lookAheadSymbolList;
     // This is used to give us what we're pushing onto the stack before we get there.
+    // It must be a look-ahead list because of branching and the inability to look behind
 
     // Stack frame
     QMap<int, QGraphicsRectItem *> stackHeightToStackFrameMap;
     QStack<int> numCellsInStackFrame;
     // This is a stack of ints that each represent how many cells each stack frame encompass
-    QStack<bool> isStackFrameAddedMap;
+    QStack<bool> isStackFrameAddedStack;
     // Stack used to determine if a stack frame has been added to the scene yet
     QStack<QGraphicsRectItem *> graphicItemsInStackFrame;
     // Stack of *items used to access the stack frames
+    QStack<bool> isHeapFrameAddedStack;
+    // Stack used to determine if a heap frame has been added to the scene yet
+    QStack<QGraphicsRectItem *> heapFrameItemStack;
+    // Stack of *items for the heap graphic frames
 
     QPointF globalLocation;
     // This is the location where the next global item will be added
     QPointF stackLocation;
     // This is the location where the next stack item will be added
+    QPointF heapLocation;
+    // This is the location where the next heap item will be added
 
     QMap<int, MemoryCellGraphicsItem *> addressToGlobalItemMap;
     // This map is used to identify if an address is in the globals
     QMap<int, MemoryCellGraphicsItem *> addressToStackItemMap;
     // This map is used to identify if an address is part of the stack
+    QMap<int, MemoryCellGraphicsItem *> addressToHeapItemMap;
+    // Used to identify if an address is part of the heap
     QSet<int> modifiedBytes;
     // This set is used to cache modified bytes since the last update
     QList<int> bytesWrittenLastStep;

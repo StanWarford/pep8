@@ -124,6 +124,7 @@ public:
     static QStringList blockSymbols;
     static QStringList equateSymbols;
     static QStringList newSymbols;
+    // We may not need this list. Leaving it here for the time being...
 
     // Map from instruction memory address to assembler listing line
     // These pointers are set to the addresses of the program or OS maps

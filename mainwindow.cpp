@@ -1610,7 +1610,9 @@ void MainWindow::vonNeumannStepped()
 {
     memoryDumpPane->cacheModifiedBytes();
     if (!memoryTracePane->isHidden()) {
+        memoryTracePane->cacheChanges();
         memoryTracePane->cacheStackChanges();
+        memoryTracePane->cacheHeapChanges();
     }
 }
 

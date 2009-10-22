@@ -51,8 +51,10 @@ void MemoryTracePane::setMemoryTrace()
 {
     globalVars.clear();
     runtimeStack.clear();
+    heap.clear();
     isRuntimeStackItemAddedStack.clear();
-    isStackFrameAddedMap.clear();
+    isHeapItemAddedStack.clear();
+    isStackFrameAddedStack.clear();
     stackHeightToStackFrameMap.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
@@ -69,6 +71,7 @@ void MemoryTracePane::setMemoryTrace()
 
     stackLocation = QPointF(100, 0);
     globalLocation = QPointF(-100, 0);
+    heapLocation = QPointF(300, 0);
     QString blockSymbol;
     int multiplier;
 
@@ -145,18 +148,37 @@ void MemoryTracePane::updateMemoryTrace()
         runtimeStack.at(i)->boxBgColor = Qt::white;
         runtimeStack.at(i)->boxTextColor = Qt::black;
     }
+    for (int i = 0; i < heap.size(); i++) {
+        heap.at(i)->boxBgColor = Qt::white;
+        heap.at(i)->boxTextColor = Qt::black;
+    }
+
     for (int i = 0; i < runtimeStack.size(); i++) {
         if (!isRuntimeStackItemAddedStack.at(i)) {
             scene->addItem(runtimeStack.at(i));
             isRuntimeStackItemAddedStack[i] = true;
         }
     }
-    for (int i = 0; i < isStackFrameAddedMap.size(); i++) {
-        if (!isStackFrameAddedMap.at(i)) {
+    for (int i = 0; i < isStackFrameAddedStack.size(); i++) {
+        if (!isStackFrameAddedStack.at(i)) {
             scene->addItem(graphicItemsInStackFrame.at(i));
-            isStackFrameAddedMap[i] = true;
+            isStackFrameAddedStack[i] = true;
         }
     }
+
+    for (int i = 0; i < isHeapItemAddedStack.size(); i++) {
+        if (!isHeapItemAddedStack.at(i)) {
+            scene->addItem(heap.at(i));
+            isHeapItemAddedStack[i] = true;
+        }
+    }
+    for (int i = 0; i < isHeapFrameAddedStack.size(); i++) {
+        if (!isHeapFrameAddedStack.at(i)) {
+            scene->addItem(heapFrameItemStack.at(i));
+            isHeapFrameAddedStack[i] = true;
+        }
+    }
+
     QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
@@ -167,6 +189,10 @@ void MemoryTracePane::updateMemoryTrace()
             addressToStackItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
             addressToStackItemMap.value(bytesWrittenLastStep.at(i))->boxTextColor = Qt::white;
         }
+        if (addressToHeapItemMap.contains(bytesWrittenLastStep.at(i))) {
+            addressToHeapItemMap.value(bytesWrittenLastStep.at(i))->boxBgColor = Qt::red;
+            addressToHeapItemMap.value(bytesWrittenLastStep.at(i))->boxTextColor = Qt::white;
+        }
     }
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
@@ -174,6 +200,9 @@ void MemoryTracePane::updateMemoryTrace()
         }
         if (addressToStackItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToStackItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
+        }
+        if (addressToHeapItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
+            addressToHeapItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
         }
     }
 
@@ -188,7 +217,7 @@ void MemoryTracePane::updateMemoryTrace()
     m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
 
     scene->invalidate(); // redraw the scene!
-    // this is fast, so we do this regardless of things changing in the boxes
+    // this is fast, so we do this for the whole scene instead of just certain boxes
 
     // Scroll to the top item if we have a scrollbar:
     if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
@@ -200,7 +229,7 @@ void MemoryTracePane::updateMemoryTrace()
     modifiedBytes.clear();
 }
 
-void MemoryTracePane::cacheStackChanges()
+void MemoryTracePane::cacheChanges()
 {
     modifiedBytes.unite(Sim::modifiedBytes);
     if (Sim::tracingTraps) {
@@ -218,12 +247,16 @@ void MemoryTracePane::cacheStackChanges()
         bytesWrittenLastStep.clear();
         bytesWrittenLastStep = Sim::modifiedBytes.toList();
     }
+}
 
+void MemoryTracePane::cacheStackChanges()
+{
     if (Sim::trapped) {
         return;
     }
 
-    // Look ahead for the symbol trace list (needs to be done here because of call, so we just do it for them all)
+    // Look ahead for the symbol trace list (needs to be done here because of the possibility of call (can't look behind on a call)
+    // so we just do it for them all)
     switch (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]) {
     case Enu::SUBSP:
     case Enu::RET0:
@@ -355,6 +388,17 @@ void MemoryTracePane::cacheStackChanges()
     }
 }
 
+void MemoryTracePane::cacheHeapChanges()
+{
+    if (Sim::trapped) {
+        return;
+    }
+
+    if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL /*&& something*/) {
+
+    }
+}
+
 void MemoryTracePane::highlightOnFocus()
 {
     if (m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus()) {
@@ -394,7 +438,7 @@ void MemoryTracePane::addStackFrame(int numCells)
                       static_cast<qreal>(MemoryCellGraphicsItem::boxHeight * numCells), 0);
     item->setPen(pen);
     graphicItemsInStackFrame.push(item);
-    isStackFrameAddedMap.push(false);
+    isStackFrameAddedStack.push(false);
     graphicItemsInStackFrame.top()->setZValue(1.0); // This moves the stack frame to the front
     numCellsInStackFrame.push(numCells);
 }
@@ -409,7 +453,7 @@ void MemoryTracePane::popBytes(int bytesToPop)
             delete stackHeightToStackFrameMap.value(runtimeStack.size() - 1);
             graphicItemsInStackFrame.pop();
             stackHeightToStackFrameMap.remove(runtimeStack.size() - 1);
-            isStackFrameAddedMap.pop();
+            isStackFrameAddedStack.pop();
             numCellsInStackFrame.pop();
         }
         
