@@ -560,8 +560,8 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
             Pep::newSymbols.append(symbol);
             Pep::symbolTraceList.insert(memAddress, list);
             pos += Asm::rxSymbolTag.matchedLength();
-            return true;
         }
+        return true;
     }
     else {
         return true;
