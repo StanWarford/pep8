@@ -319,7 +319,7 @@ void MemoryTracePane::cacheStackChanges()
                     addressToStackItemMap.insert(Sim::stackPointer - offset + Sim::operandSpecifier, item);
                     numCellsToAdd++;
                 }
-                else {
+                else { // This is an array!
                     bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                     for (int j = multiplier - 1; j >= 0; j--) {
                         offset += bytesPerCell;

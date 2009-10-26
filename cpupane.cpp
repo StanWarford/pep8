@@ -270,6 +270,12 @@ void CpuPane::resumeWithBatch()
         if (m_ui->pepTraceTrapsCheckBox->isChecked()) {
             trapLookahead();
         }
+        else if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
+            Sim::trapped = true;
+        }
+        else if (Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::RETTR) {
+            Sim::trapped = false;
+        }
         if (Sim::vonNeumannStep(errorString)) {
             emit vonNeumannStepped();
             if (Sim::outputBuffer.length() == 1) {
