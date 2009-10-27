@@ -23,7 +23,7 @@ Pep/8 Reference
  Its 39 instructions are based on an expanding opcode and are either unary (one byte) or nonunary (three bytes).
  The eight addressing modes are designed for straighforward translation between C/C++ and assembly language.
 <p>
- Topics:
+ <a name = "Topics">Topics:</a>
  <a href="#Instruction">Instruction set</a>,
  <a href="#SettingC">Setting the C bit on subtraction</a>,
  <a href="#SettingN">Setting the N bit on <code>CPr</code></a>,
@@ -156,6 +156,8 @@ Pep/8 Reference
   <td><code>1111 raaa</code></td> <td><code>STBYTEr</code></td> <td>Store byte r to memory</td> <td>d, n, s, sf, x, sx, sxf</td> <td></td>
  </tr>
 </table>
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="SettingC">Setting the C bit on subtraction</a></h3>
 
@@ -175,6 +177,8 @@ Previous versions of Pep/8 set the C bit on subtraction according to the first p
 However, starting with version 8.1.0, the C bit on subtraction is set according to the second philosophy.
 This is consistent with the section "The Carry Bit" in Chapter 3, and the adder/subtracter circuit
 in Figure 10.53 in the text.
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="SettingN">Setting the N bit on <code>CPr</code></a></h3>
 
@@ -192,6 +196,8 @@ from its normal value and does not duplicate the sign bit.
 With this adjustment, the compare operation extends the range of valid comparisons.
 Even though there is an overflow, the N bit is set as if there were no overflow so that a subsequent conditional branch
 will operate as expected.
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="Dot">Dot commands</a></h3>
 
@@ -224,6 +230,8 @@ will operate as expected.
   <td><code>.WORD</code> constant</td> <td>A word value (two bytes)</td>
  </tr>
 </table>
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="Addressing">Addressing modes</a></h3>
 
@@ -256,6 +264,8 @@ will operate as expected.
   <td>Stack-indexed deferred</td> <td><code>111</code></td> <td>sxf</td> <td>Mem [Mem [SP + OprndSpec ] + X ]</td>
  </tr>
 </table>
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <p>
 <table border cellspacing=0 cellpadding=5>
@@ -269,6 +279,8 @@ will operate as expected.
   <td>Indexed</td> <td><code>1</code></td> <td>x</td> <td>Mem [OprndSpec + X ]</td>
  </tr>
 </table>
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="Register">Register field</a></h3>
 
@@ -284,6 +296,8 @@ will operate as expected.
   <td><code>1</code></td> <td>Index register, X</td>
  </tr>
 </table>
+<p>
+<a href="#Topics">Scroll to topics</a>.
 
 <h3><a name="Trace">Trace tags</a></h3>
 
@@ -310,6 +324,8 @@ will operate as expected.
   <td><code>#2d4a</code></td> <td>Two-byte decimal, four-cell array (example)</td>
  </tr>
 </table>
-
+<p>
+<a href="#Topics">Scroll to topics</a>.
+<p>
 </body>
 </html>
