@@ -493,7 +493,7 @@ bool UnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &errorStr
     while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
         symbol = Asm::rxSymbolTag.cap(1);
         if (!Pep::equateSymbols.contains(symbol)) {
-            errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+            errorString = ";WARNING: " + symbol + " not specified in .EQUATE.";
             sourceLine = sourceCodeLine;
             return false;
         }
@@ -527,7 +527,7 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
             symbol = Asm::rxSymbolTag.cap(1);
             if (!Pep::equateSymbols.contains(symbol)) {
-                errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+                errorString = ";WARNING: " + symbol + " not specified in .EQUATE.";
                 sourceLine = sourceCodeLine;
                 return false;
             }
@@ -552,7 +552,7 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
             symbol = Asm::rxSymbolTag.cap(1);
             if (!Pep::equateSymbols.contains(symbol)) {
-                errorString = ";WARNING: " + symbol + "not specified in .EQUATE.";
+                errorString = ";WARNING: " + symbol + " not specified in .EQUATE.";
                 sourceLine = sourceCodeLine;
                 return false;
             }

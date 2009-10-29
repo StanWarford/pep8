@@ -395,7 +395,8 @@ void MemoryTracePane::cacheHeapChanges()
         return;
     }
 
-    if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL /*&& something*/) {
+    if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
+        qDebug() << "CALL new";
         int numCellsToAdd = 0;
         int frameSizeToAdd = 0;
         int multiplier;
@@ -413,7 +414,8 @@ void MemoryTracePane::cacheHeapChanges()
             }
             multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
             if (heapSymbolDotEquate == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
-
+                // Very good! Have a cookie. Then, work! *cracks whip*
+                qDebug() << "dot equate matches trace tag. woo.";
             }
         }
 
