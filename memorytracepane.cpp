@@ -395,6 +395,17 @@ void MemoryTracePane::cacheHeapChanges()
     }
 
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL /*&& something*/) {
+        int numCellsToAdd = 0;
+        int frameSizeToAdd = 0;
+        int multiplier;
+        int offset = 0;
+        QString heapSymbol;
+//        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+//            multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
+//            if (Pep::symbolTable.value(heapSymbol) == ) {
+//
+//            }
+//        }
 
     }
 }
