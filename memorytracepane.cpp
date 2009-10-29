@@ -24,6 +24,7 @@
 #include "ui_memorytracepane.h"
 #include "pep.h"
 #include "sim.h"
+#include "asm.h"
 
  #include <QDebug>
 
@@ -400,12 +401,21 @@ void MemoryTracePane::cacheHeapChanges()
         int multiplier;
         int offset = 0;
         QString heapSymbol;
-//        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
-//            multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
-//            if (Pep::symbolTable.value(heapSymbol) == ) {
-//
-//            }
-//        }
+        int heapSymbolDotEquate;
+        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+            heapSymbol = lookAheadSymbolList.at(i);
+            qDebug() << "heap symbol: " << heapSymbol;
+            if (Pep::equateSymbols.contains(heapSymbol)) {
+                heapSymbolDotEquate = Pep::symbolTable.value(heapSymbol);
+            }
+            else {
+                heapSymbolDotEquate = -1;
+            }
+            multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
+            if (heapSymbolDotEquate == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
+
+            }
+        }
 
     }
 }
