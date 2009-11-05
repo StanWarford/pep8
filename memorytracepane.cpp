@@ -171,14 +171,15 @@ void MemoryTracePane::updateMemoryTrace()
         if (!isHeapItemAddedStack.at(i)) {
             scene->addItem(heap.at(i));
             isHeapItemAddedStack[i] = true;
+            qDebug() << "Item added to scene: " << heap.at(i);
         }
     }
-    for (int i = 0; i < isHeapFrameAddedStack.size(); i++) {
-        if (!isHeapFrameAddedStack.at(i)) {
-            scene->addItem(heapFrameItemStack.at(i));
-            isHeapFrameAddedStack[i] = true;
-        }
-    }
+//    for (int i = 0; i < isHeapFrameAddedStack.size(); i++) {
+//        if (!isHeapFrameAddedStack.at(i)) {
+//            scene->addItem(heapFrameItemStack.at(i));
+//            isHeapFrameAddedStack[i] = true;
+//        }
+//    }
 
     QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
@@ -398,12 +399,12 @@ void MemoryTracePane::cacheHeapChanges()
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
         qDebug() << "CALL new";
         int numCellsToAdd = 0;
-        int frameSizeToAdd = 0;
+//        int frameSizeToAdd = 0;
         int multiplier;
         int offset = 0;
         QString heapSymbol;
         int heapSymbolDotEquate;
-        int heapSymbolSum;
+        int heapSymbolSum = 0;
         int heapPointer;
         if (Pep::symbolTable.contains("hpPtr")) {
             heapPointer = Pep::symbolTable.value("hpPtr");
@@ -412,25 +413,28 @@ void MemoryTracePane::cacheHeapChanges()
             // We have no idea where the heap pointer is. Error!
             return;
         }
-        for (int i =0; i < lookAheadSymbolList.size(); i++) {
-            heapSymbol = lookAheadSymbolList.at(i);
-            qDebug() << "heap symbol: " << heapSymbol;
-            heapSymbolSum += Pep::symbolTable.value(heapSymbol);
-        }
         for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+            heapSymbol = lookAheadSymbolList.at(i);
             if (Pep::equateSymbols.contains(heapSymbol)) {
                 heapSymbolDotEquate = Pep::symbolTable.value(heapSymbol);
+                multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
             }
             else {
                 heapSymbolDotEquate = -1;
                 m_ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
+                qDebug() << "Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.";
+                return;
             }
-            multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
             if (multiplier == 1) {
-                if (heapSymbolDotEquate == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
+                qDebug() << "heapSymbol: " << heapSymbol;
+                qDebug() << "Multiplier == 1";
+                qDebug() << "heapSymbolDotEquate: " << heapSymbolDotEquate;
+                qDebug() << "Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)): " << Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol));
+                if (Sim::accumulator == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
                     offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
+                    qDebug() << "Offset: " << offset;
                     // Very good! Have a cookie. Then, work! *cracks whip*
-                    qDebug() << "dot equate matches trace tag. woo.";
+                    qDebug() << "accumulator matches trace tag. woo.";
                     MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
                                                                               heapSymbol,
                                                                               Pep::symbolFormat.value(heapSymbol),
@@ -442,6 +446,10 @@ void MemoryTracePane::cacheHeapChanges()
                     heap.push(item);
                     addressToHeapItemMap.insert(heapPointer - offset, item);
                     numCellsToAdd++;
+                    qDebug() << "Item being added: " << item;
+                }
+                else {
+                    qDebug() << "accumulator does not match trace tag. durr!";
                 }
             }
             else { // Array!
@@ -459,6 +467,7 @@ void MemoryTracePane::cacheHeapChanges()
                     heap.push(item);
                     addressToHeapItemMap.insert(heapPointer - offset, item);
                     numCellsToAdd++;
+                    qDebug() << "Item being added: " << item;
                 }
             }
         }
