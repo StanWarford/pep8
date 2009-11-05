@@ -3,9 +3,9 @@
 ;Figure 6.41
 ;
          BR      main        
-a:       .BLOCK  2           ;global variable #2d
-b:       .BLOCK  2           ;global variable #2d
-c:       .BLOCK  2           ;global variable #2d
+a:       .BLOCK  2           ;global variable #2h
+b:       .BLOCK  2           ;global variable #2h
+c:       .BLOCK  2           ;global variable #2h
 ;
 ;******* main ()
 main:    LDA     2,i         ;a = new int

@@ -551,7 +551,7 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         QStringList list;
         while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
             symbol = Asm::rxSymbolTag.cap(1);
-            if (!Pep::equateSymbols.contains(symbol)) {
+            if (!Pep::equateSymbols.contains(symbol) && !Pep::blockSymbols.contains(symbol)) {
                 errorString = ";WARNING: " + symbol + " not specified in .EQUATE.";
                 sourceLine = sourceCodeLine;
                 return false;
