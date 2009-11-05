@@ -403,19 +403,63 @@ void MemoryTracePane::cacheHeapChanges()
         int offset = 0;
         QString heapSymbol;
         int heapSymbolDotEquate;
-        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+        int heapSymbolSum;
+        int heapPointer;
+        if (Pep::symbolTable.contains("hpPtr")) {
+            heapPointer = Pep::symbolTable.value("hpPtr");
+        }
+        else {
+            // We have no idea where the heap pointer is. Error!
+            return;
+        }
+        for (int i =0; i < lookAheadSymbolList.size(); i++) {
             heapSymbol = lookAheadSymbolList.at(i);
             qDebug() << "heap symbol: " << heapSymbol;
+            heapSymbolSum += Pep::symbolTable.value(heapSymbol);
+        }
+        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
             if (Pep::equateSymbols.contains(heapSymbol)) {
                 heapSymbolDotEquate = Pep::symbolTable.value(heapSymbol);
             }
             else {
                 heapSymbolDotEquate = -1;
+                m_ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
             }
             multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
-            if (heapSymbolDotEquate == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
-                // Very good! Have a cookie. Then, work! *cracks whip*
-                qDebug() << "dot equate matches trace tag. woo.";
+            if (multiplier == 1) {
+                if (heapSymbolDotEquate == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
+                    offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
+                    // Very good! Have a cookie. Then, work! *cracks whip*
+                    qDebug() << "dot equate matches trace tag. woo.";
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
+                                                                              heapSymbol,
+                                                                              Pep::symbolFormat.value(heapSymbol),
+                                                                              static_cast<int>(heapLocation.x()),
+                                                                              static_cast<int>(heapLocation.y()));
+                    item->updateValue();
+                    heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    isHeapFrameAddedStack.push(false);
+                    heap.push(item);
+                    addressToHeapItemMap.insert(heapPointer - offset, item);
+                    numCellsToAdd++;
+                }
+            }
+            else { // Array!
+                int bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
+                for (int j = multiplier - 1; j >= 0; j--) {
+                    offset += bytesPerCell;
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
+                                                                              heapSymbol + QString("[%1]").arg(j),
+                                                                              Pep::symbolFormat.value(heapSymbol),
+                                                                              static_cast<int>(stackLocation.x()),
+                                                                              static_cast<int>(stackLocation.y()));
+                    item->updateValue();
+                    heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    isHeapFrameAddedStack.push(false);
+                    heap.push(item);
+                    addressToHeapItemMap.insert(heapPointer - offset, item);
+                    numCellsToAdd++;
+                }
             }
         }
 
