@@ -26,7 +26,8 @@
 #include "sim.h"
 #include "asm.h"
 
- #include <QDebug>
+#include <QMessageBox>
+#include <QDebug>
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
         QWidget(parent),
@@ -141,25 +142,30 @@ void MemoryTracePane::setMemoryTrace()
 
 void MemoryTracePane::updateMemoryTrace()
 {
+    // Color all of the cells normally (globals)
     for (int i = 0; i < globalVars.size(); i++) {
         globalVars.at(i)->boxBgColor = Qt::white;
         globalVars.at(i)->boxTextColor = Qt::black;
     }
+    // Color all of the cells normally (stack)
     for (int i = 0; i < runtimeStack.size(); i++) {
         runtimeStack.at(i)->boxBgColor = Qt::white;
         runtimeStack.at(i)->boxTextColor = Qt::black;
     }
+    // Color all of the cells normally (heap)
     for (int i = 0; i < heap.size(); i++) {
         heap.at(i)->boxBgColor = Qt::white;
         heap.at(i)->boxTextColor = Qt::black;
     }
 
+    // Add cached stack items to the scene
     for (int i = 0; i < runtimeStack.size(); i++) {
         if (!isRuntimeStackItemAddedStack.at(i)) {
             scene->addItem(runtimeStack.at(i));
             isRuntimeStackItemAddedStack[i] = true;
         }
     }
+    // Add cached stack FRAME items to the scene
     for (int i = 0; i < isStackFrameAddedStack.size(); i++) {
         if (!isStackFrameAddedStack.at(i)) {
             scene->addItem(graphicItemsInStackFrame.at(i));
@@ -167,6 +173,8 @@ void MemoryTracePane::updateMemoryTrace()
         }
     }
 
+    // Add cached heap items to the scene
+    qDebug() << "Heap Size: " << heap.size();
     for (int i = 0; i < isHeapItemAddedStack.size(); i++) {
         if (!isHeapItemAddedStack.at(i)) {
             scene->addItem(heap.at(i));
@@ -181,6 +189,7 @@ void MemoryTracePane::updateMemoryTrace()
 //        }
 //    }
 
+    // Color global/stack/heap items red if they were modified last step
     QList<int> modifiedBytesToBeUpdated = modifiedBytes.toList();
     for (int i = 0; i < bytesWrittenLastStep.size(); i++) {
         if (addressToGlobalItemMap.contains(bytesWrittenLastStep.at(i))) {
@@ -196,6 +205,7 @@ void MemoryTracePane::updateMemoryTrace()
             addressToHeapItemMap.value(bytesWrittenLastStep.at(i))->boxTextColor = Qt::white;
         }
     }
+    // Update modified cells
     for (int i = 0; i < modifiedBytesToBeUpdated.size(); i++) {
         if (addressToGlobalItemMap.contains(modifiedBytesToBeUpdated.at(i))) {
             addressToGlobalItemMap.value(modifiedBytesToBeUpdated.at(i))->updateValue();
@@ -209,14 +219,15 @@ void MemoryTracePane::updateMemoryTrace()
     }
 
     // Set the scene rect (to remove scroll bars):
-    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
-    int h = globalVars.size() > runtimeStack.size() ?
-            globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
-            runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
-    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
-                      MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
-    int w = 200 + widthOfCell;
-    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
+    // I thought we got rid of this? commenting it out...
+//    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
+//    int h = globalVars.size() > runtimeStack.size() ?
+//            globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
+//            runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
+//    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
+//                      MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
+//    int w = 200 + widthOfCell;
+//    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
 
     scene->invalidate(); // redraw the scene!
     // this is fast, so we do this for the whole scene instead of just certain boxes
@@ -239,13 +250,17 @@ void MemoryTracePane::cacheChanges()
         bytesWrittenLastStep = Sim::modifiedBytes.toList();
     }
     else if (Sim::trapped) {
+        // We delay for a single vonNeumann step so that we preserve the modified bytes until we leave the trap - this allows for
+        // recoloring of cells modified by a trap instruction.
         delayLastStepClear = true;
         bytesWrittenLastStep.append(Sim::modifiedBytes.toList());
     }
     else if (delayLastStepClear) {
+        // Phew! We can now update (in updateMemoryTrace). If we don't, no harm done - they didn't want to see what happened in the trap
         delayLastStepClear = false;
     }
     else {
+        // Clear the bytes written the step before last, and get the new list from the previous step. This is used in our update for coloring.
         bytesWrittenLastStep.clear();
         bytesWrittenLastStep = Sim::modifiedBytes.toList();
     }
@@ -345,7 +360,7 @@ void MemoryTracePane::cacheStackChanges()
         break;
     case Enu::RET0:
         popBytes(2);
-        frameSizeToAdd = stackFrameFSM.makeTransition(0);
+        frameSizeToAdd = stackFrameFSM.makeTransition(0); // makeTransition(0) -> 0 bytes to add to the stack frame FSM.
         break;
     case Enu::RET1:
         popBytes(3);
@@ -386,6 +401,8 @@ void MemoryTracePane::cacheStackChanges()
 
     if (frameSizeToAdd != 0) {
         addStackFrame(frameSizeToAdd);
+        // This map is used to correlate the top of the stack frame with the frame itself, useful for determining when the frame should dissapear
+        // IE: The top byte of the frame gets removed, so does the frame
         stackHeightToStackFrameMap.insert(runtimeStack.size() - 1, graphicItemsInStackFrame.top());
     }
 }
@@ -434,14 +451,15 @@ void MemoryTracePane::cacheHeapChanges()
                     offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
                     qDebug() << "Offset: " << offset;
                     // Very good! Have a cookie. Then, work! *cracks whip*
-                    qDebug() << "accumulator matches trace tag. woo.";
                     MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
                                                                               heapSymbol,
                                                                               Pep::symbolFormat.value(heapSymbol),
                                                                               static_cast<int>(heapLocation.x()),
                                                                               static_cast<int>(heapLocation.y()));
                     item->updateValue();
+                    qDebug() << "heap item: " << item;
                     heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    isHeapItemAddedStack.push(false);
                     isHeapFrameAddedStack.push(false);
                     heap.push(item);
                     addressToHeapItemMap.insert(heapPointer - offset, item);
@@ -463,6 +481,7 @@ void MemoryTracePane::cacheHeapChanges()
                                                                               static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                    isHeapItemAddedStack.push(false);
                     isHeapFrameAddedStack.push(false);
                     heap.push(item);
                     addressToHeapItemMap.insert(heapPointer - offset, item);
@@ -492,6 +511,7 @@ bool MemoryTracePane::hasFocus()
 
 void MemoryTracePane::setFont()
 {
+    // We might just do away with this in this pane.
     bool ok = false;
     QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepStackTraceGraphicsView->font()), this,
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
