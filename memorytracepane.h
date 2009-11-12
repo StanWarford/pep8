@@ -121,7 +121,10 @@ private:
 
     StackFrameFSM stackFrameFSM;
 
+    // Called by the cacheStack/HeapChanges functions to add frames to the respective places.
+    // They're in their own functions because a fair bit happens there.
     void addStackFrame(int numCells);
+    void addHeapFrame(int numCells);
 
     void popBytes(int bytesToPop);
     // This pops bytesToPop bytes off of the runtimeStack
