@@ -57,13 +57,16 @@ void MemoryTracePane::setMemoryTrace()
     isRuntimeStackItemAddedStack.clear();
     isHeapItemAddedStack.clear();
     isStackFrameAddedStack.clear();
+    isHeapFrameAddedStack.clear();
     stackHeightToStackFrameMap.clear();
     modifiedBytes.clear();
     bytesWrittenLastStep.clear();
     addressToGlobalItemMap.clear();
     addressToStackItemMap.clear();
+    addressToHeapItemMap.clear();
     numCellsInStackFrame.clear();
     graphicItemsInStackFrame.clear();
+    heapFrameItemStack.clear();
     scene->clear();
 
     if (Pep::traceTagWarning) {
@@ -306,10 +309,8 @@ void MemoryTracePane::cacheStackChanges()
     switch (Pep::decodeMnemonic[Sim::instructionSpecifier]) {
     case Enu::CALL:
         {
-            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer, "retAddr",
-                                                                      Enu::F_2H,
-                                                                      static_cast<int>(stackLocation.x()),
-                                                                      static_cast<int>(stackLocation.y()));
+            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer, "retAddr", Enu::F_2H,
+                                                                      static_cast<int>(stackLocation.x()), static_cast<int>(stackLocation.y()));
             item->updateValue();
             stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
@@ -326,11 +327,9 @@ void MemoryTracePane::cacheStackChanges()
                 multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
                 if (multiplier == 1) {
                     offset += Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
-                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
-                                                                              stackSymbol,
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier, stackSymbol,
                                                                               Pep::symbolFormat.value(stackSymbol),
-                                                                              static_cast<int>(stackLocation.x()),
-                                                                              static_cast<int>(stackLocation.y()));
+                                                                              static_cast<int>(stackLocation.x()), static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                     isRuntimeStackItemAddedStack.push(false);
@@ -342,11 +341,9 @@ void MemoryTracePane::cacheStackChanges()
                     bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                     for (int j = multiplier - 1; j >= 0; j--) {
                         offset += bytesPerCell;
-                        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
-                                                                                  stackSymbol + QString("[%1]").arg(j),
+                        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier, stackSymbol + QString("[%1]").arg(j),
                                                                                   Pep::symbolFormat.value(stackSymbol),
-                                                                                  static_cast<int>(stackLocation.x()),
-                                                                                  static_cast<int>(stackLocation.y()));
+                                                                                  static_cast<int>(stackLocation.x()), static_cast<int>(stackLocation.y()));
                         item->updateValue();
                         stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                         isRuntimeStackItemAddedStack.push(false);
@@ -430,6 +427,21 @@ void MemoryTracePane::cacheHeapChanges()
             m_ui->warningLabel->setText("Warning: hpPtr not found, unable to trace <code>CALL \'new\'</code>.");
             return;
         }
+        int listNumBytes = 0;
+        // Check and make sure the accumulator matches the number of bytes we're newing:
+        // We'll start by adding up the number of bytes...
+        for (int i = 0; i < lookAheadSymbolList.size(); i++) {
+            heapSymbol = lookAheadSymbolList.at(i);
+            if (Pep::equateSymbols.contains(heapSymbol) || Pep::blockSymbols.contains(heapSymbol)) {
+                // listNumBytes += number of bytes for that tag * the multiplier (IE, 2d4a is a 4 cell array of 2 byte decimals, where 2 is the multiplier
+                // and 4 is the number of cells. Note: the multiplier should always be 1 for new'd cells, but that's checked below, where we'll give a more specific error.
+                listNumBytes += Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * Pep::symbolFormatMultiplier.value(heapSymbol);
+            }
+        }
+        if (listNumBytes != Sim::accumulator) {
+            m_ui->warningLabel->setText("Warning: The accumulator doesn't match the number of bytes in the trace tags");
+            return;
+        }
         for (int i = 0; i < lookAheadSymbolList.size(); i++) {
             heapSymbol = lookAheadSymbolList.at(i);
             if (Pep::equateSymbols.contains(heapSymbol) || Pep::blockSymbols.contains(heapSymbol)) {
@@ -439,31 +451,19 @@ void MemoryTracePane::cacheHeapChanges()
                 m_ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
                 return;
             }
-            if (multiplier == 1) {
-                qDebug() << "heapSymbol: " << heapSymbol << ", heapPointer: " << heapPointer;
-                if (Sim::accumulator == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
-                    // Very good! Have a cookie. Then, work! *cracks whip*
-                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer),
-                                                                              heapSymbol,
-                                                                              Pep::symbolFormat.value(heapSymbol),
-                                                                              static_cast<int>(heapLocation.x()),
-                                                                              static_cast<int>(heapLocation.y()));
-                    item->updateValue();
-                    qDebug() << "Item being added: " << item;
-                    heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
-                    isHeapItemAddedStack.push(false);
-                    heap.push(item);
-                    addressToHeapItemMap.insert(Sim::readWord(heapPointer), item);
-                    numCellsToAdd++;
-                }
-                else {
-                    qDebug() << "Accumulator does not match trace tag. Durr!";
-                    m_ui->warningLabel->setText("I'm really happy for you, and imma let you finish, but your accumulator doesn't match your tags.");
-                }
-            }
-            else { // Array! We can't actually trace these on the heap with our current addressing modes,
-                   // so this stuff is getting removed - easy to recreate by mimicking the above behavior
-                   // and the stack arrays, and it's pointless to maintain commented code if the above changes.
+            if (multiplier == 1) { // We can't support arrays on the stack with our current addressing modes.
+                // Very good! Have a cookie. Then, work! *cracks whip* (All our prereqs have been met to make an item)
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer),
+                                                                          heapSymbol,
+                                                                          Pep::symbolFormat.value(heapSymbol),
+                                                                          static_cast<int>(heapLocation.x()),
+                                                                          static_cast<int>(heapLocation.y()));
+                item->updateValue();
+                heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
+                isHeapItemAddedStack.push(false);
+                heap.push(item);
+                addressToHeapItemMap.insert(Sim::readWord(heapPointer), item);
+                numCellsToAdd++;
             }
         }
         if (numCellsToAdd != 0) {
