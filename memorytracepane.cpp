@@ -416,6 +416,7 @@ void MemoryTracePane::cacheHeapChanges()
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
         qDebug() << "CALL new";
         int numCellsToAdd = 0;
+        int offset = 0;
         int multiplier;
         QString heapSymbol;
         int heapPointer;
@@ -453,7 +454,7 @@ void MemoryTracePane::cacheHeapChanges()
             }
             if (multiplier == 1) { // We can't support arrays on the stack with our current addressing modes.
                 // Very good! Have a cookie. Then, work! *cracks whip* (All our prereqs have been met to make an item)
-                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer),
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer) + offset,
                                                                           heapSymbol,
                                                                           Pep::symbolFormat.value(heapSymbol),
                                                                           static_cast<int>(heapLocation.x()),
@@ -462,7 +463,8 @@ void MemoryTracePane::cacheHeapChanges()
                 heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
                 isHeapItemAddedStack.push(false);
                 heap.push(item);
-                addressToHeapItemMap.insert(Sim::readWord(heapPointer), item);
+                addressToHeapItemMap.insert(Sim::readWord(heapPointer) + offset, item);
+                offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
                 numCellsToAdd++;
             }
         }
@@ -529,6 +531,16 @@ void MemoryTracePane::addHeapFrame(int numCells)
     isHeapFrameAddedStack.push(false);
     item->setZValue(1.0); // This moves the heap frame to the front
 }
+
+//void MemoryTracePane::moveHeapFrameUp()
+//{
+//    for (int i = 0; i > isHeapItemAddedStack.size(); i++) {
+//        heap.at(i)->setY(heap.at(i)->y - MemoryCellGraphicsItem::boxHeight);
+//    }
+//    for (int i = 0; i > isHeapFrameAddedStack.size(); i++) {
+//        heapFrameItemStack.at(i)->setY(heapFrameItemStack.at(i)->y() - MemoryCellGraphicsItem::boxHeight);
+//    }
+//}
 
 void MemoryTracePane::popBytes(int bytesToPop)
 {

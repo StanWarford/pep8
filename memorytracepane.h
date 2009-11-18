@@ -126,6 +126,9 @@ private:
     void addStackFrame(int numCells);
     void addHeapFrame(int numCells);
 
+//    void moveHeapFrameUp();
+//    // Moves the heap frame up n cells to accomodate for new items being added.
+
     void popBytes(int bytesToPop);
     // This pops bytesToPop bytes off of the runtimeStack
 
