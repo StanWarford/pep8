@@ -71,9 +71,9 @@ void MemoryTracePane::setMemoryTrace()
         return;
     }
 
-    stackLocation = QPointF(100, 0);
-    globalLocation = QPointF(-100, 0);
-    heapLocation = QPointF(300, 0 - MemoryCellGraphicsItem::boxHeight);
+    stackLocation = QPointF(200, 0);
+    globalLocation = QPointF(0, 0);
+    heapLocation = QPointF(400, 0 - MemoryCellGraphicsItem::boxHeight);
     QString blockSymbol;
     int multiplier;
 
@@ -89,7 +89,7 @@ void MemoryTracePane::setMemoryTrace()
                                                                       static_cast<int>(globalLocation.x()),
                                                                       static_cast<int>(globalLocation.y()));
             item->updateValue();
-            globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+            globalLocation = QPointF(globalLocation.x(), globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
             globalVars.push(item);
             addressToGlobalItemMap.insert(address, item);
             scene->addItem(item);
@@ -104,7 +104,7 @@ void MemoryTracePane::setMemoryTrace()
                                                                           static_cast<int>(globalLocation.x()),
                                                                           static_cast<int>(globalLocation.y()));
                 item->updateValue();
-                globalLocation = QPointF(-100, globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+                globalLocation = QPointF(globalLocation.x(), globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
                 globalVars.push(item);
                 addressToGlobalItemMap.insert(address + offset, item);
                 scene->addItem(item);
@@ -125,6 +125,8 @@ void MemoryTracePane::setMemoryTrace()
                        QPen(QBrush(Qt::SolidPattern), 1, Qt::SolidLine));
     }
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
+
+    heapLocation.setY(globalLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
 //    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
 //    int h = globalVars.size() > runtimeStack.size() ?
@@ -412,40 +414,36 @@ void MemoryTracePane::cacheHeapChanges()
     if (Sim::trapped) {
         return;
     }
+    m_ui->warningLabel->clear();
 
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
         qDebug() << "CALL new";
         int numCellsToAdd = 0;
         int multiplier;
-        int offset = 0;
         QString heapSymbol;
-        int heapSymbolDotEquate;
         int heapPointer;
         if (Pep::symbolTable.contains("hpPtr")) {
             heapPointer = Pep::symbolTable.value("hpPtr");
         }
         else {
             // We have no idea where the heap pointer is. Error!
+            m_ui->warningLabel->setText("Warning: hpPtr not found, unable to trace <code>CALL \'new\'</code>.");
             return;
         }
         for (int i = 0; i < lookAheadSymbolList.size(); i++) {
             heapSymbol = lookAheadSymbolList.at(i);
-            if (Pep::equateSymbols.contains(heapSymbol)) {
-                heapSymbolDotEquate = Pep::symbolTable.value(heapSymbol);
+            if (Pep::equateSymbols.contains(heapSymbol) || Pep::blockSymbols.contains(heapSymbol)) {
                 multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
             }
             else {
-                heapSymbolDotEquate = -1;
                 m_ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
                 return;
             }
             if (multiplier == 1) {
-                qDebug() << "heapSymbol: " << heapSymbol << ", Multiplier == 1, heapSymbolDotEquate: " << heapSymbolDotEquate;
-                qDebug() << "Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)): " << Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol));
+                qDebug() << "heapSymbol: " << heapSymbol << ", heapPointer: " << heapPointer;
                 if (Sim::accumulator == Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * multiplier) {
-                    offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
                     // Very good! Have a cookie. Then, work! *cracks whip*
-                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer),
                                                                               heapSymbol,
                                                                               Pep::symbolFormat.value(heapSymbol),
                                                                               static_cast<int>(heapLocation.x()),
@@ -455,30 +453,17 @@ void MemoryTracePane::cacheHeapChanges()
                     heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
                     isHeapItemAddedStack.push(false);
                     heap.push(item);
-                    addressToHeapItemMap.insert(heapPointer - offset, item);
+                    addressToHeapItemMap.insert(Sim::readWord(heapPointer), item);
                     numCellsToAdd++;
                 }
                 else {
                     qDebug() << "Accumulator does not match trace tag. Durr!";
+                    m_ui->warningLabel->setText("I'm really happy for you, and imma let you finish, but your accumulator doesn't match your tags.");
                 }
             }
-            else { // Array!
-                int bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
-                for (int j = multiplier - 1; j >= 0; j--) {
-                    offset += bytesPerCell;
-                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(heapPointer - offset,
-                                                                              heapSymbol + QString("[%1]").arg(j),
-                                                                              Pep::symbolFormat.value(heapSymbol),
-                                                                              static_cast<int>(stackLocation.x()),
-                                                                              static_cast<int>(stackLocation.y()));
-                    item->updateValue();
-                    heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
-                    isHeapItemAddedStack.push(false);
-                    heap.push(item);
-                    addressToHeapItemMap.insert(heapPointer - offset, item);
-                    numCellsToAdd++;
-                    qDebug() << "Item being added: " << item;
-                }
+            else { // Array! We can't actually trace these on the heap with our current addressing modes,
+                   // so this stuff is getting removed - easy to recreate by mimicking the above behavior
+                   // and the stack arrays, and it's pointless to maintain commented code if the above changes.
             }
         }
         if (numCellsToAdd != 0) {

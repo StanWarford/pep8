@@ -221,6 +221,9 @@ void MainWindow::readSettings()
     if (Pep::getSystem() == "Mac") {
         pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
     }
+    else if (Pep::getSystem() == "Linux") {
+        pos.setY(pos.y() - 20);
+    }
     resize(size);
     move(pos);
     curPath = settings.value("filePath", QDir::homePath()).toString();
