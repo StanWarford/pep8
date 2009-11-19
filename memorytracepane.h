@@ -119,6 +119,9 @@ private:
     bool delayLastStepClear;
     // This is used to delay the clear of the bytesWrittenLastStep list for purposes of highlighting after a trap
 
+    QList<MemoryCellGraphicsItem *> newestHeapItemsList;
+    // This is used to color the most recently new'd heap items light blue
+
     StackFrameFSM stackFrameFSM;
 
     // Called by the cacheStack/HeapChanges functions to add frames to the respective places.

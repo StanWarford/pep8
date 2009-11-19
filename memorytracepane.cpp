@@ -163,6 +163,11 @@ void MemoryTracePane::updateMemoryTrace()
         heap.at(i)->boxBgColor = Qt::white;
         heap.at(i)->boxTextColor = Qt::black;
     }
+    // Color the newest 'new' items on the heap light blue
+    for (int i = 0; i < newestHeapItemsList.size(); i++) {
+        newestHeapItemsList.at(i)->boxBgColor = QColor(0, 255, 0, 192);
+    }
+    newestHeapItemsList.clear();
 
     // Add cached stack items to the scene
     for (int i = 0; i < runtimeStack.size(); i++) {
@@ -419,7 +424,7 @@ void MemoryTracePane::cacheHeapChanges()
     m_ui->warningLabel->clear();
 
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
-        qDebug() << "CALL new";
+        newestHeapItemsList.clear();
         int numCellsToAdd = 0;
         int offset = 0;
         int multiplier;
@@ -470,6 +475,7 @@ void MemoryTracePane::cacheHeapChanges()
                 isHeapItemAddedStack.push(false);
                 heap.push(item);
                 addressToHeapItemMap.insert(Sim::readWord(heapPointer) + offset, item);
+                newestHeapItemsList.append(item);
                 offset += Sim::cellSize(Pep::symbolFormat.value(heapSymbol));
                 numCellsToAdd++;
             }
