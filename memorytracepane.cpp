@@ -165,7 +165,7 @@ void MemoryTracePane::updateMemoryTrace()
     }
     // Color the newest 'new' items on the heap light blue
     for (int i = 0; i < newestHeapItemsList.size(); i++) {
-        newestHeapItemsList.at(i)->boxBgColor = QColor(0, 255, 0, 192);
+        newestHeapItemsList.at(i)->boxBgColor = QColor(72, 255, 72, 192);
     }
     newestHeapItemsList.clear();
 
