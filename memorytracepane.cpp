@@ -327,9 +327,11 @@ void MemoryTracePane::cacheStackChanges()
                 multiplier = Pep::symbolFormatMultiplier.value(stackSymbol);
                 if (multiplier == 1) {
                     offset += Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
-                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier, stackSymbol,
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
+                                                                              stackSymbol,
                                                                               Pep::symbolFormat.value(stackSymbol),
-                                                                              static_cast<int>(stackLocation.x()), static_cast<int>(stackLocation.y()));
+                                                                              static_cast<int>(stackLocation.x()),
+                                                                              static_cast<int>(stackLocation.y()));
                     item->updateValue();
                     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                     isRuntimeStackItemAddedStack.push(false);
@@ -341,9 +343,11 @@ void MemoryTracePane::cacheStackChanges()
                     bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(stackSymbol));
                     for (int j = multiplier - 1; j >= 0; j--) {
                         offset += bytesPerCell;
-                        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier, stackSymbol + QString("[%1]").arg(j),
+                        MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::stackPointer - offset + Sim::operandSpecifier,
+                                                                                  stackSymbol + QString("[%1]").arg(j),
                                                                                   Pep::symbolFormat.value(stackSymbol),
-                                                                                  static_cast<int>(stackLocation.x()), static_cast<int>(stackLocation.y()));
+                                                                                  static_cast<int>(stackLocation.x()),
+                                                                                  static_cast<int>(stackLocation.y()));
                         item->updateValue();
                         stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
                         isRuntimeStackItemAddedStack.push(false);
@@ -400,7 +404,8 @@ void MemoryTracePane::cacheStackChanges()
 
     if (frameSizeToAdd != 0) {
         addStackFrame(frameSizeToAdd);
-        // This map is used to correlate the top of the stack frame with the frame itself, useful for determining when the frame should dissapear
+        // This map is used to correlate the top of the stack frame with the frame itself,
+        // useful for determining when the frame should dissapear.
         // IE: The top byte of the frame gets removed, so does the frame
         stackHeightToStackFrameMap.insert(runtimeStack.size() - 1, graphicItemsInStackFrame.top());
     }
@@ -434,8 +439,9 @@ void MemoryTracePane::cacheHeapChanges()
         for (int i = 0; i < lookAheadSymbolList.size(); i++) {
             heapSymbol = lookAheadSymbolList.at(i);
             if (Pep::equateSymbols.contains(heapSymbol) || Pep::blockSymbols.contains(heapSymbol)) {
-                // listNumBytes += number of bytes for that tag * the multiplier (IE, 2d4a is a 4 cell array of 2 byte decimals, where 2 is the multiplier
-                // and 4 is the number of cells. Note: the multiplier should always be 1 for new'd cells, but that's checked below, where we'll give a more specific error.
+                // listNumBytes += number of bytes for that tag * the multiplier (IE, 2d4a is a 4 cell
+                // array of 2 byte decimals, where 2 is the multiplier and 4 is the number of cells.
+                // Note: the multiplier should always be 1 for new'd cells, but that's checked below, where we'll give a more specific error.
                 listNumBytes += Asm::tagNumBytes(Pep::symbolFormat.value(heapSymbol)) * Pep::symbolFormatMultiplier.value(heapSymbol);
             }
         }
@@ -454,13 +460,13 @@ void MemoryTracePane::cacheHeapChanges()
             }
             if (multiplier == 1) { // We can't support arrays on the stack with our current addressing modes.
                 // Very good! Have a cookie. Then, work! *cracks whip* (All our prereqs have been met to make an item)
+                moveHeapUpOneCell();
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(Sim::readWord(heapPointer) + offset,
                                                                           heapSymbol,
                                                                           Pep::symbolFormat.value(heapSymbol),
                                                                           static_cast<int>(heapLocation.x()),
                                                                           static_cast<int>(heapLocation.y()));
                 item->updateValue();
-                heapLocation.setY(heapLocation.y() - MemoryCellGraphicsItem::boxHeight);
                 isHeapItemAddedStack.push(false);
                 heap.push(item);
                 addressToHeapItemMap.insert(Sim::readWord(heapPointer) + offset, item);
@@ -523,7 +529,8 @@ void MemoryTracePane::addHeapFrame(int numCells)
 {
     QPen pen(Qt::black);
     pen.setWidth(4);
-    QGraphicsRectItem *item = new QGraphicsRectItem(heapLocation.x() - 2, heapLocation.y() + MemoryCellGraphicsItem::boxHeight,
+    QGraphicsRectItem *item = new QGraphicsRectItem(heapLocation.x() - 2,
+                                                    heapLocation.y() - MemoryCellGraphicsItem::boxHeight * (numCells - 1),
                       static_cast<qreal>(MemoryCellGraphicsItem::boxWidth + 4),
                       static_cast<qreal>(MemoryCellGraphicsItem::boxHeight * numCells), 0);
     item->setPen(pen);
@@ -532,15 +539,15 @@ void MemoryTracePane::addHeapFrame(int numCells)
     item->setZValue(1.0); // This moves the heap frame to the front
 }
 
-//void MemoryTracePane::moveHeapFrameUp()
-//{
-//    for (int i = 0; i > isHeapItemAddedStack.size(); i++) {
-//        heap.at(i)->setY(heap.at(i)->y - MemoryCellGraphicsItem::boxHeight);
-//    }
-//    for (int i = 0; i > isHeapFrameAddedStack.size(); i++) {
-//        heapFrameItemStack.at(i)->setY(heapFrameItemStack.at(i)->y() - MemoryCellGraphicsItem::boxHeight);
-//    }
-//}
+void MemoryTracePane::moveHeapUpOneCell()
+{
+    for (int i = 0; i < heap.size(); i++) {
+        heap.at(i)->moveBy(0, 0 - MemoryCellGraphicsItem::boxHeight);
+    }
+    for (int i = 0; i < heapFrameItemStack.size(); i++) {
+        heapFrameItemStack.at(i)->moveBy(0, 0 - MemoryCellGraphicsItem::boxHeight);
+    }
+}
 
 void MemoryTracePane::popBytes(int bytesToPop)
 {
