@@ -483,7 +483,7 @@ bool MainWindow::assemble()
                 setCurrentFile("", Enu::EListing);
             }
             ui->actionEdit_Format_From_Listing->setEnabled(true);
-            if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty() && Pep::equateSymbols.isEmpty() && Pep::newSymbols.isEmpty())) {
+            if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty() && Pep::equateSymbols.isEmpty())) {
                 memoryTracePane->show();
             }
             else {

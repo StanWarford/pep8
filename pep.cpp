@@ -393,11 +393,11 @@ QMap<QString, bool> Pep::adjustSymbolValueForBurn;
 // The trace tag tables
 QMap<QString, Enu::ESymbolFormat> Pep::symbolFormat;
 QMap<QString, int> Pep::symbolFormatMultiplier;
+QMap<QString, QStringList> globalStructSymbols;
+
 QMap<int, QStringList> Pep::symbolTraceList; // Key is memory address
 QStringList Pep::blockSymbols;
 QStringList Pep::equateSymbols;
-QStringList Pep::newSymbols;
-
 
 // Map from instruction memory address to assembler listing line
 QMap<int, int> *Pep::memAddrssToAssemblerListing;

@@ -117,14 +117,18 @@ public:
     // The trace tag tables
     static QMap<QString, Enu::ESymbolFormat> symbolFormat;
     static QMap<QString, int> symbolFormatMultiplier;
-    static QMap<int, QStringList> symbolTraceList;
+
+    // This map is for global structs. The key is the symbol defined on the .BLOCK line
+    // and QStringList contains the list of symbols from the symbol tags in the .BLOCK comment.
+    static QMap<QString, QStringList> globalStructSymbols;
+
     // This map is used to map the program counter to the stringList of tags on the corresponding line
     // For example, line corresponds to 0x12, and has the comment ; Allocate #next #data
     // The stringlist would contain next and data
+    static QMap<int, QStringList> symbolTraceList;
+
     static QStringList blockSymbols;
     static QStringList equateSymbols;
-    static QStringList newSymbols;
-    // We may not need this list. Leaving it here for the time being...
 
     // Map from instruction memory address to assembler listing line
     // These pointers are set to the addresses of the program or OS maps
