@@ -126,7 +126,7 @@ void BlankLine::appendObjectCode(QList<int> &)
 void UnaryInstruction::appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox)
 {
     QString memStr = QString("%1").arg(memAddress, 4, 16, QLatin1Char('0')).toUpper();
-    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();;
+    QString codeStr = QString("%1").arg(Pep::opCodeMap.value(mnemonic), 2, 16, QLatin1Char('0')).toUpper();
     if ((Pep::burnCount == 1) && (memAddress < Pep::romStartAddress)) {
         codeStr = "  ";
     }
@@ -455,7 +455,41 @@ bool DotEquate::processFormatTraceTags(int &, QString &) {
         Pep::symbolFormat.insert(symbolDef, Asm::formatTagType(formatTag));
         Pep::symbolFormatMultiplier.insert(symbolDef, Asm::formatMultiplier(formatTag));
         Pep::equateSymbols.append(symbolDef);
-   }
+    }
+    return true;
+}
+
+bool DotBlock::processSymbolTraceTags(int &sourceLine, QString &errorString) {
+    // For global structs.
+    if (symbolDef.size() == 0) {
+        return true;
+    }
+    if (Pep::blockSymbols.contains(symbolDef)) {
+        return true; // Format tag takes precedence over symbol tags.
+    }
+    int numBytesAllocated = argument->getArgumentValue();
+    QString symbol;
+    QStringList list;
+    int numBytesListed = 0;
+    int pos = 0;
+    while ((pos = Asm::rxSymbolTag.indexIn(comment, pos)) != -1) {
+        symbol = Asm::rxSymbolTag.cap(1);
+        if (!Pep::equateSymbols.contains(symbol)) {
+            errorString = ";WARNING: " + symbol + " not specified in .EQUATE.";
+            sourceLine = sourceCodeLine;
+            return false;
+        }
+        numBytesListed += Asm::tagNumBytes(Pep::symbolFormat.value(symbol)) * Pep::symbolFormatMultiplier.value(symbol);
+        list.append(symbol);
+        pos += Asm::rxSymbolTag.matchedLength();
+    }
+    if (numBytesAllocated != numBytesListed) {
+        errorString = ";WARNING: Number of bytes allocated (" + QString("%1").arg(numBytesAllocated) +
+                      ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
+        sourceLine = sourceCodeLine;
+        return false;
+    }
+    Pep::globalStructSymbols.insert(symbolDef, list);
     return true;
 }
 
@@ -538,7 +572,7 @@ bool NonUnaryInstruction::processSymbolTraceTags(int &sourceLine, QString &error
         if (numBytesAllocated != numBytesListed) {
             QString message = (mnemonic == Enu::ADDSP) ? "deallocated" : "allocated";
             errorString = ";WARNING: Number of bytes " + message + " (" + QString("%1").arg(numBytesAllocated) +
-            ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
+                          ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
             sourceLine = sourceCodeLine;
             return false;
         }

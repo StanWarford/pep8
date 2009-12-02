@@ -101,6 +101,7 @@ public:
     void appendObjectCode(QList<int> &objectCode);
     void appendSourceLine(QStringList &assemblerListingList, QStringList &listingTraceList, QList<bool> &hasCheckBox);
     bool processFormatTraceTags(int &sourceLine, QString &errorString);
+    bool processSymbolTraceTags(int &sourceLine, QString &errorString);
 };
 
 class DotBurn: public Code
