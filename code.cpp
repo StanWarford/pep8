@@ -483,7 +483,7 @@ bool DotBlock::processSymbolTraceTags(int &sourceLine, QString &errorString) {
         list.append(symbol);
         pos += Asm::rxSymbolTag.matchedLength();
     }
-    if (numBytesAllocated != numBytesListed) {
+    if (numBytesAllocated != numBytesListed && numBytesListed > 0) {
         errorString = ";WARNING: Number of bytes allocated (" + QString("%1").arg(numBytesAllocated) +
                       ") not equal to number of bytes listed in trace tag (" + QString("%1").arg(numBytesListed) + ").";
         sourceLine = sourceCodeLine;

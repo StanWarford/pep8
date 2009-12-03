@@ -39,10 +39,10 @@
 #include "pep.h"
 #include "sim.h"
 
-// #include <QDebug>
+ #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindowClass)
+        : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
 
@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     aboutPepDialog = new AboutPep(this);
 
     connect(helpDialog, SIGNAL(clicked()), this, SLOT(helpCopyToSourceButtonClicked()));
-	
+
     // Byte converter setup
     byteConverterDec = new ByteConverterDec();
     ui->byteConverterToolBar->addWidget(byteConverterDec);
@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalSplitter->widget(2)->hide();
     ui->pepCodeTraceTab->resize(QSize(800,1)); // Enlarge Code/Trace pane on left.
     sourceCodePane->resize(QSize(1, 9001)); // Enlarge Source Code pane.
-//    memoryDumpPane->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
+    //    memoryDumpPane->resize(QSize(500, 1)); // Enlarges the Memory Dump pane.
 
     // Install OS into memory
     Pep::memAddrssToAssemblerListing = &Pep::memAddrssToAssemblerListingOS;
@@ -175,17 +175,17 @@ MainWindow::~MainWindow()
 }
 
 // Protected closeEvent
- void MainWindow::closeEvent(QCloseEvent *event)
- {
-     if (maybeSaveSource() && maybeSaveObject()) {
-         writeSettings();
-         cpuPane->interruptExecution();
-         event->accept();
-     }
-     else {
-         event->ignore();
-     }
- }
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (maybeSaveSource() && maybeSaveObject()) {
+        writeSettings();
+        cpuPane->interruptExecution();
+        event->accept();
+    }
+    else {
+        event->ignore();
+    }
+}
 
 // Save methods
 bool MainWindow::saveSource()
@@ -483,7 +483,11 @@ bool MainWindow::assemble()
                 setCurrentFile("", Enu::EListing);
             }
             ui->actionEdit_Format_From_Listing->setEnabled(true);
-            if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty() && Pep::equateSymbols.isEmpty())) {
+           if (!Pep::traceTagWarning && !(Pep::blockSymbols.isEmpty()
+                && Pep::equateSymbols.isEmpty()
+                && Pep::globalStructSymbols.isEmpty()
+                && Pep::symbolFormat.isEmpty()
+                && Pep::symbolFormatMultiplier.isEmpty())) {
                 memoryTracePane->show();
             }
             else {
@@ -527,7 +531,7 @@ void MainWindow::setDebugState(bool b)
     ui->actionBuild_Start_Debugging_Loader->setDisabled(b);
     ui->actionBuild_Stop_Debugging->setDisabled(!b);
     ui->actionBuild_Interrupt_Execution->setDisabled(!b);
-	ui->actionSystem_Clear_Memory->setDisabled(b);
+    ui->actionSystem_Clear_Memory->setDisabled(b);
     ui->actionSystem_Redefine_Mnemonics->setDisabled(b);
     ui->actionSystem_Assemble_Install_New_OS->setDisabled(b);
     ui->actionSystem_Reinstall_Default_OS->setDisabled(b);
@@ -1186,8 +1190,8 @@ void MainWindow::on_actionSystem_Clear_Memory_triggered()
     for (int i = 0; i < Pep::romStartAddress; i++) {
         Sim::Mem[i] = 0;
     }
-	cpuPane->clearCpu();
-	memoryDumpPane->refreshMemory();
+    cpuPane->clearCpu();
+    memoryDumpPane->refreshMemory();
 }
 
 void MainWindow::on_actionSystem_Redefine_Mnemonics_triggered()

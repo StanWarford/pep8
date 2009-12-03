@@ -74,6 +74,7 @@ bool SourceCodePane::assemble()
     Pep::symbolFormat.clear();
     Pep::symbolFormatMultiplier.clear();;
     Pep::symbolTraceList.clear(); // Does this clear the lists within the map?
+    Pep::globalStructSymbols.clear();
     Pep::blockSymbols.clear();
     Pep::equateSymbols.clear();
     while (!codeList.isEmpty()) {
