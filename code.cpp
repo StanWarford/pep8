@@ -489,6 +489,7 @@ bool DotBlock::processSymbolTraceTags(int &sourceLine, QString &errorString) {
         sourceLine = sourceCodeLine;
         return false;
     }
+    Pep::blockSymbols.append(symbolDef);
     Pep::globalStructSymbols.insert(symbolDef, list);
     return true;
 }
