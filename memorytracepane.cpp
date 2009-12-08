@@ -41,7 +41,6 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
     connect(m_ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
-
 }
 
 MemoryTracePane::~MemoryTracePane()
@@ -67,6 +66,7 @@ void MemoryTracePane::setMemoryTrace()
     numCellsInStackFrame.clear();
     graphicItemsInStackFrame.clear();
     heapFrameItemStack.clear();
+    newestHeapItemsList.clear();
     scene->clear();
 
     if (Pep::traceTagWarning) {
@@ -85,25 +85,16 @@ void MemoryTracePane::setMemoryTrace()
         blockSymbol = Pep::blockSymbols.at(i);
         multiplier = Pep::symbolFormatMultiplier.value(blockSymbol);
         int address = Pep::symbolTable.value(blockSymbol);
-        if (multiplier == 1) {
-            MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address,
-                                                                      blockSymbol,
-                                                                      Pep::symbolFormat.value(blockSymbol),
-                                                                      static_cast<int>(globalLocation.x()),
-                                                                      static_cast<int>(globalLocation.y()));
-            item->updateValue();
-            globalLocation = QPointF(globalLocation.x(), globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
-            globalVars.push(item);
-            addressToGlobalItemMap.insert(address, item);
-            scene->addItem(item);
-        }
-        else {
+        if (Pep::globalStructSymbols.contains(blockSymbol)) {
             int offset = 0;
-            int bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(blockSymbol));
-            for (int j = 0; j < multiplier; j++) {
+            int bytesPerCell;
+            QString structField = "";
+            for (int j = 0; j < Pep::globalStructSymbols.value(blockSymbol).size(); j++) {
+                structField = Pep::globalStructSymbols.value(blockSymbol).at(j);
+                bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(structField));
                 MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
-                                                                          blockSymbol + QString("[%1]").arg(j),
-                                                                          Pep::symbolFormat.value(blockSymbol),
+                                                                          QString("%1.%2").arg(blockSymbol).arg(structField),
+                                                                          Pep::symbolFormat.value(structField),
                                                                           static_cast<int>(globalLocation.x()),
                                                                           static_cast<int>(globalLocation.y()));
                 item->updateValue();
@@ -112,6 +103,37 @@ void MemoryTracePane::setMemoryTrace()
                 addressToGlobalItemMap.insert(address + offset, item);
                 scene->addItem(item);
                 offset += bytesPerCell;
+            }
+        }
+        else {
+            if (multiplier == 1) {
+                MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address,
+                                                                          blockSymbol,
+                                                                          Pep::symbolFormat.value(blockSymbol),
+                                                                          static_cast<int>(globalLocation.x()),
+                                                                          static_cast<int>(globalLocation.y()));
+                item->updateValue();
+                globalLocation = QPointF(globalLocation.x(), globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+                globalVars.push(item);
+                addressToGlobalItemMap.insert(address, item);
+                scene->addItem(item);
+            }
+            else { // Array
+                int offset = 0;
+                int bytesPerCell = Sim::cellSize(Pep::symbolFormat.value(blockSymbol));
+                for (int j = 0; j < multiplier; j++) {
+                    MemoryCellGraphicsItem *item = new MemoryCellGraphicsItem(address + offset,
+                                                                              blockSymbol + QString("[%1]").arg(j),
+                                                                              Pep::symbolFormat.value(blockSymbol),
+                                                                              static_cast<int>(globalLocation.x()),
+                                                                              static_cast<int>(globalLocation.y()));
+                    item->updateValue();
+                    globalLocation = QPointF(globalLocation.x(), globalLocation.y() + MemoryCellGraphicsItem::boxHeight);
+                    globalVars.push(item);
+                    addressToGlobalItemMap.insert(address + offset, item);
+                    scene->addItem(item);
+                    offset += bytesPerCell;
+                }
             }
         }
     }
@@ -130,17 +152,10 @@ void MemoryTracePane::setMemoryTrace()
     stackLocation.setY(stackLocation.y() - MemoryCellGraphicsItem::boxHeight);
 
     heapLocation.setY(globalLocation.y() - MemoryCellGraphicsItem::boxHeight);
-
-//    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
-//    int h = globalVars.size() > runtimeStack.size() ?
-//    globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
-//    runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
-//    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
-//    MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
-//    int w = 200 + widthOfCell;
-//    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
     
+    scene->setSceneRect(scene->itemsBoundingRect());
     m_ui->pepStackTraceGraphicsView->setScene(scene);
+
     m_ui->warningLabel->clear();
 
     stackFrameFSM.reset();
@@ -163,7 +178,7 @@ void MemoryTracePane::updateMemoryTrace()
         heap.at(i)->boxBgColor = Qt::white;
         heap.at(i)->boxTextColor = Qt::black;
     }
-    // Color the newest 'new' items on the heap light blue
+    // Color the newest 'new' items on the heap light green
     for (int i = 0; i < newestHeapItemsList.size(); i++) {
         newestHeapItemsList.at(i)->boxBgColor = QColor(72, 255, 72, 192);
     }
@@ -227,16 +242,13 @@ void MemoryTracePane::updateMemoryTrace()
         }
     }
 
-    // Set the scene rect (to remove scroll bars):
-    // I thought we got rid of this? commenting it out...
-//    int x = -100 - MemoryCellGraphicsItem::addressWidth - 10;
-//    int h = globalVars.size() > runtimeStack.size() ?
-//            globalVars.size() * MemoryCellGraphicsItem::boxHeight + 25 :
-//            runtimeStack.size() * MemoryCellGraphicsItem::boxHeight + 25;
-//    int widthOfCell = MemoryCellGraphicsItem::addressWidth + MemoryCellGraphicsItem::bufferWidth * 2 +
-//                      MemoryCellGraphicsItem::boxWidth + MemoryCellGraphicsItem::symbolWidth;
-//    int w = 200 + widthOfCell;
-//    m_ui->pepStackTraceGraphicsView->setSceneRect(x, 15, w, -h);
+    scene->setSceneRect(scene->itemsBoundingRect());
+    // This is time-consuming, but worthwhile to ensure scrollbars aren't going off into oblivion after items are removed.
+    // From the documentation for the 'itemsBoundingRect()' function:
+    //  Calculates and returns the bounding rect of all items on the scene.
+    //  This function works by iterating over all items, and because if this, it can be slow for large scenes.
+    // Our it is unlikely that this scene become very large (as in the 30,000 chips example), so I would expect this to remain
+    // a reasonable function call. It is also called in the 'setMemoryTrace' function, but the scene will have very few items at that point.
 
     scene->invalidate(); // redraw the scene!
     // this is fast, so we do this for the whole scene instead of just certain boxes

@@ -120,7 +120,7 @@ private:
     // This is used to delay the clear of the bytesWrittenLastStep list for purposes of highlighting after a trap
 
     QList<MemoryCellGraphicsItem *> newestHeapItemsList;
-    // This is used to color the most recently new'd heap items light blue
+    // This is used to color the most recently new'd heap items light green
 
     StackFrameFSM stackFrameFSM;
 

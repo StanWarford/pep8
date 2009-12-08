@@ -28,8 +28,8 @@
 
 const int MemoryCellGraphicsItem::boxHeight = 22;
 const int MemoryCellGraphicsItem::boxWidth = 50;
-const int MemoryCellGraphicsItem::addressWidth = 64;
-const int MemoryCellGraphicsItem::symbolWidth = 64;
+const int MemoryCellGraphicsItem::addressWidth = 48;
+const int MemoryCellGraphicsItem::symbolWidth = 96;
 const int MemoryCellGraphicsItem::bufferWidth = 14;
 
 MemoryCellGraphicsItem::MemoryCellGraphicsItem(int addr, QString sym,  Enu::ESymbolFormat eSymFrmt, int xLoc, int yLoc)
