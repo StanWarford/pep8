@@ -68,7 +68,7 @@
 	<key>CFBundleExecutable</key>
 	<string>pep8-1</string>
 	<key>CFBundleGetInfoString</key>
-	<string>8.1.1</string>
+	<string>8.1.2</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -78,7 +78,7 @@
 	<key>CFBundleSignature</key>
 	<string>PEP8</string>
 	<key>CFBundleVersion</key>
-	<string>8.1.1</string>
+	<string>8.1.2</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
