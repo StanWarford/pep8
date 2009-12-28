@@ -14,6 +14,10 @@ QMAKE_INFO_PLIST = app.plist
 # Windows RC file
 RC_FILE = pep8resources.rc
 
+# Universal binaries for Mac
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+CONFIG+=x86 ppc
+
 # Input
 HEADERS += mainwindow.h \
     sourcecodepane.h \
