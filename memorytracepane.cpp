@@ -31,21 +31,21 @@
 
 MemoryTracePane::MemoryTracePane(QWidget *parent) :
         QWidget(parent),
-        m_ui(new Ui::MemoryTracePane)
+        ui(new Ui::MemoryTracePane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    m_ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
-    connect(m_ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
+    connect(ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
 }
 
 MemoryTracePane::~MemoryTracePane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void MemoryTracePane::setMemoryTrace()
@@ -154,9 +154,9 @@ void MemoryTracePane::setMemoryTrace()
     heapLocation.setY(globalLocation.y() - MemoryCellGraphicsItem::boxHeight);
     
     scene->setSceneRect(scene->itemsBoundingRect());
-    m_ui->pepStackTraceGraphicsView->setScene(scene);
+    ui->pepStackTraceGraphicsView->setScene(scene);
 
-    m_ui->warningLabel->clear();
+    ui->warningLabel->clear();
 
     stackFrameFSM.reset();
 }
@@ -254,8 +254,8 @@ void MemoryTracePane::updateMemoryTrace()
     // this is fast, so we do this for the whole scene instead of just certain boxes
 
     // Scroll to the top item if we have a scrollbar:
-    if (!runtimeStack.isEmpty() && m_ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
-        m_ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
+    if (!runtimeStack.isEmpty() && ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
+        ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
     }
 
     // Clear modified bytes so for the next update:
@@ -433,7 +433,7 @@ void MemoryTracePane::cacheHeapChanges()
     if (Sim::trapped) {
         return;
     }
-    m_ui->warningLabel->clear();
+    ui->warningLabel->clear();
 
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
         newestHeapItemsList.clear();
@@ -447,7 +447,7 @@ void MemoryTracePane::cacheHeapChanges()
         }
         else {
             // We have no idea where the heap pointer is. Error!
-            m_ui->warningLabel->setText("Warning: hpPtr not found, unable to trace <code>CALL \'new\'</code>.");
+            ui->warningLabel->setText("Warning: hpPtr not found, unable to trace <code>CALL \'new\'</code>.");
             return;
         }
         int listNumBytes = 0;
@@ -463,7 +463,7 @@ void MemoryTracePane::cacheHeapChanges()
             }
         }
         if (listNumBytes != Sim::accumulator) {
-            m_ui->warningLabel->setText("Warning: The accumulator doesn't match the number of bytes in the trace tags");
+            ui->warningLabel->setText("Warning: The accumulator doesn't match the number of bytes in the trace tags");
             return;
         }
         for (int i = 0; i < lookAheadSymbolList.size(); i++) {
@@ -472,7 +472,7 @@ void MemoryTracePane::cacheHeapChanges()
                 multiplier = Pep::symbolFormatMultiplier.value(heapSymbol);
             }
             else {
-                m_ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
+                ui->warningLabel->setText("Warning: Symbol \"" + heapSymbol + "\" not found in .equates, unknown size.");
                 return;
             }
             if (multiplier == 1) { // We can't support arrays on the stack with our current addressing modes.
@@ -500,33 +500,33 @@ void MemoryTracePane::cacheHeapChanges()
 
 void MemoryTracePane::highlightOnFocus()
 {
-    if (m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus()) {
-        m_ui->pepMemoryTraceLabel->setAutoFillBackground(true);
+    if (ui->pepStackTraceGraphicsView->hasFocus() || ui->pepScaleSpinBox->hasFocus()) {
+        ui->pepMemoryTraceLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepMemoryTraceLabel->setAutoFillBackground(false);
+        ui->pepMemoryTraceLabel->setAutoFillBackground(false);
     }
 }
 
 bool MemoryTracePane::hasFocus()
 {
-    return m_ui->pepStackTraceGraphicsView->hasFocus() || m_ui->pepScaleSpinBox->hasFocus();
+    return ui->pepStackTraceGraphicsView->hasFocus() || ui->pepScaleSpinBox->hasFocus();
 }
 
 void MemoryTracePane::setFont()
 {
     // We might just do away with this in this pane.
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepStackTraceGraphicsView->font()), this,
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepStackTraceGraphicsView->font()), this,
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepStackTraceGraphicsView->setFont(font);
+        ui->pepStackTraceGraphicsView->setFont(font);
     }
 }
 
 void MemoryTracePane::setFocus()
 {
-    m_ui->pepStackTraceGraphicsView->setFocus();
+    ui->pepStackTraceGraphicsView->setFocus();
 }
 
 void MemoryTracePane::addStackFrame(int numCells)
@@ -595,14 +595,14 @@ void MemoryTracePane::popBytes(int bytesToPop)
 
 void MemoryTracePane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepStackTraceGraphicsView->setFocus();
+    ui->pepStackTraceGraphicsView->setFocus();
 }
 
 void MemoryTracePane::zoomFactorChanged(int factor)
 {
     QMatrix matrix;
     matrix.scale(factor * .01, factor * .01);
-    m_ui->pepStackTraceGraphicsView->setMatrix(matrix);
+    ui->pepStackTraceGraphicsView->setMatrix(matrix);
 }
 
 void MemoryTracePane::mouseDoubleClickEvent(QMouseEvent *)

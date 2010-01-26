@@ -58,7 +58,7 @@ public:
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
 private:
-    Ui::TerminalPane *m_ui;
+    Ui::TerminalPane *ui;
 
     bool waiting;
 

@@ -27,90 +27,90 @@
 
 TerminalPane::TerminalPane(QWidget *parent) :
     QWidget(parent),
-    m_ui(new Ui::TerminalPane)
+    ui(new Ui::TerminalPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
     waiting = false;
 
-    connect(m_ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(m_ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     
     qApp->installEventFilter(this);
 }
 
 TerminalPane::~TerminalPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void TerminalPane::appendOutput(QString str)
 {
-    m_ui->pepTerminalTextEdit->setText(m_ui->pepTerminalTextEdit->toPlainText().append(str));
+    ui->pepTerminalTextEdit->setText(ui->pepTerminalTextEdit->toPlainText().append(str));
     strokeString.append(str);
-    m_ui->pepTerminalTextEdit->verticalScrollBar()->setValue(m_ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->pepTerminalTextEdit->verticalScrollBar()->setValue(ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 void TerminalPane::waitingForInput()
 {
     waiting = true;
     displayTerminal();
-    m_ui->pepTerminalTextEdit->setFocus();
+    ui->pepTerminalTextEdit->setFocus();
 }
 
 void TerminalPane::clearTerminal()
 {
-    m_ui->pepTerminalTextEdit->clear();
+    ui->pepTerminalTextEdit->clear();
     retString = "";
     strokeString = "";
 }
 
 void TerminalPane::highlightOnFocus()
 {
-    if (m_ui->pepTerminalTextEdit->hasFocus()) {
-        m_ui->pepTerminalLabel->setAutoFillBackground(true);
+    if (ui->pepTerminalTextEdit->hasFocus()) {
+        ui->pepTerminalLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepTerminalLabel->setAutoFillBackground(false);
+        ui->pepTerminalLabel->setAutoFillBackground(false);
     }
 }
 
 bool TerminalPane::hasFocus()
 {
-    return m_ui->pepTerminalTextEdit->hasFocus();
+    return ui->pepTerminalTextEdit->hasFocus();
 }
 
 void TerminalPane::copy()
 {
-    m_ui->pepTerminalTextEdit->copy();
+    ui->pepTerminalTextEdit->copy();
 }
 
 void TerminalPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepTerminalTextEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepTerminalTextEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepTerminalTextEdit->setFont(font);
+        ui->pepTerminalTextEdit->setFont(font);
     }
 }
 
 void TerminalPane::displayTerminal()
 {
     if (waiting) {
-        m_ui->pepTerminalTextEdit->setPlainText(strokeString + retString + QString("_"));
+        ui->pepTerminalTextEdit->setPlainText(strokeString + retString + QString("_"));
     }
     else {
-        m_ui->pepTerminalTextEdit->setPlainText(strokeString + retString);
+        ui->pepTerminalTextEdit->setPlainText(strokeString + retString);
     }
-    m_ui->pepTerminalTextEdit->verticalScrollBar()->setValue(m_ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->pepTerminalTextEdit->verticalScrollBar()->setValue(ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 bool TerminalPane::eventFilter(QObject *, QEvent *event)
 {
-    if (event->type() == QEvent::KeyPress && m_ui->pepTerminalTextEdit->hasFocus() && waiting) {
+    if (event->type() == QEvent::KeyPress && ui->pepTerminalTextEdit->hasFocus() && waiting) {
         QKeyEvent *e = static_cast<QKeyEvent *>(event);
         if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
             e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
@@ -142,6 +142,6 @@ bool TerminalPane::eventFilter(QObject *, QEvent *event)
 
 void TerminalPane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepTerminalTextEdit->setFocus();
+    ui->pepTerminalTextEdit->setFocus();
 }
 

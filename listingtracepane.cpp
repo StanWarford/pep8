@@ -29,26 +29,26 @@
 
 ListingTracePane::ListingTracePane(QWidget *parent) :
     QWidget(parent),
-    m_ui(new Ui::ListingTracePane)
+    ui(new Ui::ListingTracePane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    m_ui->listingPepOsTraceTableWidget->hide();
+    ui->listingPepOsTraceTableWidget->hide();
 
-    connect(m_ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
-    connect(m_ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
+    connect(ui->listingTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
+    connect(ui->listingPepOsTraceTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(updateIsCheckedTable(QTableWidgetItem*)));
 
 //    programDocWidth = 0;
 //    osDocWidth = 0;
 
-    m_ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
-    m_ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 ListingTracePane::~ListingTracePane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool> hasCheckBox)
@@ -56,10 +56,10 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
     // tableWidget depends on whether we are assembling the OS or a program
     QTableWidget *tableWidget;
     if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
-        tableWidget = m_ui->listingTraceTableWidget;
+        tableWidget = ui->listingTraceTableWidget;
     }
     else {
-        tableWidget = m_ui->listingPepOsTraceTableWidget;
+        tableWidget = ui->listingPepOsTraceTableWidget;
     }
     QTableWidgetItem *item;
     int numRows = listingTraceList.size();
@@ -80,7 +80,7 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
         tableWidget->setItem(i, 0, item);
     }
     tableWidget->resizeColumnsToContents();
-    m_ui->listingTraceTableWidget->width();
+    ui->listingTraceTableWidget->width();
     tableWidget->resizeRowsToContents();
 //    if (Pep::memAddrssToAssemblerListing == &Pep::memAddrssToAssemblerListingProg) {
 //        programDocWidth = tableWidget->columnWidth(1);
@@ -94,11 +94,11 @@ void ListingTracePane::setListingTrace(QStringList listingTraceList, QList<bool>
 
 void ListingTracePane::clearListingTrace()
 {
-    for (int i = 0; i < m_ui->listingTraceTableWidget->rowCount(); i++) {
-        delete m_ui->listingTraceTableWidget->itemAt(i, 0);
-        delete m_ui->listingTraceTableWidget->itemAt(i, 1);
+    for (int i = 0; i < ui->listingTraceTableWidget->rowCount(); i++) {
+        delete ui->listingTraceTableWidget->itemAt(i, 0);
+        delete ui->listingTraceTableWidget->itemAt(i, 1);
     }
-    m_ui->listingTraceTableWidget->setRowCount(0);
+    ui->listingTraceTableWidget->setRowCount(0);
 }
 
 void ListingTracePane::updateListingTrace()
@@ -106,14 +106,14 @@ void ListingTracePane::updateListingTrace()
     // tableWidget depends on whether we are in the OS or a program
     QTableWidget *tableWidget;
     if (Sim::trapped) {
-        tableWidget = m_ui->listingPepOsTraceTableWidget;
-        m_ui->listingPepOsTraceTableWidget->show();
-        m_ui->listingTraceTableWidget->hide();
+        tableWidget = ui->listingPepOsTraceTableWidget;
+        ui->listingPepOsTraceTableWidget->show();
+        ui->listingTraceTableWidget->hide();
     }
     else {
-        tableWidget = m_ui->listingTraceTableWidget;
-        m_ui->listingPepOsTraceTableWidget->hide();
-        m_ui->listingTraceTableWidget->show();
+        tableWidget = ui->listingTraceTableWidget;
+        ui->listingPepOsTraceTableWidget->hide();
+        ui->listingTraceTableWidget->show();
     }
 
     for (int i = highlightedItemList.size() - 1; i >= 0; i--) {
@@ -136,14 +136,14 @@ void ListingTracePane::setDebuggingState(bool b)
 {
     QTableWidget *tableWidget;
     if (Sim::trapped) {
-        tableWidget = m_ui->listingPepOsTraceTableWidget;
-        m_ui->listingPepOsTraceTableWidget->show();
-        m_ui->listingTraceTableWidget->hide();
+        tableWidget = ui->listingPepOsTraceTableWidget;
+        ui->listingPepOsTraceTableWidget->show();
+        ui->listingTraceTableWidget->hide();
     }
     else {
-        tableWidget = m_ui->listingTraceTableWidget;
-        m_ui->listingPepOsTraceTableWidget->hide();
-        m_ui->listingTraceTableWidget->show();
+        tableWidget = ui->listingTraceTableWidget;
+        ui->listingPepOsTraceTableWidget->hide();
+        ui->listingTraceTableWidget->show();
     }
 
     for (int i = 0; i < tableWidget->rowCount(); i++) {
@@ -166,67 +166,67 @@ void ListingTracePane::setDebuggingState(bool b)
 
 void ListingTracePane::showAssemblerListing()
 {
-    m_ui->listingPepOsTraceTableWidget->hide();
-    m_ui->listingTraceTableWidget->show();
+    ui->listingPepOsTraceTableWidget->hide();
+    ui->listingTraceTableWidget->show();
 }
 
 void ListingTracePane::highlightOnFocus()
 {
-    if (m_ui->listingTraceTableWidget->hasFocus() || m_ui->listingPepOsTraceTableWidget->hasFocus()) {
-        m_ui->listingTraceLabel->setAutoFillBackground(true);
+    if (ui->listingTraceTableWidget->hasFocus() || ui->listingPepOsTraceTableWidget->hasFocus()) {
+        ui->listingTraceLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->listingTraceLabel->setAutoFillBackground(false);
+        ui->listingTraceLabel->setAutoFillBackground(false);
     }
 }
 
 bool ListingTracePane::hasFocus()
 {
-    return m_ui->listingTraceTableWidget->hasFocus() || m_ui->listingPepOsTraceTableWidget->hasFocus();
+    return ui->listingTraceTableWidget->hasFocus() || ui->listingPepOsTraceTableWidget->hasFocus();
 }
 
 void ListingTracePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->listingTraceTableWidget->setFont(font);
-        m_ui->listingPepOsTraceTableWidget->setFont(font);
-        m_ui->listingTraceTableWidget->resizeColumnsToContents();
-        m_ui->listingPepOsTraceTableWidget->resizeColumnsToContents();
+        ui->listingTraceTableWidget->setFont(font);
+        ui->listingPepOsTraceTableWidget->setFont(font);
+        ui->listingTraceTableWidget->resizeColumnsToContents();
+        ui->listingPepOsTraceTableWidget->resizeColumnsToContents();
     }
 }
 
 void ListingTracePane::setFocus()
 {
-    m_ui->listingTraceTableWidget->isHidden() ? m_ui->listingPepOsTraceTableWidget->setFocus() : m_ui->listingTraceTableWidget->setFocus();
+    ui->listingTraceTableWidget->isHidden() ? ui->listingPepOsTraceTableWidget->setFocus() : ui->listingTraceTableWidget->setFocus();
 }
 
 //void ListingTracePane::resizeDocWidth()
 //{
-//    int column0 = m_ui->listingTraceTableWidget->columnWidth(0);
-//    if (m_ui->listingTraceTableWidget->width() > programDocWidth + column0 + 5) { // + 5 for breathing room
-//        m_ui->listingTraceTableWidget->setColumnWidth(1, m_ui->listingTraceTableWidget->viewport()->width() - column0);
+//    int column0 = ui->listingTraceTableWidget->columnWidth(0);
+//    if (ui->listingTraceTableWidget->width() > programDocWidth + column0 + 5) { // + 5 for breathing room
+//        ui->listingTraceTableWidget->setColumnWidth(1, ui->listingTraceTableWidget->viewport()->width() - column0);
 //    }
 //    else {
-//        m_ui->listingTraceTableWidget->setColumnWidth(1, programDocWidth);
+//        ui->listingTraceTableWidget->setColumnWidth(1, programDocWidth);
 //    }
-//    if (m_ui->listingPepOsTraceTableWidget->width() > osDocWidth + column0 + 5) { // + 5 for breathing room
-//        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, m_ui->listingPepOsTraceTableWidget->viewport()->width() - column0);
+//    if (ui->listingPepOsTraceTableWidget->width() > osDocWidth + column0 + 5) { // + 5 for breathing room
+//        ui->listingPepOsTraceTableWidget->setColumnWidth(1, ui->listingPepOsTraceTableWidget->viewport()->width() - column0);
 //    }
 //    else {
-//        m_ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
+//        ui->listingPepOsTraceTableWidget->setColumnWidth(1, osDocWidth);
 //    }
 //}
 
 void ListingTracePane::mouseReleaseEvent(QMouseEvent *)
 {
     QTableWidget *tableWidget;
-    if (!m_ui->listingTraceTableWidget->isHidden()) {
-        tableWidget = m_ui->listingTraceTableWidget;
+    if (!ui->listingTraceTableWidget->isHidden()) {
+        tableWidget = ui->listingTraceTableWidget;
     }
     else {
-        tableWidget = m_ui->listingPepOsTraceTableWidget;
+        tableWidget = ui->listingPepOsTraceTableWidget;
     }
     tableWidget->setFocus();
 }

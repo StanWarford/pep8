@@ -24,19 +24,19 @@
 
 AboutPep::AboutPep(QWidget *parent) :
     QDialog(parent),
-    m_ui(new Ui::AboutPep)
+    ui(new Ui::AboutPep)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
     if (Pep::getSystem() != "Mac") {
-        m_ui->aboutLabel->hide();
+        ui->aboutLabel->hide();
     }
     else {
-        m_ui->aboutLabelWin->hide();
+        ui->aboutLabelWin->hide();
     }
 
 }
 
 AboutPep::~AboutPep()
 {
-    delete m_ui;
+    delete ui;
 }

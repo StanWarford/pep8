@@ -36,24 +36,24 @@
 
 SourceCodePane::SourceCodePane(QWidget *parent) :
         QWidget(parent),
-        m_ui(new Ui::SourceCodePane)
+        ui(new Ui::SourceCodePane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    connect(m_ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
+    connect(ui->pepSourceCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 
-    pepHighlighter = new PepHighlighter(m_ui->pepSourceCodeTextEdit->document());
+    pepHighlighter = new PepHighlighter(ui->pepSourceCodeTextEdit->document());
 
-    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(m_ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->pepSourceCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->pepSourceCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepSourceCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepSourceCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->pepSourceCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->pepSourceCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 SourceCodePane::~SourceCodePane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 bool SourceCodePane::assemble()
@@ -80,7 +80,7 @@ bool SourceCodePane::assemble()
     while (!codeList.isEmpty()) {
         delete codeList.takeFirst();
     }
-    QString sourceCode = m_ui->pepSourceCodeTextEdit->toPlainText();
+    QString sourceCode = ui->pepSourceCodeTextEdit->toPlainText();
     sourceCodeList = sourceCode.split('\n');
     Pep::byteCount = 0;
     Pep::burnCount = 0;
@@ -240,23 +240,23 @@ bool SourceCodePane::installDefaultOs()
 
 void SourceCodePane::removeErrorMessages()
 {
-    QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document()->find(";ERROR:"));
+    QTextCursor cursor(ui->pepSourceCodeTextEdit->document()->find(";ERROR:"));
     while (!cursor.isNull()) {
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
-        cursor = m_ui->pepSourceCodeTextEdit->document()->find(";ERROR:", cursor);
+        cursor = ui->pepSourceCodeTextEdit->document()->find(";ERROR:", cursor);
     }
-    cursor = m_ui->pepSourceCodeTextEdit->document()->find(";WARNING:");
+    cursor = ui->pepSourceCodeTextEdit->document()->find(";WARNING:");
     while (!cursor.isNull()) {
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
         cursor.removeSelectedText();
-        cursor = m_ui->pepSourceCodeTextEdit->document()->find(";WARNING:", cursor);
+        cursor = ui->pepSourceCodeTextEdit->document()->find(";WARNING:", cursor);
     }
 }
 
 void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString message)
 {
-    QTextCursor cursor(m_ui->pepSourceCodeTextEdit->document());
+    QTextCursor cursor(ui->pepSourceCodeTextEdit->document());
     cursor.setPosition(0);
     for (int i = 0; i < lineNumber; i++) {
         cursor.movePosition(QTextCursor::NextBlock);
@@ -275,106 +275,106 @@ void SourceCodePane::appendMessageInSourceCodePaneAt(int lineNumber, QString mes
 
 void SourceCodePane::setSourceCodePaneText(QString string)
 {
-    m_ui->pepSourceCodeTextEdit->setText(string);
+    ui->pepSourceCodeTextEdit->setText(string);
 }
 
 void SourceCodePane::clearSourceCode()
 {
-    m_ui->pepSourceCodeTextEdit->clear();
+    ui->pepSourceCodeTextEdit->clear();
     codeList.clear(); // This may cause issues with "format from listing" - but this needs to be cleared regardless.
 }
 
 bool SourceCodePane::isModified()
 {
-    return m_ui->pepSourceCodeTextEdit->document()->isModified();
+    return ui->pepSourceCodeTextEdit->document()->isModified();
 }
 
 void SourceCodePane::setModifiedFalse()
 {
-    m_ui->pepSourceCodeTextEdit->document()->setModified(false);
+    ui->pepSourceCodeTextEdit->document()->setModified(false);
 }
 
 QString SourceCodePane::toPlainText()
 {
-    return m_ui->pepSourceCodeTextEdit->toPlainText();
+    return ui->pepSourceCodeTextEdit->toPlainText();
 }
 
 void SourceCodePane::setCurrentFile(QString string)
 {
-    m_ui->pepSourceCodeLabel->setText("Source Code - " + string);
+    ui->pepSourceCodeLabel->setText("Source Code - " + string);
 }
 
 void SourceCodePane::highlightOnFocus()
 {
-    if (m_ui->pepSourceCodeTextEdit->hasFocus()) {
-        m_ui->pepSourceCodeLabel->setAutoFillBackground(true);
+    if (ui->pepSourceCodeTextEdit->hasFocus()) {
+        ui->pepSourceCodeLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepSourceCodeLabel->setAutoFillBackground(false);
+        ui->pepSourceCodeLabel->setAutoFillBackground(false);
     }
 }
 
 bool SourceCodePane::hasFocus()
 {
-    return m_ui->pepSourceCodeTextEdit->hasFocus();
+    return ui->pepSourceCodeTextEdit->hasFocus();
 }
 
 void SourceCodePane::undo()
 {
-    m_ui->pepSourceCodeTextEdit->undo();
+    ui->pepSourceCodeTextEdit->undo();
 }
 
 void SourceCodePane::redo()
 {
-    m_ui->pepSourceCodeTextEdit->redo();
+    ui->pepSourceCodeTextEdit->redo();
 }
 
 bool SourceCodePane::isUndoable()
 {
-    return m_ui->pepSourceCodeTextEdit->document()->isUndoAvailable();
+    return ui->pepSourceCodeTextEdit->document()->isUndoAvailable();
 }
 
 bool SourceCodePane::isRedoable()
 {
-    return m_ui->pepSourceCodeTextEdit->document()->isRedoAvailable();
+    return ui->pepSourceCodeTextEdit->document()->isRedoAvailable();
 }
 
 void SourceCodePane::cut()
 {
-    m_ui->pepSourceCodeTextEdit->cut();
+    ui->pepSourceCodeTextEdit->cut();
 }
 
 void SourceCodePane::copy()
 {
-    m_ui->pepSourceCodeTextEdit->copy();
+    ui->pepSourceCodeTextEdit->copy();
 }
 
 void SourceCodePane::paste()
 {
-    m_ui->pepSourceCodeTextEdit->paste();
+    ui->pepSourceCodeTextEdit->paste();
 }
 
 void SourceCodePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepSourceCodeTextEdit->font()), this, "Set Source Code Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepSourceCodeTextEdit->font()), this, "Set Source Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepSourceCodeTextEdit->setFont(font);
+        ui->pepSourceCodeTextEdit->setFont(font);
     }
 }
 
 void SourceCodePane::setReadOnly(bool b)
 {
-    m_ui->pepSourceCodeTextEdit->setReadOnly(b);
+    ui->pepSourceCodeTextEdit->setReadOnly(b);
 }
 
 void SourceCodePane::tab()
 {
-    if (!m_ui->pepSourceCodeTextEdit->isReadOnly()) {
-        QTextCursor cursor = m_ui->pepSourceCodeTextEdit->textCursor();
+    if (!ui->pepSourceCodeTextEdit->isReadOnly()) {
+        QTextCursor cursor = ui->pepSourceCodeTextEdit->textCursor();
         cursor.movePosition(QTextCursor::StartOfLine);
         QString string;
-        int curLinePos = m_ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position();
+        int curLinePos = ui->pepSourceCodeTextEdit->textCursor().position() - cursor.position();
         int spaces;
         if (curLinePos < 9) {
             spaces = 9 - curLinePos;
@@ -396,13 +396,13 @@ void SourceCodePane::tab()
             string.append(" ");
         }
 
-        m_ui->pepSourceCodeTextEdit->insertPlainText(string);
+        ui->pepSourceCodeTextEdit->insertPlainText(string);
     }
 }
 
 void SourceCodePane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepSourceCodeTextEdit->setFocus();
+    ui->pepSourceCodeTextEdit->setFocus();
 }
 
 void SourceCodePane::mouseDoubleClickEvent(QMouseEvent *)
@@ -412,13 +412,13 @@ void SourceCodePane::mouseDoubleClickEvent(QMouseEvent *)
 
 void SourceCodePane::setLabelToModified(bool modified)
 {
-    QString temp = m_ui->pepSourceCodeLabel->text();
+    QString temp = ui->pepSourceCodeLabel->text();
     if (modified) {
-        m_ui->pepSourceCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+        ui->pepSourceCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
     }
     else if (temp.endsWith(QChar('*'))) {
         temp.chop(1);
-        m_ui->pepSourceCodeLabel->setText(temp);
+        ui->pepSourceCodeLabel->setText(temp);
     }
 }
 

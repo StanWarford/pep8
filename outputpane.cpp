@@ -26,60 +26,60 @@
 
 OutputPane::OutputPane(QWidget *parent) :
     QWidget(parent),
-    m_ui(new Ui::OutputPane)
+    ui(new Ui::OutputPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    m_ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepOutputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->pepOutputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 
 OutputPane::~OutputPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void OutputPane::appendOutput(QString str)
 {
-    m_ui->pepOutputTextEdit->setText(m_ui->pepOutputTextEdit->toPlainText().append(str));
-    m_ui->pepOutputTextEdit->verticalScrollBar()->setValue(m_ui->pepOutputTextEdit->verticalScrollBar()->maximum());
+    ui->pepOutputTextEdit->setText(ui->pepOutputTextEdit->toPlainText().append(str));
+    ui->pepOutputTextEdit->verticalScrollBar()->setValue(ui->pepOutputTextEdit->verticalScrollBar()->maximum());
 }
 
 void OutputPane::clearOutput()
 {
-    m_ui->pepOutputTextEdit->clear();
+    ui->pepOutputTextEdit->clear();
 }
 
 void OutputPane::highlightOnFocus()
 {
-    if (m_ui->pepOutputTextEdit->hasFocus()) {
-        m_ui->pepOutputLabel->setAutoFillBackground(true);
+    if (ui->pepOutputTextEdit->hasFocus()) {
+        ui->pepOutputLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepOutputLabel->setAutoFillBackground(false);
+        ui->pepOutputLabel->setAutoFillBackground(false);
     }
 }
 
 bool OutputPane::hasFocus()
 {
-    return m_ui->pepOutputTextEdit->hasFocus();
+    return ui->pepOutputTextEdit->hasFocus();
 }
 
 void OutputPane::copy()
 {
-    m_ui->pepOutputTextEdit->copy();
+    ui->pepOutputTextEdit->copy();
 }
 
 void OutputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepOutputTextEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepOutputTextEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepOutputTextEdit->setFont(font);
+        ui->pepOutputTextEdit->setFont(font);
     }
 }
 
 void OutputPane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepOutputTextEdit->setFocus();
+    ui->pepOutputTextEdit->setFocus();
 }

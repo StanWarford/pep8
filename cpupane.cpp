@@ -29,131 +29,131 @@
 
 CpuPane::CpuPane(QWidget *parent) :
         QWidget(parent),
-        m_ui(new Ui::CpuPane)
+        ui(new Ui::CpuPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    connect(m_ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
-    connect(m_ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
+    connect(ui->cpuSingleStepPushButton, SIGNAL(clicked()), this, SLOT(singleStepButton()));
+    connect(ui->cpuResumePushButton, SIGNAL(clicked()), this, SIGNAL(resumeButtonClicked()));
 
     interruptExecutionFlag = false;
     clearCpu();
     
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-        m_ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
+        ui->pepCpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        ui->pepTraceTrapsCheckBox->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuALabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuXLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuPCLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuInstrSpecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndSpecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
-        m_ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
+        ui->cpuALabel->setFont(QFont(Pep::labelFont));
+        ui->cpuXLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuSPLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuPCLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuInstrSpecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndSpecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuSingleStepPushButton->setFont(QFont(Pep::labelFont));
+        ui->cpuResumePushButton->setFont(QFont(Pep::labelFont));
 
-        m_ui->pepNLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepZLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepVLabel->setFont(QFont(Pep::labelFont));
-        m_ui->pepCLabel->setFont(QFont(Pep::labelFont));
+        ui->pepNLabel->setFont(QFont(Pep::labelFont));
+        ui->pepZLabel->setFont(QFont(Pep::labelFont));
+        ui->pepVLabel->setFont(QFont(Pep::labelFont));
+        ui->pepCLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuNLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuZLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuVLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuCLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuNLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuZLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuVLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuCLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuAHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuADecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuAHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuADecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuXHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuXDecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuXHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuXDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuSPHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuSPDecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuSPHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuSPDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuPCHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuPCDecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuPCHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuPCDecLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuInstrSpecBinLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuInstrSpecMnemonLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuInstrSpecBinLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuInstrSpecMnemonLabel->setFont(QFont(Pep::labelFont));
 
-        m_ui->cpuOprndSpecHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndSpecDecLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndHexLabel->setFont(QFont(Pep::labelFont));
-        m_ui->cpuOprndDecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndSpecHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndSpecDecLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndHexLabel->setFont(QFont(Pep::labelFont));
+        ui->cpuOprndDecLabel->setFont(QFont(Pep::labelFont));
     }
 }
 
 CpuPane::~CpuPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void CpuPane::updateCpu() {
     Enu::EAddrMode addrMode = Pep::decodeAddrMode[Sim::instructionSpecifier];
 
-    m_ui->cpuNLabel->setText(Sim::nBit ? "1" : "0");
-    m_ui->cpuZLabel->setText(Sim::zBit ? "1" : "0");
-    m_ui->cpuVLabel->setText(Sim::vBit ? "1" : "0");
-    m_ui->cpuCLabel->setText(Sim::cBit ? "1" : "0");
+    ui->cpuNLabel->setText(Sim::nBit ? "1" : "0");
+    ui->cpuZLabel->setText(Sim::zBit ? "1" : "0");
+    ui->cpuVLabel->setText(Sim::vBit ? "1" : "0");
+    ui->cpuCLabel->setText(Sim::cBit ? "1" : "0");
 
-    m_ui->cpuAHexLabel->setText(QString("0x") + QString("%1").arg(Sim::accumulator, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuADecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::accumulator)));
+    ui->cpuAHexLabel->setText(QString("0x") + QString("%1").arg(Sim::accumulator, 4, 16, QLatin1Char('0')).toUpper());
+    ui->cpuADecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::accumulator)));
 
-    m_ui->cpuXHexLabel->setText(QString("0x") + QString("%1").arg(Sim::indexRegister, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuXDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::indexRegister)));
+    ui->cpuXHexLabel->setText(QString("0x") + QString("%1").arg(Sim::indexRegister, 4, 16, QLatin1Char('0')).toUpper());
+    ui->cpuXDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::indexRegister)));
 
-    m_ui->cpuSPHexLabel->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuSPDecLabel->setText(QString("%1").arg(Sim::stackPointer));
+    ui->cpuSPHexLabel->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
+    ui->cpuSPDecLabel->setText(QString("%1").arg(Sim::stackPointer));
 
-    m_ui->cpuPCHexLabel->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
-    m_ui->cpuPCDecLabel->setText(QString("%1").arg(Sim::programCounter));
+    ui->cpuPCHexLabel->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
+    ui->cpuPCDecLabel->setText(QString("%1").arg(Sim::programCounter));
 
-    m_ui->cpuInstrSpecBinLabel->setText(QString("%1").arg(Sim::instructionSpecifier, 8, 2, QLatin1Char('0')).toUpper());
-    m_ui->cpuInstrSpecMnemonLabel->setText(" " + Pep::enumToMnemonMap.value(Pep::decodeMnemonic[Sim::instructionSpecifier])
+    ui->cpuInstrSpecBinLabel->setText(QString("%1").arg(Sim::instructionSpecifier, 8, 2, QLatin1Char('0')).toUpper());
+    ui->cpuInstrSpecMnemonLabel->setText(" " + Pep::enumToMnemonMap.value(Pep::decodeMnemonic[Sim::instructionSpecifier])
                                            + Pep::commaSpaceToAddrMode(addrMode));
 
     if (Pep::decodeAddrMode.value(Sim::instructionSpecifier) == Enu::NONE) {
-        m_ui->cpuOprndSpecHexLabel->setText("");
-        m_ui->cpuOprndSpecDecLabel->setText("");
-        m_ui->cpuOprndHexLabel->setText("");
-        m_ui->cpuOprndDecLabel->setText("");
+        ui->cpuOprndSpecHexLabel->setText("");
+        ui->cpuOprndSpecDecLabel->setText("");
+        ui->cpuOprndHexLabel->setText("");
+        ui->cpuOprndDecLabel->setText("");
     }
     else {
-        m_ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
-        m_ui->cpuOprndSpecDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operandSpecifier)));
-        m_ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, Sim::operandDisplayFieldWidth, 16, QLatin1Char('0')).toUpper());
-        m_ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operand)));
+        ui->cpuOprndSpecHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operandSpecifier, 4, 16, QLatin1Char('0')).toUpper());
+        ui->cpuOprndSpecDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operandSpecifier)));
+        ui->cpuOprndHexLabel->setText(QString("0x") + QString("%1").arg(Sim::operand, Sim::operandDisplayFieldWidth, 16, QLatin1Char('0')).toUpper());
+        ui->cpuOprndDecLabel->setText(QString("%1").arg(Sim::toSignedDecimal(Sim::operand)));
     }
 }
 
 void CpuPane::clearCpu()
 {
-    m_ui->cpuNLabel->setText("");
-    m_ui->cpuZLabel->setText("");
-    m_ui->cpuVLabel->setText("");
-    m_ui->cpuCLabel->setText("");
+    ui->cpuNLabel->setText("");
+    ui->cpuZLabel->setText("");
+    ui->cpuVLabel->setText("");
+    ui->cpuCLabel->setText("");
 
-    m_ui->cpuAHexLabel->setText("");
-    m_ui->cpuADecLabel->setText("");
+    ui->cpuAHexLabel->setText("");
+    ui->cpuADecLabel->setText("");
 
-    m_ui->cpuXHexLabel->setText("");
-    m_ui->cpuXDecLabel->setText("");
+    ui->cpuXHexLabel->setText("");
+    ui->cpuXDecLabel->setText("");
 
-    m_ui->cpuSPHexLabel->setText("");
-    m_ui->cpuSPDecLabel->setText("");
+    ui->cpuSPHexLabel->setText("");
+    ui->cpuSPDecLabel->setText("");
 
-    m_ui->cpuPCHexLabel->setText("");
-    m_ui->cpuPCDecLabel->setText("");
+    ui->cpuPCHexLabel->setText("");
+    ui->cpuPCDecLabel->setText("");
 
-    m_ui->cpuInstrSpecBinLabel->setText("");
-    m_ui->cpuInstrSpecMnemonLabel->setText("");
+    ui->cpuInstrSpecBinLabel->setText("");
+    ui->cpuInstrSpecMnemonLabel->setText("");
 
-    m_ui->cpuOprndSpecHexLabel->setText("");
-    m_ui->cpuOprndSpecDecLabel->setText("");
-    m_ui->cpuOprndHexLabel->setText("");
-    m_ui->cpuOprndDecLabel->setText("");
+    ui->cpuOprndSpecHexLabel->setText("");
+    ui->cpuOprndSpecDecLabel->setText("");
+    ui->cpuOprndHexLabel->setText("");
+    ui->cpuOprndDecLabel->setText("");
 
     Sim::nBit = false;
     Sim::zBit = false;
@@ -167,25 +167,25 @@ void CpuPane::clearCpu()
 }
 
 void CpuPane::runClicked() {
-    m_ui->pepTraceTrapsCheckBox->setChecked(false);
+    ui->pepTraceTrapsCheckBox->setChecked(false);
 }
 
 void CpuPane::setDebugState(bool b)
 {
-    m_ui->pepTraceTrapsCheckBox->setDisabled(b);
-    Sim::tracingTraps = m_ui->pepTraceTrapsCheckBox->isChecked();
+    ui->pepTraceTrapsCheckBox->setDisabled(b);
+    Sim::tracingTraps = ui->pepTraceTrapsCheckBox->isChecked();
 }
 
 void CpuPane::traceTraps(bool b)
 {
-    m_ui->pepTraceTrapsCheckBox->setChecked(b);
+    ui->pepTraceTrapsCheckBox->setChecked(b);
 }
 
 void CpuPane::setButtonsEnabled(bool b) {
-    m_ui->cpuResumePushButton->setDisabled(!b);
-    m_ui->cpuSingleStepPushButton->setDisabled(!b);
+    ui->cpuResumePushButton->setDisabled(!b);
+    ui->cpuSingleStepPushButton->setDisabled(!b);
     if (b) {
-        m_ui->cpuSingleStepPushButton->setFocus();
+        ui->cpuSingleStepPushButton->setFocus();
     }
 }
 
@@ -267,7 +267,7 @@ void CpuPane::resumeWithBatch()
     QString errorString;
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
-        if (m_ui->pepTraceTrapsCheckBox->isChecked()) {
+        if (ui->pepTraceTrapsCheckBox->isChecked()) {
             trapLookahead();
         }
         else if (Pep::isTrapMap[Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)]]) {
@@ -315,15 +315,15 @@ void CpuPane::resumeWithTerminal()
     while (true) {
         qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
         trapLookahead();
-        if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
+        if (Sim::trapped && !ui->pepTraceTrapsCheckBox->isChecked()) {
             updateCpu();
             do {
                 trapLookahead();
                 qApp->processEvents(); // To make sure that the event filter gets to handle keypresses during the run
                 if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
                     // we are waiting for input
-                    m_ui->cpuSingleStepPushButton->setDisabled(true);
-                    m_ui->cpuResumePushButton->setDisabled(true);
+                    ui->cpuSingleStepPushButton->setDisabled(true);
+                    ui->cpuResumePushButton->setDisabled(true);
                     emit waitingForInput();
                     return;
                 }
@@ -354,8 +354,8 @@ void CpuPane::resumeWithTerminal()
         }
         else if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
             // we are waiting for input
-            m_ui->cpuSingleStepPushButton->setDisabled(true);
-            m_ui->cpuResumePushButton->setDisabled(true);
+            ui->cpuSingleStepPushButton->setDisabled(true);
+            ui->cpuResumePushButton->setDisabled(true);
             emit updateSimulationView();
             updateCpu();
             emit waitingForInput();
@@ -398,7 +398,7 @@ void CpuPane::singleStepWithBatch()
     interruptExecutionFlag = false;
     QString errorString;
     trapLookahead();
-    if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
+    if (Sim::trapped && !ui->pepTraceTrapsCheckBox->isChecked()) {
         QString errorString;
         do {
             trapLookahead();
@@ -454,15 +454,15 @@ void CpuPane::singleStepWithTerminal()
     QString errorString;
     waiting = Enu::EDebugSSWaiting;
     trapLookahead();
-    if (Sim::trapped && !m_ui->pepTraceTrapsCheckBox->isChecked()) {
+    if (Sim::trapped && !ui->pepTraceTrapsCheckBox->isChecked()) {
         updateCpu();
         do {
             trapLookahead();
             qApp->processEvents();
             if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
                 // we are waiting for input
-                m_ui->cpuSingleStepPushButton->setDisabled(true);
-                m_ui->cpuResumePushButton->setDisabled(true);
+                ui->cpuSingleStepPushButton->setDisabled(true);
+                ui->cpuResumePushButton->setDisabled(true);
                 emit waitingForInput();
                 return;
             }
@@ -493,8 +493,8 @@ void CpuPane::singleStepWithTerminal()
         emit updateSimulationView();
     }
     else if ((Pep::decodeMnemonic[Sim::readByte(Sim::programCounter)] == Enu::CHARI) && Sim::inputBuffer.isEmpty()) {
-        m_ui->cpuSingleStepPushButton->setDisabled(true);
-        m_ui->cpuResumePushButton->setDisabled(true);
+        ui->cpuSingleStepPushButton->setDisabled(true);
+        ui->cpuResumePushButton->setDisabled(true);
         emit waitingForInput();
     }
     else {
@@ -547,11 +547,11 @@ void CpuPane::interruptExecution()
 
 void CpuPane::highlightOnFocus()
 {
-    if (m_ui->cpuSingleStepPushButton->hasFocus()) {
-        m_ui->pepCpuLabel->setAutoFillBackground(true);
+    if (ui->cpuSingleStepPushButton->hasFocus()) {
+        ui->pepCpuLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepCpuLabel->setAutoFillBackground(false);
+        ui->pepCpuLabel->setAutoFillBackground(false);
     }
 }
 
@@ -562,23 +562,23 @@ Enu::EWaiting CpuPane::waitingState()
 
 bool CpuPane::singleStepHasFocus()
 {
-    return m_ui->cpuSingleStepPushButton->isEnabled() && m_ui->cpuSingleStepPushButton->hasFocus();
+    return ui->cpuSingleStepPushButton->isEnabled() && ui->cpuSingleStepPushButton->hasFocus();
 }
 
 bool CpuPane::hasFocus()
 {
-    return m_ui->cpuSingleStepPushButton->hasFocus();
+    return ui->cpuSingleStepPushButton->hasFocus();
 }
 
 void CpuPane::mousePressEvent(QMouseEvent *)
 {
-    if (m_ui->cpuSingleStepPushButton->isEnabled()) {
-        m_ui->cpuSingleStepPushButton->setFocus();
+    if (ui->cpuSingleStepPushButton->isEnabled()) {
+        ui->cpuSingleStepPushButton->setFocus();
     }
 }
 
 void CpuPane::singleStepButton()
 {
-    m_ui->cpuSingleStepPushButton->setFocus();
+    ui->cpuSingleStepPushButton->setFocus();
     emit singleStepButtonClicked();
 }

@@ -27,103 +27,103 @@
 
 InputPane::InputPane(QWidget *parent) :
         QWidget(parent),
-        m_ui(new Ui::InputPane)
+        ui(new Ui::InputPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    connect(m_ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(m_ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->pepInputTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->pepInputTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    m_ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->pepInputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->pepInputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->pepInputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 
 InputPane::~InputPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void InputPane::highlightOnFocus()
 {
-    if (m_ui->pepInputTextEdit->hasFocus()) {
-        m_ui->pepInputLabel->setAutoFillBackground(true);
+    if (ui->pepInputTextEdit->hasFocus()) {
+        ui->pepInputLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepInputLabel->setAutoFillBackground(false);
+        ui->pepInputLabel->setAutoFillBackground(false);
     }
 }
 
 QString InputPane::toPlainText()
 {
-    return m_ui->pepInputTextEdit->toPlainText();
+    return ui->pepInputTextEdit->toPlainText();
 }
 
 void InputPane::setText(QString input)
 {
-    m_ui->pepInputTextEdit->setText(input);
+    ui->pepInputTextEdit->setText(input);
 }
 
 bool InputPane::hasFocus()
 {
-    return m_ui->pepInputTextEdit->hasFocus();
+    return ui->pepInputTextEdit->hasFocus();
 }
 
 void InputPane::undo()
 {
-    m_ui->pepInputTextEdit->undo();
+    ui->pepInputTextEdit->undo();
 }
 
 void InputPane::redo()
 {
-    m_ui->pepInputTextEdit->redo();
+    ui->pepInputTextEdit->redo();
 }
 
 bool InputPane::isUndoable()
 {
-    return m_ui->pepInputTextEdit->document()->isUndoAvailable();
+    return ui->pepInputTextEdit->document()->isUndoAvailable();
 }
 
 bool InputPane::isRedoable()
 {
-    return m_ui->pepInputTextEdit->document()->isRedoAvailable();
+    return ui->pepInputTextEdit->document()->isRedoAvailable();
 }
 
 void InputPane::cut()
 {
-    m_ui->pepInputTextEdit->cut();
+    ui->pepInputTextEdit->cut();
 }
 
 void InputPane::copy()
 {
-    m_ui->pepInputTextEdit->copy();
+    ui->pepInputTextEdit->copy();
 }
 
 void InputPane::paste()
 {
-    m_ui->pepInputTextEdit->paste();
+    ui->pepInputTextEdit->paste();
 }
 
 void InputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepInputTextEdit->font()), this, "Set Input Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepInputTextEdit->font()), this, "Set Input Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepInputTextEdit->setFont(font);
+        ui->pepInputTextEdit->setFont(font);
     }
 }
 
 void InputPane::setReadOnly(bool b)
 {
-    m_ui->pepInputTextEdit->setReadOnly(b);
+    ui->pepInputTextEdit->setReadOnly(b);
 }
 
 void InputPane::tab()
 {
-    if (!m_ui->pepInputTextEdit->isReadOnly()) {
-        QTextCursor cursor = m_ui->pepInputTextEdit->textCursor();
+    if (!ui->pepInputTextEdit->isReadOnly()) {
+        QTextCursor cursor = ui->pepInputTextEdit->textCursor();
         cursor.movePosition(QTextCursor::StartOfLine);
 
-        int curLinePos = m_ui->pepInputTextEdit->textCursor().position() - cursor.position();
+        int curLinePos = ui->pepInputTextEdit->textCursor().position() - cursor.position();
 
         QString string;
         int spaces;
@@ -133,11 +133,11 @@ void InputPane::tab()
             string.append(" ");
         }
 
-        m_ui->pepInputTextEdit->insertPlainText(string);
+        ui->pepInputTextEdit->insertPlainText(string);
     }
 }
 
 void InputPane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepInputTextEdit->setFocus();
+    ui->pepInputTextEdit->setFocus();
 }

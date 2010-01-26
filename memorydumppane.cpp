@@ -31,23 +31,23 @@
 
 MemoryDumpPane::MemoryDumpPane(QWidget *parent) :
     QWidget(parent),
-    m_ui(new Ui::MemoryDumpPane)
+    ui(new Ui::MemoryDumpPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
     if (Pep::getSystem() != "Mac") {
-        m_ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-        m_ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+        ui->pepMemoryDumpLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+        ui->pepMemoryDumpTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     }
 
-    connect(m_ui->pcPushButton, SIGNAL(clicked()), this, SLOT(scrollToPC()));
-    connect(m_ui->spPushButton, SIGNAL(clicked()), this, SLOT(scrollToSP()));
-    connect(m_ui->scrollToLineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
+    connect(ui->pcPushButton, SIGNAL(clicked()), this, SLOT(scrollToPC()));
+    connect(ui->spPushButton, SIGNAL(clicked()), this, SLOT(scrollToSP()));
+    connect(ui->scrollToLineEdit, SIGNAL(textChanged(QString)), this, SLOT(scrollToAddress(QString)));
 }
 
 MemoryDumpPane::~MemoryDumpPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void MemoryDumpPane::refreshMemory()
@@ -72,18 +72,18 @@ void MemoryDumpPane::refreshMemory()
         }
         memoryDump.append(memoryDumpLine);
     }
-    m_ui->pepMemoryDumpTextEdit->setText(memoryDump.join("\n"));
+    ui->pepMemoryDumpTextEdit->setText(memoryDump.join("\n"));
 }
 
 void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
 {
-    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
-    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
+    int vertScrollBarPosition = ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    int horizScrollBarPosition = ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
 
     int firstLine = firstByte / 8;
     int lastLine = lastByte / 8;
 
-    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    QTextCursor cursor(ui->pepMemoryDumpTextEdit->document());
     cursor.setPosition(0);
     for (int i = 0; i < firstLine; i++) {
         cursor.movePosition(QTextCursor::NextBlock);
@@ -110,13 +110,13 @@ void MemoryDumpPane::refreshMemoryLines(int firstByte, int lastByte)
             }
         }
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
-        m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
+        ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+        ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
         cursor.movePosition(QTextCursor::NextBlock);
     }
 
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
-    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
+    ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
+    ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 }
 
 void MemoryDumpPane::highlightMemory(bool b)
@@ -130,7 +130,7 @@ void MemoryDumpPane::highlightMemory(bool b)
         highlightedData.append(Sim::stackPointer);
         
         if (!Pep::isUnaryMap.value(Pep::decodeMnemonic.value(Sim::readByte(Sim::programCounter)))) {
-            QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+            QTextCursor cursor(ui->pepMemoryDumpTextEdit->document());
             QTextCharFormat format;
             format.setBackground(Qt::blue);
             format.setForeground(Qt::white);
@@ -215,8 +215,8 @@ void MemoryDumpPane::cacheModifiedBytes()
 
 void MemoryDumpPane::updateMemory()
 {
-    int vertScrollBarPosition = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
-    int horizScrollBarPosition = m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
+    int vertScrollBarPosition = ui->pepMemoryDumpTextEdit->verticalScrollBar()->value();
+    int horizScrollBarPosition = ui->pepMemoryDumpTextEdit->horizontalScrollBar()->value();
 
     QList<int> list;
     QSet<int> linesToBeUpdated;
@@ -232,7 +232,7 @@ void MemoryDumpPane::updateMemory()
     }
     list = linesToBeUpdated.toList();
     qSort(list.begin(), list.end());
-    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    QTextCursor cursor(ui->pepMemoryDumpTextEdit->document());
     cursor.setPosition(0);
     lineNum = 0;
     while (!list.isEmpty()) {
@@ -258,63 +258,63 @@ void MemoryDumpPane::updateMemory()
             }
         }
         cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-        m_ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
-        m_ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
+        ui->pepMemoryDumpTextEdit->setTextCursor(cursor);
+        ui->pepMemoryDumpTextEdit->insertPlainText(memoryDumpLine);
         cursor.movePosition(QTextCursor::NextBlock);
         lineNum++;
         list.removeFirst();
     }
     modifiedBytes.clear();
 
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
-    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
+    ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(vertScrollBarPosition);
+    ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(horizScrollBarPosition);
 
 }
 
 void MemoryDumpPane::scrollToTop()
 {
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(0);
-    m_ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(0);
+    ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(0);
+    ui->pepMemoryDumpTextEdit->horizontalScrollBar()->setValue(0);
 }
 
 void MemoryDumpPane::highlightOnFocus()
 {
-    if (m_ui->pepMemoryDumpTextEdit->hasFocus() || m_ui->scrollToLineEdit->hasFocus()) {
-        m_ui->pepMemoryDumpLabel->setAutoFillBackground(true);
+    if (ui->pepMemoryDumpTextEdit->hasFocus() || ui->scrollToLineEdit->hasFocus()) {
+        ui->pepMemoryDumpLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->pepMemoryDumpLabel->setAutoFillBackground(false);
+        ui->pepMemoryDumpLabel->setAutoFillBackground(false);
     }
 }
 
 bool MemoryDumpPane::hasFocus()
 {
-    return m_ui->pepMemoryDumpTextEdit->hasFocus() || m_ui->scrollToLineEdit->hasFocus();
+    return ui->pepMemoryDumpTextEdit->hasFocus() || ui->scrollToLineEdit->hasFocus();
 }
 
 void MemoryDumpPane::copy()
 {
-    m_ui->pepMemoryDumpTextEdit->copy();
+    ui->pepMemoryDumpTextEdit->copy();
 }
 
 void MemoryDumpPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->pepMemoryDumpTextEdit->font()), this, "Set Memory Dump Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepMemoryDumpTextEdit->font()), this, "Set Memory Dump Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->pepMemoryDumpTextEdit->setFont(font);
+        ui->pepMemoryDumpTextEdit->setFont(font);
     }
 }
 
 int MemoryDumpPane::memoryDumpWidth()
 {
-    return m_ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
-            m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6;
+    return ui->pepMemoryDumpTextEdit->document()->documentLayout()->documentSize().toSize().width() +
+            ui->pepMemoryDumpTextEdit->verticalScrollBar()->width() + 6;
 }
 
 void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor background)
 {
-    QTextCursor cursor(m_ui->pepMemoryDumpTextEdit->document());
+    QTextCursor cursor(ui->pepMemoryDumpTextEdit->document());
     cursor.setPosition(0);
     for (int i = 0; i < memAddr / 8; i++) {
         cursor.movePosition(QTextCursor::NextBlock);
@@ -331,24 +331,24 @@ void MemoryDumpPane::highlightByte(int memAddr, QColor foreground, QColor backgr
 
 void MemoryDumpPane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->pepMemoryDumpTextEdit->setFocus();
+    ui->pepMemoryDumpTextEdit->setFocus();
 }
 
 void MemoryDumpPane::scrollToByte(int byte)
 {
-    int min = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->minimum();
-    int max = m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->maximum();
-    m_ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
+    int min = ui->pepMemoryDumpTextEdit->verticalScrollBar()->minimum();
+    int max = ui->pepMemoryDumpTextEdit->verticalScrollBar()->maximum();
+    ui->pepMemoryDumpTextEdit->verticalScrollBar()->setValue(min + static_cast<int>(8 * (byte / 4096 - 8) + ((byte - byte % 8) / 65536.0) * (max - min)));
 }
 
 void MemoryDumpPane::scrollToPC()
 {
-    m_ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
+    ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::programCounter, 4, 16, QLatin1Char('0')).toUpper());
 }
 
 void MemoryDumpPane::scrollToSP()
 {
-    m_ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
+    ui->scrollToLineEdit->setText(QString("0x") + QString("%1").arg(Sim::stackPointer, 4, 16, QLatin1Char('0')).toUpper());
 }
 
 void MemoryDumpPane::scrollToAddress(QString string)
@@ -359,34 +359,34 @@ void MemoryDumpPane::scrollToAddress(QString string)
         byte = string.toInt(&ok, 16);
         if (ok) {
             if (byte > 65535) {
-                m_ui->scrollToLineEdit->setText("0xFFFF");
+                ui->scrollToLineEdit->setText("0xFFFF");
             } else {
                 scrollToByte(byte);
             }
         }
         else {
-            m_ui->scrollToLineEdit->setText("0x");
+            ui->scrollToLineEdit->setText("0x");
         }
     }
     else {
-        m_ui->scrollToLineEdit->setText("0x");
+        ui->scrollToLineEdit->setText("0x");
     }
 
 //    else {
 //        byte = string.toInt(&ok, 10);
 //        if (ok) {
 //            if (byte < 0) {
-//                m_ui->scrollToLineEdit->setText("0");
+//                ui->scrollToLineEdit->setText("0");
 //            }
 //            else if (byte > 65535) {
-//                m_ui->scrollToLineEdit->setText("65535");
+//                ui->scrollToLineEdit->setText("65535");
 //            } else {
 //                scrollToByte(byte);
-//                m_ui->scrollToLineEdit->setText(QString("%1").arg(byte));
+//                ui->scrollToLineEdit->setText(QString("%1").arg(byte));
 //            }
 //        }
 //        else {
-//            m_ui->scrollToLineEdit->setText("");
+//            ui->scrollToLineEdit->setText("");
 //        }
 //    }
 }
