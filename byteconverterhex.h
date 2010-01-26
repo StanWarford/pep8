@@ -38,7 +38,7 @@ public:
     void setValue(int);
 
 private:
-    Ui::ByteConverterHex *m_ui;
+    Ui::ByteConverterHex *ui;
     QRegExpValidator* hexValidator;
 
 private slots:

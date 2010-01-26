@@ -67,7 +67,7 @@ public:
     // Post: returns if the assembler listing is empty
 
 private:
-    Ui::AssemblerListingPane *m_ui;
+    Ui::AssemblerListingPane *ui;
 
     PepHighlighter *pepHighlighter;
 

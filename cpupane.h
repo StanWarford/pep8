@@ -91,7 +91,7 @@ public:
     // Post: Returns if the single step button has focus
 
 private:
-    Ui::CpuPane *m_ui;
+    Ui::CpuPane *ui;
 
     bool interruptExecutionFlag; // Used to interrupt execution by the user
 

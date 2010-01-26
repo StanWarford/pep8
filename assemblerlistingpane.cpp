@@ -29,36 +29,36 @@
 
 AssemblerListingPane::AssemblerListingPane(QWidget *parent) :
         QWidget(parent),
-        m_ui(new Ui::AssemblerListingPane)
+        ui(new Ui::AssemblerListingPane)
 {
-    m_ui->setupUi(this);
+    ui->setupUi(this);
 
-    pepHighlighter = new PepHighlighter(m_ui->assemblerListingTextEdit->document());
+    pepHighlighter = new PepHighlighter(ui->assemblerListingTextEdit->document());
 
-    m_ui->assemblerListingLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    m_ui->assemblerListingTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->assemblerListingLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->assemblerListingTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 AssemblerListingPane::~AssemblerListingPane()
 {
-    delete m_ui;
+    delete ui;
 }
 
 void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList) {
     clearAssemblerListing();
-    m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
-    m_ui->assemblerListingTextEdit->append("      Object");
-    m_ui->assemblerListingTextEdit->append("Addr  code   Symbol   Mnemon  Operand     Comment");
-    m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
-    m_ui->assemblerListingTextEdit->append(assemblerListingList.join("\n"));
-    m_ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
+    ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
+    ui->assemblerListingTextEdit->append("      Object");
+    ui->assemblerListingTextEdit->append("Addr  code   Symbol   Mnemon  Operand     Comment");
+    ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
+    ui->assemblerListingTextEdit->append(assemblerListingList.join("\n"));
+    ui->assemblerListingTextEdit->append("-------------------------------------------------------------------------------");
     if (Pep::symbolTable.size() > 0) {
-        m_ui->assemblerListingTextEdit->append("");
-        m_ui->assemblerListingTextEdit->append("");
-        m_ui->assemblerListingTextEdit->append("Symbol table");
-        m_ui->assemblerListingTextEdit->append("--------------------------------------");
-        m_ui->assemblerListingTextEdit->append("Symbol    Value        Symbol    Value");
-        m_ui->assemblerListingTextEdit->append("--------------------------------------");
+        ui->assemblerListingTextEdit->append("");
+        ui->assemblerListingTextEdit->append("");
+        ui->assemblerListingTextEdit->append("Symbol table");
+        ui->assemblerListingTextEdit->append("--------------------------------------");
+        ui->assemblerListingTextEdit->append("Symbol    Value        Symbol    Value");
+        ui->assemblerListingTextEdit->append("--------------------------------------");
         QMapIterator<QString, int> i(Pep::symbolTable);
         QString symbolTableLine = "";
         QString hexString;
@@ -70,85 +70,85 @@ void AssemblerListingPane::setAssemblerListing(QStringList assemblerListingList)
             }
             else {
                 symbolTableLine.append(QString("%1%2").arg(i.key(), -10).arg(hexString, -4));
-                m_ui->assemblerListingTextEdit->append(symbolTableLine);
+                ui->assemblerListingTextEdit->append(symbolTableLine);
                 symbolTableLine = "";
             }
         }
         if (symbolTableLine.length() > 0) {
-            m_ui->assemblerListingTextEdit->append(symbolTableLine);
+            ui->assemblerListingTextEdit->append(symbolTableLine);
         }
-        m_ui->assemblerListingTextEdit->append("--------------------------------------");
+        ui->assemblerListingTextEdit->append("--------------------------------------");
     }
-    m_ui->assemblerListingTextEdit->verticalScrollBar()->setValue(m_ui->assemblerListingTextEdit->verticalScrollBar()->minimum());
+    ui->assemblerListingTextEdit->verticalScrollBar()->setValue(ui->assemblerListingTextEdit->verticalScrollBar()->minimum());
 }
 
 void AssemblerListingPane::clearAssemblerListing()
 {
-    m_ui->assemblerListingTextEdit->clear();
+    ui->assemblerListingTextEdit->clear();
 }
 
 bool AssemblerListingPane::isModified()
 {
-    return m_ui->assemblerListingTextEdit->document()->isModified();
+    return ui->assemblerListingTextEdit->document()->isModified();
 }
 
 QString AssemblerListingPane::toPlainText()
 {
-    return m_ui->assemblerListingTextEdit->toPlainText();
+    return ui->assemblerListingTextEdit->toPlainText();
 }
 
 void AssemblerListingPane::setCurrentFile(QString string)
 {
     if (!string.isEmpty()) {
-        m_ui->assemblerListingLabel->setText("Assembler Listing - " + string);
+        ui->assemblerListingLabel->setText("Assembler Listing - " + string);
     }
     else {
-        m_ui->assemblerListingLabel->setText("Assembler Listing - untitled.pepl");
+        ui->assemblerListingLabel->setText("Assembler Listing - untitled.pepl");
     }
 }
 
 void AssemblerListingPane::highlightOnFocus()
 {
-    if (m_ui->assemblerListingTextEdit->hasFocus()) {
-        m_ui->assemblerListingLabel->setAutoFillBackground(true);
+    if (ui->assemblerListingTextEdit->hasFocus()) {
+        ui->assemblerListingLabel->setAutoFillBackground(true);
     }
     else {
-        m_ui->assemblerListingLabel->setAutoFillBackground(false);
+        ui->assemblerListingLabel->setAutoFillBackground(false);
     }
 }
 
 bool AssemblerListingPane::hasFocus()
 {
-    return m_ui->assemblerListingTextEdit->hasFocus();
+    return ui->assemblerListingTextEdit->hasFocus();
 }
 
 void AssemblerListingPane::copy()
 {
-    m_ui->assemblerListingTextEdit->copy();
+    ui->assemblerListingTextEdit->copy();
 }
 
 void AssemblerListingPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(m_ui->assemblerListingTextEdit->font()), this, "Set Assembler Listing Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->assemblerListingTextEdit->font()), this, "Set Assembler Listing Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        m_ui->assemblerListingTextEdit->setFont(font);
+        ui->assemblerListingTextEdit->setFont(font);
     }
 }
 
 void AssemblerListingPane::setFocus()
 {
-    m_ui->assemblerListingTextEdit->setFocus();
+    ui->assemblerListingTextEdit->setFocus();
 }
 
 bool AssemblerListingPane::isEmpty()
 {
-    return m_ui->assemblerListingTextEdit->toPlainText() == "";
+    return ui->assemblerListingTextEdit->toPlainText() == "";
 }
 
 void AssemblerListingPane::mouseReleaseEvent(QMouseEvent *)
 {
-    m_ui->assemblerListingTextEdit->setFocus();
+    ui->assemblerListingTextEdit->setFocus();
 }
 
 void AssemblerListingPane::mouseDoubleClickEvent(QMouseEvent *)

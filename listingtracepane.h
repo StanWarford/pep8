@@ -70,7 +70,7 @@ public:
     // This is commented, but preserved in case we want to bring back the resizing of the document width to the width of the window.
 
 private:
-    Ui::ListingTracePane *m_ui;
+    Ui::ListingTracePane *ui;
 
     void mouseReleaseEvent(QMouseEvent *);
     

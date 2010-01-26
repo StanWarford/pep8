@@ -38,7 +38,7 @@ public:
     void setValue(int);
 
 private:
-    Ui::ByteConverterChar *m_ui;
+    Ui::ByteConverterChar *ui;
     QRegExpValidator* charValidator;
 
 signals:

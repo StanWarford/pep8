@@ -58,7 +58,7 @@ public:
     // Post: the enabled state of the copy to source/object code button is set to b
 
 private:
-    Ui::HelpDialog *m_ui;
+    Ui::HelpDialog *ui;
 
     void selectItem(QString string);
     PepHighlighter *leftHighlighter;

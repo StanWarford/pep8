@@ -38,7 +38,7 @@ public:
     void setValue(int);
 
 private:
-    Ui::ByteConverterDec *m_ui;
+    Ui::ByteConverterDec *ui;
     QRegExpValidator* decValidator;
 
 signals:

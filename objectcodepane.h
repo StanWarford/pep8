@@ -97,7 +97,7 @@ public:
     // Post: the text edit's read only attribute is set to b
 
 private:
-    Ui::ObjectCodePane *m_ui;
+    Ui::ObjectCodePane *ui;
 
     void mouseReleaseEvent(QMouseEvent *);
 

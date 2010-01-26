@@ -72,7 +72,7 @@ public:
     // Post: the width of the memory dump text edit document is returned
 
 private:
-    Ui::MemoryDumpPane *m_ui;
+    Ui::MemoryDumpPane *ui;
 
     void highlightByte(int memAddr, QColor foreground, QColor background);
     // Used to highlight/unhighlight individual bytes.

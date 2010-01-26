@@ -141,7 +141,7 @@ public:
     void tab();
 
 private:
-    Ui::SourceCodePane *m_ui;
+    Ui::SourceCodePane *ui;
     QList<Code *> codeList;
     QList<int> objectCode;
     QStringList assemblerListingList;

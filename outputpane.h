@@ -54,7 +54,7 @@ public:
     // Post: the font used by the text edit is set to a font chosen in a font dialog
 
 private:
-    Ui::OutputPane *m_ui;
+    Ui::OutputPane *ui;
 
     void mouseReleaseEvent(QMouseEvent *);
 };

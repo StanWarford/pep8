@@ -37,7 +37,7 @@ public:
     virtual ~RedefineMnemonicsDialog();
 
 private:
-    Ui::RedefineMnemonicsDialog *m_ui;
+    Ui::RedefineMnemonicsDialog *ui;
 
 private:
 

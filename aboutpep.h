@@ -35,7 +35,7 @@ public:
     ~AboutPep();
 
 private:
-    Ui::AboutPep *m_ui;
+    Ui::AboutPep *ui;
 };
 
 #endif // ABOUTPEP_H

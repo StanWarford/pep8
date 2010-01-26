@@ -78,7 +78,7 @@ public:
     // Post: a tab is inserted in the input pane if it is not read only
 
 private:
-    Ui::InputPane *m_ui;
+    Ui::InputPane *ui;
 
     void mouseReleaseEvent(QMouseEvent *);
 

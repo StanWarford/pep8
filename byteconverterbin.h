@@ -38,7 +38,7 @@ class ByteConverterBin : public QWidget {
     void setValue(int);
 
 private:
-    Ui::ByteConverterBin *m_ui;
+    Ui::ByteConverterBin *ui;
     QRegExpValidator* binValidator;
 
 signals:

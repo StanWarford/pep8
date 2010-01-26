@@ -69,7 +69,7 @@ public:
     // Post: the graphics item has focus
     
 private:
-    Ui::MemoryTracePane *m_ui;
+    Ui::MemoryTracePane *ui;
 
     QGraphicsScene *scene;
     QStack<MemoryCellGraphicsItem *> globalVars;
