@@ -35,10 +35,10 @@ MemoryTracePane::MemoryTracePane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->pepMemoryTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->pepStackTraceGraphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->graphicsView->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 
-    connect(ui->pepScaleSpinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(zoomFactorChanged(int)));
 
     scene = new QGraphicsScene(this);
 }
@@ -154,7 +154,7 @@ void MemoryTracePane::setMemoryTrace()
     heapLocation.setY(globalLocation.y() - MemoryCellGraphicsItem::boxHeight);
     
     scene->setSceneRect(scene->itemsBoundingRect());
-    ui->pepStackTraceGraphicsView->setScene(scene);
+    ui->graphicsView->setScene(scene);
 
     ui->warningLabel->clear();
 
@@ -254,8 +254,8 @@ void MemoryTracePane::updateMemoryTrace()
     // this is fast, so we do this for the whole scene instead of just certain boxes
 
     // Scroll to the top item if we have a scrollbar:
-    if (!runtimeStack.isEmpty() && ui->pepStackTraceGraphicsView->viewport()->height() < scene->height()) {
-        ui->pepStackTraceGraphicsView->centerOn(runtimeStack.top());
+    if (!runtimeStack.isEmpty() && ui->graphicsView->viewport()->height() < scene->height()) {
+        ui->graphicsView->centerOn(runtimeStack.top());
     }
 
     // Clear modified bytes so for the next update:
@@ -500,33 +500,33 @@ void MemoryTracePane::cacheHeapChanges()
 
 void MemoryTracePane::highlightOnFocus()
 {
-    if (ui->pepStackTraceGraphicsView->hasFocus() || ui->pepScaleSpinBox->hasFocus()) {
-        ui->pepMemoryTraceLabel->setAutoFillBackground(true);
+    if (ui->graphicsView->hasFocus() || ui->spinBox->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
     }
     else {
-        ui->pepMemoryTraceLabel->setAutoFillBackground(false);
+        ui->label->setAutoFillBackground(false);
     }
 }
 
 bool MemoryTracePane::hasFocus()
 {
-    return ui->pepStackTraceGraphicsView->hasFocus() || ui->pepScaleSpinBox->hasFocus();
+    return ui->graphicsView->hasFocus() || ui->spinBox->hasFocus();
 }
 
 void MemoryTracePane::setFont()
 {
     // We might just do away with this in this pane.
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepStackTraceGraphicsView->font()), this,
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->graphicsView->font()), this,
                                       "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        ui->pepStackTraceGraphicsView->setFont(font);
+        ui->graphicsView->setFont(font);
     }
 }
 
 void MemoryTracePane::setFocus()
 {
-    ui->pepStackTraceGraphicsView->setFocus();
+    ui->graphicsView->setFocus();
 }
 
 void MemoryTracePane::addStackFrame(int numCells)
@@ -595,14 +595,14 @@ void MemoryTracePane::popBytes(int bytesToPop)
 
 void MemoryTracePane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->pepStackTraceGraphicsView->setFocus();
+    ui->graphicsView->setFocus();
 }
 
 void MemoryTracePane::zoomFactorChanged(int factor)
 {
     QMatrix matrix;
     matrix.scale(factor * .01, factor * .01);
-    ui->pepStackTraceGraphicsView->setMatrix(matrix);
+    ui->graphicsView->setMatrix(matrix);
 }
 
 void MemoryTracePane::mouseDoubleClickEvent(QMouseEvent *)

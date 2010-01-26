@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="pepCpuLabel">
+    <widget class="QLabel" name="cpuLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
        <horstretch>0</horstretch>
@@ -190,7 +190,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLabel" name="cpuNLabel">
+           <widget class="QLabel" name="nLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -265,7 +265,7 @@
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QLabel" name="cpuZLabel">
+           <widget class="QLabel" name="zLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -367,7 +367,7 @@
            </widget>
           </item>
           <item row="0" column="7">
-           <widget class="QLabel" name="cpuCLabel">
+           <widget class="QLabel" name="cLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -415,7 +415,7 @@
            </widget>
           </item>
           <item row="0" column="5">
-           <widget class="QLabel" name="cpuVLabel">
+           <widget class="QLabel" name="vLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -497,7 +497,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
-           <widget class="QLabel" name="cpuALabel">
+           <widget class="QLabel" name="accLabel">
             <property name="minimumSize">
              <size>
               <width>100</width>
@@ -524,7 +524,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="cpuADecLabel">
+           <widget class="QLabel" name="accDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -566,7 +566,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="cpuXLabel">
+           <widget class="QLabel" name="xLabel">
             <property name="minimumSize">
              <size>
               <width>100</width>
@@ -593,7 +593,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLabel" name="cpuXHexLabel">
+           <widget class="QLabel" name="xHexLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -635,7 +635,7 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QLabel" name="cpuXDecLabel">
+           <widget class="QLabel" name="xDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -677,7 +677,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="cpuSPLabel">
+           <widget class="QLabel" name="spLabel">
             <property name="minimumSize">
              <size>
               <width>100</width>
@@ -704,7 +704,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLabel" name="cpuSPHexLabel">
+           <widget class="QLabel" name="spHexLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -746,7 +746,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QLabel" name="cpuSPDecLabel">
+           <widget class="QLabel" name="spDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -788,7 +788,7 @@
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="cpuPCLabel">
+           <widget class="QLabel" name="pcLabel">
             <property name="minimumSize">
              <size>
               <width>100</width>
@@ -815,7 +815,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLabel" name="cpuPCHexLabel">
+           <widget class="QLabel" name="pcHexLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -857,7 +857,7 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="QLabel" name="cpuPCDecLabel">
+           <widget class="QLabel" name="pcDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -899,7 +899,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLabel" name="cpuAHexLabel">
+           <widget class="QLabel" name="accHexLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -944,7 +944,7 @@
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QLabel" name="cpuInstrSpecLabel">
+           <widget class="QLabel" name="instrSpecLabel">
             <property name="font">
              <font>
               <family>Lucida Grande</family>
@@ -965,7 +965,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QLabel" name="cpuInstrSpecBinLabel">
+           <widget class="QLabel" name="instrSpecBinLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -1007,7 +1007,7 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="cpuOprndSpecLabel">
+           <widget class="QLabel" name="oprndSpecLabel">
             <property name="font">
              <font>
               <family>Lucida Grande</family>
@@ -1028,7 +1028,7 @@
            </widget>
           </item>
           <item row="5" column="1">
-           <widget class="QLabel" name="cpuOprndSpecHexLabel">
+           <widget class="QLabel" name="oprndSpecHexLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1076,7 +1076,7 @@
            </widget>
           </item>
           <item row="5" column="2">
-           <widget class="QLabel" name="cpuOprndSpecDecLabel">
+           <widget class="QLabel" name="oprndSpecDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -1118,7 +1118,7 @@
            </widget>
           </item>
           <item row="6" column="0">
-           <widget class="QLabel" name="cpuOprndLabel">
+           <widget class="QLabel" name="oprndLabel">
             <property name="minimumSize">
              <size>
               <width>100</width>
@@ -1145,7 +1145,7 @@
            </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QLabel" name="cpuOprndHexLabel">
+           <widget class="QLabel" name="oprndHexLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -1187,7 +1187,7 @@
            </widget>
           </item>
           <item row="6" column="2">
-           <widget class="QLabel" name="cpuOprndDecLabel">
+           <widget class="QLabel" name="oprndDecLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -1229,7 +1229,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="QLabel" name="cpuInstrSpecMnemonLabel">
+           <widget class="QLabel" name="instrSpecMnemonLabel">
             <property name="minimumSize">
              <size>
               <width>80</width>
@@ -1271,7 +1271,7 @@
            </widget>
           </item>
           <item row="7" column="2">
-           <widget class="QPushButton" name="cpuResumePushButton">
+           <widget class="QPushButton" name="resumePushButton">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -1292,7 +1292,7 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="QPushButton" name="cpuSingleStepPushButton">
+           <widget class="QPushButton" name="singleStepPushButton">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -1319,7 +1319,7 @@
            </widget>
           </item>
           <item row="7" column="0">
-           <widget class="QCheckBox" name="pepTraceTrapsCheckBox">
+           <widget class="QCheckBox" name="traceTrapsCheckBox">
             <property name="font">
              <font>
               <family>Lucida Grande</family>

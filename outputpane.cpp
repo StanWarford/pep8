@@ -30,8 +30,8 @@ OutputPane::OutputPane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->pepOutputLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->pepOutputTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 
 OutputPane::~OutputPane()
@@ -41,45 +41,45 @@ OutputPane::~OutputPane()
 
 void OutputPane::appendOutput(QString str)
 {
-    ui->pepOutputTextEdit->setText(ui->pepOutputTextEdit->toPlainText().append(str));
-    ui->pepOutputTextEdit->verticalScrollBar()->setValue(ui->pepOutputTextEdit->verticalScrollBar()->maximum());
+    ui->textEdit->setText(ui->textEdit->toPlainText().append(str));
+    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum());
 }
 
 void OutputPane::clearOutput()
 {
-    ui->pepOutputTextEdit->clear();
+    ui->textEdit->clear();
 }
 
 void OutputPane::highlightOnFocus()
 {
-    if (ui->pepOutputTextEdit->hasFocus()) {
-        ui->pepOutputLabel->setAutoFillBackground(true);
+    if (ui->textEdit->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
     }
     else {
-        ui->pepOutputLabel->setAutoFillBackground(false);
+        ui->label->setAutoFillBackground(false);
     }
 }
 
 bool OutputPane::hasFocus()
 {
-    return ui->pepOutputTextEdit->hasFocus();
+    return ui->textEdit->hasFocus();
 }
 
 void OutputPane::copy()
 {
-    ui->pepOutputTextEdit->copy();
+    ui->textEdit->copy();
 }
 
 void OutputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepOutputTextEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        ui->pepOutputTextEdit->setFont(font);
+        ui->textEdit->setFont(font);
     }
 }
 
 void OutputPane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->pepOutputTextEdit->setFocus();
+    ui->textEdit->setFocus();
 }

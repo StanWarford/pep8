@@ -42,7 +42,7 @@
     <number>9</number>
    </property>
    <item>
-    <widget class="QLabel" name="pepMemoryTraceLabel">
+    <widget class="QLabel" name="label">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -133,7 +133,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QGraphicsView" name="pepStackTraceGraphicsView">
+      <widget class="QGraphicsView" name="graphicsView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -166,7 +166,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QSpinBox" name="pepScaleSpinBox">
+        <widget class="QSpinBox" name="spinBox">
          <property name="frame">
           <bool>true</bool>
          </property>

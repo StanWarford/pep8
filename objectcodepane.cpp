@@ -29,13 +29,13 @@ ObjectCodePane::ObjectCodePane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->pepObjectCodeTextEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
+    connect(ui->textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setLabelToModified(bool)));
 
-    connect(ui->pepObjectCodeTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(ui->pepObjectCodeTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    ui->pepObjectCodeLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->pepObjectCodeTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
+    ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
 
 ObjectCodePane::~ObjectCodePane()
@@ -51,18 +51,18 @@ void ObjectCodePane::setObjectCode(QList<int> objectCode)
         objectCodeString.append((i % 16) == 15 ? '\n' : ' ');
     }
     objectCodeString.append("zz");
-    ui->pepObjectCodeTextEdit->clear();
-    ui->pepObjectCodeTextEdit->setText(objectCodeString);
+    ui->textEdit->clear();
+    ui->textEdit->setText(objectCodeString);
 }
 
 void ObjectCodePane::setObjectCodePaneText(QString string)
 {
-        ui->pepObjectCodeTextEdit->setText(string);
+        ui->textEdit->setText(string);
 }
 
 bool ObjectCodePane::getObjectCode(QList<int> &objectCodeList)
 {
-    QString objectString = ui->pepObjectCodeTextEdit->toPlainText();
+    QString objectString = ui->textEdit->toPlainText();
     while (objectString.length() > 0) {
         if (objectString.at(1) == QChar('z')) {
             return true;
@@ -83,101 +83,101 @@ bool ObjectCodePane::getObjectCode(QList<int> &objectCodeList)
 
 void ObjectCodePane::ObjectCodePane::clearObjectCode()
 {
-    ui->pepObjectCodeTextEdit->clear();
+    ui->textEdit->clear();
 }
 
 bool ObjectCodePane::isModified()
 {
-    return ui->pepObjectCodeTextEdit->document()->isModified();
+    return ui->textEdit->document()->isModified();
 }
 
 void ObjectCodePane::setModifiedFalse()
 {
-    ui->pepObjectCodeTextEdit->document()->setModified(false);
+    ui->textEdit->document()->setModified(false);
 }
 
 QString ObjectCodePane::toPlainText()
 {
-    return ui->pepObjectCodeTextEdit->toPlainText();
+    return ui->textEdit->toPlainText();
 }
 
 void ObjectCodePane::setCurrentFile(QString string)
 {
     if (!string.isEmpty()) {
-        ui->pepObjectCodeLabel->setText("Object Code - " + string);
+        ui->label->setText("Object Code - " + string);
     }
     else {
-        ui->pepObjectCodeLabel->setText("Object Code - untitled.pepo");
+        ui->label->setText("Object Code - untitled.pepo");
     }
 }
 
 void ObjectCodePane::highlightOnFocus()
 {
-    if (ui->pepObjectCodeTextEdit->hasFocus()) {
-        ui->pepObjectCodeLabel->setAutoFillBackground(true);
+    if (ui->textEdit->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
     }
     else {
-        ui->pepObjectCodeLabel->setAutoFillBackground(false);
+        ui->label->setAutoFillBackground(false);
     }
 }
 
 bool ObjectCodePane::hasFocus()
 {
-    return ui->pepObjectCodeTextEdit->hasFocus();
+    return ui->textEdit->hasFocus();
 }
 
 void ObjectCodePane::undo()
 {
-    ui->pepObjectCodeTextEdit->undo();
+    ui->textEdit->undo();
 }
 
 void ObjectCodePane::redo()
 {
-    ui->pepObjectCodeTextEdit->redo();
+    ui->textEdit->redo();
 }
 
 bool ObjectCodePane::isUndoable()
 {
-    return ui->pepObjectCodeTextEdit->document()->isUndoAvailable();
+    return ui->textEdit->document()->isUndoAvailable();
 }
 
 bool ObjectCodePane::isRedoable()
 {
-    return ui->pepObjectCodeTextEdit->document()->isRedoAvailable();
+    return ui->textEdit->document()->isRedoAvailable();
 }
 
 void ObjectCodePane::cut()
 {
-    ui->pepObjectCodeTextEdit->cut();
+    ui->textEdit->cut();
 }
 
 void ObjectCodePane::copy()
 {
-    ui->pepObjectCodeTextEdit->copy();
+    ui->textEdit->copy();
 }
 
 void ObjectCodePane::paste()
 {
-    ui->pepObjectCodeTextEdit->paste();
+    ui->textEdit->paste();
 }
 
 void ObjectCodePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepObjectCodeTextEdit->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        ui->pepObjectCodeTextEdit->setFont(font);
+        ui->textEdit->setFont(font);
     }
 }
 
 void ObjectCodePane::setReadOnly(bool b)
 {
-    ui->pepObjectCodeTextEdit->setReadOnly(b);
+    ui->textEdit->setReadOnly(b);
 }
 
 void ObjectCodePane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->pepObjectCodeTextEdit->setFocus();
+    ui->textEdit->setFocus();
 }
 
 void ObjectCodePane::mouseDoubleClickEvent(QMouseEvent *)
@@ -187,13 +187,13 @@ void ObjectCodePane::mouseDoubleClickEvent(QMouseEvent *)
 
 void ObjectCodePane::setLabelToModified(bool modified)
 {
-    QString temp = ui->pepObjectCodeLabel->text();
+    QString temp = ui->label->text();
     if (modified) {
-        ui->pepObjectCodeLabel->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
+        ui->label->setText(temp.append(temp.endsWith(QChar('*')) ? "" : "*"));
     }
     else if (temp.endsWith(QChar('*'))) {
         temp.chop(1);
-        ui->pepObjectCodeLabel->setText(temp);
+        ui->label->setText(temp);
     }
 }
 

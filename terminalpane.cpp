@@ -33,11 +33,11 @@ TerminalPane::TerminalPane(QWidget *parent) :
 
     waiting = false;
 
-    connect(ui->pepTerminalTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(ui->pepTerminalTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
-    ui->pepTerminalLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->pepTerminalTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
     
     qApp->installEventFilter(this);
 }
@@ -49,68 +49,68 @@ TerminalPane::~TerminalPane()
 
 void TerminalPane::appendOutput(QString str)
 {
-    ui->pepTerminalTextEdit->setText(ui->pepTerminalTextEdit->toPlainText().append(str));
+    ui->textEdit->setText(ui->textEdit->toPlainText().append(str));
     strokeString.append(str);
-    ui->pepTerminalTextEdit->verticalScrollBar()->setValue(ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 void TerminalPane::waitingForInput()
 {
     waiting = true;
     displayTerminal();
-    ui->pepTerminalTextEdit->setFocus();
+    ui->textEdit->setFocus();
 }
 
 void TerminalPane::clearTerminal()
 {
-    ui->pepTerminalTextEdit->clear();
+    ui->textEdit->clear();
     retString = "";
     strokeString = "";
 }
 
 void TerminalPane::highlightOnFocus()
 {
-    if (ui->pepTerminalTextEdit->hasFocus()) {
-        ui->pepTerminalLabel->setAutoFillBackground(true);
+    if (ui->textEdit->hasFocus()) {
+        ui->label->setAutoFillBackground(true);
     }
     else {
-        ui->pepTerminalLabel->setAutoFillBackground(false);
+        ui->label->setAutoFillBackground(false);
     }
 }
 
 bool TerminalPane::hasFocus()
 {
-    return ui->pepTerminalTextEdit->hasFocus();
+    return ui->textEdit->hasFocus();
 }
 
 void TerminalPane::copy()
 {
-    ui->pepTerminalTextEdit->copy();
+    ui->textEdit->copy();
 }
 
 void TerminalPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->pepTerminalTextEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
     if (ok) {
-        ui->pepTerminalTextEdit->setFont(font);
+        ui->textEdit->setFont(font);
     }
 }
 
 void TerminalPane::displayTerminal()
 {
     if (waiting) {
-        ui->pepTerminalTextEdit->setPlainText(strokeString + retString + QString("_"));
+        ui->textEdit->setPlainText(strokeString + retString + QString("_"));
     }
     else {
-        ui->pepTerminalTextEdit->setPlainText(strokeString + retString);
+        ui->textEdit->setPlainText(strokeString + retString);
     }
-    ui->pepTerminalTextEdit->verticalScrollBar()->setValue(ui->pepTerminalTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 bool TerminalPane::eventFilter(QObject *, QEvent *event)
 {
-    if (event->type() == QEvent::KeyPress && ui->pepTerminalTextEdit->hasFocus() && waiting) {
+    if (event->type() == QEvent::KeyPress && ui->textEdit->hasFocus() && waiting) {
         QKeyEvent *e = static_cast<QKeyEvent *>(event);
         if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
             e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
@@ -142,6 +142,6 @@ bool TerminalPane::eventFilter(QObject *, QEvent *event)
 
 void TerminalPane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->pepTerminalTextEdit->setFocus();
+    ui->textEdit->setFocus();
 }
 

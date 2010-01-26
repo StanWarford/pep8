@@ -41,7 +41,7 @@ ListingTracePane::ListingTracePane(QWidget *parent) :
 //    programDocWidth = 0;
 //    osDocWidth = 0;
 
-    ui->listingTraceLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
+    ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
     ui->listingPepOsTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     ui->listingTraceTableWidget->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
 }
@@ -173,10 +173,10 @@ void ListingTracePane::showAssemblerListing()
 void ListingTracePane::highlightOnFocus()
 {
     if (ui->listingTraceTableWidget->hasFocus() || ui->listingPepOsTraceTableWidget->hasFocus()) {
-        ui->listingTraceLabel->setAutoFillBackground(true);
+        ui->label->setAutoFillBackground(true);
     }
     else {
-        ui->listingTraceLabel->setAutoFillBackground(false);
+        ui->label->setAutoFillBackground(false);
     }
 }
 
