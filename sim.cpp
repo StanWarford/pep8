@@ -498,7 +498,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         operand = readByteOprnd(addrMode);
         operandDisplayFieldWidth = 2;
         accumulator = accumulator & 0xff00;
-        accumulator |= operand;
+        accumulator |= operand & 255;
         nBit = accumulator >= 32768;
         zBit = accumulator == 0;
         return true;
@@ -506,7 +506,7 @@ bool Sim::vonNeumannStep(QString &errorString)
         operand = readByteOprnd(addrMode);
         operandDisplayFieldWidth = 2;
         indexRegister = indexRegister & 0xff00;
-        indexRegister |= operand;
+        indexRegister |= operand & 255;
         nBit = indexRegister >= 32768;
         zBit = indexRegister == 0;
         return true;
