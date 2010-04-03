@@ -221,8 +221,11 @@ void MainWindow::readSettings()
     if (Pep::getSystem() == "Mac") {
         pos.setY(pos.y() + 20); // Every time the app launches, it seems OSX moves the window 20 pixels up the screen, so we compensate here.
     }
-    else if (Pep::getSystem() == "Linux") {
+    else if (Pep::getSystem() == "Linux") { // Linux has a similar issue, so compensate here.
         pos.setY(pos.y() - 20);
+    }
+    if (pos.x() > width || pos.x() < 0 || pos.y() > height || pos.y() < 0) {
+        pos = QPoint(0, 0);
     }
     resize(size);
     move(pos);
