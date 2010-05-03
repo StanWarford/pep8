@@ -563,8 +563,11 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         }
         else if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
             if (cpuPane->singleStepHasFocus()) {
+                if (cpuPane->isSimulating()) {
+                    return true;
+                }
                 singleStepButtonClicked();
-                return true;
+                return true;                
             }
         }
         else if (keyEvent->key() == Qt::Key_Tab) {
@@ -1455,6 +1458,7 @@ void MainWindow::mainWindowUtilities(QWidget *, QWidget *)
     terminalPane->highlightOnFocus();
     memoryDumpPane->highlightOnFocus();
 
+    // we use the stop debugging menu item to determine if we're currently debugging, and set action availability accordingly
     if (sourceCodePane->hasFocus()) {
         ui->actionEdit_Undo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !sourceCodePane->isUndoable());
         ui->actionEdit_Redo->setDisabled(ui->actionBuild_Stop_Debugging->isEnabled() || !sourceCodePane->isRedoable());

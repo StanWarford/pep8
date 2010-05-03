@@ -90,6 +90,8 @@ public:
     bool hasFocus();
     // Post: Returns if the single step button has focus
 
+    bool isSimulating();
+
 private:
     Ui::CpuPane *ui;
 
@@ -98,6 +100,8 @@ private:
     Enu::EWaiting waiting; // Used to store terminal IO waiting for input state
 
     void mousePressEvent(QMouseEvent *);
+
+    bool isCurrentlySimulating;
 
 private slots:
     void singleStepButton();

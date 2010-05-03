@@ -83,6 +83,7 @@ CpuPane::CpuPane(QWidget *parent) :
         ui->oprndHexLabel->setFont(QFont(Pep::labelFont));
         ui->oprndDecLabel->setFont(QFont(Pep::labelFont));
     }
+    isCurrentlySimulating = false;
 }
 
 CpuPane::~CpuPane()
@@ -191,6 +192,7 @@ void CpuPane::setButtonsEnabled(bool b) {
 
 void CpuPane::runWithBatch()
 {
+    isCurrentlySimulating = true;
     interruptExecutionFlag = false;
     QString errorString;
     while (true) {
@@ -206,15 +208,18 @@ void CpuPane::runWithBatch()
             QMessageBox::warning(0, "Pep/8", errorString);
             updateCpu();
             emit executionComplete();
+            isCurrentlySimulating = false;
             return;
         }
         if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
             updateCpu();
             emit executionComplete();
+            isCurrentlySimulating = false;
             return;
         }
         if (interruptExecutionFlag) {
             updateCpu();
+            isCurrentlySimulating = false;
             return;
         }
     }
@@ -222,6 +227,7 @@ void CpuPane::runWithBatch()
 
 void CpuPane::runWithTerminal()
 {
+    isCurrentlySimulating = true;
     waiting = Enu::ERunWaiting;
     interruptExecutionFlag = false;
     QString errorString;
@@ -231,6 +237,7 @@ void CpuPane::runWithTerminal()
             // we are waiting for input
             updateCpu();
             emit waitingForInput();
+            isCurrentlySimulating = false;
             return;
         }
         else {
@@ -245,16 +252,19 @@ void CpuPane::runWithTerminal()
                 QMessageBox::warning(0, "Pep/8", errorString);
                 updateCpu();
                 emit executionComplete();
+                isCurrentlySimulating = false;
                 return;
             }
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
                 updateCpu();
                 emit executionComplete();
+                isCurrentlySimulating = false;
                 return;
             }
             if (interruptExecutionFlag) {
                 updateCpu();
                 emit updateSimulationView();
+                isCurrentlySimulating = false;
                 return;
             }
         }
@@ -263,6 +273,7 @@ void CpuPane::runWithTerminal()
 
 void CpuPane::resumeWithBatch()
 {
+    isCurrentlySimulating = true;
     interruptExecutionFlag = false;
     QString errorString;
     while (true) {
@@ -285,6 +296,7 @@ void CpuPane::resumeWithBatch()
             if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
                 emit updateSimulationView();
                 emit executionComplete();
+                isCurrentlySimulating = false;
                 return;
             }
             if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter) &&
@@ -298,10 +310,12 @@ void CpuPane::resumeWithBatch()
             QMessageBox::warning(0, "Pep/8", errorString);
             updateCpu();
             emit updateSimulationView();
+            isCurrentlySimulating = false;
             emit executionComplete();
         }
         if (interruptExecutionFlag) {
             emit updateSimulationView();
+            isCurrentlySimulating = false;
             return;
         }
     }
@@ -309,6 +323,7 @@ void CpuPane::resumeWithBatch()
 
 void CpuPane::resumeWithTerminal()
 {
+    isCurrentlySimulating = true;
     waiting = Enu::EDebugResumeWaiting;
     interruptExecutionFlag = false;
     QString errorString;
@@ -325,6 +340,7 @@ void CpuPane::resumeWithTerminal()
                     ui->singleStepPushButton->setDisabled(true);
                     ui->resumePushButton->setDisabled(true);
                     emit waitingForInput();
+                    isCurrentlySimulating = false;
                     return;
                 }
                 else {
@@ -343,11 +359,13 @@ void CpuPane::resumeWithTerminal()
                         QMessageBox::warning(0, "Pep/8", errorString);
                         emit updateSimulationView();
                         emit executionComplete();
+                        isCurrentlySimulating = false;
                     }
                 }
                 if (interruptExecutionFlag) {
                     updateCpu();
                     emit updateSimulationView();
+                    isCurrentlySimulating = false;
                     return;
                 }
             } while (Sim::trapped);
@@ -359,6 +377,7 @@ void CpuPane::resumeWithTerminal()
             emit updateSimulationView();
             updateCpu();
             emit waitingForInput();
+            isCurrentlySimulating = false;
             return;
         }
         else {
@@ -371,12 +390,14 @@ void CpuPane::resumeWithTerminal()
                 if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
                     emit updateSimulationView(); // Finish updating the memory before we're done executing
                     emit executionComplete();
+                    isCurrentlySimulating = false;
                     return;
                 }
                 if (Pep::memAddrssToAssemblerListing->contains(Sim::programCounter) &&
                     Pep::listingRowChecked->value(Pep::memAddrssToAssemblerListing->value(Sim::programCounter)) == Qt::Checked) {
                     updateCpu();
                     emit updateSimulationView();
+                    isCurrentlySimulating = false;
                     return;
                 }
             }
@@ -385,9 +406,12 @@ void CpuPane::resumeWithTerminal()
                 updateCpu();
                 emit updateSimulationView();
                 emit executionComplete();
+                isCurrentlySimulating = false;
+#warning "should we return here?"
             }
         }
         if (interruptExecutionFlag) {
+            isCurrentlySimulating = false;
             return;
         }
     }
@@ -395,6 +419,7 @@ void CpuPane::resumeWithTerminal()
 
 void CpuPane::singleStepWithBatch()
 {
+    isCurrentlySimulating = true;
     interruptExecutionFlag = false;
     QString errorString;
     trapLookahead();
@@ -412,16 +437,19 @@ void CpuPane::singleStepWithBatch()
                 if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
                     emit updateSimulationView();
                     emit executionComplete();
+                    isCurrentlySimulating = false;
                 }
             }
             else {
                 QMessageBox::warning(0, "Pep/8", errorString);
                 emit updateSimulationView();
                 emit executionComplete();
+                isCurrentlySimulating = false;
             }
             if (interruptExecutionFlag) {
                 updateCpu();
                 emit updateSimulationView();
+                isCurrentlySimulating = false;
                 return;
             }
         } while (Sim::trapped);
@@ -439,6 +467,7 @@ void CpuPane::singleStepWithBatch()
             updateCpu();
         }
         else {
+            isCurrentlySimulating = false;
             emit executionComplete();
         }
     }
@@ -446,10 +475,12 @@ void CpuPane::singleStepWithBatch()
         QMessageBox::warning(0, "Pep/8", errorString);
         emit executionComplete();
     }
+    isCurrentlySimulating = false;
 }
 
 void CpuPane::singleStepWithTerminal()
 {
+    isCurrentlySimulating = true;
     interruptExecutionFlag = false;
     QString errorString;
     waiting = Enu::EDebugSSWaiting;
@@ -464,6 +495,7 @@ void CpuPane::singleStepWithTerminal()
                 ui->singleStepPushButton->setDisabled(true);
                 ui->resumePushButton->setDisabled(true);
                 emit waitingForInput();
+                isCurrentlySimulating = false;
                 return;
             }
             else {
@@ -476,17 +508,20 @@ void CpuPane::singleStepWithTerminal()
                     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::STOP) {
                         emit updateSimulationView();
                         emit executionComplete();
+                        isCurrentlySimulating = false;
                     }
                 }
                 else {
                     QMessageBox::warning(0, "Pep/8", errorString);
                     emit updateSimulationView();
                     emit executionComplete();
+                    isCurrentlySimulating = false;
                 }
             }
             if (interruptExecutionFlag) {
                 updateCpu();
                 emit updateSimulationView();
+                isCurrentlySimulating = false;
                 return;
             }
         } while (Sim::trapped);
@@ -496,6 +531,7 @@ void CpuPane::singleStepWithTerminal()
         ui->singleStepPushButton->setDisabled(true);
         ui->resumePushButton->setDisabled(true);
         emit waitingForInput();
+        isCurrentlySimulating = false;
     }
     else {
         if (Sim::vonNeumannStep(errorString)) {
@@ -524,6 +560,7 @@ void CpuPane::singleStepWithTerminal()
             emit executionComplete();
         }
     }
+    isCurrentlySimulating = false;
 }
 
 void CpuPane::trapLookahead()
@@ -568,6 +605,11 @@ bool CpuPane::singleStepHasFocus()
 bool CpuPane::hasFocus()
 {
     return ui->singleStepPushButton->hasFocus();
+}
+
+bool CpuPane::isSimulating()
+{
+    return isCurrentlySimulating;
 }
 
 void CpuPane::mousePressEvent(QMouseEvent *)
