@@ -433,7 +433,9 @@ void MemoryTracePane::cacheHeapChanges()
     if (Sim::trapped) {
         return;
     }
-    ui->warningLabel->clear();
+    if (ui->warningLabel->text() != "") {
+        ui->warningLabel->clear();
+    }
 
     if (Pep::decodeMnemonic[Sim::instructionSpecifier] == Enu::CALL && Pep::symbolTable.value("new") == Sim::operandSpecifier) {
         newestHeapItemsList.clear();
