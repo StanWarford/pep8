@@ -16,7 +16,8 @@ RC_FILE = pep8resources.rc
 
 # Universal binaries for Mac
 # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-CONFIG += x86 ppc
+CONFIG += x86 \
+    ppc
 
 # Input
 HEADERS += mainwindow.h \
@@ -47,7 +48,8 @@ HEADERS += mainwindow.h \
     cpphighlighter.h \
     aboutpep.h \
     memorycellgraphicsitem.h \
-	stackframefsm.h
+    stackframefsm.h \
+    byteconverterinstr.h
 FORMS += mainwindow.ui \
     sourcecodepane.ui \
     objectcodepane.ui \
@@ -65,7 +67,8 @@ FORMS += mainwindow.ui \
     byteconverterbin.ui \
     helpdialog.ui \
     listingtracepane.ui \
-    aboutpep.ui
+    aboutpep.ui \
+    byteconverterinstr.ui
 SOURCES += main.cpp \
     mainwindow.cpp \
     sourcecodepane.cpp \
@@ -92,6 +95,7 @@ SOURCES += main.cpp \
     cpphighlighter.cpp \
     aboutpep.cpp \
     memorycellgraphicsitem.cpp \
-	stackframefsm.cpp
+    stackframefsm.cpp \
+    byteconverterinstr.cpp
 RESOURCES += pep8resources.qrc \
     helpresources.qrc

@@ -91,6 +91,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->byteConverterToolBar->addWidget(byteConverterBin);
     byteConverterChar = new ByteConverterChar();
     ui->byteConverterToolBar->addWidget(byteConverterChar);
+    byteConverterInstr = new ByteConverterInstr();
+    ui->byteConverterToolBar->addWidget(byteConverterInstr);
     connect(byteConverterDec, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterDecEdited(const QString &)));
     connect(byteConverterHex, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterHexEdited(const QString &)));
     connect(byteConverterBin, SIGNAL(textEdited(const QString &)), this, SLOT(slotByteConverterBinEdited(const QString &)));
@@ -1392,6 +1394,7 @@ void MainWindow::slotByteConverterDecEdited(const QString &str)
         byteConverterHex->setValue(data);
         byteConverterBin->setValue(data);
         byteConverterChar->setValue(data);
+        byteConverterInstr->setValue(data);
     }
 }
 
@@ -1407,6 +1410,7 @@ void MainWindow::slotByteConverterHexEdited(const QString &str)
                 byteConverterDec->setValue(data);
                 byteConverterBin->setValue(data);
                 byteConverterChar->setValue(data);
+                byteConverterInstr->setValue(data);
             }
             else {
                 // Exactly "0x" remains, so do nothing
@@ -1431,6 +1435,7 @@ void MainWindow::slotByteConverterBinEdited(const QString &str)
         byteConverterDec->setValue(data);
         byteConverterHex->setValue(data);
         byteConverterChar->setValue(data);
+        byteConverterInstr->setValue(data);
     }
 }
 
@@ -1441,6 +1446,7 @@ void MainWindow::slotByteConverterCharEdited(const QString &str)
         byteConverterDec->setValue(data);
         byteConverterHex->setValue(data);
         byteConverterBin->setValue(data);
+        byteConverterInstr->setValue(data);
     }
 }
 

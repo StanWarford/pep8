@@ -27,6 +27,7 @@
 #include "byteconverterhex.h"
 #include "byteconverterbin.h"
 #include "byteconverterchar.h"
+#include "byteconverterinstr.h"
 
 // Left pane
 #include "sourcecodepane.h"
@@ -94,6 +95,7 @@ private:
     ByteConverterHex *byteConverterHex;
     ByteConverterBin *byteConverterBin;
     ByteConverterChar *byteConverterChar;
+    ByteConverterInstr *byteConverterInstr;
 
     // Save methods
     bool saveSource();
