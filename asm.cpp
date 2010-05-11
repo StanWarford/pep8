@@ -78,7 +78,17 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         sourceLine.remove(0, tokenString.length());
         return true;
     }
-    if ((firstChar.isDigit() || firstChar == '+' || firstChar == '-') & !startsWithHexPrefix(sourceLine)) {
+    if (startsWithHexPrefix(sourceLine)) {
+        if (rxHexConst.indexIn(sourceLine) == -1) {
+            tokenString = ";ERROR: Malformed hex constant.";
+            return false;
+        }
+        token = LT_HEX_CONSTANT;
+        tokenString = rxHexConst.capturedTexts()[0];
+        sourceLine.remove(0, tokenString.length());
+        return true;
+    }
+    if ((firstChar.isDigit() || firstChar == '+' || firstChar == '-')) {
         if (rxDecConst.indexIn(sourceLine) == -1) {
             tokenString = ";ERROR: Malformed decimal constant.";
             return false;
@@ -95,16 +105,6 @@ bool Asm::getToken(QString &sourceLine, ELexicalToken &token, QString &tokenStri
         }
         token = LT_DOT_COMMAND;
         tokenString = rxDotCommand.capturedTexts()[0];
-        sourceLine.remove(0, tokenString.length());
-        return true;
-    }
-    if (startsWithHexPrefix(sourceLine)) {
-        if (rxHexConst.indexIn(sourceLine) == -1) {
-            tokenString = ";ERROR: Malformed hex constant.";
-            return false;
-        }
-        token = LT_HEX_CONSTANT;
-        tokenString = rxHexConst.capturedTexts()[0];
         sourceLine.remove(0, tokenString.length());
         return true;
     }
