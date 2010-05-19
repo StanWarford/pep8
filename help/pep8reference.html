@@ -30,7 +30,8 @@ Pep/8 Reference
  <a href="#Dot">Dot commands</a>,
  <a href="#Addressing">Addressing modes</a>,
  <a href="#Register">Register field</a>,
- <a href="#Trace">Trace tags</a>.
+ <a href="#Trace">Trace tags</a>,
+ <a href="#Syntax">Assembly language syntax summary</a>.
 
 <h3><a name="Instruction">Instruction set</a></h3>
 
@@ -326,6 +327,43 @@ will operate as expected.
 </table>
 <p>
 <a href="#Topics">Scroll to topics</a>.
+
+<h3><a name="Syntax">Assembly language syntax summary</a></h3>
+
+A decimal integer starts with an optional <code>+</code> or <code>-</code>, followed by a decimal digit followed by zero or more digits.
+<p>
+A decimal integer used with <code>.BYTE</code> ranges from -128 to 255, otherwise from -32768 to 65535.
+<p>
+A hex integer starts with <code>0x</code> or <code>0X</code> followed by one or more hex digits (upper- or lower-case).
+<p>
+A hex integer used with <code>.BYTE</code> ranges from 0 to FF, otherwise from 0 to FFFF.
+<p>
+A single character is enclosed in single quotes, as in <code>'t'</code>.
+<p>
+An ASCII string is enclosed in double quotes, as in <code>"My string."</code>.
+<p>
+An arbitrary byte can be included in a string or a character by prefixing exactly two hex digits with <code>\x</code> or <code>\X</code>, as in <code>"Null terminated\x00"</code>.
+<p>
+A double quote is included in a string by prefixing it with <code>\</code>, as in <code>"She said, \"Hello\"."</code>.
+<p>
+A single quote is included in a character by prefixing it with <code>\</code>, as in <code>'\''</code>.
+<p>
+A backslash character is included in a string or character by prefixing it with <code>\</code>, as in <code>"My bash is \\."</code> and <code>'\\'</code>.
+<p>
+The following letters, when preceded by <code>\</code>, generate non printable characters&#151;<code>b</code> backspace, <code>f</code> form feed, <code>n</code> line feed (new line), <code>r</code> carriage return, <code>t</code> horizontal tab, <code>v</code> vertical tab&#151;in string and character constants, as in <code>"\n Starts on a new line."</code> and <code>'\n'</code>.
+<p>
+A backslash character followed by any character other than <code>b</code>, <code>f</code>, <code>n</code>, <code>r</code>, <code>t</code>, <code>v</code>, <code>x</code>, <code>X</code>, <code>"</code>, <code>'</code>, or <code>\</code> (except for the second of a pair of <code>\</code>&#146;s) is an error.
+<p>
+A double quote preceded by a backslash in a character is not necessary but is valid and represents one double quote.
+<p>
+A single quote preceded by a backslash in a string is not necessary but is valid and represents one single quote.
+<p>
+A constant used as an operand specifier that occupies less than two bytes is right justified in the two-byte field.
+<p>
+A constant used as an operand specifier that occupies more than two bytes is an error.
+<p>
+<a href="#Topics">Scroll to topics</a>.
+
 <p>
 </body>
 </html>
