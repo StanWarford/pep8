@@ -571,6 +571,11 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 singleStepButtonClicked();
                 return true;                
             }
+            else if ((listingTracePane->hasFocus() || memoryTracePane->hasFocus()) && ui->actionBuild_Stop_Debugging->isEnabled()) {
+                // listing trace or memory trace has focus, and we are debugging
+                cpuPane->giveSingleStepFocus();
+                return true;
+            }
         }
         else if (keyEvent->key() == Qt::Key_Tab) {
             if (inputPane->hasFocus()) {

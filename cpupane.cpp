@@ -612,6 +612,14 @@ bool CpuPane::isSimulating()
     return isCurrentlySimulating;
 }
 
+void CpuPane::giveSingleStepFocus()
+{
+    // protect against this being used incorrectly:
+    if (ui->singleStepPushButton->isEnabled()) {
+        ui->singleStepPushButton->setFocus();
+    }
+}
+
 void CpuPane::mousePressEvent(QMouseEvent *)
 {
     if (ui->singleStepPushButton->isEnabled()) {

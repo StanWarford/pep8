@@ -91,6 +91,13 @@ public:
     // Post: Returns if the single step button has focus
 
     bool isSimulating();
+    // Returns if the CPU is currently simulating - this can happen when the enter key is
+    // held down to single step quickly, causing multiple enter events to fire per single step
+    // This is used to avoid that.
+
+    void giveSingleStepFocus();
+    // Gives the single step button focus - this is used when we press 'enter' in other panes
+    // and we want to give the cpu pane focus for ease of navigation
 
 private:
     Ui::CpuPane *ui;
