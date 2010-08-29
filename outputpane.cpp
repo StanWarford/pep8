@@ -73,7 +73,7 @@ void OutputPane::copy()
 void OutputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Output Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Output Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }

@@ -130,7 +130,7 @@ void AssemblerListingPane::copy()
 void AssemblerListingPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Assembler Listing Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Assembler Listing Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }

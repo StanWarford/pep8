@@ -300,7 +300,7 @@ void MemoryDumpPane::copy()
 void MemoryDumpPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Memory Dump Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Memory Dump Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }

@@ -164,7 +164,7 @@ void ObjectCodePane::paste()
 void ObjectCodePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Object Code Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }

@@ -188,7 +188,7 @@ bool ListingTracePane::hasFocus()
 void ListingTracePane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->listingTraceTableWidget->font()), this, "Set Listing Trace Font");
     if (ok) {
         ui->listingTraceTableWidget->setFont(font);
         ui->listingPepOsTraceTableWidget->setFont(font);

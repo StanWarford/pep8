@@ -519,8 +519,7 @@ void MemoryTracePane::setFont()
 {
     // We might just do away with this in this pane.
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->graphicsView->font()), this,
-                                      "Set Object Code Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->graphicsView->font()), this, "Set Object Code Font");
     if (ok) {
         ui->graphicsView->setFont(font);
     }

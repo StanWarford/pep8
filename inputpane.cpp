@@ -106,7 +106,7 @@ void InputPane::paste()
 void InputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Input Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Input Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }

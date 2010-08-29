@@ -91,7 +91,7 @@ void TerminalPane::copy()
 void TerminalPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Terminal Font", QFontDialog::DontUseNativeDialog);
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Terminal Font");
     if (ok) {
         ui->textEdit->setFont(font);
     }
