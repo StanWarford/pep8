@@ -2,7 +2,7 @@
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,12 @@ TerminalPane::TerminalPane(QWidget *parent) :
 
     waiting = false;
 
-    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->plainTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->plainTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
-    
+    ui->plainTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+
     qApp->installEventFilter(this);
 }
 
@@ -49,28 +49,28 @@ TerminalPane::~TerminalPane()
 
 void TerminalPane::appendOutput(QString str)
 {
-    ui->textEdit->setText(ui->textEdit->toPlainText().append(str));
+    ui->plainTextEdit->setPlainText(ui->plainTextEdit->toPlainText().append(str));
     strokeString.append(str);
-    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->plainTextEdit->verticalScrollBar()->setValue(ui->plainTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 void TerminalPane::waitingForInput()
 {
     waiting = true;
     displayTerminal();
-    ui->textEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }
 
 void TerminalPane::clearTerminal()
 {
-    ui->textEdit->clear();
+    ui->plainTextEdit->clear();
     retString = "";
     strokeString = "";
 }
 
 void TerminalPane::highlightOnFocus()
 {
-    if (ui->textEdit->hasFocus()) {
+    if (ui->plainTextEdit->hasFocus()) {
         ui->label->setAutoFillBackground(true);
     }
     else {
@@ -80,37 +80,37 @@ void TerminalPane::highlightOnFocus()
 
 bool TerminalPane::hasFocus()
 {
-    return ui->textEdit->hasFocus();
+    return ui->plainTextEdit->hasFocus();
 }
 
 void TerminalPane::copy()
 {
-    ui->textEdit->copy();
+    ui->plainTextEdit->copy();
 }
 
 void TerminalPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Terminal Font");
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->plainTextEdit->font()), this, "Set Terminal Font");
     if (ok) {
-        ui->textEdit->setFont(font);
+        ui->plainTextEdit->setFont(font);
     }
 }
 
 void TerminalPane::displayTerminal()
 {
     if (waiting) {
-        ui->textEdit->setPlainText(strokeString + retString + QString("_"));
+        ui->plainTextEdit->setPlainText(strokeString + retString + QString("_"));
     }
     else {
-        ui->textEdit->setPlainText(strokeString + retString);
+        ui->plainTextEdit->setPlainText(strokeString + retString);
     }
-    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum()); // Scroll to bottom
+    ui->plainTextEdit->verticalScrollBar()->setValue(ui->plainTextEdit->verticalScrollBar()->maximum()); // Scroll to bottom
 }
 
 bool TerminalPane::eventFilter(QObject *, QEvent *event)
 {
-    if (event->type() == QEvent::KeyPress && ui->textEdit->hasFocus() && waiting) {
+    if (event->type() == QEvent::KeyPress && ui->plainTextEdit->hasFocus() && waiting) {
         QKeyEvent *e = static_cast<QKeyEvent *>(event);
         if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
             e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt ||
@@ -142,6 +142,6 @@ bool TerminalPane::eventFilter(QObject *, QEvent *event)
 
 void TerminalPane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->textEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }
 

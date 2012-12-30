@@ -2,7 +2,7 @@
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,11 @@ InputPane::InputPane(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->textEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
-    connect(ui->textEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
+    connect(ui->plainTextEdit, SIGNAL(undoAvailable(bool)), this, SIGNAL(undoAvailable(bool)));
+    connect(ui->plainTextEdit, SIGNAL(redoAvailable(bool)), this, SIGNAL(redoAvailable(bool)));
 
     ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->plainTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 
 InputPane::~InputPane()
@@ -45,7 +45,7 @@ InputPane::~InputPane()
 
 void InputPane::highlightOnFocus()
 {
-    if (ui->textEdit->hasFocus()) {
+    if (ui->plainTextEdit->hasFocus()) {
         ui->label->setAutoFillBackground(true);
     }
     else {
@@ -55,75 +55,75 @@ void InputPane::highlightOnFocus()
 
 QString InputPane::toPlainText()
 {
-    return ui->textEdit->toPlainText();
+    return ui->plainTextEdit->toPlainText();
 }
 
 void InputPane::setText(QString input)
 {
-    ui->textEdit->setText(input);
+    ui->plainTextEdit->setPlainText(input);
 }
 
 bool InputPane::hasFocus()
 {
-    return ui->textEdit->hasFocus();
+    return ui->plainTextEdit->hasFocus();
 }
 
 void InputPane::undo()
 {
-    ui->textEdit->undo();
+    ui->plainTextEdit->undo();
 }
 
 void InputPane::redo()
 {
-    ui->textEdit->redo();
+    ui->plainTextEdit->redo();
 }
 
 bool InputPane::isUndoable()
 {
-    return ui->textEdit->document()->isUndoAvailable();
+    return ui->plainTextEdit->document()->isUndoAvailable();
 }
 
 bool InputPane::isRedoable()
 {
-    return ui->textEdit->document()->isRedoAvailable();
+    return ui->plainTextEdit->document()->isRedoAvailable();
 }
 
 void InputPane::cut()
 {
-    ui->textEdit->cut();
+    ui->plainTextEdit->cut();
 }
 
 void InputPane::copy()
 {
-    ui->textEdit->copy();
+    ui->plainTextEdit->copy();
 }
 
 void InputPane::paste()
 {
-    ui->textEdit->paste();
+    ui->plainTextEdit->paste();
 }
 
 void InputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Input Font");
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->plainTextEdit->font()), this, "Set Input Font");
     if (ok) {
-        ui->textEdit->setFont(font);
+        ui->plainTextEdit->setFont(font);
     }
 }
 
 void InputPane::setReadOnly(bool b)
 {
-    ui->textEdit->setReadOnly(b);
+    ui->plainTextEdit->setReadOnly(b);
 }
 
 void InputPane::tab()
 {
-    if (!ui->textEdit->isReadOnly()) {
-        QTextCursor cursor = ui->textEdit->textCursor();
+    if (!ui->plainTextEdit->isReadOnly()) {
+        QTextCursor cursor = ui->plainTextEdit->textCursor();
         cursor.movePosition(QTextCursor::StartOfLine);
 
-        int curLinePos = ui->textEdit->textCursor().position() - cursor.position();
+        int curLinePos = ui->plainTextEdit->textCursor().position() - cursor.position();
 
         QString string;
         int spaces;
@@ -133,11 +133,11 @@ void InputPane::tab()
             string.append(" ");
         }
 
-        ui->textEdit->insertPlainText(string);
+        ui->plainTextEdit->insertPlainText(string);
     }
 }
 
 void InputPane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->textEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }

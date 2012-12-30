@@ -106,15 +106,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QPlainTextEdit" name="plainTextEdit">
        <property name="font">
         <font>
          <family>Courier</family>
          <pointsize>13</pointsize>
         </font>
-       </property>
-       <property name="lineWrapMode">
-        <enum>QTextEdit::NoWrap</enum>
        </property>
       </widget>
      </item>

@@ -2,7 +2,7 @@
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ OutputPane::OutputPane(QWidget *parent) :
     ui->setupUi(this);
 
     ui->label->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
-    ui->textEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
+    ui->plainTextEdit->setFont(QFont(Pep::codeFont, Pep::ioFontSize));
 }
 
 OutputPane::~OutputPane()
@@ -41,18 +41,18 @@ OutputPane::~OutputPane()
 
 void OutputPane::appendOutput(QString str)
 {
-    ui->textEdit->setText(ui->textEdit->toPlainText().append(str));
-    ui->textEdit->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->maximum());
+    ui->plainTextEdit->setPlainText(ui->plainTextEdit->toPlainText().append(str));
+    ui->plainTextEdit->verticalScrollBar()->setValue(ui->plainTextEdit->verticalScrollBar()->maximum());
 }
 
 void OutputPane::clearOutput()
 {
-    ui->textEdit->clear();
+    ui->plainTextEdit->clear();
 }
 
 void OutputPane::highlightOnFocus()
 {
-    if (ui->textEdit->hasFocus()) {
+    if (ui->plainTextEdit->hasFocus()) {
         ui->label->setAutoFillBackground(true);
     }
     else {
@@ -62,24 +62,24 @@ void OutputPane::highlightOnFocus()
 
 bool OutputPane::hasFocus()
 {
-    return ui->textEdit->hasFocus();
+    return ui->plainTextEdit->hasFocus();
 }
 
 void OutputPane::copy()
 {
-    ui->textEdit->copy();
+    ui->plainTextEdit->copy();
 }
 
 void OutputPane::setFont()
 {
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Output Font");
+    QFont font = QFontDialog::getFont(&ok, QFont(ui->plainTextEdit->font()), this, "Set Output Font");
     if (ok) {
-        ui->textEdit->setFont(font);
+        ui->plainTextEdit->setFont(font);
     }
 }
 
 void OutputPane::mouseReleaseEvent(QMouseEvent *)
 {
-    ui->textEdit->setFocus();
+    ui->plainTextEdit->setFocus();
 }

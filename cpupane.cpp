@@ -2,7 +2,7 @@
 /*
     Pep8-1 is a virtual machine for writing machine language and assembly
     language programs.
-    
+
     Copyright (C) 2009  J. Stanley Warford, Pepperdine University
 
     This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ CpuPane::CpuPane(QWidget *parent) :
 
     interruptExecutionFlag = false;
     clearCpu();
-    
+
     if (Pep::getSystem() != "Mac") {
         ui->cpuLabel->setFont(QFont(Pep::labelFont, Pep::labelFontSize));
         ui->traceTrapsCheckBox->setFont(QFont(Pep::labelFont));
