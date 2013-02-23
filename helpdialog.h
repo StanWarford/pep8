@@ -22,7 +22,7 @@
 #ifndef HELPDIALOG_H
 #define HELPDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <QTreeWidgetItem>
 #include "pephighlighter.h" // For syntax highlighting
 #include "cpphighlighter.h"

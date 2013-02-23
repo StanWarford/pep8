@@ -22,7 +22,7 @@
 #ifndef MEMORYDUMPPANE_H
 #define MEMORYDUMPPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QScrollBar>
 #include <QSet>
 

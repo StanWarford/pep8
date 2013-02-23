@@ -22,7 +22,7 @@
 #ifndef SOURCECODEPANE_H
 #define SOURCECODEPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QString>
 #include <QList>
 #include "asm.h" // For Code in QList<Code *> codeList;

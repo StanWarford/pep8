@@ -22,7 +22,7 @@
 #ifndef MEMORYTRACEPANE_H
 #define MEMORYTRACEPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QGraphicsScene>
 #include <QStack>
 #include <QSet>

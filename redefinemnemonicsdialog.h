@@ -22,7 +22,7 @@
 #ifndef REDEFINEMNEMONICSDIALOG_H
 #define REDEFINEMNEMONICSDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include "pep.h"
 
 namespace Ui {

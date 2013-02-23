@@ -22,7 +22,7 @@
 #ifndef OUTPUTPANE_H
 #define OUTPUTPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 namespace Ui {
     class OutputPane;

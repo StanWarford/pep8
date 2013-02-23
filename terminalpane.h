@@ -22,7 +22,7 @@
 #ifndef TERMINALPANE_H
 #define TERMINALPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QKeyEvent>
 
 namespace Ui {

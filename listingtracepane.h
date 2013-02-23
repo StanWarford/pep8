@@ -22,7 +22,7 @@
 #ifndef LISTINGTRACEPANE_H
 #define LISTINGTRACEPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QTableWidgetItem>
 #include "enu.h"
 

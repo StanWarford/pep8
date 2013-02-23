@@ -20,7 +20,7 @@
 */
 #include <QMessageBox>
 #include <QKeyEvent>
-#include <QSound>
+// #include <QSound>
 #include "cpupane.h"
 #include "ui_cpupane.h"
 #include "sim.h"

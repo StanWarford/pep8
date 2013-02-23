@@ -22,7 +22,7 @@
 #ifndef ABOUTPEP_H
 #define ABOUTPEP_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui {
     class AboutPep;

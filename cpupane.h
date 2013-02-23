@@ -22,7 +22,7 @@
 #ifndef CPUPANE_H
 #define CPUPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "enu.h"
 
 namespace Ui {

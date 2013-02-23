@@ -22,7 +22,7 @@
 #ifndef INPUTPANE_H
 #define INPUTPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 namespace Ui {
     class InputPane;

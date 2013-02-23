@@ -22,7 +22,7 @@
 #ifndef OBJECTCODEPANE_H
 #define OBJECTCODEPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "enu.h"
 
 namespace Ui {

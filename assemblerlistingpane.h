@@ -22,7 +22,7 @@
 #ifndef ASSEMBLERLISTINGPANE_H
 #define ASSEMBLERLISTINGPANE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include "pephighlighter.h"
 #include "enu.h"
 
