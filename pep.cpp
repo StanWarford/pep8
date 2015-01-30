@@ -132,11 +132,11 @@ QString Pep::resToString(QString fileName) {
 }
 
 QString Pep::getSystem() {
-    #ifdef Q_WS_X11
+    #ifdef Q_OS_LINUX
     return QString("Linux");
     #endif
 
-    #ifdef Q_WS_MAC
+    #ifdef Q_OS_OSX
     return QString("Mac");
     #endif
 
