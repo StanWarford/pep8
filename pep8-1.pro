@@ -5,9 +5,10 @@ TEMPLATE = app
 TARGET = Pep8
 DEPENDPATH += .
 INCLUDEPATH += .
-QT += webkit
-QT += webkitwidgets
+# QT += webkit
+# QT += webkitwidgets
 QT += widgets
+QT += webenginewidgets
 QT += printsupport
 
 # Mac icon/plist

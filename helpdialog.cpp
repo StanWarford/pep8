@@ -86,37 +86,37 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 
     if ((!isHelpSubCat && row == eWRITING) || parentRow == eWRITING) {
         ui->helpSplitter->widget(1)->hide();
-        ui->webView->show();
+        ui->webEngineView->show();
         if (!isHelpSubCat) {                          // Writing Programs
-            ui->webView->load(QUrl("qrc:/help/writingprograms.html"));
+            ui->webEngineView->load(QUrl("qrc:/help/writingprograms.html"));
         }
         else if (row == eMACHINE) {           // Writing Programs > Machine Language
-            ui->webView->load(QUrl("qrc:/help/machinelanguage.html"));
+            ui->webEngineView->load(QUrl("qrc:/help/machinelanguage.html"));
         }
         else if (row == eASSEMBLY) {          // Writing Programs > Assembly Language
-            ui->webView->load(QUrl("qrc:/help/assemblylanguage.html"));
+            ui->webEngineView->load(QUrl("qrc:/help/assemblylanguage.html"));
         }
     }
     else if (!isHelpSubCat && row == eDEBUGGING) {
         ui->helpSplitter->widget(1)->hide();
-        ui->webView->show();
-        ui->webView->load(QUrl("qrc:/help/debuggingprograms.html"));
+        ui->webEngineView->show();
+        ui->webEngineView->load(QUrl("qrc:/help/debuggingprograms.html"));
     }
     else if (!isHelpSubCat && row == eTRAP) {  // Writing Trap Handlers
         ui->helpSplitter->widget(1)->hide();
-        ui->webView->show();
-        ui->webView->load(QUrl("qrc:/help/writingtraphandlers.html"));
+        ui->webEngineView->show();
+        ui->webEngineView->load(QUrl("qrc:/help/writingtraphandlers.html"));
     }
     else if ((!isHelpSubCat && row == eREFERENCE)) {
         ui->helpSplitter->widget(1)->hide();
-        ui->webView->show();
-        ui->webView->load(QUrl("qrc:/help/pep8reference.html"));
+        ui->webEngineView->show();
+        ui->webEngineView->load(QUrl("qrc:/help/pep8reference.html"));
     }
     else if ((!isHelpSubCat && row == eEXAMPLES) || parentRow == eEXAMPLES) {
         if (!isHelpSubCat) {
             ui->helpSplitter->widget(1)->hide();
-            ui->webView->show();
-            ui->webView->load(QUrl("qrc:/help/examples.html"));
+            ui->webEngineView->show();
+            ui->webEngineView->load(QUrl("qrc:/help/examples.html"));
         }
         else {
             ui->helpSplitter->widget(0)->hide();
@@ -563,7 +563,7 @@ QString HelpDialog::getCode(Enu::EPane &destPane, Enu::EPane &inputDest, QString
 
 bool HelpDialog::hasFocus()
 {
-    return ui->leftTextEdit->hasFocus() || ui->rightCppTextEdit->hasFocus() || ui->webView->hasFocus();
+    return ui->leftTextEdit->hasFocus() || ui->rightCppTextEdit->hasFocus() || ui->webEngineView->hasFocus();
 }
 
 void HelpDialog::copy()
@@ -572,8 +572,8 @@ void HelpDialog::copy()
         ui->leftTextEdit->copy();
     } else if (ui->rightCppTextEdit->hasFocus()) {
         ui->rightCppTextEdit->copy();
-    } else if (ui->webView->hasFocus()) {
-        QApplication::clipboard()->setText(ui->webView->selectedText());
+    } else if (ui->webEngineView->hasFocus()) {
+        QApplication::clipboard()->setText(ui->webEngineView->selectedText());
     }
 }
 
