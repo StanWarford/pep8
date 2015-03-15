@@ -5,8 +5,6 @@ TEMPLATE = app
 TARGET = Pep8
 DEPENDPATH += .
 INCLUDEPATH += .
-# QT += webkit
-# QT += webkitwidgets
 QT += widgets
 QT += webenginewidgets
 QT += printsupport
@@ -18,10 +16,6 @@ QMAKE_MAC_SDK = macosx10.10
 
 # Windows RC file
 RC_FILE = pep8resources.rc
-
-# Universal binaries for Mac
-# QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-# CONFIG += x86 ppc
 
 # Input
 HEADERS += mainwindow.h \
