@@ -438,6 +438,12 @@ void HelpDialog::onCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) {
 }
 
 // Public functions called by main window help menu items:
+void HelpDialog::onFontChanged(QFont font)
+{
+    ui->leftTextEdit->setFont(font);
+    ui->rightCppTextEdit->setFont(font);
+    ui->rightPepTextEdit->setFont(font);
+}
 
 void HelpDialog::machineLanguageClicked()
 {

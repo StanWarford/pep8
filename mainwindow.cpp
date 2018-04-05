@@ -42,7 +42,7 @@
  #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent), ui(new Ui::MainWindowClass)
+        : QMainWindow(parent), ui(new Ui::MainWindowClass),codeFont(Pep::codeFont,Pep::codeFontSize)
 {
     ui->setupUi(this);
 
@@ -151,7 +151,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(terminalPane, SIGNAL(inputReceived()), this, SLOT(inputReceived()));
 
     // connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
-
+    //Handle synchronizing fonts
+    connect(this,SIGNAL(fontChanged(QFont)),sourceCodePane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),objectCodePane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),assemblerListingPane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),listingTracePane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),memoryTracePane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),inputPane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),outputPane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),terminalPane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),memoryDumpPane,SLOT(onFontChanged(QFont)));
+    connect(this,SIGNAL(fontChanged(QFont)),helpDialog,SLOT(onFontChanged(QFont)));
     readSettings();
 
     // Recent files
@@ -212,7 +222,8 @@ bool MainWindow::saveObject()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Pep8", "MainWindow");
+    QSettings settings("cslab.pepperdine","Pep8");
+    settings.beginGroup("MainWindow");
     QDesktopWidget *desktop = QApplication::desktop();
     int width = static_cast<int>(desktop->width() * 0.80);
     int height = static_cast<int>(desktop->height() * 0.70);
@@ -231,15 +242,25 @@ void MainWindow::readSettings()
     }
     resize(size);
     move(pos);
+    QVariant val = settings.value("font",codeFont);
+    if(val.canConvert<QFont>())
+    {
+        codeFont = qvariant_cast<QFont>(val);
+    }
+    emit fontChanged(codeFont);
     curPath = settings.value("filePath", QDir::homePath()).toString();
+    settings.endGroup();
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Pep8", "MainWindow");
+    QSettings settings("cslab.pepperdine","Pep8");
+    settings.beginGroup("MainWindow");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("filePath", curPath);
+    settings.setValue("font",codeFont);
+    settings.endGroup();
 }
 
 bool MainWindow::maybeSaveSource()
@@ -846,37 +867,19 @@ void MainWindow::on_actionEdit_Format_From_Listing_triggered()
         sourceCodePane->setSourceCodePaneText(assemblerListingList.join("\n"));
     }
 }
+void MainWindow::on_actionReset_Fonts_to_Defaults_triggered()
+{
+    codeFont = QFont(Pep::codeFont,Pep::codeFontSize);
+    emit fontChanged(codeFont);
+}
 
 void MainWindow::on_actionEdit_Font_triggered()
 {
-    if (sourceCodePane->hasFocus()) {
-        sourceCodePane->setFont();
-    }
-    else if (objectCodePane->hasFocus()) {
-        objectCodePane->setFont();
-    }
-    else if (assemblerListingPane->hasFocus()) {
-        assemblerListingPane->setFont();
-    }
-    else if (listingTracePane->hasFocus()) {
-        listingTracePane->setFont();
-    }
-    else if (memoryTracePane->hasFocus()) {
-        memoryTracePane->setFont();
-    }
-    else if (inputPane->hasFocus()) {
-        inputPane->setFont();
-    }
-    else if (outputPane->hasFocus()) {
-        outputPane->setFont();
-    }
-    else if (terminalPane->hasFocus()) {
-        terminalPane->setFont();
-    }
-    else if (memoryDumpPane->hasFocus()) {
-        memoryDumpPane->setFont();
-        memoryDumpPane->updateGeometry();
-        memoryDumpPane->setMaximumWidth(memoryDumpPane->memoryDumpWidth());
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, codeFont, this, "Set Source Code Font");
+    if (ok) {
+        codeFont = font;
+        emit fontChanged(codeFont);
     }
 }
 

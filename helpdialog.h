@@ -66,6 +66,7 @@ private:
     PepHighlighter *rightPepHighlighter;
 
     enum Row {
+
         eWRITING = 0,
         eDEBUGGING = 1,
         eTRAP = 2,
@@ -121,6 +122,9 @@ private:
         ePROB829 = 42,
         ePROB832 = 43,
     };
+
+public slots:
+    void onFontChanged(QFont font);
 
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*);

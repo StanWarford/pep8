@@ -80,7 +80,16 @@
          <string>Code</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -100,7 +109,16 @@
          <string>Trace</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_2">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -169,7 +187,16 @@
           <string>Batch I/O</string>
          </attribute>
          <layout class="QVBoxLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -201,7 +228,16 @@
           <string>Terminal I/O</string>
          </attribute>
          <layout class="QVBoxLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -313,7 +349,7 @@
      <x>0</x>
      <y>0</y>
      <width>1044</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Edit">
@@ -334,6 +370,7 @@
     <addaction name="actionEdit_Remove_Error_Messages"/>
     <addaction name="separator"/>
     <addaction name="actionEdit_Font"/>
+    <addaction name="actionReset_Fonts_to_Defaults"/>
    </widget>
    <widget class="QMenu" name="menu_File">
     <property name="toolTip">
@@ -907,6 +944,11 @@
   <action name="actionSystem_Clear_Memory">
    <property name="text">
     <string>Clear Memory</string>
+   </property>
+  </action>
+  <action name="actionReset_Fonts_to_Defaults">
+   <property name="text">
+    <string>Reset Fonts to Defaults</string>
    </property>
   </action>
  </widget>
