@@ -354,15 +354,6 @@ void SourceCodePane::paste()
     ui->textEdit->paste();
 }
 
-void SourceCodePane::setFont()
-{
-    bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, QFont(ui->textEdit->font()), this, "Set Source Code Font");
-    if (ok) {
-        ui->textEdit->setFont(font);
-    }
-}
-
 void SourceCodePane::setReadOnly(bool b)
 {
     ui->textEdit->setReadOnly(b);
@@ -398,6 +389,11 @@ void SourceCodePane::tab()
 
         ui->textEdit->insertPlainText(string);
     }
+}
+
+void SourceCodePane::onFontChanged(QFont font)
+{
+    ui->textEdit->setFont(font);
 }
 
 void SourceCodePane::mouseReleaseEvent(QMouseEvent *)

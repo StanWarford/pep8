@@ -68,7 +68,7 @@ protected:
 
 private:
     Ui::MainWindowClass *ui;
-
+    QFont codeFont;
     // Left pane
     SourceCodePane *sourceCodePane;
     ObjectCodePane *objectCodePane;
@@ -150,6 +150,7 @@ private slots:
     void on_actionEdit_Paste_triggered();
     void on_actionEdit_Format_From_Listing_triggered();
     void on_actionEdit_Font_triggered();
+    void on_actionReset_Fonts_to_Defaults_triggered();
     void on_actionEdit_Remove_Error_Messages_triggered();
 
     // Build
@@ -238,7 +239,8 @@ private slots:
     void slotSaveTraceTraps(int);
     void slotSaveTraceLoader(int);
 */
-
+signals:
+    void fontChanged(QFont font);
 };
 
 #endif // MAINWINDOW_H
