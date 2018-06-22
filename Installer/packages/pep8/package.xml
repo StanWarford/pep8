@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Pep8</DisplayName>
+    <Description>This tool simulates a CISC CPU, and allows sample programs to be run, tested and visualized.</Description>
+    <Version>8.3</Version>
+    <ReleaseDate>2018-05-02</ReleaseDate>
+    <Licenses>
+        <License name="GNU GENERAL PUBLIC LICENSE" file="License.txt" />
+    </Licenses>
+    <ForcedInstallation>true</ForcedInstallation>
+    <Script>installscript.js</Script>
+</Package>

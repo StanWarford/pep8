@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Linux version of the config file-->
+<Installer>
+    <Name>Pep8</Name>
+        <!--Installer Version number, not the application version number-->
+    <Version>1.0.0</Version>
+        <!--Window title of the installer-->
+    <Title>Pep8 Installer</Title>
+    <Publisher>Pepperdine University</Publisher>
+    <ProductUrl>http://computersystemsbook.com/4th-edition/pep8/</ProductUrl>
+        <!--Make sure to put application in a subdirectory of applications,
+        because the application has a ton of supporting files like dlls
+        -->
+    <TargetDir>@ApplicationsDirX64@/Pep8/Pep8</TargetDir>
+        <!--Background for the installer
+        If it is too large, it could cause sizing issues with the window.-->
+    <!--<Watermark></Watermark>-->
+    <ControlScript>control.js</ControlScript>
+        <!--Icon in the top left corner of the installer window.
+        It is assumed to be in the PNG format, so don't append the extension-->
+    <InstallerWindowIcon>Pep8-icon</InstallerWindowIcon>
+        <!--Icon displayed in file explorer and taskbar. This can be the same as InstallerWindowIcon
+        The actual file is looked up by attaching a '.icns' (OS X), '.ico' (Windows). No functionality on Unix.-->
+    <InstallerApplicationIcon>icon</InstallerApplicationIcon>
+        <!--Name of the tool used to update or remove the application-->
+    <MaintenanceToolName>Pep8-Updater</MaintenanceToolName>
+        <!---
+    <RemoteRepositories>
+        <Repository>
+            <DisplayName>Windows Update Repo</DisplayName>
+            <Url>Some URL here</Url>
+        </Repository>
+    </RemoteRepositories>
+        -->
+</Installer>
