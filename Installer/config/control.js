@@ -16,8 +16,8 @@ Controller.prototype.IntroductionPageCallback  = function(){
         widget.findChild("PackageManagerRadioButton").visible = false;
         widget.findChild("PackageManagerRadioButton").enabled = false;
         widget.findChild("PackageManagerRadioButton").text = "";
-        widget.findChild("UninstallerRadioButton").text = "Uninstall XML Tester"
-        widget.findChild("UpdaterRadioButton").text = "Update XML Tester"
+        widget.findChild("UninstallerRadioButton").text = "Uninstall Pep8"
+        widget.findChild("UpdaterRadioButton").text = "Update Pep8"
     }
 
 }

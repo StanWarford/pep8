@@ -20,7 +20,7 @@
 */
 #include "redefinemnemonicsdialog.h"
 #include "ui_redefinemnemonicsdialog.h"
-
+#include <QRegExpValidator>
 using namespace Enu;
 
 RedefineMnemonicsDialog::RedefineMnemonicsDialog(QWidget *parent) :

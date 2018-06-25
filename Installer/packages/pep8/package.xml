@@ -2,7 +2,7 @@
 <Package>
     <DisplayName>Pep8</DisplayName>
     <Description>This tool simulates a CISC CPU, and allows sample programs to be run, tested and visualized.</Description>
-    <Version>8.3</Version>
+    <Version>8.2</Version>
     <ReleaseDate>2018-05-02</ReleaseDate>
     <Licenses>
         <License name="GNU GENERAL PUBLIC LICENSE" file="License.txt" />
