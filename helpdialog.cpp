@@ -23,6 +23,7 @@
 #include "ui_helpdialog.h"
 #include "pep.h"
 
+const int HelpDialog::defaultHelpTreeWidth = 200;
 HelpDialog::HelpDialog(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::HelpDialog)
@@ -51,6 +52,19 @@ HelpDialog::HelpDialog(QWidget *parent) :
         ui->treeWidget->setFont(QFont(Pep::labelFont, 8)); // I don't know if this is the proper font size.
     }
 
+    static const int desiredSize = size().width()-HelpDialog::defaultHelpTreeWidth;
+    QList<int> list;
+    list.append(HelpDialog::defaultHelpTreeWidth);
+    list.append(desiredSize);
+    //Resize the main splitter to behave sanely
+    ui->splitter_3->setSizes(list);
+    //Resize the code splitter to behave sanely
+    list.clear();
+    //Only 2 of 3 editors are visible at once, so assign half the screen to each text edit
+    list.append(desiredSize/2);
+    list.append(desiredSize/2);
+    list.append(desiredSize/2);
+    ui->splitter->setSizes(list);
     ui->rightCppTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     ui->rightPepTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
     ui->leftTextEdit->setFont(QFont(Pep::codeFont, Pep::codeFontSize));
