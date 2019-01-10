@@ -15,7 +15,7 @@ defineReplace(cpq){
 #This interferes with the deployment script, and makes debugging hard since Qt attempts to debug the optimized program.
 CONFIG -= debug_and_release \
     debug_and_release_target
-QMAKE_MAC_SDK = macosx10.13
+QMAKE_MAC_SDK = macosx10.14
 
 QtDir = $$clean_path($$[QT_INSTALL_LIBS]/..)
 QtInstallerBin=$$clean_path($$QtDir/../../tools/Qtinstallerframework/3.0/bin)
