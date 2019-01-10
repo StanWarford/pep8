@@ -390,7 +390,7 @@ void SourceCodePane::tab()
         ui->textEdit->insertPlainText(string);
     }
 }
-
+#include <QDebug>
 void SourceCodePane::onFontChanged(QFont font)
 {
     ui->textEdit->setFont(font);

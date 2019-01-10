@@ -152,16 +152,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     // connect(ui->horizontalSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(resizeDocWidth(int,int)));
     //Handle synchronizing fonts
-    connect(this,SIGNAL(fontChanged(QFont)),sourceCodePane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),objectCodePane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),assemblerListingPane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),listingTracePane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),memoryTracePane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),inputPane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),outputPane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),terminalPane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),memoryDumpPane,SLOT(onFontChanged(QFont)));
-    connect(this,SIGNAL(fontChanged(QFont)),helpDialog,SLOT(onFontChanged(QFont)));
+    connect(this,&MainWindow::fontChanged,sourceCodePane,&SourceCodePane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,objectCodePane,&ObjectCodePane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,assemblerListingPane,&AssemblerListingPane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,listingTracePane,&ListingTracePane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,memoryTracePane,&MemoryTracePane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,inputPane,&InputPane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,outputPane,&OutputPane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,terminalPane,&TerminalPane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,memoryDumpPane,&MemoryDumpPane::onFontChanged);
+    connect(this,&MainWindow::fontChanged,helpDialog,&HelpDialog::onFontChanged);
     readSettings();
 
     // Recent files
@@ -243,7 +243,7 @@ void MainWindow::writeSettings()
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("filePath", curPath);
-    settings.setValue("font",codeFont);
+    settings.setValue("font", codeFont);
     settings.endGroup();
 }
 
