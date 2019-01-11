@@ -5,14 +5,13 @@ TEMPLATE = app
 TARGET = Pep8
 DEPENDPATH += .
 INCLUDEPATH += .
-QT += widgets
 QT += webenginewidgets
+QT += widgets
 QT += printsupport
 
 # Mac icon/plist
 ICON = images/icon.icns
 QMAKE_INFO_PLIST = app.plist
-QMAKE_MAC_SDK = macosx10.13
 
 #Windows RC file for icon:
 RC_FILE = pep8resources.rc

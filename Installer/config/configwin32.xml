@@ -11,7 +11,7 @@
 	<!--Make sure to put application in a subdirectory of applications,
 	because the application has a ton of supporting files like dlls
 	-->
-    <TargetDir>@ApplicationsDirX64@/Pep8/Pep8</TargetDir>
+    <TargetDir>@ApplicationsDirX64@/Pep8</TargetDir>
 	<!--Background for the installer
 	If it is too large, it could cause sizing issues with the window.-->
     <!--<Watermark></Watermark>-->
